@@ -1,0 +1,135 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import FunctionsSim from '../../simulators/functions/FunctionsSim.astro';
+import { functionsQuiz } from '../../data/quizzes/functions';
+
+const toc = [
+  { id: 'functions', label: 'What is a function?' },
+  { id: 'parents', label: 'Parent functions' },
+  { id: 'transformations', label: 'The four transformations' },
+  { id: 'features', label: 'Reading key features' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Abramson, J. (2021). Precalculus 2e, Section 1.5: Transformation of Functions. OpenStax.', url: 'https://openstax.org/books/precalculus-2e/pages/1-5-transformation-of-functions' },
+  { text: 'Abramson, J. (2021). Algebra and Trigonometry 2e, Section 3.1: Functions and Function Notation. OpenStax.', url: 'https://openstax.org/books/algebra-and-trigonometry-2e/pages/3-1-functions-and-function-notation' },
+  { text: 'Abramson, J. (2021). Precalculus 2e, Section 6.1: Graphs of the Sine and Cosine Functions. OpenStax.', url: 'https://openstax.org/books/precalculus-2e/pages/6-1-graphs-of-the-sine-and-cosine-functions' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="graphing-functions"
+  description="Interactive function grapher: transform linear, quadratic, absolute value, square root, sine, exponential and reciprocal functions with a, b, h and k, and read intercepts, vertices and asymptotes."
+  toc={toc}
+  quiz={functionsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every graph you meet in science — a falling object, a growing population, a sound wave — is built from a handful of
+      basic shapes that have been shifted, stretched or flipped. Learn the four transformations once and you can sketch
+      hundreds of functions in your head.
+    </p>
+  </Fragment>
+
+  <FunctionsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>parent function</strong> from the menu. Its plain shape is shown dashed.</li>
+      <li>Move the <strong>a, b, h and k</strong> sliders one at a time and watch how the solid curve changes compared with the dashed parent.</li>
+      <li>Move the <strong>trace point</strong> to read y-values, or <strong>click the graph</strong> to read any coordinate.</li>
+      <li>Read the <strong>key features</strong> in the boxes below: intercepts, vertex or asymptotes, domain and range.</li>
+      <li>Press <strong>Keep this curve</strong> to save a graph for comparison, then change the sliders. <strong>Reset</strong> restores y = x².</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="functions">What is a function?</h2>
+  <p>
+    A <strong>function</strong> is a rule that gives exactly one output for each input. We write it as y = f(x): put in an
+    x-value, get out a y-value. Its <strong>graph</strong> is the set of all points (x, f(x)). Because each input has only
+    one output, any vertical line crosses the graph of a function at most once — the <strong>vertical line test</strong>.
+  </p>
+
+  <h2 id="parents">Parent functions</h2>
+  <p>A parent function is the simplest member of a family:</p>
+  <ul>
+    <li><strong>Linear</strong>, f(x) = x — a straight line through the origin.</li>
+    <li><strong>Quadratic</strong>, f(x) = x² — a U-shaped parabola with its vertex at the origin.</li>
+    <li><strong>Absolute value</strong>, f(x) = |x| — a V shape.</li>
+    <li><strong>Square root</strong>, f(x) = √x — starts at the origin and rises ever more slowly; defined only for x ≥ 0.</li>
+    <li><strong>Sine</strong>, f(x) = sin x — a wave that repeats every 2π.</li>
+    <li><strong>Exponential</strong>, f(x) = 2ˣ — doubles with every step to the right and approaches 0 on the left.</li>
+    <li><strong>Reciprocal</strong>, f(x) = 1/x — two branches separated by asymptotes on both axes.</li>
+  </ul>
+
+  <h2 id="transformations">The four transformations</h2>
+  <p>Every graph in the simulator has the form:</p>
+  <code class="formula">y = a · f( b(x − h) ) + k</code>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Effect</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>k</strong> (outside, added)</td><td>Vertical shift: up if k &gt; 0, down if k &lt; 0</td><td>x² + 3 moves up 3</td></tr>
+        <tr><td><strong>h</strong> (inside, subtracted)</td><td>Horizontal shift: right if h &gt; 0</td><td>(x − 2)² moves right 2</td></tr>
+        <tr><td><strong>a</strong> (outside, multiplied)</td><td>Vertical stretch by |a|; reflection across the x-axis if a &lt; 0</td><td>3x² is steeper; −x² opens down</td></tr>
+        <tr><td><strong>b</strong> (inside, multiplied)</td><td>Horizontal compression by |b|; reflection across the y-axis if b &lt; 0</td><td>sin(2x) has half the period</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    A useful rule: changes <em>outside</em> the function act on y-values and behave as you expect. Changes
+    <em>inside</em> act on x-values and behave the <em>opposite</em> way — subtracting moves right, and multiplying by 2
+    squeezes the graph to half its width.
+  </p>
+
+  <h2 id="features">Reading key features</h2>
+  <ul>
+    <li>The <strong>y-intercept</strong> is f(0), where the graph crosses the y-axis.</li>
+    <li><strong>x-intercepts</strong> (roots or zeros) are where f(x) = 0.</li>
+    <li>For quadratics and absolute value graphs, the <strong>vertex</strong> is at (h, k).</li>
+    <li>For exponential and reciprocal graphs, <strong>asymptotes</strong> are lines the graph approaches but never reaches.</li>
+    <li>The <strong>domain</strong> is all allowed inputs; the <strong>range</strong> is all possible outputs.</li>
+  </ul>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Transformation</dt>
+    <dd>A change to a graph’s position, size or orientation: translation (shift), stretch/compression, or reflection.</dd>
+    <dt>Translation</dt>
+    <dd>Sliding a graph without changing its shape.</dd>
+    <dt>Period</dt>
+    <dd>The horizontal length of one complete cycle of a repeating function such as sine.</dd>
+    <dt>Asymptote</dt>
+    <dd>A line that a graph approaches more and more closely.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Physics:</strong> the height of a thrown ball follows a downward-opening parabola; changing launch height is a vertical shift.</li>
+    <li><strong>Biology:</strong> unlimited population growth and bacterial doubling are exponential.</li>
+    <li><strong>Sound and electricity:</strong> sine waves describe musical notes and alternating current; amplitude is loudness or voltage and period sets pitch or frequency.</li>
+    <li><strong>Chemistry and physics:</strong> pressure and volume of a gas at constant temperature follow a reciprocal relationship (Boyle’s law).</li>
+    <li><strong>Data science:</strong> fitting a transformed function to measurements is the basis of many scientific models.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“(x − 3) shifts left.”</strong> It shifts <em>right</em> by 3. Ask: what x makes the inside zero? x = 3.</li>
+    <li><strong>“Multiplying by b = 2 stretches the graph wider.”</strong> It compresses it horizontally to half the width.</li>
+    <li><strong>“The graph touches its asymptote eventually.”</strong> For 1/x and 2ˣ, it gets arbitrarily close but never reaches it.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>y = a·f(b(x − h)) + k: a and k act vertically, b and h act horizontally.</li>
+    <li>Outside changes behave as expected; inside changes behave in reverse.</li>
+    <li>Negative a reflects across the x-axis; negative b reflects across the y-axis.</li>
+    <li>Key features — intercepts, vertex, asymptotes, period — move predictably with the transformations.</li>
+  </ul>
+</SimulatorLayout>

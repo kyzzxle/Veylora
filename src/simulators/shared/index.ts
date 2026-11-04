@@ -58,8 +58,10 @@ export function createLoop(step: (dt: number) => void, watch: Element): Loop {
 
   const frame = (now: number) => {
     raf = 0;
-    const dt = Math.min(0.05, (now - last) / 1000);
-    last = now;
+    // rAF timestamps can be slightly earlier than performance.now() taken at
+    // start, so never let a step run backwards in time.
+    const dt = Math.max(0, Math.min(0.05, (now - last) / 1000));
+    last = Math.max(last, now);
     step(dt);
     // Schedule the next frame only if still running (step may have paused).
     if (running && visible && !document.hidden && !raf) raf = requestAnimationFrame(frame);

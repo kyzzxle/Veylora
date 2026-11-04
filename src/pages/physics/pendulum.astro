@@ -1,0 +1,144 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import PendulumSim from '../../simulators/pendulum/PendulumSim.astro';
+import { pendulumQuiz } from '../../data/quizzes/pendulum';
+
+const toc = [
+  { id: 'what', label: 'How a pendulum works' },
+  { id: 'period', label: 'What sets the period?' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'energy', label: 'Energy in a swing' },
+  { id: 'experiment', label: 'Running a fair experiment' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 15.4: Pendulums. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/15-4-pendulums' },
+  { text: 'Urone, P. P., & Hinrichs, R. (2020). College Physics 2e, Section 16.4: The Simple Pendulum. OpenStax.', url: 'https://openstax.org/books/college-physics-2e/pages/16-4-the-simple-pendulum' },
+  { text: 'Nelson, R. A., & Olsson, M. G. (1986). The pendulum — Rich physics from a simple system. American Journal of Physics, 54(2), 112–121.' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="pendulum"
+  description="Interactive pendulum simulator: change length, mass, angle, gravity and friction, measure the period, watch energy change and record your own data."
+  toc={toc}
+  quiz={pendulumQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A weight on a string, swinging back and forth: the pendulum is one of the simplest machines in physics, yet it
+      kept the world’s time for nearly 300 years. Change one variable at a time, measure the period, and discover which
+      factors really control the swing — and which do not.
+    </p>
+  </Fragment>
+
+  <PendulumSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong> to release the bob. The <strong>measured period</strong> appears after the first full swing.</li>
+      <li>Change <strong>one variable at a time</strong> — length, mass, starting angle, gravity or friction. Each change restarts the swing.</li>
+      <li>To set the angle by hand, <strong>pause</strong> and <strong>drag the bob</strong> to either side.</li>
+      <li>Press <strong>Record</strong> to save the current measurement in the table. Download your results as a CSV file to graph them in a spreadsheet.</li>
+      <li>Watch the <strong>energy bars</strong> and the <strong>angle graph</strong> as the pendulum swings. Click the bob or string for more information.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">How a pendulum works</h2>
+  <p>
+    When the bob is pulled to one side, gravity pulls it down while the string holds it on a circular arc. The part of
+    gravity that acts along the arc, called the <strong>restoring force</strong>, always points back toward the lowest
+    point. The bob speeds up as it falls, overshoots the bottom because of its inertia, slows as it climbs the other side,
+    and swings back. This repeating motion is an <strong>oscillation</strong>.
+  </p>
+
+  <h2 id="period">What sets the period?</h2>
+  <p>
+    Only two things matter much for a pendulum with small swings: the <strong>length</strong> of the string and the
+    <strong>strength of gravity</strong>. A longer string gives a longer period; stronger gravity gives a shorter one.
+    The <strong>mass</strong> of the bob makes no difference, because a heavier bob needs more force to accelerate and
+    receives exactly that much more force from gravity. The <strong>starting angle</strong> matters only a little:
+    for swings under about 15°, the period is almost the same whatever the amplitude. Galileo noticed this property,
+    called <strong>isochronism</strong>, in the early 1600s.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <p>For small angles, the period of a simple pendulum is:</p>
+  <code class="formula">T = 2π √(L / g)        frequency f = 1 / T</code>
+  <p>
+    The formula comes from the equation of motion θ'' = −(g/L) sin θ, using the approximation sin θ ≈ θ for small
+    angles. The simulator solves the full equation without this approximation, which is why its measured period
+    grows slightly at large angles. A good correction for moderate angles θ₀ (in radians) is:
+  </p>
+  <code class="formula">T ≈ 2π √(L/g) · (1 + θ₀²/16)</code>
+
+  <h2 id="energy">Energy in a swing</h2>
+  <p>
+    At the highest points the bob is momentarily still: all its energy is <strong>gravitational potential energy</strong>
+    (PE = m·g·h). At the lowest point it moves fastest: the energy is all <strong>kinetic</strong> (KE = ½·m·v²). In
+    between, energy flows back and forth while the total stays constant — unless friction is switched on, in which case
+    the total slowly drains away as heat and the swings shrink.
+  </p>
+
+  <h2 id="experiment">Running a fair experiment</h2>
+  <p>
+    A scientific investigation changes one <strong>independent variable</strong> at a time, measures a
+    <strong>dependent variable</strong> (here, the period) and keeps all other <strong>control variables</strong> the
+    same. Try recording five lengths at the same angle and mass, then plot T against √L: the points form a straight
+    line, confirming the formula.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Period (T)</dt>
+    <dd>Time for one complete oscillation, in seconds.</dd>
+    <dt>Frequency (f)</dt>
+    <dd>Number of oscillations per second, in hertz (Hz). f = 1/T.</dd>
+    <dt>Amplitude</dt>
+    <dd>The maximum displacement from the rest position — here, the starting angle.</dd>
+    <dt>Restoring force</dt>
+    <dd>A force that pulls a system back toward equilibrium; for a pendulum, m·g·sin θ.</dd>
+    <dt>Simple harmonic motion</dt>
+    <dd>Oscillation in which the restoring force is proportional to displacement. A pendulum approximates it for small angles.</dd>
+    <dt>Damping</dt>
+    <dd>Loss of energy (for example to air friction) that makes oscillations die away.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Clocks:</strong> pendulum clocks, invented by Christiaan Huygens in 1656, were the most accurate timekeepers until the 20th century. A pendulum about 0.99 m long has a period of 2 s — the classic “seconds pendulum”.</li>
+    <li><strong>Measuring gravity:</strong> because T depends on g, precise pendulums were used to map small variations in Earth’s gravity.</li>
+    <li><strong>Foucault’s pendulum:</strong> a long, heavy pendulum whose swing plane slowly rotates, demonstrating that Earth turns.</li>
+    <li><strong>Buildings and bridges:</strong> tuned mass dampers — giant pendulum-like weights — reduce swaying in skyscrapers such as Taipei 101.</li>
+    <li><strong>Walking:</strong> your legs swing partly like pendulums, which is one reason taller people tend to take slower strides.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“A heavier bob swings faster.”</strong> Mass does not change the period.</li>
+    <li><strong>“A bigger swing takes much longer.”</strong> For small angles, the period hardly changes with amplitude: a bigger swing also moves faster.</li>
+    <li><strong>“Friction changes the period a lot.”</strong> Light damping shrinks the amplitude but changes the period very little.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The model is an ideal <em>simple pendulum</em>: a point mass on a massless, unstretchable string, swinging in one
+    plane. Real pendulums have a bob with size and a string with mass, which slightly lengthen the period. Air friction is
+    modelled as a simple force proportional to speed.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>For small swings, T = 2π√(L/g): the period depends on length and gravity only.</li>
+    <li>Mass has no effect on the period; amplitude has only a small effect at large angles.</li>
+    <li>Energy changes between potential and kinetic during each swing.</li>
+    <li>Good experiments change one variable at a time and repeat measurements.</li>
+  </ul>
+</SimulatorLayout>

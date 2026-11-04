@@ -1,0 +1,54 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="vectors-sim" label="Two vectors and their resultant on a grid." playable={false} hint="Drag the arrow tips" aspect="1 / 1">
+  <ChoiceControl
+    name="vec-mode"
+    label="Method"
+    value="tip"
+    options={[
+      { value: 'tip', label: 'A + B tip-to-tail' },
+      { value: 'para', label: 'A + B parallelogram' },
+      { value: 'sub', label: 'A − B' },
+    ]}
+  />
+  <SliderControl name="vec-am" label="A — magnitude" min={0} max={8} step={0.5} value={5} />
+  <SliderControl name="vec-aa" label="A — direction" min={0} max={360} step={5} value={30} help="Angle measured anticlockwise from the positive x-axis." />
+  <SliderControl name="vec-bm" label="B — magnitude" min={0} max={8} step={0.5} value={4} />
+  <SliderControl name="vec-ba" label="B — direction" min={0} max={360} step={5} value={120} />
+  <div class="preset-row" role="group" aria-label="Example arrangements">
+    <button type="button" class="preset" data-arr="same">Same direction</button>
+    <button type="button" class="preset" data-arr="opp">Opposite</button>
+    <button type="button" class="preset" data-arr="perp">Perpendicular</button>
+  </div>
+  <ToggleControl name="vec-comp" label="Show x and y components" />
+  <ToggleControl name="vec-snap" label="Snap tips to the grid" checked />
+  <SimKey
+    items={[
+      { label: 'Vector A', color: 'accent', shape: 'line' },
+      { label: 'Vector B', color: 'accent-2', shape: 'line' },
+      { label: 'Resultant R', color: 'sim-solute', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="r" label="Resultant |R|" key />
+    <Readout name="rdir" label="Direction of R" />
+    <Readout name="rcomp" label="R components" />
+    <Readout name="a" label="A (x, y)" />
+    <Readout name="b" label="B (x, y)" />
+    <Readout name="between" label="Angle between A and B" />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initVectors } from './vectors';
+  mountSim('#vectors-sim', initVectors);
+</script>

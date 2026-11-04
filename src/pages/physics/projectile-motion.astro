@@ -1,0 +1,148 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import ProjectileSim from '../../simulators/projectile/ProjectileSim.astro';
+import { projectileQuiz } from '../../data/quizzes/projectile';
+
+const toc = [
+  { id: 'what', label: 'What is projectile motion?' },
+  { id: 'independence', label: 'Two independent motions' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'angle', label: 'Launch angle and range' },
+  { id: 'air', label: 'Air resistance' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 4.3: Projectile Motion. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/4-3-projectile-motion' },
+  { text: 'Urone, P. P., & Hinrichs, R. (2020). College Physics 2e, Section 3.4: Projectile Motion. OpenStax.', url: 'https://openstax.org/books/college-physics-2e/pages/3-4-projectile-motion' },
+  { text: 'NASA Glenn Research Center. Drag Equation. Beginner’s Guide to Aeronautics.', url: 'https://www.grc.nasa.gov/www/k-12/airplane/drageq.html' },
+  { text: 'NASA. Planetary Fact Sheet (surface gravity values).', url: 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="projectile-motion"
+  description="Interactive projectile motion simulator: set launch angle, speed, height and gravity, add air resistance, and compare trajectories, range, flight time and velocity components."
+  toc={toc}
+  quiz={projectileQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Throw a ball, kick a football or fire a water jet and it follows a graceful curved path. That curve is the result
+      of two simple motions happening at once. Aim the cannon, choose a planet, and see how angle, speed and gravity
+      decide how high and how far a projectile travels.
+    </p>
+  </Fragment>
+
+  <ProjectileSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Set the launch</strong>: choose the angle, speed and height with the sliders, or drag the cannon barrel to aim.</li>
+      <li><strong>Press Start</strong> to fire. The ball stops automatically when it lands, and its path stays on screen for comparison.</li>
+      <li>The dashed purple curve and triangle show the <strong>predicted</strong> path and landing point without air resistance.</li>
+      <li>Watch the <strong>velocity arrows</strong> on the ball and the <strong>graph</strong>: the horizontal part stays the same while the vertical part changes steadily.</li>
+      <li>Change <strong>gravity</strong> or switch on <strong>air resistance</strong> and fire again to compare. Up to five earlier shots are kept.</li>
+      <li>Click a point on the path to see its time and position. <strong>Reset</strong> clears all shots and restores the defaults.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is projectile motion?</h2>
+  <p>
+    A <strong>projectile</strong> is any object that is launched and then moves only under the influence of gravity (and,
+    in real life, air resistance). Once it leaves the cannon, nothing pushes it forward any more. Its path, called the
+    <strong>trajectory</strong>, is a <strong>parabola</strong> when air resistance can be ignored.
+  </p>
+
+  <h2 id="independence">Two independent motions</h2>
+  <p>
+    The key idea, first described clearly by Galileo, is that horizontal and vertical motion are independent of each
+    other:
+  </p>
+  <ul>
+    <li><strong>Horizontally</strong>, there is no force (without air), so the projectile moves at a constant speed vₓ = v cos θ.</li>
+    <li><strong>Vertically</strong>, gravity gives a constant downward acceleration g. The vertical velocity starts at v sin θ, decreases to zero at the top, and then grows in the downward direction.</li>
+  </ul>
+  <p>
+    Because the two motions are independent, a ball fired horizontally from a cliff hits the ground at the same moment
+    as a ball simply dropped from the same height — the horizontal speed does not change how quickly it falls.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <p>For launch speed v, angle θ above horizontal, launch height h and gravitational acceleration g:</p>
+  <code class="formula">x(t) = v·cos θ · t        y(t) = h + v·sin θ · t − ½·g·t²</code>
+  <p>On level ground (h = 0):</p>
+  <code class="formula">Flight time T = 2v·sin θ / g    Range R = v²·sin 2θ / g    Max height H = v²·sin²θ / 2g</code>
+  <p>
+    With a launch height, the flight time is T = (v sin θ + √((v sin θ)² + 2gh)) / g. The simulator uses this to place
+    the predicted landing triangle.
+  </p>
+
+  <h2 id="angle">Launch angle and range</h2>
+  <p>
+    On level ground without air resistance, 45° gives the greatest range, and complementary angles such as 30° and 60°
+    give exactly the same range (one flat and fast, one high and slow). Launching from a height changes this: the best
+    angle becomes slightly less than 45°, because the ball already has extra time to travel as it falls.
+  </p>
+
+  <h2 id="air">Air resistance</h2>
+  <p>
+    Real projectiles push air out of the way, which creates a <strong>drag force</strong> opposite to their motion. For
+    fast-moving balls, drag grows roughly with the square of speed. Drag slows the projectile both horizontally and
+    vertically, so the range and maximum height shrink, the descent becomes steeper than the climb, and the best launch
+    angle drops below 45°. Switch on air resistance and compare with the dashed no-air prediction.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Trajectory</dt>
+    <dd>The path a projectile follows through space.</dd>
+    <dt>Velocity components</dt>
+    <dd>The horizontal (vₓ) and vertical (v_y) parts of the velocity, found with cosine and sine of the launch angle.</dd>
+    <dt>Range</dt>
+    <dd>The horizontal distance travelled before landing.</dd>
+    <dt>Apex</dt>
+    <dd>The highest point of the trajectory, where vertical velocity is zero.</dd>
+    <dt>Acceleration due to gravity (g)</dt>
+    <dd>About 9.81 m/s² on Earth, 1.62 m/s² on the Moon, 3.71 m/s² on Mars and 24.8 m/s² on Jupiter’s cloud tops.</dd>
+    <dt>Drag</dt>
+    <dd>The resistive force from air or another fluid, acting opposite to the direction of motion.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Sports:</strong> basketball shots, long jump and shot put all involve choosing a good launch angle and speed. Athletes usually launch below 45° because they release from a height and must fight air resistance.</li>
+    <li><strong>Engineering and safety:</strong> fountain designers, firefighters aiming hoses and engineers planning debris zones use projectile equations.</li>
+    <li><strong>Space exploration:</strong> engineers account for lower gravity when planning how rovers and astronauts move rocks or equipment on the Moon and Mars.</li>
+    <li><strong>Forensics:</strong> investigators reconstruct trajectories to work out where an object was thrown from.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“A force keeps pushing the ball forward.”</strong> After launch, only gravity (and drag) act. The forward motion continues because of inertia, not a force.</li>
+    <li><strong>“At the top, the ball stops.”</strong> Only the vertical velocity is zero; the ball still moves horizontally.</li>
+    <li><strong>“Heavier objects fall faster.”</strong> Without air resistance, all objects have the same acceleration g regardless of mass.</li>
+    <li><strong>“45° is always best.”</strong> Only on level ground with no air resistance.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The ball is treated as a point with no spin, so effects such as the curve of a spinning football (the Magnus effect)
+    are left out. Gravity is treated as constant and the ground as flat. Air resistance uses one fixed drag coefficient,
+    roughly that of a tennis ball, and assumes still air with no wind.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Projectile motion is two independent motions: constant velocity horizontally and constant acceleration vertically.</li>
+    <li>Without air resistance, the trajectory is a parabola and 45° gives the maximum range on level ground.</li>
+    <li>Range is proportional to v² and inversely proportional to g.</li>
+    <li>Air resistance shortens the path, makes it asymmetric and lowers the best launch angle.</li>
+  </ul>
+</SimulatorLayout>

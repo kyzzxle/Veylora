@@ -49,3 +49,26 @@ Adding a new topic: add or update its entry in `branches.ts`, write its simulati
 - [ ] Stage 4
 - [ ] Stage 5
 - [ ] Stage 6
+
+## Stage 4 progress
+
+Target: 18 live simulators covering all 10 branches.
+
+- [x] Biology — Osmosis and Cell Tonicity
+- [x] Physics — Projectile Motion
+- [x] Physics — Pendulum Motion
+- [x] Physics — Wave Interference
+- [x] Mathematics — Graphing Functions
+- [x] Mathematics — Vector Addition
+- [ ] Astronomy — Phases of the Moon
+- [ ] Astronomy — Planetary Orbits and Gravity
+- [ ] Mathematics — Probability and Random Experiments
+- [ ] Ecology — Ecosystem Population Dynamics
+- [ ] Chemistry — Atomic Structure
+- [ ] Chemistry — Acid-Base Reactions
+- [ ] Anatomy — Nervous System and Neuron Firing
+- [ ] Ecology — Climate Change
+- [ ] Biology — Natural Selection and Evolution
+- [ ] Zoology — Animal Classification
+- [ ] Botany — Transpiration
+- [ ] Earth Science — Earth's Layers

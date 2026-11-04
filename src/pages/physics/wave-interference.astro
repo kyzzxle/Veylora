@@ -1,0 +1,140 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import WavesSim from '../../simulators/waves/WavesSim.astro';
+import { wavesQuiz } from '../../data/quizzes/waves';
+
+const toc = [
+  { id: 'waves', label: 'Describing a wave' },
+  { id: 'superposition', label: 'Superposition' },
+  { id: 'types', label: 'Constructive and destructive' },
+  { id: 'beats', label: 'Beats' },
+  { id: 'two-source', label: 'Two-source interference' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 16.5: Interference of Waves. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/16-5-interference-of-waves' },
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 17.7: Beats. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/17-7-beats' },
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 3, Section 3.1: Young’s Double-Slit Interference. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-3/pages/3-1-youngs-double-slit-interference' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="wave-interference"
+  description="Interactive wave interference simulator: overlap two waves, change frequency, amplitude and phase, see beats, and explore two-source interference fringes in a ripple tank."
+  toc={toc}
+  quiz={wavesQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      When two waves meet, they do not crash or bounce — they add together. Depending on how they line up, they can build
+      a bigger wave, cancel each other out completely, or pulse in and out. Explore this on a string and in a ripple tank,
+      and see why noise-cancelling headphones and musical tuning work.
+    </p>
+  </Fragment>
+
+  <WavesSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong> to set the waves moving (or leave them paused to study a snapshot).</li>
+      <li>In <strong>Waves on a string</strong>, change the <strong>phase difference</strong>: 0° gives a tall sum, 180° gives a flat line.</li>
+      <li>Make the two <strong>frequencies</strong> slightly different (for example 0.50 and 0.60 Hz) to see <strong>beats</strong>; the dashed lines show the changing envelope.</li>
+      <li>Switch to the <strong>ripple tank</strong> to see two circular sources. Change the <strong>source separation</strong>, and switch on <strong>average intensity</strong> to see the bright and dark fringes clearly.</li>
+      <li><strong>Click</strong> anywhere in the ripple tank to see the path difference at that point. <strong>Reset</strong> restores the defaults.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="waves">Describing a wave</h2>
+  <p>
+    A wave carries energy from place to place through a repeating disturbance. Its <strong>amplitude</strong> is the size
+    of the disturbance, its <strong>wavelength</strong> (λ) is the distance between neighbouring crests, and its
+    <strong>frequency</strong> (f) is how many crests pass each second. The three are linked by the wave speed:
+    <em>v = f·λ</em>. The <strong>phase</strong> tells you where in its cycle a wave is at a given place and time.
+  </p>
+
+  <h2 id="superposition">Superposition</h2>
+  <p>
+    The <strong>principle of superposition</strong> says that when waves overlap, the total displacement at every point is
+    the sum of the individual displacements. In the string view, the bottom graph is always exactly wave 1 plus wave 2.
+    After they pass, each wave carries on unchanged.
+  </p>
+
+  <h2 id="types">Constructive and destructive interference</h2>
+  <ul>
+    <li><strong>Constructive interference</strong>: waves meet in phase (crest on crest). The amplitudes add, making a larger wave.</li>
+    <li><strong>Destructive interference</strong>: waves meet 180° out of phase (crest on trough). They partially or completely cancel.</li>
+    <li>Any phase in between gives <strong>partial</strong> interference.</li>
+  </ul>
+  <p>
+    Destructive interference does not destroy energy. In the ripple tank you can see that energy missing from the dark
+    regions is concentrated in the bright ones.
+  </p>
+
+  <h2 id="beats">Beats</h2>
+  <p>
+    When two waves have <em>slightly different</em> frequencies, they drift in and out of step. The sum grows and shrinks
+    regularly — a pattern called <strong>beats</strong>. The beat frequency is simply the difference between the two
+    frequencies. With sound, you hear a “wah-wah” throb in loudness.
+  </p>
+
+  <h2 id="two-source">Two-source interference</h2>
+  <p>
+    Two sources vibrating together send out circular waves that overlap. At each point, the waves have travelled
+    different distances. Where the <strong>path difference</strong> is a whole number of wavelengths they arrive in step
+    and reinforce (bright fringes); where it is a half-number they cancel (dark lines called <strong>nodal lines</strong>).
+    Thomas Young used this effect with light in about 1801 to show that light behaves as a wave.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">v = f · λ       beat frequency f_beat = |f₁ − f₂|</code>
+  <p>Resultant amplitude of two waves with the same frequency and phase difference φ:</p>
+  <code class="formula">A = √(A₁² + A₂² + 2·A₁·A₂·cos φ)</code>
+  <p>For two in-phase sources, bright fringes appear where the path difference is:</p>
+  <code class="formula">Δr = n·λ   (n = 0, 1, 2 …)      dark fringes at Δr = (n + ½)·λ</code>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Phase difference</dt>
+    <dd>How far one wave is shifted relative to another, measured in degrees (360° = one full cycle).</dd>
+    <dt>Coherent sources</dt>
+    <dd>Sources with the same frequency and a constant phase relationship, needed for a stable interference pattern.</dd>
+    <dt>Node and antinode</dt>
+    <dd>Points of zero and maximum vibration in an interference pattern.</dd>
+    <dt>Path difference</dt>
+    <dd>The difference in distance travelled by two waves to reach the same point.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Noise-cancelling headphones</strong> record incoming sound and play an inverted copy, producing destructive interference.</li>
+    <li><strong>Tuning instruments</strong>: musicians listen for beats between two notes and adjust until the beats disappear.</li>
+    <li><strong>Soap bubbles and oil films</strong> show colours because light reflecting from the top and bottom surfaces interferes.</li>
+    <li><strong>Gravitational-wave detectors</strong> such as LIGO use laser interference to measure changes in length far smaller than a proton.</li>
+    <li><strong>Wi-Fi and radio</strong> engineers design antenna arrays that use interference to beam signals in chosen directions.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Waves bounce off each other.”</strong> They pass through each other unchanged.</li>
+    <li><strong>“Destructive interference destroys energy.”</strong> Energy is redistributed to places of constructive interference.</li>
+    <li><strong>“Any two waves make a stable pattern.”</strong> A steady pattern needs coherent sources with the same frequency.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Overlapping waves add point by point (superposition).</li>
+    <li>In phase → constructive; 180° out of phase → destructive.</li>
+    <li>Slightly different frequencies produce beats at f₁ − f₂.</li>
+    <li>Two coherent sources produce fringes determined by the path difference.</li>
+  </ul>
+  <p class="muted">
+    Model note: waves are idealized — they do not weaken with distance, and the ripple tank uses a single frequency for both sources.
+  </p>
+</SimulatorLayout>

@@ -1,0 +1,60 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell
+  id="projectile-sim"
+  label="Projectile motion: a cannon launches a ball. Set the angle and speed, then press Start to fire."
+  showTime
+  hint="Drag the cannon barrel to aim · click the path to inspect"
+  badge="Ready to launch"
+>
+  <SliderControl name="pm-angle" label="Launch angle" min={0} max={90} step={1} value={45} scale={['0°', '90°']} />
+  <SliderControl name="pm-speed" label="Launch speed" min={5} max={40} step={1} value={20} scale={['5 m/s', '40 m/s']} />
+  <SliderControl name="pm-height" label="Launch height" min={0} max={20} step={1} value={0} help="Height of the cannon above the ground." />
+  <ChoiceControl
+    name="pm-g"
+    label="Gravity"
+    value="9.81"
+    options={[
+      { value: '9.81', label: 'Earth' },
+      { value: '1.62', label: 'Moon' },
+      { value: '3.71', label: 'Mars' },
+      { value: '24.79', label: 'Jupiter' },
+    ]}
+  />
+  <ToggleControl name="pm-drag" label="Air resistance" />
+  <ToggleControl name="pm-vectors" label="Show velocity components" checked />
+  <ToggleControl name="pm-predict" label="Show predicted path (no air)" checked />
+  <ToggleControl name="pm-slow" label="Slow motion (¼ speed)" />
+  <SimKey
+    items={[
+      { label: 'Horizontal velocity vₓ', color: 'accent', shape: 'line' },
+      { label: 'Vertical velocity v_y', color: 'sim-solute', shape: 'line' },
+      { label: 'Earlier shots (up to 5)', color: 'text-faint', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="range" label="Range" key />
+    <Readout name="tof" label="Flight time" />
+    <Readout name="apex" label="Max height" />
+    <Readout name="vx" label="vₓ now" />
+    <Readout name="vy" label="v_y now" />
+    <Readout name="pred" label="Predicted range (no air)" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="pm-graph" title="Velocity components over time" desc="Horizontal and vertical velocity of the projectile plotted against time." />
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initProjectile } from './projectile';
+  mountSim('#projectile-sim', initProjectile);
+</script>

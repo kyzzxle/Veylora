@@ -25,8 +25,9 @@ export function createDataTable<R extends Record<string, number | string>>(
     max?: number;
   },
 ) {
-  const box = root.querySelector<HTMLElement>(`[data-table="${id}"]`);
-  if (!box) throw new Error(`Data table not found: ${id}`);
+  const found = root.querySelector<HTMLElement>(`[data-table="${id}"]`);
+  if (!found) throw new Error(`Data table not found: ${id}`);
+  const box: HTMLElement = found;
   const body = box.querySelector<HTMLTableSectionElement>('[data-table-body]')!;
   const emptyRow = body.querySelector('.empty-row');
   const count = box.querySelector<HTMLElement>('[data-table-count]');
@@ -57,7 +58,9 @@ export function createDataTable<R extends Record<string, number | string>>(
     rows.push(row);
     if (rows.length > max) rows.shift();
     render(true);
-    body.lastElementChild?.scrollIntoView({ block: 'nearest' });
+    // Scroll only inside the table, never the page (the simulator must stay in view)
+    const wrap = box.querySelector<HTMLElement>('.table-wrap');
+    if (wrap) wrap.scrollTop = wrap.scrollHeight;
   }
 
   recordBtn?.addEventListener('click', () => {

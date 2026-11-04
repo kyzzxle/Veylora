@@ -1,0 +1,55 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import Icon from '../../components/Icon.astro';
+
+const families = [
+  { value: 'linear', label: 'Linear  f(x) = x' },
+  { value: 'quad', label: 'Quadratic  f(x) = x²' },
+  { value: 'abs', label: 'Absolute value  f(x) = |x|' },
+  { value: 'sqrt', label: 'Square root  f(x) = √x' },
+  { value: 'sin', label: 'Sine  f(x) = sin x' },
+  { value: 'exp', label: 'Exponential  f(x) = 2ˣ' },
+  { value: 'recip', label: 'Reciprocal  f(x) = 1/x' },
+];
+---
+
+<SimShell id="functions-sim" label="Graph of a function" playable={false} hint="Click the graph to read coordinates" aspect="1 / 1">
+  <canvas slot="stage" class="sim-canvas" data-plot role="img" aria-label="Graph of a function"></canvas>
+
+  <button slot="toolbar" type="button" class="btn btn-sm" data-save><Icon name="compare" size={16} /> Keep this curve</button>
+  <button slot="toolbar" type="button" class="btn btn-sm btn-ghost" data-clear disabled>Clear kept</button>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="fx-family">Parent function</label>
+    <select id="fx-family" class="select" data-family>
+      {families.map((f) => <option value={f.value}>{f.label}</option>)}
+    </select>
+  </div>
+  <p class="ctrl-help mono" data-eq-form>y = a · f( b(x − h) ) + k</p>
+  <SliderControl name="fx-a" label="a — vertical stretch" min={-4} max={4} step={0.1} value={1} help="Negative a reflects the graph across the x-axis." />
+  <SliderControl name="fx-b" label="b — horizontal stretch" min={-4} max={4} step={0.1} value={1} help="|b| > 1 squeezes the graph horizontally. Negative b reflects across the y-axis." />
+  <SliderControl name="fx-h" label="h — horizontal shift" min={-8} max={8} step={0.5} value={0} help="Positive h shifts right — opposite to the sign you see in (x − h)." />
+  <SliderControl name="fx-k" label="k — vertical shift" min={-8} max={8} step={0.5} value={0} />
+  <SliderControl name="fx-trace" label="Trace point x =" min={-10} max={10} step={0.1} value={2} />
+  <ToggleControl name="fx-parent" label="Show parent function (dashed)" checked />
+
+  <Fragment slot="readouts">
+    <Readout name="eq" label="Equation" key />
+    <Readout name="point" label="Trace point" />
+    <Readout name="yint" label="y-intercept" />
+    <Readout name="xint" label="x-intercept(s)" />
+    <Readout name="feature" label="Key feature" />
+    <Readout name="domain" label="Domain / range" />
+  </Fragment>
+
+  <ul slot="below" class="graph-legend" data-legend></ul>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initFunctions } from './functions';
+  mountSim('#functions-sim', initFunctions);
+</script>

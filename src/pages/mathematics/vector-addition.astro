@@ -1,0 +1,129 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import VectorsSim from '../../simulators/vectors/VectorsSim.astro';
+import { vectorsQuiz } from '../../data/quizzes/vectors';
+
+const toc = [
+  { id: 'what', label: 'What is a vector?' },
+  { id: 'adding', label: 'Adding vectors graphically' },
+  { id: 'components', label: 'Adding with components' },
+  { id: 'subtracting', label: 'Subtracting vectors' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 2.1: Scalars and Vectors. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/2-1-scalars-and-vectors' },
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 2.2: Coordinate Systems and Components of a Vector. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/2-2-coordinate-systems-and-components-of-a-vector' },
+  { text: 'Abramson, J. (2021). Precalculus 2e, Section 8.8: Vectors. OpenStax.', url: 'https://openstax.org/books/precalculus-2e/pages/8-8-vectors' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="vector-addition"
+  description="Interactive vector addition simulator: drag two vectors, add them tip-to-tail or with a parallelogram, subtract them, and see magnitudes, directions and components."
+  toc={toc}
+  quiz={vectorsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Walk 3 km east and then 4 km north, and you end up 5 km from where you started — not 7. Quantities that have a
+      direction, like displacement, velocity and force, do not add like ordinary numbers. Drag two arrows and discover
+      the rules for combining them.
+    </p>
+  </Fragment>
+
+  <VectorsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Drag the circles</strong> at the tips of vector A (teal) and vector B (purple), or set their size and direction with the sliders.</li>
+      <li>The orange arrow is the <strong>resultant</strong> R. Its length, direction and components appear below the grid.</li>
+      <li>Switch <strong>method</strong> to compare tip-to-tail and parallelogram addition — they always give the same R — or to see subtraction A − B.</li>
+      <li>Try the <strong>Same direction</strong>, <strong>Opposite</strong> and <strong>Perpendicular</strong> buttons, and turn on <strong>components</strong> to see the x and y parts.</li>
+      <li><strong>Reset</strong> restores the starting vectors.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is a vector?</h2>
+  <p>
+    A <strong>scalar</strong> is a quantity with size only, such as mass (5 kg) or temperature (20 °C). A
+    <strong>vector</strong> has both <strong>magnitude</strong> (size) and <strong>direction</strong>, such as a
+    displacement of 5 km north-east or a force of 10 N downward. We draw a vector as an arrow: its length shows the
+    magnitude and its orientation shows the direction. Moving an arrow without rotating or resizing it does not change
+    the vector.
+  </p>
+
+  <h2 id="adding">Adding vectors graphically</h2>
+  <ul>
+    <li><strong>Tip-to-tail method:</strong> draw A, then start B at the tip of A. The resultant runs from the tail of A to the tip of B.</li>
+    <li><strong>Parallelogram method:</strong> draw A and B from the same starting point and complete the parallelogram. The diagonal from the shared start is the resultant.</li>
+  </ul>
+  <p>
+    Both methods always give the same answer, and the order does not matter: A + B = B + A. The size of the resultant
+    depends on the angle between the vectors — largest when they point the same way, smallest when they point in
+    opposite directions.
+  </p>
+
+  <h2 id="components">Adding with components</h2>
+  <p>
+    Any vector can be split into an <strong>x-component</strong> and a <strong>y-component</strong> — how far it goes
+    across and how far up. Adding vectors then becomes simple arithmetic: add all the x-components, add all the
+    y-components, and rebuild the resultant from the totals. This is how scientists and engineers add many forces or
+    velocities at once.
+  </p>
+
+  <h2 id="subtracting">Subtracting vectors</h2>
+  <p>
+    The negative of a vector, −B, has the same length as B but points the opposite way. To subtract, add the negative:
+    A − B = A + (−B). When A and B start at the same point, A − B is the arrow from the tip of B to the tip of A. This is
+    how you find a change in velocity or the position of one object relative to another.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">Components:  vₓ = |v| cos θ     v_y = |v| sin θ</code>
+  <code class="formula">Sum:  R = (Aₓ + Bₓ,  A_y + B_y)</code>
+  <code class="formula">Magnitude:  |R| = √(Rₓ² + R_y²)     Direction:  θ = tan⁻¹(R_y / Rₓ)  (check the quadrant)</code>
+  <p>For two vectors with angle φ between them, the law of cosines gives:</p>
+  <code class="formula">|A + B|² = |A|² + |B|² + 2|A||B| cos φ</code>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Magnitude</dt>
+    <dd>The size or length of a vector, always positive or zero.</dd>
+    <dt>Resultant</dt>
+    <dd>The single vector that has the same effect as two or more vectors combined.</dd>
+    <dt>Component</dt>
+    <dd>The part of a vector along one axis.</dd>
+    <dt>Unit vector</dt>
+    <dd>A vector of length 1 that indicates a direction only.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Navigation:</strong> pilots and sailors add their own velocity to the wind or current velocity to find their true path over the ground.</li>
+    <li><strong>Forces:</strong> engineers add all the forces on a bridge or building to check that they balance.</li>
+    <li><strong>Sport:</strong> a swimmer crossing a river ends up downstream because their velocity adds to the river’s.</li>
+    <li><strong>Computer graphics and games:</strong> positions, movement and lighting are calculated with vector arithmetic.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The resultant’s length is the sum of the lengths.”</strong> Only when the vectors point in exactly the same direction.</li>
+    <li><strong>“Moving an arrow changes the vector.”</strong> A vector is defined by size and direction, not position.</li>
+    <li><strong>“tan⁻¹ always gives the right angle.”</strong> It only returns angles between −90° and 90°; you must check which quadrant the vector is in.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Vectors have magnitude and direction and add tip-to-tail.</li>
+    <li>Adding components separately is the most reliable method.</li>
+    <li>The resultant is between |A| − |B| and |A| + |B|, depending on the angle.</li>
+    <li>Subtraction means adding the opposite vector.</li>
+  </ul>
+</SimulatorLayout>

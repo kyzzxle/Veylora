@@ -1,0 +1,50 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="waves-sim" label="Two waves overlapping." hint="Click anywhere to inspect" badge="Constructive">
+  <ChoiceControl
+    name="wv-mode"
+    label="View"
+    value="string"
+    options={[
+      { value: 'string', label: 'Waves on a string' },
+      { value: 'ripple', label: 'Two-source ripple tank' },
+    ]}
+  />
+  <SliderControl name="wv-phase" label="Phase difference" min={0} max={360} step={5} value={0} help="How far wave 2 is shifted relative to wave 1.">
+    <PresetButtons
+      for="wv-phase"
+      label="Phase presets"
+      presets={[
+        { label: 'In phase (0°)', value: 0 },
+        { label: '90°', value: 90 },
+        { label: 'Opposite (180°)', value: 180 },
+      ]}
+    />
+  </SliderControl>
+  <SliderControl name="wv-f1" label="Frequency — wave 1" min={0.2} max={2} step={0.05} value={0.5} />
+  <SliderControl name="wv-f2" label="Frequency — wave 2" min={0.2} max={2} step={0.05} value={0.5} help="Make the frequencies slightly different to see “beats” (string view only)." />
+  <SliderControl name="wv-a1" label="Amplitude — wave 1" min={0} max={1} step={0.05} value={1} />
+  <SliderControl name="wv-a2" label="Amplitude — wave 2" min={0} max={1} step={0.05} value={1} />
+  <SliderControl name="wv-sep" label="Source separation (ripple tank)" min={1} max={6} step={0.5} value={3} help="Distance between the two sources, in wavelengths." />
+  <ToggleControl name="wv-avg" label="Ripple tank: show average intensity (fringes)" />
+
+  <Fragment slot="readouts">
+    <Readout name="type" label="Interference" key />
+    <Readout name="amp" label="Resultant amplitude" />
+    <Readout name="lambda" label="Wavelength(s)" />
+    <Readout name="beat" label="Beat frequency" />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initWaves } from './waves';
+  mountSim('#waves-sim', initWaves);
+</script>

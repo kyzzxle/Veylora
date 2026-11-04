@@ -1,0 +1,62 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import DataTable from '../../components/sim/DataTable.astro';
+---
+
+<SimShell
+  id="pendulum-sim"
+  label="A pendulum swinging from a fixed pivot."
+  showTime
+  hint="Pause, then drag the bob to set the starting angle"
+  aspect="4 / 3"
+>
+  <SliderControl name="pd-length" label="String length" min={0.2} max={3} step={0.1} value={1} scale={['0.2 m', '3 m']} />
+  <SliderControl name="pd-mass" label="Bob mass" min={0.1} max={5} step={0.1} value={1} help="Does mass change the period? Test it." />
+  <SliderControl name="pd-angle" label="Starting angle" min={5} max={80} step={1} value={20} help="Small angles (under about 15°) match the simple formula best." />
+  <ChoiceControl
+    name="pd-g"
+    label="Gravity"
+    value="9.81"
+    options={[
+      { value: '9.81', label: 'Earth' },
+      { value: '1.62', label: 'Moon' },
+      { value: '3.71', label: 'Mars' },
+    ]}
+  />
+  <SliderControl name="pd-damp" label="Air friction (damping)" min={0} max={0.5} step={0.05} value={0} help="Friction makes the swing die away. Does it change the period much?" />
+
+  <Fragment slot="readouts">
+    <Readout name="measured" label="Measured period" key />
+    <Readout name="simple" label="Formula 2π√(L/g)" />
+    <Readout name="angle" label="Angle now" />
+    <Readout name="speed" label="Bob speed" />
+    <Readout name="freq" label="Frequency" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="pd-graph" title="Angle over time" desc="The pendulum's angle in degrees over the last 15 seconds." />
+    <DataTable
+      id="pd-table"
+      title="Period measurements"
+      columns={[
+        { key: 'L', label: 'Length (m)' },
+        { key: 'm', label: 'Mass (kg)' },
+        { key: 'a', label: 'Start angle' },
+        { key: 'place', label: 'Gravity' },
+        { key: 'T', label: 'Measured T (s)' },
+        { key: 'T0', label: 'Formula T (s)' },
+      ]}
+      emptyText="Let the pendulum complete a full swing, then press Record."
+    />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initPendulum } from './pendulum';
+  mountSim('#pendulum-sim', initPendulum);
+</script>
