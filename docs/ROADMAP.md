@@ -60,10 +60,10 @@ Target: 18 live simulators covering all 10 branches.
 - [x] Physics — Wave Interference
 - [x] Mathematics — Graphing Functions
 - [x] Mathematics — Vector Addition
-- [ ] Astronomy — Phases of the Moon
-- [ ] Astronomy — Planetary Orbits and Gravity
-- [ ] Mathematics — Probability and Random Experiments
-- [ ] Ecology — Ecosystem Population Dynamics
+- [x] Astronomy — Phases of the Moon
+- [x] Astronomy — Planetary Orbits and Gravity
+- [x] Mathematics — Probability and Random Experiments
+- [x] Ecology — Ecosystem Population Dynamics
 - [ ] Chemistry — Atomic Structure
 - [ ] Chemistry — Acid-Base Reactions
 - [ ] Anatomy — Nervous System and Neuron Firing

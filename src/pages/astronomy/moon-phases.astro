@@ -1,0 +1,146 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import MoonSim from '../../simulators/moon/MoonSim.astro';
+import { moonQuiz } from '../../data/quizzes/moon';
+
+const toc = [
+  { id: 'why', label: 'Why the Moon has phases' },
+  { id: 'cycle', label: 'The cycle of phases' },
+  { id: 'rising', label: 'When the Moon rises' },
+  { id: 'hemispheres', label: 'North vs. south' },
+  { id: 'eclipses', label: 'Phases are not eclipses' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world connections' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 4.5: Phases and Motions of the Moon. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/4-5-phases-and-motions-of-the-moon' },
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 4.7: Eclipses of the Sun and Moon. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/4-7-eclipses-of-the-sun-and-moon' },
+  { text: 'NASA Science. Moon Phases.', url: 'https://science.nasa.gov/moon/moon-phases/' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="moon-phases"
+  description="Interactive Moon phases simulator: move the Moon around Earth and see each phase from above and from the ground, with illumination, moonrise times and hemisphere views."
+  toc={toc}
+  quiz={moonQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Night after night the Moon changes shape — a thin crescent, a half disc, a bright full moon — and then back again.
+      The Moon itself never changes; what changes is our point of view. Move the Moon around its orbit and see the
+      geometry behind every phase.
+    </p>
+  </Fragment>
+
+  <MoonSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>The left side shows the Sun, Earth and Moon <strong>from above the North Pole</strong>. The right side shows the Moon <strong>as you see it from Earth</strong>.</li>
+      <li><strong>Drag the Moon</strong> around its orbit, use the slider, or press a phase button. Press <strong>Start</strong> to run through a whole month.</li>
+      <li>Notice that the Moon in the left view is <strong>always half lit</strong> — only the right-hand view changes.</li>
+      <li>Read the <strong>phase, lit portion, moonrise time</strong> and best viewing time below.</li>
+      <li>Switch to the <strong>Southern Hemisphere</strong> and turn on <strong>Earth’s shadow</strong> to test common ideas. <strong>Reset</strong> returns to new moon.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="why">Why the Moon has phases</h2>
+  <p>
+    The Moon does not make its own light. It shines because it reflects sunlight, and at every moment the Sun lights
+    exactly <strong>half</strong> of it — the half facing the Sun. As the Moon travels around Earth, the angle between
+    the Sun, Earth and Moon changes, so we see different amounts of that sunlit half. When the lit half faces away from
+    us we see almost nothing; when it faces us, we see a full disc.
+  </p>
+
+  <h2 id="cycle">The cycle of phases</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Phase</th><th>Angle from the Sun</th><th>What we see</th></tr></thead>
+      <tbody>
+        <tr><td>New moon</td><td>0°</td><td>Dark side faces Earth; not visible</td></tr>
+        <tr><td>Waxing crescent</td><td>0–90°</td><td>A thin, growing sliver</td></tr>
+        <tr><td>First quarter</td><td>90°</td><td>Half of the disc lit</td></tr>
+        <tr><td>Waxing gibbous</td><td>90–180°</td><td>More than half, still growing</td></tr>
+        <tr><td>Full moon</td><td>180°</td><td>Entire disc lit</td></tr>
+        <tr><td>Waning gibbous</td><td>180–270°</td><td>More than half, shrinking</td></tr>
+        <tr><td>Third (last) quarter</td><td>270°</td><td>The other half of the disc lit</td></tr>
+        <tr><td>Waning crescent</td><td>270–360°</td><td>A thin, shrinking sliver</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    <strong>Waxing</strong> means growing and <strong>waning</strong> means shrinking. <strong>Gibbous</strong> means more than half. The full
+    cycle, called the <strong>synodic month</strong>, takes about 29.5 days.
+  </p>
+
+  <h2 id="rising">When the Moon rises</h2>
+  <p>
+    Because Earth spins once a day, the Moon rises and sets just like the Sun. Its position relative to the Sun decides
+    when: a new moon rises with the Sun at dawn, a first-quarter moon rises around noon, a full moon rises at sunset and
+    stays up all night, and a third-quarter moon rises around midnight. On average the Moon rises about 50 minutes later
+    each day.
+  </p>
+
+  <h2 id="hemispheres">North vs. south</h2>
+  <p>
+    Observers in the Southern Hemisphere see the Moon “upside down” compared with those in the north, so the lit side is
+    mirrored: a waxing crescent is lit on the left. Near the equator, crescents can appear lying on their backs, like a
+    smile. The phase itself — how much is lit — is the same everywhere on Earth at the same moment.
+  </p>
+
+  <h2 id="eclipses">Phases are not eclipses</h2>
+  <p>
+    Earth’s shadow does <em>not</em> cause the phases. Turn on Earth’s shadow in the simulator: it points directly away
+    from the Sun, so it can only touch the Moon at full moon. Even then, the Moon’s orbit is tilted about 5° to Earth’s
+    orbit, so it usually passes above or below the shadow. When the alignment is just right, we get a
+    <strong>lunar eclipse</strong>. Similarly, a <strong>solar eclipse</strong> can only happen at new moon.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <p>If θ is the angle between the Moon and the Sun as seen from Earth (0° at new moon):</p>
+  <code class="formula">Fraction of disc lit  k = (1 − cos θ) / 2</code>
+  <code class="formula">Day of the cycle ≈ (θ / 360°) × 29.53 days</code>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Synodic month</dt>
+    <dd>The time from one new moon to the next, about 29.53 days.</dd>
+    <dt>Sidereal month</dt>
+    <dd>The time for the Moon to orbit once relative to the stars, about 27.3 days. It is shorter because Earth also moves around the Sun.</dd>
+    <dt>Terminator</dt>
+    <dd>The line between the lit and dark parts of the Moon.</dd>
+    <dt>Synchronous rotation</dt>
+    <dd>The Moon spins once per orbit, so the same face always points toward Earth.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world connections</h2>
+  <ul>
+    <li><strong>Calendars:</strong> many calendars, including the Islamic, Hebrew and Chinese calendars, are based fully or partly on lunar phases.</li>
+    <li><strong>Tides:</strong> the strongest (spring) tides occur near new and full moon, when the Sun and Moon pull in line.</li>
+    <li><strong>Astronomy and photography:</strong> astronomers schedule deep-sky observing around new moon, when the sky is darkest.</li>
+    <li><strong>Wildlife:</strong> some animals time behaviour to the lunar cycle — many corals spawn on nights linked to the full moon.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Earth’s shadow causes the phases.”</strong> Phases come from viewing angle; Earth’s shadow only causes eclipses.</li>
+    <li><strong>“The Moon is only visible at night.”</strong> It is often visible in daylight, especially around the quarter phases.</li>
+    <li><strong>“There is a permanent dark side of the Moon.”</strong> There is a far side we never see, but it gets as much sunlight as the near side — it is fully lit at new moon.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Half of the Moon is always lit by the Sun; phases show how much of that half faces us.</li>
+    <li>The cycle takes about 29.5 days: new → first quarter → full → third quarter → new.</li>
+    <li>The phase determines when the Moon rises and when it is best seen.</li>
+    <li>Eclipses are rare because the Moon’s orbit is tilted, not because shadows cause phases.</li>
+  </ul>
+  <p class="muted">Model note: the diagram is not to scale. The real Moon is about 30 Earth diameters away, and the Sun is about 400 times farther still.</p>
+</SimulatorLayout>

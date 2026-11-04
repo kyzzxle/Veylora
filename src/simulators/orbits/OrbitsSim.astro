@@ -1,0 +1,53 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="orbits-sim" label="A planet orbiting a star." showTime hint="Click the orbit to inspect" aspect="1 / 1" badge="Press Start to launch">
+  <SliderControl name="or-speed" label="Launch speed" min={30} max={160} step={1} value={100} help="As a percentage of the speed needed for a circular orbit.">
+    <PresetButtons
+      for="or-speed"
+      label="Orbit presets"
+      presets={[
+        { label: 'Circular', value: 100 },
+        { label: 'Elliptical', value: 75 },
+        { label: 'Escape', value: 142 },
+      ]}
+    />
+  </SliderControl>
+  <SliderControl name="or-dir" label="Launch direction" min={-60} max={60} step={5} value={0} help="0° = sideways (perpendicular to the star). Positive tilts away from the star." />
+  <SliderControl name="or-dist" label="Starting distance" min={0.5} max={2} step={0.1} value={1} help="In astronomical units (AU). 1 AU = Earth’s distance from the Sun." />
+  <SliderControl name="or-mass" label="Star mass" min={0.5} max={2} step={0.1} value={1} help="In solar masses. Changing it during flight changes gravity immediately." />
+  <ToggleControl name="or-areas" label="Show equal areas (Kepler’s 2nd law)" />
+  <ToggleControl name="or-vectors" label="Show velocity and gravity arrows" checked />
+  <ToggleControl name="or-predict" label="Show predicted orbit" checked />
+  <SimKey
+    items={[
+      { label: 'Velocity', color: 'accent', shape: 'line' },
+      { label: 'Gravitational force (toward the star)', color: 'sim-solute', shape: 'line' },
+      { label: 'Predicted orbit', color: 'accent-2', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="type" label="Orbit type" key />
+    <Readout name="period" label="Orbital period" />
+    <Readout name="ecc" label="Eccentricity" />
+    <Readout name="range" label="Closest / farthest" />
+    <Readout name="dist" label="Distance now" />
+    <Readout name="speed" label="Speed now" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="or-graph" title="Speed over time" desc="The planet's orbital speed in kilometres per second over time." />
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initOrbits } from './orbits';
+  mountSim('#orbits-sim', initOrbits);
+</script>

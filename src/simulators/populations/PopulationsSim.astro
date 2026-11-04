@@ -1,0 +1,46 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="populations-sim" label="A meadow with rabbits and foxes." showTime hint="Click an animal to learn its role" badge="Year 0">
+  <button slot="toolbar" type="button" class="btn btn-sm" data-event="disease">Disease: −50% rabbits</button>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-event="hunt">Hunting: −50% foxes</button>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-event="foxes">Add 20 foxes</button>
+
+  <SliderControl name="pop-h0" label="Starting rabbits (prey)" min={10} max={1000} step={10} value={400} />
+  <SliderControl name="pop-p0" label="Starting foxes (predators)" min={0} max={200} step={5} value={50} />
+  <SliderControl name="pop-r" label="Rabbit birth rate" min={0.2} max={2} step={0.1} value={1} help="Growth per rabbit per year when there are no foxes." />
+  <SliderControl name="pop-a" label="Hunting success" min={0.002} max={0.03} step={0.002} value={0.01} help="How effectively foxes catch rabbits." />
+  <SliderControl name="pop-m" label="Fox death rate" min={0.1} max={1.5} step={0.1} value={0.5} help="Fraction of foxes dying each year without food." />
+  <ToggleControl name="pop-k" label="Limit rabbits with a carrying capacity (food and space)" />
+  <SliderControl name="pop-kval" label="Carrying capacity" min={300} max={3000} step={100} value={1500} />
+  <SimKey
+    items={[
+      { label: 'Rabbit (prey)', color: 'sim-water' },
+      { label: 'Fox (predator)', color: 'sim-solute' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="status" label="Ecosystem" key />
+    <Readout name="h" label="Rabbits" />
+    <Readout name="p" label="Foxes" />
+    <Readout name="eq" label="Balance point" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="pop-graph" title="Populations over time" desc="Rabbit and fox populations plotted against years." compare saveLabel="Save run & restart" />
+    <GraphPanel id="pop-phase" title="Phase plot: foxes vs. rabbits" desc="Each point shows the number of rabbits (across) and foxes (up) at one moment. Cycles appear as loops." />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initPopulations } from './populations';
+  mountSim('#populations-sim', initPopulations);
+</script>

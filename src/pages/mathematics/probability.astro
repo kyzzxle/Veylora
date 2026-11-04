@@ -1,0 +1,130 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import ProbabilitySim from '../../simulators/probability/ProbabilitySim.astro';
+import { probabilityQuiz } from '../../data/quizzes/probability';
+
+const toc = [
+  { id: 'what', label: 'What is probability?' },
+  { id: 'theory-vs-experiment', label: 'Theoretical vs. experimental' },
+  { id: 'large-numbers', label: 'The law of large numbers' },
+  { id: 'two-dice', label: 'Combining events: two dice' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Illowsky, B., & Dean, S. (2022). Introductory Statistics 2e, Section 3.1: Terminology. OpenStax.', url: 'https://openstax.org/books/introductory-statistics-2e/pages/3-1-terminology' },
+  { text: 'Illowsky, B., & Dean, S. (2022). Introductory Statistics 2e, Section 3.2: Independent and Mutually Exclusive Events. OpenStax.', url: 'https://openstax.org/books/introductory-statistics-2e/pages/3-2-independent-and-mutually-exclusive-events' },
+  { text: 'Tversky, A., & Kahneman, D. (1971). Belief in the law of small numbers. Psychological Bulletin, 76(2), 105–110.' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="probability"
+  description="Interactive probability simulator: flip coins and roll dice thousands of times, compare experimental and theoretical probability, and watch the law of large numbers in action."
+  toc={toc}
+  quiz={probabilityQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Flip a coin and you cannot know how it will land. Flip it ten thousand times and the results become remarkably
+      predictable. Probability is the mathematics of that predictability. Run your own experiments — far faster than you
+      could by hand — and see how chance behaves in the long run.
+    </p>
+  </Fragment>
+
+  <ProbabilitySim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose an <strong>experiment</strong>: a coin, one die, or two dice.</li>
+      <li>Press <strong>+1</strong>, <strong>+10</strong>, <strong>+100</strong> or <strong>+1000</strong> to run that many trials, or press <strong>Start</strong> to run continuously.</li>
+      <li>The bars show <strong>how often each outcome happened</strong>; the dashed purple marks show the <strong>theoretical</strong> probability.</li>
+      <li>Pick an <strong>outcome to track</strong>. The graph shows how its proportion changes as trials pile up.</li>
+      <li>Make the coin <strong>biased</strong> and see whether you could detect it from 10 flips — or from 1,000. <strong>Reset</strong> clears all results.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is probability?</h2>
+  <p>
+    <strong>Probability</strong> measures how likely an event is, on a scale from 0 (impossible) to 1 (certain). A
+    probability of 0.5 means the event is expected half the time. When all outcomes are equally likely, the probability
+    of an event is the number of favourable outcomes divided by the total number of outcomes.
+  </p>
+
+  <h2 id="theory-vs-experiment">Theoretical vs. experimental probability</h2>
+  <ul>
+    <li><strong>Theoretical probability</strong> is worked out by reasoning: a fair die has 6 equally likely faces, so P(6) = 1/6.</li>
+    <li><strong>Experimental probability</strong> (or relative frequency) is measured: if you roll 600 times and get 94 sixes, the experimental probability is 94/600 ≈ 0.157.</li>
+  </ul>
+  <p>
+    The two are rarely exactly equal, especially for small numbers of trials. The difference is not a mistake — it is
+    natural random variation.
+  </p>
+
+  <h2 id="large-numbers">The law of large numbers</h2>
+  <p>
+    As the number of trials increases, the experimental probability tends to get closer and closer to the theoretical
+    probability. In the graph, the line jumps around wildly at first and then settles near the dashed line. Note that
+    the <em>count</em> can still drift away from the expected count — only the <em>proportion</em> becomes stable.
+    Roughly speaking, quadrupling the number of trials halves the typical size of the random error in the proportion.
+  </p>
+
+  <h2 id="two-dice">Combining events: two dice</h2>
+  <p>
+    Two dice have 6 × 6 = 36 equally likely combinations, but the <em>sums</em> are not equally likely. A sum of 7 can be
+    made in six ways, while a sum of 2 can only be made as 1 + 1. That is why the bar chart for two dice forms a triangle
+    peaking at 7. Because the two dice do not affect each other, they are <strong>independent</strong>, and the
+    probability of a specific pair (such as a 3 then a 5) is 1/6 × 1/6 = 1/36.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">P(event) = favourable outcomes / total equally likely outcomes</code>
+  <code class="formula">Experimental probability = number of times the event occurred / number of trials</code>
+  <code class="formula">Expected count = P(event) × number of trials</code>
+  <code class="formula">Independent events:  P(A and B) = P(A) × P(B)</code>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Trial</dt>
+    <dd>One repetition of an experiment, such as one flip or one roll.</dd>
+    <dt>Outcome and event</dt>
+    <dd>An outcome is a single result; an event is a set of outcomes we are interested in (for example “rolling an even number”).</dd>
+    <dt>Sample space</dt>
+    <dd>The set of all possible outcomes.</dd>
+    <dt>Independent events</dt>
+    <dd>Events where one does not change the probability of the other.</dd>
+    <dt>Biased</dt>
+    <dd>Not fair — some outcomes are more likely than they should be.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Genetics:</strong> Punnett squares give the probability that offspring inherit a trait, such as a 1 in 4 chance for a recessive condition when both parents are carriers.</li>
+    <li><strong>Medicine:</strong> clinical trials use large samples so that random variation does not hide or fake a treatment’s effect.</li>
+    <li><strong>Weather forecasts:</strong> a “70% chance of rain” means that in similar conditions it rained about 70% of the time.</li>
+    <li><strong>Insurance and engineering:</strong> companies use probabilities of rare events, such as floods or component failures, to plan and set prices.</li>
+    <li><strong>Simulation:</strong> scientists run millions of random trials on computers (Monte Carlo methods) to study systems too complex to calculate directly.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>The gambler’s fallacy:</strong> “After five heads, tails is due.” Each flip is independent.</li>
+    <li><strong>“Results should match theory exactly.”</strong> Small samples vary a lot; that variation is expected.</li>
+    <li><strong>“All sums of two dice are equally likely.”</strong> Sums near 7 have more combinations.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Probability ranges from 0 to 1 and can be calculated or measured.</li>
+    <li>Experimental results vary, especially with few trials.</li>
+    <li>With many trials, experimental probability approaches the theoretical value.</li>
+    <li>Independent events have no memory: past results do not change future chances.</li>
+  </ul>
+  <p class="muted">Model note: the simulator uses your browser’s pseudo-random number generator, which is suitable for teaching but not for cryptography.</p>
+</SimulatorLayout>

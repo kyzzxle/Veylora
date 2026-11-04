@@ -249,7 +249,9 @@ export const branches: Branch[] = [
         keywords: ['moon', 'phases', 'lunar', 'crescent', 'gibbous', 'eclipse'],
         level: 'Beginner',
         kind: '2D',
-        status: 'planned',
+        status: 'live',
+        minutes: 12,
+        related: ['astronomy/orbits-gravity', 'astronomy/solar-system', 'earth-science/water-cycle', 'physics/wave-interference'],
       },
       {
         slug: 'orbits-gravity',
@@ -258,7 +260,9 @@ export const branches: Branch[] = [
         keywords: ['gravity', 'orbit', 'kepler', 'ellipse', 'escape velocity', 'newton'],
         level: 'Intermediate',
         kind: '2D',
-        status: 'planned',
+        status: 'live',
+        minutes: 15,
+        related: ['astronomy/moon-phases', 'physics/projectile-motion', 'astronomy/solar-system', 'physics/newtons-laws'],
       },
       {
         slug: 'stellar-life-cycle',
@@ -531,7 +535,9 @@ export const branches: Branch[] = [
         keywords: ['predator', 'prey', 'population', 'lotka-volterra', 'carrying capacity', 'ecosystem'],
         level: 'Intermediate',
         kind: 'Graph',
-        status: 'planned',
+        status: 'live',
+        minutes: 15,
+        related: ['zoology/food-webs', 'ecology/biodiversity', 'biology/natural-selection', 'mathematics/graphing-functions'],
       },
       {
         slug: 'carbon-cycle',
@@ -619,7 +625,9 @@ export const branches: Branch[] = [
         keywords: ['probability', 'random', 'distribution', 'dice', 'coin', 'law of large numbers'],
         level: 'Beginner',
         kind: 'Experiment',
-        status: 'planned',
+        status: 'live',
+        minutes: 12,
+        related: ['mathematics/data-visualization', 'biology/natural-selection', 'mathematics/graphing-functions', 'ecology/population-dynamics'],
       },
       {
         slug: 'data-visualization',

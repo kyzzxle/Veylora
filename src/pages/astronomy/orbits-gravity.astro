@@ -1,0 +1,134 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import OrbitsSim from '../../simulators/orbits/OrbitsSim.astro';
+import { orbitsQuiz } from '../../data/quizzes/orbits';
+
+const toc = [
+  { id: 'falling', label: 'Orbiting is falling' },
+  { id: 'shapes', label: 'Circles, ellipses and escape' },
+  { id: 'kepler', label: 'Kepler’s three laws' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 3.1: The Laws of Planetary Motion. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/3-1-the-laws-of-planetary-motion' },
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 3.4: Orbits in the Solar System. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/3-4-orbits-in-the-solar-system' },
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Sections 13.4–13.5: Satellite Orbits and Energy; Kepler’s Laws. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/13-5-keplers-laws-of-planetary-motion' },
+  { text: 'NASA. Earth Fact Sheet (orbital speed and eccentricity).', url: 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="orbits-gravity"
+  description="Interactive orbit simulator: launch a planet around a star, change speed, direction, distance and star mass, and explore circular, elliptical and escape orbits with Kepler’s laws."
+  toc={toc}
+  quiz={orbitsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Earth races around the Sun at about 30 km per second, yet it never flies off into space or falls into the Sun. The
+      reason is a balance between motion and gravity. Launch your own planet and find out how fast it must move to
+      circle, swing in an ellipse, or escape forever.
+    </p>
+  </Fragment>
+
+  <OrbitsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Set the <strong>launch speed</strong> (as a percentage of circular speed), the <strong>direction</strong> and the <strong>starting distance</strong>, then press <strong>Start</strong>.</li>
+      <li>The dashed purple curve is the <strong>predicted orbit</strong>. The readouts give the orbit type, period, eccentricity and closest and farthest distances.</li>
+      <li>Turn on <strong>equal areas</strong> to see Kepler’s second law: each shaded wedge takes the same time to sweep out.</li>
+      <li>Try the <strong>Circular</strong>, <strong>Elliptical</strong> and <strong>Escape</strong> presets. Change the <strong>star mass</strong> during flight to see the orbit respond.</li>
+      <li>Click anywhere to see the circular speed and period at that distance. <strong>Reset</strong> restores Earth-like settings.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="falling">Orbiting is falling</h2>
+  <p>
+    Isaac Newton imagined a cannon on a very tall mountain. Fire a ball slowly and it falls to the ground nearby; fire
+    it faster and it lands farther away. Fire it fast enough and the ground curves away beneath it as quickly as it
+    falls — it never lands. That is an orbit: an object <strong>continuously falling</strong> toward a planet or star
+    while moving sideways fast enough to keep missing it. The same gravity that drops an apple holds the Moon and the
+    planets in their paths.
+  </p>
+
+  <h2 id="shapes">Circles, ellipses and escape</h2>
+  <ul>
+    <li>At exactly <strong>circular speed</strong> and launched sideways, the pull of gravity bends the path into a circle.</li>
+    <li><strong>Slower</strong>, gravity wins at first: the planet dives inward, speeds up, swings around, and returns — an <strong>ellipse</strong> with the launch point farthest away.</li>
+    <li><strong>Faster</strong> (but below escape speed), the planet climbs outward and slows down before falling back — a larger ellipse with the launch point closest.</li>
+    <li>At or above <strong>escape speed</strong> (√2 ≈ 1.41 times circular speed), the path opens up and the planet never returns.</li>
+  </ul>
+
+  <h2 id="kepler">Kepler’s three laws</h2>
+  <p>
+    Johannes Kepler discovered these laws in the early 1600s from careful observations of Mars. Newton later showed that
+    all three follow from his law of gravity.
+  </p>
+  <ol>
+    <li><strong>Orbits are ellipses</strong>, with the star at one focus (not the centre).</li>
+    <li><strong>Equal areas in equal times:</strong> a line from the star to the planet sweeps out equal areas in equal times, so the planet moves fastest at its closest point (perihelion) and slowest at its farthest (aphelion).</li>
+    <li><strong>T² ∝ a³:</strong> the square of the orbital period is proportional to the cube of the orbit’s average size (semi-major axis). Planets farther out take much longer to orbit.</li>
+  </ol>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">Gravity:  F = G·M·m / r²</code>
+  <code class="formula">Circular speed:  v_c = √(GM / r)     Escape speed:  v_esc = √(2GM / r)</code>
+  <code class="formula">Kepler’s third law:  T² = 4π²·a³ / (G·M)</code>
+  <p>
+    In the units used by the simulator (AU, years and solar masses), the third law becomes simply T² = a³ / M. For Earth,
+    a = 1 AU and M = 1, so T = 1 year.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Astronomical unit (AU)</dt>
+    <dd>The average Earth–Sun distance, about 150 million km.</dd>
+    <dt>Semi-major axis (a)</dt>
+    <dd>Half the longest diameter of an ellipse — the orbit’s average distance.</dd>
+    <dt>Eccentricity (e)</dt>
+    <dd>How stretched an orbit is: 0 for a circle, between 0 and 1 for an ellipse, 1 or more for escape paths.</dd>
+    <dt>Perihelion and aphelion</dt>
+    <dd>The closest and farthest points of an orbit around the Sun.</dd>
+    <dt>Bound orbit</dt>
+    <dd>An orbit with negative total energy, which repeats forever.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Satellites:</strong> engineers choose orbit heights and speeds for GPS, weather and communications satellites using these same equations.</li>
+    <li><strong>Space missions:</strong> spacecraft travel between planets on elliptical “transfer orbits” and use gravity assists to gain speed.</li>
+    <li><strong>Weighing stars and planets:</strong> measuring a moon’s orbit lets astronomers calculate the mass of the planet it orbits.</li>
+    <li><strong>Finding exoplanets:</strong> a star wobbling in response to an orbiting planet reveals the planet’s mass and orbit.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“There is no gravity in space.”</strong> Gravity in orbit is nearly as strong as on the ground; astronauts float because they are falling together with their spacecraft.</li>
+    <li><strong>“Seasons happen because Earth gets closer to the Sun.”</strong> Earth’s orbit is nearly circular (e ≈ 0.017); seasons are caused by the tilt of Earth’s axis.</li>
+    <li><strong>“The star is at the centre of an elliptical orbit.”</strong> It sits at one focus, off-centre.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The star is fixed in place and much heavier than the planet, and there are no other planets tugging on the orbit. The
+    orbit is calculated step by step with a method that conserves energy well, so ellipses close neatly. Real orbits
+    slowly change because of other planets and, for Mercury, effects described by Einstein’s general relativity.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>An orbit is a balance between sideways motion and the pull of gravity.</li>
+    <li>Circular speed is √(GM/r); escape speed is √2 times larger.</li>
+    <li>Planets move fastest when closest to their star (equal areas in equal times).</li>
+    <li>T² ∝ a³: larger orbits take disproportionately longer.</li>
+  </ul>
+</SimulatorLayout>

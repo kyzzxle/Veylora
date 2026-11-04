@@ -1,0 +1,56 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell
+  id="moon-sim"
+  label="Top-down view of the Sun, Earth and Moon, beside the Moon as seen from Earth."
+  hint="Drag the Moon around its orbit"
+  aspect="16 / 9"
+  badge="New moon"
+>
+  <SliderControl name="mn-angle" label="Moon’s position in its orbit" min={0} max={359} step={1} value={0} help="Angle between the Moon and the Sun as seen from Earth (0° = new moon, 180° = full moon).">
+    <PresetButtons
+      for="mn-angle"
+      label="Phase presets"
+      presets={[
+        { label: 'New', value: 0 },
+        { label: 'First quarter', value: 90 },
+        { label: 'Full', value: 180 },
+        { label: 'Third quarter', value: 270 },
+      ]}
+    />
+  </SliderControl>
+  <SliderControl name="mn-speed" label="Animation speed" min={1} max={10} step={1} value={3} help="Days of the lunar month shown per second when playing." />
+  <ChoiceControl
+    name="mn-hemi"
+    label="Observer’s hemisphere"
+    value="north"
+    options={[
+      { value: 'north', label: 'Northern' },
+      { value: 'south', label: 'Southern' },
+    ]}
+  />
+  <ToggleControl name="mn-shadow" label="Show Earth’s shadow" />
+  <ToggleControl name="mn-sight" label="Show line of sight from Earth" checked />
+
+  <Fragment slot="readouts">
+    <Readout name="phase" label="Phase" value="New moon" key />
+    <Readout name="illum" label="Lit portion we see" />
+    <Readout name="day" label="Day of lunar cycle" />
+    <Readout name="trend" label="Waxing or waning" />
+    <Readout name="rise" label="Rises around" />
+    <Readout name="best" label="Best seen" />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initMoon } from './moon';
+  mountSim('#moon-sim', initMoon);
+</script>

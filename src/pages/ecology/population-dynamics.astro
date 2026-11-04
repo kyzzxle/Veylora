@@ -1,0 +1,146 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import PopulationsSim from '../../simulators/populations/PopulationsSim.astro';
+import { populationsQuiz } from '../../data/quizzes/populations';
+
+const toc = [
+  { id: 'populations', label: 'How populations change' },
+  { id: 'predator-prey', label: 'Predator–prey cycles' },
+  { id: 'phase', label: 'Reading the phase plot' },
+  { id: 'carrying', label: 'Carrying capacity' },
+  { id: 'formulas', label: 'The Lotka–Volterra model' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world examples' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 45.3: Environmental Limits to Population Growth. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/45-3-environmental-limits-to-population-growth' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 45.6: Community Ecology. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/45-6-community-ecology' },
+  { text: 'Krebs, C. J., Boonstra, R., Boutin, S., & Sinclair, A. R. E. (2001). What drives the 10-year cycle of snowshoe hares? BioScience, 51(1), 25–35.' },
+  { text: 'Vucetich, J. A., & Peterson, R. O. Wolves and Moose of Isle Royale — annual reports. Michigan Technological University.', url: 'https://isleroyalewolf.org/' },
+];
+---
+
+<SimulatorLayout
+  branch="ecology"
+  topic="population-dynamics"
+  description="Interactive predator–prey simulator: set rabbit and fox populations, birth, hunting and death rates, add a carrying capacity, and watch populations cycle in time graphs and a phase plot."
+  toc={toc}
+  quiz={populationsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Populations of predators and their prey rise and fall in a surprisingly regular rhythm. More prey feeds more
+      predators; more predators eat more prey; fewer prey starve the predators — and the cycle begins again. Set up your
+      own meadow of rabbits and foxes and watch the dance unfold.
+    </p>
+  </Fragment>
+
+  <PopulationsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Set the <strong>starting numbers</strong> of rabbits and foxes, then press <strong>Start</strong>. Two years pass every second.</li>
+      <li>Watch the <strong>meadow</strong>, the <strong>population graph</strong> and the <strong>phase plot</strong> below the simulator.</li>
+      <li>Change the <strong>birth, hunting and death rates</strong> while it runs to see how the cycles respond.</li>
+      <li>Use the <strong>event buttons</strong> to cause a disease, hunt foxes, or introduce new foxes.</li>
+      <li>Switch on the <strong>carrying capacity</strong> to limit rabbit numbers. Press <strong>Save run &amp; restart</strong> to compare experiments; <strong>Reset</strong> restores the defaults.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="populations">How populations change</h2>
+  <p>
+    A <strong>population</strong> is all the members of one species living in an area. It grows through births and
+    immigration and shrinks through deaths and emigration. When conditions are ideal, a population grows
+    <strong>exponentially</strong> — the more individuals there are, the faster they multiply. In nature, growth is
+    always limited eventually, by food, space, disease or predators.
+  </p>
+
+  <h2 id="predator-prey">Predator–prey cycles</h2>
+  <p>The interaction between a predator and its prey creates a repeating cycle:</p>
+  <ol>
+    <li>With few predators, the prey population grows quickly.</li>
+    <li>Plenty of prey means predators are well fed and their numbers rise.</li>
+    <li>Many predators eat prey faster than prey can reproduce, so prey numbers fall.</li>
+    <li>With less food, predators starve and decline — and the prey recover.</li>
+  </ol>
+  <p>
+    Because predators respond to prey numbers with a delay, the predator peaks always come <em>after</em> the prey peaks.
+  </p>
+
+  <h2 id="phase">Reading the phase plot</h2>
+  <p>
+    The phase plot shows rabbits across and foxes up. Each moment is a single point, so over time the point traces a
+    path. A <strong>closed loop</strong> means the cycle repeats exactly; a <strong>spiral inward</strong> means the
+    swings are dying down toward a steady balance; a path that hits an axis means one species has gone extinct.
+  </p>
+
+  <h2 id="carrying">Carrying capacity</h2>
+  <p>
+    Real prey cannot multiply forever, because grass and burrows run out. The <strong>carrying capacity</strong> (K) is
+    the largest population the environment can support. With a carrying capacity, prey growth slows as numbers approach
+    K. In the simulator this usually makes the cycles shrink until both populations settle at steady values — and if
+    the foxes disappear, the rabbits level off at K instead of exploding.
+  </p>
+
+  <h2 id="formulas">The Lotka–Volterra model</h2>
+  <p>
+    Alfred Lotka (1925) and Vito Volterra (1926) independently described predator–prey interactions with two linked
+    equations. With prey H, predators P and time t:
+  </p>
+  <code class="formula">dH/dt = r·H·(1 − H/K) − a·H·P</code>
+  <code class="formula">dP/dt = b·a·H·P − m·P</code>
+  <p>
+    Here r is the prey birth rate, a the hunting success, b the fraction of eaten prey turned into new predators (0.2 in
+    the simulator), m the predator death rate, and K the carrying capacity (very large when switched off). The balance
+    point, where both populations stop changing, is at H* = m / (b·a).
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Predator and prey</dt>
+    <dd>A predator hunts and eats other animals; the prey is the animal that is eaten.</dd>
+    <dt>Exponential growth</dt>
+    <dd>Growth in which the population increases by a constant percentage each year, producing a J-shaped curve.</dd>
+    <dt>Logistic growth</dt>
+    <dd>Growth that slows as a population approaches its carrying capacity, producing an S-shaped curve.</dd>
+    <dt>Density-dependent factor</dt>
+    <dd>A factor whose effect increases as the population becomes more crowded, such as competition, disease or predation.</dd>
+    <dt>Equilibrium</dt>
+    <dd>A state where populations stop changing because gains and losses balance.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world examples</h2>
+  <ul>
+    <li><strong>Snowshoe hares and lynx</strong> in Canada show roughly 10-year cycles, famously recorded in Hudson’s Bay Company fur records. Research shows food supply and predation both play roles.</li>
+    <li><strong>Wolves and moose on Isle Royale</strong> in Lake Superior have been studied since 1958 — one of the longest predator–prey studies in the world.</li>
+    <li><strong>Pest control:</strong> farmers release predatory insects such as ladybirds to control aphids, using predator–prey dynamics.</li>
+    <li><strong>Fisheries:</strong> removing too many predatory fish can let their prey boom and disrupt the whole ecosystem.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Predators wipe out their prey.”</strong> Usually predators decline first when prey become scarce, allowing prey to recover.</li>
+    <li><strong>“Removing predators helps the prey.”</strong> It can lead to overpopulation, overgrazing and then a crash.</li>
+    <li><strong>“Nature always finds a perfect balance.”</strong> Many populations fluctuate constantly rather than staying at one level.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The model has one predator, one prey, no seasons, no age structure and no randomness. Populations are treated as
+    smooth numbers rather than individual animals, which is why the classic cycles never die out on their own. Real
+    ecosystems contain many interacting species, weather and chance events.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Predator and prey populations rise and fall in linked cycles, with predators lagging behind.</li>
+    <li>Prey grow exponentially without predators unless limited by a carrying capacity.</li>
+    <li>Carrying capacity tends to damp the cycles toward a stable balance.</li>
+    <li>The phase plot reveals cycles as loops and stability as an inward spiral.</li>
+  </ul>
+</SimulatorLayout>

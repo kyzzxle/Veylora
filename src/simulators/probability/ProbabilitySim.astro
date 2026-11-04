@@ -1,0 +1,52 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="probability-sim" label="A probability experiment with a bar chart of results." hint={false} badge="0 trials">
+  <button slot="toolbar" type="button" class="btn btn-sm" data-run="1">+1</button>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-run="10">+10</button>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-run="100">+100</button>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-run="1000">+1000</button>
+
+  <ChoiceControl
+    name="pr-exp"
+    label="Experiment"
+    value="coin"
+    options={[
+      { value: 'coin', label: 'Flip a coin' },
+      { value: 'die', label: 'Roll a die' },
+      { value: 'dice', label: 'Roll two dice' },
+    ]}
+  />
+  <div data-only="coin">
+    <SliderControl name="pr-bias" label="Chance of heads" min={0.05} max={0.95} step={0.05} value={0.5} help="0.5 is a fair coin. Change it to make a biased (unfair) coin." />
+  </div>
+  <div data-only="die" hidden>
+    <SliderControl name="pr-face" label="Outcome to track" min={1} max={6} step={1} value={6} help="Which face are you counting?" />
+  </div>
+  <div data-only="dice" hidden>
+    <SliderControl name="pr-sum" label="Sum to track" min={2} max={12} step={1} value={7} help="Which total of the two dice are you counting?" />
+  </div>
+  <SliderControl name="pr-rate" label="Trials per second (when playing)" min={1} max={200} step={1} value={20} />
+
+  <Fragment slot="readouts">
+    <Readout name="trials" label="Trials" value="0" key />
+    <Readout name="event" label="Tracked outcome" />
+    <Readout name="exp" label="Experimental probability" />
+    <Readout name="theo" label="Theoretical probability" />
+    <Readout name="diff" label="Difference" />
+    <Readout name="expected" label="Expected count" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="pr-graph" title="Running proportion of the tracked outcome" desc="The fraction of trials that gave the tracked outcome, plotted against the number of trials, with the theoretical probability shown as a dashed line." />
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initProbability } from './probability';
+  mountSim('#probability-sim', initProbability);
+</script>
