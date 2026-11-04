@@ -23,6 +23,9 @@ src/
   layouts/BaseLayout.astro  <head>, SEO tags, theme, header, footer
   layouts/SimulatorLayout.astro  Shared simulator page template
   components/               Header, Footer, Quiz, AdSlot, cards, icons…
+  components/sim/           Simulator kit components (SimShell, controls, graph, table)
+  simulators/shared/        Simulator kit scripts (controller, graph, drag, 3D, table)
+  simulators/templates/     Starter templates: 2D drag, graph, 3D, experiment
   simulators/<slug>/        Client-side code for each simulation
   pages/                    One file per route
 ```
@@ -42,7 +45,7 @@ Adding a new topic: add or update its entry in `branches.ts`, write its simulati
 
 - [x] Stage 1
 - [x] Stage 2
-- [ ] Stage 3
+- [x] Stage 3 — see docs/SIMULATOR_GUIDE.md
 - [ ] Stage 4
 - [ ] Stage 5
 - [ ] Stage 6

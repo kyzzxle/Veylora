@@ -1,0 +1,58 @@
+---
+/**
+ * Developer-only page showing the four simulator templates.
+ * It exists only while running `npm run dev`; production builds skip it,
+ * so visitors (and AdSense reviewers) never see unfinished demo content.
+ */
+import '../../styles/sim.css';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Drag2DTemplate from '../../simulators/templates/Drag2DTemplate.astro';
+import GraphTemplate from '../../simulators/templates/GraphTemplate.astro';
+import ThreeTemplate from '../../simulators/templates/ThreeTemplate.astro';
+import ExperimentTemplate from '../../simulators/templates/ExperimentTemplate.astro';
+
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { page: 'sim-kit' } }] : [];
+}
+
+const sections = [
+  { id: 'drag', title: '1 · 2D canvas with dragging', files: 'Drag2DTemplate.astro + drag-2d.ts', note: 'Static model, drag with mouse or touch (page still scrolls when you touch empty space), sliders as the keyboard alternative, click to inspect.' },
+  { id: 'graph', title: '2 · Graph-based model', files: 'GraphTemplate.astro + graph-template.ts', note: 'The graph is the stage. Parameters on sliders, a choice of model, and “Keep this curve” to compare.' },
+  { id: '3d', title: '3 · 3D model (Three.js)', files: 'ThreeTemplate.astro + three-template.ts', note: 'Three.js downloads only on pages that use it. Loading state, WebGL fallback, zoom/reset tools, keyboard orbit, click to inspect, tap-to-activate on touch screens.' },
+  { id: 'exp', title: '4 · Experiment with recorded trials', files: 'ExperimentTemplate.astro + experiment.ts', note: 'Run a trial, record it in a data table (CSV download), and compare measurements with the predicted curve.' },
+];
+---
+
+<BaseLayout title="Simulator kit (dev only)" description="Developer preview of simulator templates." ads={false} noindex>
+  <PageHero
+    title="Simulator kit"
+    eyebrow="Development only — not published"
+    lead="Working templates for each kind of simulator. Copy the files from src/simulators/templates/ to start a new topic. See docs/SIMULATOR_GUIDE.md."
+  />
+  {
+    sections.map((s) => (
+      <section class="section-tight kit-section" id={s.id}>
+        <div class="container">
+          <h2>{s.title}</h2>
+          <p class="muted">
+            {s.note} <code>{s.files}</code>
+          </p>
+          {s.id === 'drag' && <Drag2DTemplate />}
+          {s.id === 'graph' && <GraphTemplate />}
+          {s.id === '3d' && <ThreeTemplate />}
+          {s.id === 'exp' && <ExperimentTemplate />}
+        </div>
+      </section>
+    ))
+  }
+</BaseLayout>
+
+<style>
+  .kit-section + .kit-section {
+    border-top: 1px solid var(--border);
+  }
+  .kit-section h2 {
+    font-size: 1.5rem;
+  }
+</style>

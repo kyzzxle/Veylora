@@ -1,0 +1,135 @@
+---
+/**
+ * The frame every simulator lives in.
+ *
+ *   ┌──────────── stage ────────────┐ ┌─ panel ─┐
+ *   │ canvas / 3D view, badge, hint, │ │ controls│
+ *   │ tooltip, overlay, fallbacks    │ │ (slot)  │
+ *   └────────────────────────────────┘ │         │
+ *   [▶ Pause] [↺ Reset] (toolbar slot) │         │
+ *   readouts (slot "readouts")         └─────────┘
+ *   below (slot "below": graphs, data tables)
+ *
+ * Pair it with createSimController() from src/simulators/shared/controller.ts,
+ * which wires up the play/pause/reset buttons, overlay, tooltip and errors.
+ */
+import Icon from '../Icon.astro';
+
+interface Props {
+  /** Unique id; the client script finds the simulator with it. */
+  id: string;
+  /** Accessible description of the visual, updated live by the script. */
+  label: string;
+  /** CSS aspect ratio of the stage, e.g. "16 / 10" or "1 / 1". */
+  aspect?: string;
+  /** Short tip shown on the stage. Pass false to hide. */
+  hint?: string | false;
+  /** Show Start/Pause. Turn off for static models (e.g. a function graph). */
+  playable?: boolean;
+  /** Show the model-time readout in the toolbar. */
+  showTime?: boolean;
+  /** Initial loading message (for 3D models that download code first). */
+  loadingText?: string;
+  /** Initial badge text in the stage corner. */
+  badge?: string;
+}
+
+const {
+  id,
+  label,
+  aspect = '16 / 10',
+  hint = 'Tap or click any part to inspect it',
+  playable = true,
+  showTime = false,
+  loadingText,
+  badge,
+} = Astro.props;
+
+const hasPanel = Astro.slots.has('default');
+const hasReadouts = Astro.slots.has('readouts');
+const hasBelow = Astro.slots.has('below');
+---
+
+<div
+  class:list={['sim', !hasPanel && 'sim--no-panel']}
+  id={id}
+  data-sim
+  style={`--stage-aspect:${aspect}`}
+>
+  <div class="sim-stage-wrap">
+    <div class="sim-stage" data-stage>
+      <slot name="stage">
+        <canvas class="sim-canvas" data-canvas role="img" aria-label={label} aria-describedby={`${id}-status`}></canvas>
+      </slot>
+      <span class="sim-badge" data-badge hidden={!badge}>{badge}</span>
+      {hint && <span class="sim-hint" data-hint><Icon name="cursor" size={14} /> {hint}</span>}
+      <div class="sim-tooltip" data-tooltip hidden></div>
+      <div class="sim-overlay" data-overlay hidden>
+        <div class="sim-overlay-card">
+          <strong data-overlay-title></strong>
+          <p data-overlay-text></p>
+          <button type="button" class="btn btn-primary btn-sm" data-overlay-action hidden></button>
+        </div>
+      </div>
+      <div class="sim-loading" data-loading hidden={!loadingText}>
+        <span class="spinner" aria-hidden="true"></span>
+        <span data-loading-text>{loadingText}</span>
+      </div>
+      <noscript>
+        <div class="sim-error">
+          <p>This simulator needs JavaScript. The explanation and quiz on this page still work without it.</p>
+        </div>
+      </noscript>
+      <div class="sim-error" data-error hidden>
+        <p data-error-text>
+          Sorry — this simulator could not start in your browser. You can still read the explanation and take the quiz
+          below.
+        </p>
+      </div>
+    </div>
+
+    <div class="sim-toolbar">
+      {
+        playable && (
+          <button type="button" class="btn btn-primary btn-sm" data-play aria-pressed="false">
+            <Icon name="pause" size={16} class="i-pause" />
+            <Icon name="play" size={16} class="i-play" />
+            <span data-play-label>Start</span>
+          </button>
+        )
+      }
+      <button type="button" class="btn btn-sm" data-reset>
+        <Icon name="reset" size={16} /> Reset
+      </button>
+      <slot name="toolbar" />
+      <span class="spacer"></span>
+      {showTime && <span class="sim-time" data-time>t = 0.0 s</span>}
+    </div>
+  </div>
+
+  {
+    hasPanel && (
+      <div class="sim-panel" role="group" aria-label="Simulation controls">
+        <slot />
+      </div>
+    )
+  }
+
+  {
+    hasReadouts && (
+      <dl class="sim-readouts" aria-label="Measurements">
+        <slot name="readouts" />
+      </dl>
+    )
+  }
+
+  {
+    hasBelow && (
+      <div class="sim-below">
+        <slot name="below" />
+      </div>
+    )
+  }
+
+  <p class="sr-only" id={`${id}-status`} role="status" aria-live="polite" data-status></p>
+</div>

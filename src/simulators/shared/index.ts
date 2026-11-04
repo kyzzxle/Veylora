@@ -57,10 +57,12 @@ export function createLoop(step: (dt: number) => void, watch: Element): Loop {
   let last = 0;
 
   const frame = (now: number) => {
+    raf = 0;
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
     step(dt);
-    raf = requestAnimationFrame(frame);
+    // Schedule the next frame only if still running (step may have paused).
+    if (running && visible && !document.hidden && !raf) raf = requestAnimationFrame(frame);
   };
   const sync = () => {
     const shouldRun = running && visible && !document.hidden;

@@ -1,0 +1,31 @@
+---
+/** A colour key explaining what the shapes in the simulation mean. */
+interface Item {
+  label: string;
+  /** A CSS colour or a design token name such as "sim-water". */
+  color: string;
+  shape?: 'dot' | 'ring' | 'square' | 'line';
+  class?: string;
+  hidden?: boolean;
+}
+interface Props {
+  items: Item[];
+  title?: string;
+}
+const { items, title = 'Key' } = Astro.props;
+const css = (c: string) => (/^(#|rgb|hsl)/.test(c) ? c : `var(--${c})`);
+---
+
+<div>
+  <h3>{title}</h3>
+  <ul class="sim-key">
+    {
+      items.map((it) => (
+        <li class={it.class} hidden={it.hidden}>
+          <span class:list={['key-swatch', `key-${it.shape ?? 'dot'}`]} style={`--c:${css(it.color)}`} />
+          {it.label}
+        </li>
+      ))
+    }
+  </ul>
+</div>

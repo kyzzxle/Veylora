@@ -1,170 +1,106 @@
 ---
-import Icon from '../../components/Icon.astro';
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
 ---
 
-<div class="sim" id="osmosis-sim" data-osmosis>
-  <div class="sim-stage-wrap">
-    <div class="sim-stage">
-      <canvas
-        class="sim-canvas"
-        data-canvas
-        role="img"
-        aria-label="Osmosis simulation: a cell in a solution. Use the controls to change concentrations."
-        aria-describedby="osmo-status"
-      ></canvas>
-      <span class="sim-badge" data-badge>Isotonic</span>
-      <span class="sim-hint" data-hint><Icon name="cursor" size={14} /> Tap or click any part to inspect it</span>
-      <div class="sim-tooltip" data-tooltip hidden></div>
-      <div class="sim-overlay" data-overlay hidden>
-        <div class="sim-overlay-card">
-          <strong data-overlay-title></strong>
-          <p data-overlay-text></p>
-          <button type="button" class="btn btn-primary btn-sm" data-overlay-reset>
-            <Icon name="reset" size={16} /> Reset the cell
-          </button>
-        </div>
-      </div>
-      <noscript>
-        <div class="sim-error">
-          <p>This simulator needs JavaScript. The explanation, diagrams and quiz below still work without it.</p>
-        </div>
-      </noscript>
-      <div class="sim-error" data-error hidden>
-        <p>Sorry — this simulator could not start in your browser. You can still read the explanation and take the quiz below.</p>
-      </div>
-    </div>
+<SimShell
+  id="osmosis-sim"
+  label="Osmosis simulation: a cell in a solution. Use the controls to change concentrations."
+  showTime
+  badge="Isotonic · Normal"
+>
+  <ChoiceControl
+    name="osmo-cell"
+    label="Cell type"
+    value="animal"
+    options={[
+      { value: 'animal', label: 'Animal (red blood cell)' },
+      { value: 'plant', label: 'Plant cell' },
+    ]}
+  />
 
-    <div class="sim-toolbar">
-      <button type="button" class="btn btn-primary btn-sm" data-play aria-pressed="true">
-        <Icon name="pause" size={16} class="i-pause" />
-        <Icon name="play" size={16} class="i-play" />
-        <span data-play-label>Pause</span>
-      </button>
-      <button type="button" class="btn btn-sm" data-reset>
-        <Icon name="reset" size={16} /> Reset
-      </button>
-      <span class="spacer"></span>
-      <span class="sim-time" data-time>t = 0.0 s</span>
-    </div>
-  </div>
+  <SliderControl
+    name="osmo-out"
+    label="Outside solution"
+    min={0}
+    max={1200}
+    step={10}
+    value={300}
+    scale={['0 (pure water)', '1200']}
+    help="Solute concentration of the water around the cell. Changes apply instantly, like moving the cell into a new solution."
+  >
+    <PresetButtons
+      for="osmo-out"
+      label="Solution presets"
+      presets={[
+        { label: 'Distilled water', value: 0 },
+        { label: 'Half-strength saline', value: 150 },
+        { label: 'Isotonic (≈0.9% saline)', value: 300 },
+        { label: 'Seawater', value: 1000 },
+      ]}
+    />
+  </SliderControl>
 
-  <div class="sim-panel" role="group" aria-label="Simulation controls">
-    <div class="ctrl">
-      <span class="ctrl-label" id="osmo-celltype-label">Cell type</span>
-      <div class="segmented" role="radiogroup" aria-labelledby="osmo-celltype-label">
-        <label><input type="radio" name="osmo-cell" value="animal" checked data-celltype /><span>Animal (red blood cell)</span></label>
-        <label><input type="radio" name="osmo-cell" value="plant" data-celltype /><span>Plant cell</span></label>
-      </div>
-    </div>
+  <SliderControl
+    name="osmo-in"
+    label="Inside the cell (starting)"
+    min={150}
+    max={600}
+    step={10}
+    value={300}
+    help="How much solute the cell contains. Changing this starts a fresh cell at its original size."
+  />
 
-    <div class="ctrl">
-      <div class="ctrl-row">
-        <label for="osmo-out">Outside solution</label>
-        <output for="osmo-out" data-out-val>300 mOsm/L</output>
-      </div>
-      <input id="osmo-out" type="range" min="0" max="1200" step="10" value="300" data-out aria-describedby="osmo-out-help" />
-      <div class="ctrl-scale" aria-hidden="true"><span>0 (pure water)</span><span>1200</span></div>
-      <p class="ctrl-help" id="osmo-out-help">Solute concentration of the water around the cell. Changes apply instantly, like moving the cell into a new solution.</p>
-      <div class="preset-row" role="group" aria-label="Solution presets">
-        <button type="button" class="preset" data-preset="0">Distilled water</button>
-        <button type="button" class="preset" data-preset="150">Half-strength saline</button>
-        <button type="button" class="preset" data-preset="300">Isotonic (≈0.9% saline)</button>
-        <button type="button" class="preset" data-preset="1000">Seawater</button>
-      </div>
-    </div>
+  <SliderControl
+    name="osmo-perm"
+    label="Membrane water permeability"
+    min={0.25}
+    max={3}
+    step={0.25}
+    value={1}
+    help="Like adding or removing aquaporin channels. Watch whether it changes the speed, the final size, or both."
+  />
 
-    <div class="ctrl">
-      <div class="ctrl-row">
-        <label for="osmo-in">Inside the cell (starting)</label>
-        <output for="osmo-in" data-in-val>300 mOsm/L</output>
-      </div>
-      <input id="osmo-in" type="range" min="150" max="600" step="10" value="300" data-in aria-describedby="osmo-in-help" />
-      <p class="ctrl-help" id="osmo-in-help">How much solute the cell contains. Changing this starts a fresh cell at its original size.</p>
-    </div>
+  <ToggleControl name="osmo-labels" label="Show labels and flow arrows" checked />
 
-    <div class="ctrl">
-      <div class="ctrl-row">
-        <label for="osmo-perm">Membrane water permeability</label>
-        <output for="osmo-perm" data-perm-val>1.0×</output>
-      </div>
-      <input id="osmo-perm" type="range" min="0.25" max="3" step="0.25" value="1" data-perm aria-describedby="osmo-perm-help" />
-      <p class="ctrl-help" id="osmo-perm-help">Like adding or removing aquaporin channels. Watch whether it changes the speed, the final size, or both.</p>
-    </div>
+  <SimKey
+    items={[
+      { label: 'Water molecule (can cross the membrane)', color: 'sim-water' },
+      { label: 'Solute particle (cannot cross)', color: 'sim-solute' },
+      { label: 'Cell membrane', color: 'sim-membrane', shape: 'ring' },
+      { label: 'Cell wall', color: 'sim-wall', shape: 'square', class: 'plant-only', hidden: true },
+    ]}
+  />
 
-    <label class="toggle"><input type="checkbox" checked data-labels /> Show labels and flow arrows</label>
+  <Fragment slot="readouts">
+    <Readout name="state" label="Cell state" value="Normal" key />
+    <Readout name="tonicity" label="Solution is" value="Isotonic" />
+    <Readout name="flow" label="Net water flow" value="None" />
+    <Readout name="cross" label="Water crossings / s" value="0 in · 0 out" />
+    <Readout name="vol" label="Cell volume" value="100%" />
+    <Readout name="cin" label="Inside now" value="300 mOsm/L" />
+    <Readout name="cout" label="Outside" value="300 mOsm/L" />
+    <Readout name="turgor" label="Turgor pressure" value="0 kPa" class="plant-only" hidden />
+    <Readout name="psi" label="Ψ inside / outside" class="plant-only" hidden />
+  </Fragment>
 
-    <div>
-      <h3>Key</h3>
-      <ul class="sim-key">
-        <li><span class="dot" style="background:var(--sim-water)"></span> Water molecule (can cross the membrane)</li>
-        <li><span class="dot" style="background:var(--sim-solute)"></span> Solute particle (cannot cross)</li>
-        <li><span class="dot" style="background:transparent;border:3px solid var(--sim-membrane)"></span> Cell membrane</li>
-        <li class="plant-only" hidden><span class="dot" style="border-radius:3px;background:transparent;border:3px solid var(--sim-wall)"></span> Cell wall</li>
-      </ul>
-    </div>
-  </div>
-
-  <dl class="sim-readouts" aria-label="Measurements">
-    <div class="readout is-key"><dt>Cell state</dt><dd data-r-state>Normal</dd></div>
-    <div class="readout"><dt>Solution is</dt><dd data-r-tonicity>Isotonic</dd></div>
-    <div class="readout"><dt>Net water flow</dt><dd data-r-flow>None</dd></div>
-    <div class="readout"><dt>Water crossings / s</dt><dd data-r-cross>0 in · 0 out</dd></div>
-    <div class="readout"><dt>Cell volume</dt><dd data-r-vol>100%</dd></div>
-    <div class="readout"><dt>Inside now</dt><dd data-r-cin>300 mOsm/L</dd></div>
-    <div class="readout"><dt>Outside</dt><dd data-r-cout>300 mOsm/L</dd></div>
-    <div class="readout plant-only" hidden><dt>Turgor pressure</dt><dd data-r-turgor>0 kPa</dd></div>
-    <div class="readout plant-only" hidden><dt>Ψ inside / outside</dt><dd data-r-psi>—</dd></div>
-  </dl>
-
-  <div class="sim-graph">
-    <div class="sim-graph-head">
-      <h3 id="osmo-graph-title">Cell volume over time</h3>
-      <div class="preset-row">
-        <button type="button" class="btn btn-sm" data-save><Icon name="compare" size={16} /> Save run &amp; start new</button>
-        <button type="button" class="btn btn-sm btn-ghost" data-clear disabled>Clear saved</button>
-      </div>
-    </div>
-    <canvas data-graph role="img" aria-labelledby="osmo-graph-title" aria-describedby="osmo-graph-desc"></canvas>
-    <p class="sr-only" id="osmo-graph-desc" data-graph-desc>Graph of cell volume as a percentage of its original size, plotted against model time.</p>
-    <ul class="graph-legend" data-legend></ul>
-  </div>
-
-  <p class="sr-only" id="osmo-status" role="status" aria-live="polite" data-status></p>
-</div>
-
-<style>
-  [data-play] :global(.i-play) {
-    display: none;
-  }
-  [data-play][aria-pressed='false'] :global(.i-play) {
-    display: block;
-  }
-  [data-play][aria-pressed='false'] :global(.i-pause) {
-    display: none;
-  }
-  .segmented {
-    display: flex;
-    width: 100%;
-  }
-  .segmented label {
-    flex: 1;
-    text-align: center;
-  }
-  .segmented span {
-    padding: 8px 6px;
-    font-size: 0.85rem;
-  }
-</style>
+  <GraphPanel
+    slot="below"
+    id="osmo-graph"
+    title="Cell volume over time"
+    desc="Graph of cell volume as a percentage of its original size, plotted against model time."
+    compare
+  />
+</SimShell>
 
 <script>
+  import { mountSim } from '../shared/controller';
   import { initOsmosis } from './osmosis';
-  const root = document.querySelector<HTMLElement>('[data-osmosis]');
-  if (root) {
-    try {
-      initOsmosis(root);
-    } catch (err) {
-      console.error(err);
-      root.querySelector<HTMLElement>('[data-error]')!.hidden = false;
-    }
-  }
+  mountSim('#osmosis-sim', initOsmosis);
 </script>

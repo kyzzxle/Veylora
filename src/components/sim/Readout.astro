@@ -1,0 +1,22 @@
+---
+/**
+ * One measurement in the readouts grid. Place inside <SimShell> slot="readouts".
+ * Script side: controls(root).readout(name, text, tone?)
+ */
+interface Props {
+  name: string;
+  label: string;
+  value?: string;
+  /** Highlight the most important readout. */
+  key?: boolean;
+  /** Start hidden (e.g. readouts that only apply to one mode). */
+  hidden?: boolean;
+  class?: string;
+}
+const { name, label, value = '—', key = false, hidden = false, class: className } = Astro.props;
+---
+
+<div class:list={['readout', key && 'is-key', className]} hidden={hidden}>
+  <dt>{label}</dt>
+  <dd data-readout={name}>{value}</dd>
+</div>

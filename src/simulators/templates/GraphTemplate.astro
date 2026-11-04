@@ -1,0 +1,47 @@
+---
+/**
+ * TEMPLATE: graph-based model.
+ * Pattern: the graph is the stage; parameters on sliders; "Keep curve"
+ * comparison; readouts derived from the parameters. No animation loop.
+ */
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import Icon from '../../components/Icon.astro';
+---
+
+<SimShell id="tpl-graph" label="Graph of a function" playable={false} hint={false} aspect="16 / 9">
+  <canvas slot="stage" class="sim-canvas" data-plot role="img" aria-label="Graph of a function"></canvas>
+
+  <button slot="toolbar" type="button" class="btn btn-sm" data-save><Icon name="compare" size={16} /> Keep this curve</button>
+  <button slot="toolbar" type="button" class="btn btn-sm btn-ghost" data-clear disabled>Clear kept</button>
+
+  <ChoiceControl
+    name="fn-kind"
+    label="Function"
+    value="sin"
+    options={[
+      { value: 'sin', label: 'y = a·sin(bx + c) + d' },
+      { value: 'quad', label: 'y = a(x − c)² + d' },
+    ]}
+  />
+  <SliderControl name="fn-a" label="a" min={-3} max={3} step={0.1} value={1} help="Amplitude (sine) or stretch (parabola). Negative values flip the graph." />
+  <SliderControl name="fn-b" label="b" min={0.2} max={4} step={0.1} value={1} help="Frequency — used by the sine function only." />
+  <SliderControl name="fn-c" label="c" min={-3} max={3} step={0.1} value={0} help="Horizontal shift." />
+  <SliderControl name="fn-d" label="d" min={-3} max={3} step={0.1} value={0} help="Vertical shift." />
+
+  <Fragment slot="readouts">
+    <Readout name="eq" label="Equation" key />
+    <Readout name="f1" label="Feature" />
+    <Readout name="f2" label="Feature" />
+  </Fragment>
+
+  <ul slot="below" class="graph-legend" data-legend></ul>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initGraphTemplate } from './graph-template';
+  mountSim('#tpl-graph', initGraphTemplate);
+</script>

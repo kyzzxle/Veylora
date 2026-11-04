@@ -1,0 +1,42 @@
+---
+/**
+ * TEMPLATE: 2D canvas with draggable objects.
+ * Pattern: static model (no Start/Pause), drag with mouse or touch, sliders
+ * as the keyboard alternative, click empty space to inspect.
+ * Copy this pair of files to start a drag-based simulator (vectors, circuits…).
+ */
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell
+  id="tpl-drag"
+  label="Two points on a grid joined by a vector. Drag point B or use the sliders."
+  playable={false}
+  hint="Drag the orange point B"
+>
+  <SliderControl name="drag-bx" label="Point B — x" min={-5} max={5} step={0.5} value={3} />
+  <SliderControl name="drag-by" label="Point B — y" min={-5} max={5} step={0.5} value={2} />
+  <ToggleControl name="drag-snap" label="Snap to grid (0.5 units)" checked />
+  <SimKey
+    items={[
+      { label: 'Point A (fixed at the origin)', color: 'accent' },
+      { label: 'Point B (draggable)', color: 'sim-solute' },
+      { label: 'Vector from A to B', color: 'accent-2', shape: 'line' },
+    ]}
+  />
+  <Fragment slot="readouts">
+    <Readout name="mag" label="Length |AB|" key />
+    <Readout name="angle" label="Angle" />
+    <Readout name="comp" label="Components (x, y)" />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initDragTemplate } from './drag-2d';
+  mountSim('#tpl-drag', initDragTemplate);
+</script>

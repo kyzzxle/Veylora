@@ -18,18 +18,14 @@
  * inside tracks the model volume: when the cell is gaining water, more
  * molecules cross inward than outward; at equilibrium both directions are
  * equal. Solute particles can never cross the membrane.
+ *
+ * The UI is built from the shared simulator kit (SimShell, controls, LineGraph).
  */
 
-import {
-  bindRange,
-  clamp,
-  createAnnouncer,
-  createLoop,
-  fitCanvas,
-  onThemeChange,
-  readPalette,
-  type CanvasSize,
-} from '../shared';
+import { clamp, fitCanvas, readPalette, type CanvasSize } from '../shared';
+import { createSimController, type SimController } from '../shared/controller';
+import { controls, type Tone } from '../shared/controls';
+import { LineGraph, runComparer, type Point } from '../shared/graph';
 
 type CellType = 'animal' | 'plant';
 
@@ -43,12 +39,7 @@ const PALETTE = [
   'sim-grid',
   'sim-text',
   'accent',
-  'accent-2',
-  'warning',
-  'danger',
-  'text-faint',
   'bg-elev',
-  'border-strong',
 ] as const;
 type Palette = Record<(typeof PALETTE)[number], string>;
 
@@ -88,25 +79,14 @@ interface Fragment {
   a1: number;
   r: number;
 }
-interface Run {
-  label: string;
-  color: string;
-  points: { t: number; v: number }[];
-  lysedAt?: number;
-}
 
 export function initOsmosis(root: HTMLElement) {
-  const $ = <T extends Element = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
-  const $$ = <T extends Element = HTMLElement>(sel: string) => [...root.querySelectorAll<T>(sel)];
-
-  const canvas = $<HTMLCanvasElement>('[data-canvas]');
-  const graphCanvas = $<HTMLCanvasElement>('[data-graph]');
-  const stage = canvas.parentElement!;
-  const tooltip = $('[data-tooltip]');
-  const hint = $('[data-hint]');
-  const badge = $('[data-badge]');
-  const overlay = $('[data-overlay]');
-  const announce = createAnnouncer($('[data-status]'));
+  const canvas = root.querySelector<HTMLCanvasElement>('[data-canvas]')!;
+  const graphCanvas = root.querySelector<HTMLCanvasElement>('[data-graph="osmo-graph"]')!;
+  const graphPanel = root.querySelector<HTMLElement>('[data-graph-panel="osmo-graph"]')!;
+  const graphDesc = root.querySelector<HTMLElement>('[data-graph-desc="osmo-graph"]');
+  let sim: SimController | undefined;
+  const announce = (msg: string) => sim?.announce(msg);
 
   /* ---------------- State ---------------- */
   const state = {
@@ -123,15 +103,17 @@ export function initOsmosis(root: HTMLElement) {
   };
 
   let pal: Palette = readPalette(PALETTE);
+  // CSS variables update synchronously when the theme attribute changes.
+  window.addEventListener('themechange', () => (pal = readPalette(PALETTE)));
   let size: CanvasSize = { w: 1, h: 1, dpr: 1 };
   let waters: Water[] = [];
   let solutesOut: Solute[] = [];
   let solutesIn: InnerSolute[] = [];
   let released: (Solute & { life: number })[] = [];
   let fragments: Fragment[] = [];
-  let current: Run = newRun();
-  const saved: Run[] = [];
-  let lastSample = -1;
+  let points: Point[] = [{ x: 0, y: 1 }];
+  let lysedAt: number | undefined;
+  let lastSample = 0;
   let crossIn = 0;
   let crossOut = 0;
   let rateIn = 0;
@@ -350,7 +332,7 @@ export function initOsmosis(root: HTMLElement) {
     state.lysed = true;
     state.lysisClock = 0;
     state.flux = 0;
-    current.lysedAt = state.t;
+    lysedAt = state.t;
     for (const s of solutesIn) {
       const p = innerSoluteXY(s);
       released.push({ ...p, a: Math.atan2(p.y - geom.cy, p.x - geom.cx) + (rnd() - 0.5), life: 1 });
@@ -633,132 +615,71 @@ export function initOsmosis(root: HTMLElement) {
     }
   }
 
-  /* ---------------- Graph ---------------- */
-  const graph = fitCanvas(graphCanvas, () => drawGraph());
-  const RUN_COLORS = ['accent-2', 'warning', 'text-faint'] as const;
 
-  function newRun(): Run {
-    return { label: '', color: 'accent', points: [{ t: 0, v: 1 }] };
+  /* ---------------- Graph ---------------- */
+  const graph = new LineGraph(graphCanvas, {
+    x: { min: 0, span: 30, step: 10, format: (v) => `${v}s` },
+    y: { min: 0.4, max: 1.6, step: 0.2, format: (v) => `${Math.round(v * 100)}%` },
+  });
+  function updateGraphRefs() {
+    graph.opts.refs = [
+      { value: 1, label: 'starting size', color: 'border-strong' },
+      ...(state.cell === 'animal' ? [{ value: LYSIS_V, label: 'bursts here', color: 'danger' }] : []),
+    ];
   }
-  function runLabel() {
-    const cell = state.cell === 'animal' ? 'Animal' : 'Plant';
-    return `${cell} · out ${state.cout} / in ${state.cin0} mOsm/L · ${state.perm}× permeability`;
+  function syncCurrentSeries() {
+    graph.set('current', {
+      label: 'Current run',
+      color: 'accent',
+      points,
+      endMarker: lysedAt !== undefined ? '✕' : undefined,
+    });
   }
+  updateGraphRefs();
+  syncCurrentSeries();
+
+  const runLabel = () =>
+    `${state.cell === 'animal' ? 'Animal' : 'Plant'} · out ${state.cout} / in ${state.cin0} mOsm/L · ${state.perm}× permeability`;
+  const comparer = runComparer(graphPanel, graph, {
+    currentId: 'current',
+    label: runLabel,
+    onSave: () => {
+      resetCell(); // start a fresh cell so the next run is comparable from t = 0
+      announce(`Run saved for comparison: ${runLabel()}. A fresh cell has started.`);
+    },
+  });
 
   function sample() {
-    if (state.lysed && current.lysedAt !== undefined && lastSample >= current.lysedAt) return;
+    if (lysedAt !== undefined && lastSample >= lysedAt) return;
     if (state.t - lastSample >= 0.2) {
       lastSample = state.t;
-      if (current.points.length < 1500) current.points.push({ t: state.t, v: state.V });
+      if (points.length < 1500) points.push({ x: state.t, y: state.V });
     }
-  }
-
-  function drawGraph() {
-    const g = graph.ctx;
-    const { w, h } = graph.size;
-    g.clearRect(0, 0, w, h);
-    const pad = { l: 46, r: 14, t: 10, b: 30 };
-    const pw = w - pad.l - pad.r;
-    const ph = h - pad.t - pad.b;
-    const all = [current, ...saved];
-    const tMax = Math.max(30, Math.ceil(Math.max(...all.map((r) => r.points[r.points.length - 1]?.t ?? 0)) / 10) * 10);
-    const vMin = 40;
-    const vMax = 170;
-    const X = (t: number) => pad.l + (t / tMax) * pw;
-    const Y = (v: number) => pad.t + (1 - (v * 100 - vMin) / (vMax - vMin)) * ph;
-
-    g.font = '11px "JetBrains Mono Variable", monospace';
-    g.fillStyle = pal['text-faint'];
-    g.strokeStyle = pal['sim-grid'];
-    g.lineWidth = 1;
-    for (let v = 40; v <= 160; v += 20) {
-      const y = Y(v / 100);
-      g.beginPath();
-      g.moveTo(pad.l, y);
-      g.lineTo(w - pad.r, y);
-      g.stroke();
-      g.fillText(`${v}%`, 4, y + 4);
-    }
-    const tStep = tMax <= 30 ? 5 : tMax <= 80 ? 10 : 30;
-    for (let t = 0; t <= tMax; t += tStep) g.fillText(`${t}s`, X(t) - 8, h - 10);
-
-    // Reference lines
-    const ref = (v: number, color: string, text: string) => {
-      g.save();
-      g.setLineDash([5, 5]);
-      g.strokeStyle = color;
-      g.beginPath();
-      g.moveTo(pad.l, Y(v));
-      g.lineTo(w - pad.r, Y(v));
-      g.stroke();
-      g.restore();
-      g.fillStyle = color;
-      g.fillText(text, pad.l + 6, Y(v) - 4);
-    };
-    ref(1, pal['border-strong'], 'starting size');
-    if (state.cell === 'animal') ref(LYSIS_V, pal['danger'], 'bursts here');
-
-    for (const run of [...saved, current]) {
-      if (run.points.length < 2) continue;
-      g.strokeStyle = pal[run.color as keyof Palette];
-      g.lineWidth = run === current ? 2.5 : 2;
-      g.beginPath();
-      run.points.forEach((p, i) => (i ? g.lineTo(X(p.t), Y(p.v)) : g.moveTo(X(p.t), Y(p.v))));
-      g.stroke();
-      if (run.lysedAt !== undefined) {
-        const last = run.points[run.points.length - 1];
-        g.fillStyle = pal['danger'];
-        g.font = 'bold 14px sans-serif';
-        g.fillText('✕', X(last.t) - 5, Y(last.v) + 5);
-        g.font = '11px "JetBrains Mono Variable", monospace';
-      }
-    }
-  }
-
-  function renderLegend() {
-    const legend = $('[data-legend]');
-    const items = [{ label: 'Current run', color: 'accent' }, ...saved];
-    legend.innerHTML = items
-      .map((r) => `<li><span class="swatch" style="background:var(--${r.color})"></span>${r.label}</li>`)
-      .join('');
-    $<HTMLButtonElement>('[data-clear]').disabled = saved.length === 0;
   }
 
   /* ---------------- Readouts ---------------- */
-  const r = {
-    state: $('[data-r-state]'),
-    tonicity: $('[data-r-tonicity]'),
-    flow: $('[data-r-flow]'),
-    vol: $('[data-r-vol]'),
-    cin: $('[data-r-cin]'),
-    cout: $('[data-r-cout]'),
-    turgor: $('[data-r-turgor]'),
-    psi: $('[data-r-psi]'),
-    cross: $('[data-r-cross]'),
-    time: $('[data-time]'),
-  };
+  const ui = controls(root);
+  const tone = (t: string) => t.replace('tone-', '') as Tone;
 
   function updateReadouts() {
     const cs = cellState();
     const ton = tonicity();
-    r.state.textContent = cs.label;
-    r.state.className = cs.tone;
-    r.tonicity.textContent = ton.label;
-    r.tonicity.className = ton.tone;
-    r.flow.textContent = flowText();
-    r.vol.textContent = state.lysed ? '—' : `${Math.round(state.V * 100)}%`;
-    r.cin.textContent = state.lysed ? '—' : `${Math.round(cinNow())} mOsm/L`;
-    r.cout.textContent = `${state.cout} mOsm/L`;
-    r.time.textContent = `t = ${state.t.toFixed(1)} s`;
-    if (r.cross) r.cross.textContent = state.lysed ? '—' : `${rateIn} in · ${rateOut} out`;
+    ui.readout('state', cs.label, tone(cs.tone));
+    ui.readout('tonicity', ton.label, tone(ton.tone));
+    ui.readout('flow', flowText());
+    ui.readout('cross', state.lysed ? '—' : `${rateIn} in · ${rateOut} out`);
+    ui.readout('vol', state.lysed ? '—' : `${Math.round(state.V * 100)}%`);
+    ui.readout('cin', state.lysed ? '—' : `${Math.round(cinNow())} mOsm/L`);
+    ui.readout('cout', `${state.cout} mOsm/L`);
     if (state.cell === 'plant') {
       const P = turgor();
-      r.turgor.textContent = `${Math.round(P * KPA_PER_MOSM)} kPa`;
+      ui.readout('turgor', `${Math.round(P * KPA_PER_MOSM)} kPa`);
       const psiIn = ((-cinNow() + P) * KPA_PER_MOSM) / 1000;
       const psiOut = (-state.cout * KPA_PER_MOSM) / 1000;
-      r.psi.textContent = `${psiIn.toFixed(2)} / ${psiOut.toFixed(2)} MPa`;
+      ui.readout('psi', `${psiIn.toFixed(2)} / ${psiOut.toFixed(2)} MPa`);
     }
-    badge.textContent = `${ton.label} · ${cs.label}`;
+    sim?.setBadge(`${ton.label} · ${cs.label}`);
+    sim?.setTime(state.t);
     canvas.setAttribute(
       'aria-label',
       `${state.cell === 'animal' ? 'Red blood cell' : 'Plant cell'} in a ${ton.label.toLowerCase()} solution ` +
@@ -766,20 +687,32 @@ export function initOsmosis(root: HTMLElement) {
         `Cell state: ${cs.label}. Volume ${state.lysed ? 'not applicable' : `${Math.round(state.V * 100)}% of original`}. ` +
         `Net water flow: ${flowText()}.`,
     );
-    $('[data-graph-desc]').textContent =
-      `Graph of cell volume over time. Current run: ${state.lysed ? `cell burst at ${current.lysedAt?.toFixed(1)} seconds` : `${Math.round(state.V * 100)}% at ${state.t.toFixed(1)} seconds`}. ` +
-      (saved.length ? `${saved.length} saved run${saved.length > 1 ? 's' : ''} for comparison.` : '');
+    if (graphDesc) {
+      const now =
+        lysedAt !== undefined
+          ? `cell burst at ${lysedAt.toFixed(1)} seconds`
+          : `${Math.round(state.V * 100)}% at ${state.t.toFixed(1)} seconds`;
+      const extra = comparer.count ? `${comparer.count} saved run${comparer.count > 1 ? 's' : ''} for comparison.` : '';
+      graphDesc.textContent = `Graph of cell volume over time. Current run: ${now}. ${extra}`;
+    }
     if (!state.lysed) announce(`Cell state: ${cs.label}. Net water flow: ${flowText()}.`);
   }
 
-  /* ---------------- Loop ---------------- */
-  const loop = createLoop((dt) => {
+  /* ---------------- Simulation loop ---------------- */
+  function step(dt: number) {
     stepPhysics(dt);
     moveParticles(dt);
     sample();
     if (state.lysed) {
+      const before = state.lysisClock;
       state.lysisClock += dt;
-      if (state.lysisClock > 1.2 && overlay.hidden) showOverlay();
+      if (before <= 1.2 && state.lysisClock > 1.2) {
+        sim?.showOverlay(
+          'The cell burst (hemolysis)',
+          'So much water entered that the membrane ruptured. Red blood cells have no cell wall to resist swelling. Try a higher outside concentration.',
+          { label: 'Try again with a new cell', onClick: resetCell },
+        );
+      }
     }
     rateClock += dt;
     if (rateClock >= 1) {
@@ -788,37 +721,16 @@ export function initOsmosis(root: HTMLElement) {
       crossIn = crossOut = 0;
       rateClock = 0;
     }
-    draw();
-    drawGraph();
     readoutClock += dt;
-    if (readoutClock > 0.15) {
+  }
+
+  // Draw every frame; refresh the text readouts ~6 times per second.
+  function render() {
+    draw();
+    syncCurrentSeries();
+    graph.draw();
+    if (readoutClock > 0.15 || !sim?.running) {
       readoutClock = 0;
-      updateReadouts();
-    }
-  }, stage);
-
-  function showOverlay() {
-    $('[data-overlay-title]').textContent = 'The cell burst (hemolysis)';
-    $('[data-overlay-text]').textContent =
-      'So much water entered that the membrane ruptured. Red blood cells have no cell wall to resist swelling. Try a higher outside concentration.';
-    overlay.hidden = false;
-  }
-
-  /* ---------------- Controls ---------------- */
-  const playBtn = $<HTMLButtonElement>('[data-play]');
-  const playLabel = $('[data-play-label]');
-  function setPlaying(on: boolean) {
-    if (on) loop.start();
-    else loop.pause();
-    playBtn.setAttribute('aria-pressed', String(on));
-    playLabel.textContent = on ? 'Pause' : 'Start';
-  }
-  playBtn.addEventListener('click', () => setPlaying(!loop.running));
-
-  function redrawStatic() {
-    if (!loop.running) {
-      draw();
-      drawGraph();
       updateReadouts();
     }
   }
@@ -831,91 +743,42 @@ export function initOsmosis(root: HTMLElement) {
     state.lysisClock = 0;
     released = [];
     fragments = [];
-    current = newRun();
+    points = [{ x: 0, y: 1 }];
+    lysedAt = undefined;
     lastSample = 0;
-    overlay.hidden = true;
+    sim?.hideOverlay();
     rebuildParticles();
-    updateReadouts();
-    redrawStatic();
+    sim?.requestRender();
   }
 
-  const outCtl = bindRange($<HTMLInputElement>('[data-out]'), $('[data-out-val]'), (v) => `${v} mOsm/L`, (v) => {
+  /* ---------------- Controls ---------------- */
+  const outCtl = ui.range('osmo-out', (v) => `${v} mOsm/L`, (v) => {
     state.cout = v;
     syncOutsideSolutes();
-    markPreset();
-    redrawStatic();
+    sim?.requestRender();
   });
-  const inCtl = bindRange($<HTMLInputElement>('[data-in]'), $('[data-in-val]'), (v) => `${v} mOsm/L`, (v) => {
+  ui.presets('osmo-out', outCtl);
+  const inCtl = ui.range('osmo-in', (v) => `${v} mOsm/L`, (v) => {
     state.cin0 = v;
     resetCell();
   });
-  const permCtl = bindRange($<HTMLInputElement>('[data-perm]'), $('[data-perm-val]'), (v) => `${v.toFixed(2).replace(/0$/, '')}×`, (v) => {
+  const permCtl = ui.range('osmo-perm', (v) => `${v.toFixed(2).replace(/0$/, '')}×`, (v) => {
     state.perm = v;
-    redrawStatic();
+    sim?.requestRender();
   });
-
-  const presets = $$<HTMLButtonElement>('[data-preset]');
-  function markPreset() {
-    presets.forEach((p) => p.setAttribute('aria-pressed', String(Number(p.dataset.preset) === state.cout)));
-  }
-  presets.forEach((p) => p.addEventListener('click', () => outCtl.set(Number(p.dataset.preset))));
-  markPreset();
-
-  $$<HTMLInputElement>('[data-celltype]').forEach((input) =>
-    input.addEventListener('change', () => {
-      if (!input.checked) return;
-      state.cell = input.value as CellType;
-      $$('.plant-only').forEach((el) => (el.hidden = state.cell !== 'plant'));
-      hideTooltip();
-      resetCell();
-    }),
-  );
-
-  $<HTMLInputElement>('[data-labels]').addEventListener('change', (e) => {
-    state.labels = (e.target as HTMLInputElement).checked;
-    redrawStatic();
-  });
-
-  $('[data-reset]').addEventListener('click', () => {
-    outCtl.set(DEFAULTS.cout, false);
-    state.cout = DEFAULTS.cout;
-    inCtl.set(DEFAULTS.cin, false);
-    state.cin0 = DEFAULTS.cin;
-    permCtl.set(DEFAULTS.perm, false);
-    state.perm = DEFAULTS.perm;
-    markPreset();
-    hideTooltip();
+  ui.choice<CellType>('osmo-cell', (v) => {
+    state.cell = v;
+    ui.showWhen('.plant-only', v === 'plant');
+    updateGraphRefs();
+    sim?.hideTooltip();
     resetCell();
   });
-  $('[data-overlay-reset]').addEventListener('click', resetCell);
-
-  $('[data-save]').addEventListener('click', () => {
-    if (current.points.length < 2) return;
-    const run: Run = {
-      ...current,
-      points: [...current.points],
-      label: runLabel(),
-      color: RUN_COLORS[saved.length % RUN_COLORS.length],
-    };
-    if (saved.length >= 3) saved.shift();
-    saved.push(run);
-    saved.forEach((s, i) => (s.color = RUN_COLORS[i]));
-    renderLegend();
-    resetCell(); // start a fresh cell so the next run is comparable from t = 0
-    drawGraph();
-    announce(`Run saved for comparison: ${run.label}. A fresh cell has started.`);
-  });
-  $('[data-clear]').addEventListener('click', () => {
-    saved.length = 0;
-    renderLegend();
-    drawGraph();
+  ui.toggle('osmo-labels', (v) => {
+    state.labels = v;
+    sim?.requestRender();
   });
 
   /* ---------------- Click / tap to inspect ---------------- */
-  let tipTimer = 0;
-  function hideTooltip() {
-    tooltip.hidden = true;
-  }
   function describe(x: number, y: number): { title: string; text: string } {
     for (const s of solutesIn) {
       const p = innerSoluteXY(s);
@@ -975,32 +838,25 @@ export function initOsmosis(root: HTMLElement) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     const info = describe(x, y);
-    tooltip.innerHTML = `<strong>${info.title}</strong>${info.text}`;
-    tooltip.hidden = false;
-    hint.hidden = true;
-    const tw = tooltip.offsetWidth;
-    const th = tooltip.offsetHeight;
-    tooltip.style.left = `${clamp(x + 14, 8, rect.width - tw - 8)}px`;
-    tooltip.style.top = `${clamp(y + 14, 8, rect.height - th - 8)}px`;
-    clearTimeout(tipTimer);
-    tipTimer = window.setTimeout(hideTooltip, 6000);
-    redrawStatic();
-  });
-  document.addEventListener('keydown', (e) => e.key === 'Escape' && hideTooltip());
-
-  /* ---------------- Theme ---------------- */
-  onThemeChange(() => {
-    pal = readPalette(PALETTE);
-    draw();
-    drawGraph();
+    sim?.showTooltip(x, y, info.title, info.text);
   });
 
   /* ---------------- Start ---------------- */
-  renderLegend();
+  sim = createSimController(root, {
+    step,
+    render,
+    reset() {
+      outCtl.set(DEFAULTS.cout, false);
+      inCtl.set(DEFAULTS.cin, false);
+      permCtl.set(DEFAULTS.perm, false);
+      state.cout = DEFAULTS.cout;
+      state.cin0 = DEFAULTS.cin;
+      state.perm = DEFAULTS.perm;
+      resetCell();
+    },
+  });
   rebuildParticles();
   updateReadouts();
-  draw();
-  drawGraph();
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  setPlaying(!reduce);
+  render();
+  comparer.refresh();
 }

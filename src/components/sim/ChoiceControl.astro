@@ -1,0 +1,30 @@
+---
+/**
+ * A segmented choice (radio group styled as buttons).
+ * Script side: controls(root).choice(name, onChange)
+ */
+interface Props {
+  name: string;
+  label: string;
+  options: { value: string; label: string }[];
+  value: string;
+  help?: string;
+}
+const { name, label, options, value, help } = Astro.props;
+const labelId = `ctl-${name}-label`;
+---
+
+<div class="ctrl">
+  <span class="ctrl-label" id={labelId}>{label}</span>
+  <div class="segmented segmented-full" role="radiogroup" aria-labelledby={labelId}>
+    {
+      options.map((o) => (
+        <label>
+          <input type="radio" name={`ctl-${name}`} value={o.value} checked={o.value === value} data-ctrl={name} />
+          <span>{o.label}</span>
+        </label>
+      ))
+    }
+  </div>
+  {help && <p class="ctrl-help">{help}</p>}
+</div>

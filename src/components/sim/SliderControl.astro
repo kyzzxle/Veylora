@@ -1,0 +1,47 @@
+---
+/**
+ * A labelled range slider with a live value and optional help text.
+ * Script side: controls(root).range(name, format, onChange)
+ * `name` must be unique on the page.
+ */
+interface Props {
+  name: string;
+  label: string;
+  min: number;
+  max: number;
+  step?: number;
+  value: number;
+  help?: string;
+  /** Labels under the two ends of the slider. */
+  scale?: [string, string];
+}
+const { name, label, min, max, step = 1, value, help, scale } = Astro.props;
+const id = `ctl-${name}`;
+---
+
+<div class="ctrl">
+  <div class="ctrl-row">
+    <label for={id}>{label}</label>
+    <output for={id} data-ctrl-out={name}>{value}</output>
+  </div>
+  <input
+    id={id}
+    type="range"
+    min={min}
+    max={max}
+    step={step}
+    value={value}
+    data-ctrl={name}
+    aria-describedby={help ? `${id}-help` : undefined}
+  />
+  {
+    scale && (
+      <div class="ctrl-scale" aria-hidden="true">
+        <span>{scale[0]}</span>
+        <span>{scale[1]}</span>
+      </div>
+    )
+  }
+  {help && <p class="ctrl-help" id={`${id}-help`}>{help}</p>}
+  <slot />
+</div>

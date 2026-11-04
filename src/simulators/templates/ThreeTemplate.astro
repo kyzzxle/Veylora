@@ -1,0 +1,37 @@
+---
+/**
+ * TEMPLATE: 3D model.
+ * Pattern: Three.js loaded on demand with a loading state, WebGL fallback,
+ * orbit/zoom/reset-view tools, click-to-inspect parts, optional animation.
+ */
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell
+  id="tpl-3d"
+  label="3D shapes"
+  playable={false}
+  loadingText="Loading 3D model…"
+  hint="Drag to rotate · click a shape to inspect it"
+>
+  <div slot="stage" class="sim-3d" data-three></div>
+
+  <SliderControl name="three-size" label="Shape size" min={0.5} max={1.5} step={0.05} value={1} help="Scales all three shapes. Watch how volume grows faster than surface area." />
+  <ToggleControl name="three-spin" label="Slowly rotate the shapes" checked />
+  <p class="ctrl-help">Keyboard: focus the 3D view with Tab, then use the arrow keys to rotate and + / − to zoom.</p>
+
+  <Fragment slot="readouts">
+    <Readout name="sel" label="Selected" value="None" key />
+    <Readout name="vol" label="Volume" />
+    <Readout name="area" label="Surface area" />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initThreeTemplate } from './three-template';
+  mountSim('#tpl-3d', initThreeTemplate);
+</script>

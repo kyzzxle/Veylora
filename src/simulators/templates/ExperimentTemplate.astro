@@ -1,0 +1,60 @@
+---
+/**
+ * TEMPLATE: experiment with recorded trials.
+ * Pattern: set conditions → run a trial (Start) → Record the measurement in a
+ * table → compare measurements with the theoretical curve on a graph.
+ */
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import DataTable from '../../components/sim/DataTable.astro';
+---
+
+<SimShell
+  id="tpl-exp"
+  label="A ball dropped from a height. Press Start to drop it and time the fall."
+  showTime
+  hint={false}
+  aspect="4 / 3"
+>
+  <SliderControl name="exp-h" label="Drop height" min={0.5} max={5} step={0.5} value={2} scale={['0.5 m', '5 m']} />
+  <ChoiceControl
+    name="exp-g"
+    label="Location"
+    value="9.81"
+    options={[
+      { value: '9.81', label: 'Earth' },
+      { value: '3.71', label: 'Mars' },
+      { value: '1.62', label: 'Moon' },
+    ]}
+  />
+  <p class="ctrl-help">Press <strong>Start</strong> to drop the ball, then <strong>Record</strong> the time. Repeat at different heights to build a data set.</p>
+
+  <Fragment slot="readouts">
+    <Readout name="status" label="Status" value="Ready" key />
+    <Readout name="measured" label="Measured time" />
+    <Readout name="predicted" label="Predicted √(2h/g)" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="exp-graph" title="Fall time vs. height" desc="Measured fall times plotted against drop height, with the predicted curve." />
+    <DataTable
+      id="exp-table"
+      title="Measurements"
+      columns={[
+        { key: 'place', label: 'Location' },
+        { key: 'h', label: 'Height (m)' },
+        { key: 't', label: 'Measured time (s)' },
+        { key: 'pred', label: 'Predicted (s)' },
+      ]}
+    />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initExperimentTemplate } from './experiment';
+  mountSim('#tpl-exp', initExperimentTemplate);
+</script>

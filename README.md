@@ -13,6 +13,8 @@ npm install
 npm run dev
 ```
 
+**On Windows PowerShell**, if you see *"running scripts is disabled on this system"*, type `npm.cmd` instead of `npm` (for example `npm.cmd run dev`). Press `Ctrl + C` in the terminal to stop the server.
+
 Then open http://localhost:4321.
 
 | Command | What it does |
@@ -55,6 +57,8 @@ docs/ROADMAP.md               Stack, architecture and stage plan
 ```
 
 ## Adding a simulator
+
+Full details are in [docs/SIMULATOR_GUIDE.md](docs/SIMULATOR_GUIDE.md). Working templates for 2D, graph, 3D and experiment simulators are at http://localhost:4321/dev/sim-kit/ while `npm.cmd run dev` is running (this page is never published).
 
 1. Build the simulation in `src/simulators/<topic>/` (an `.astro` file for the controls and a `.ts` file for the logic). Reuse the helpers in `src/simulators/shared/` and the classes in `src/styles/sim.css`.
 2. Write its quiz (at least five questions) in `src/data/quizzes/<topic>.ts`.

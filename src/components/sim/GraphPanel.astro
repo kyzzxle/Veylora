@@ -1,0 +1,46 @@
+---
+/**
+ * A titled graph area. Draw into it with `new LineGraph(...)` from
+ * src/simulators/shared/graph.ts. With `compare`, it adds Save/Clear buttons
+ * (data-save / data-clear) for keeping earlier runs on the chart.
+ */
+import Icon from '../Icon.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  /** Plain-text description for screen readers; updated by the script. */
+  desc: string;
+  compare?: boolean;
+  saveLabel?: string;
+  height?: number;
+}
+const { id, title, desc, compare = false, saveLabel = 'Save run & start new', height } = Astro.props;
+---
+
+<div class="sim-graph" data-graph-panel={id}>
+  <div class="sim-graph-head">
+    <h3 id={`${id}-title`}>{title}</h3>
+    {
+      compare && (
+        <div class="preset-row">
+          <button type="button" class="btn btn-sm" data-save>
+            <Icon name="compare" size={16} /> {saveLabel}
+          </button>
+          <button type="button" class="btn btn-sm btn-ghost" data-clear disabled>
+            Clear saved
+          </button>
+        </div>
+      )
+    }
+  </div>
+  <canvas
+    data-graph={id}
+    role="img"
+    aria-labelledby={`${id}-title`}
+    aria-describedby={`${id}-desc`}
+    style={height ? `height:${height}px` : undefined}
+  ></canvas>
+  <p class="sr-only" id={`${id}-desc`} data-graph-desc={id}>{desc}</p>
+  <ul class="graph-legend" data-legend={id}></ul>
+</div>

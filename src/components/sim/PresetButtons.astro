@@ -1,0 +1,23 @@
+---
+/**
+ * Quick-set buttons for a slider. Script side: controls(root).presets(name, rangeControl)
+ * keeps the pressed state in sync with the slider.
+ */
+interface Props {
+  /** Name of the SliderControl these presets set. */
+  for: string;
+  label: string;
+  presets: { label: string; value: number }[];
+}
+const { for: target, label, presets } = Astro.props;
+---
+
+<div class="preset-row" role="group" aria-label={label}>
+  {
+    presets.map((p) => (
+      <button type="button" class="preset" data-preset-for={target} data-value={p.value} aria-pressed="false">
+        {p.label}
+      </button>
+    ))
+  }
+</div>

@@ -1,0 +1,44 @@
+---
+/**
+ * A table of recorded measurements for experiment-style simulators.
+ * Script side: createDataTable(root, id, columns) from shared/datatable.ts.
+ * It is a real HTML table, so recorded results are readable by screen readers.
+ */
+import Icon from '../Icon.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  columns: { key: string; label: string }[];
+  emptyText?: string;
+}
+const { id, title, columns, emptyText = 'No measurements yet. Run the experiment and press Record.' } = Astro.props;
+---
+
+<div class="sim-table" data-table={id}>
+  <div class="sim-graph-head">
+    <h3 id={`${id}-title`}>{title} <span class="chip" data-table-count>0 trials</span></h3>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-table-record>
+        <Icon name="check" size={16} /> Record
+      </button>
+      <button type="button" class="btn btn-sm" data-table-csv disabled>Download CSV</button>
+      <button type="button" class="btn btn-sm btn-ghost" data-table-clear disabled>Clear</button>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table aria-labelledby={`${id}-title`}>
+      <thead>
+        <tr>
+          <th scope="col">Trial</th>
+          {columns.map((c) => <th scope="col">{c.label}</th>)}
+        </tr>
+      </thead>
+      <tbody data-table-body>
+        <tr class="empty-row">
+          <td colspan={columns.length + 1}>{emptyText}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
