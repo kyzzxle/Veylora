@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TopicCard from '../components/TopicCard.astro';
+import Icon from '../components/Icon.astro';
+import { branches, branchUrl, liveTopics, stats } from '../data/branches';
+---
+
+<BaseLayout
+  title="All Science Simulations"
+  description="Browse every interactive science simulation on Veylora across biology, chemistry, physics, anatomy, astronomy, earth science, ecology and mathematics."
+>
+  <PageHero
+    title="All simulations"
+    eyebrow={`${stats.branches} branches · ${stats.topics} topics`}
+    lead="Every branch of the lab in one place. Open a live simulator or jump into a branch to see what is coming next."
+    crumbs={[{ label: 'Simulations' }]}
+  />
+
+  <section class="section-tight">
+    <div class="container">
+      <h2>Live now</h2>
+      <div class="grid grid-3">
+        {liveTopics.map(({ branch, topic }) => <TopicCard branch={branch} topic={topic} showBranch />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <h2>Browse by branch</h2>
+      <div class="branch-list">
+        {
+          branches.map((b) => (
+            <section class="bl-item card hue" style={`--hue:${b.hue}`} aria-labelledby={`bl-${b.slug}`}>
+              <header class="bl-head">
+                <span class="bl-icon">
+                  <Icon name={b.icon} />
+                </span>
+                <div>
+                  <h3 id={`bl-${b.slug}`}>
+                    <a href={branchUrl(b)}>{b.name}</a>
+                  </h3>
+                  <p class="muted">{b.tagline}</p>
+                </div>
+              </header>
+              <ul class="bl-topics">
+                {b.topics.map((t) => (
+                  <li>
+                    {t.status === 'live' ? <a href={`/${b.slug}/${t.slug}/`}>{t.title}</a> : <span>{t.title}</span>}
+                    <span class={`chip ${t.status === 'live' ? 'chip-live' : ''}`}>{t.status === 'live' ? 'Live' : 'Soon'}</span>
+                  </li>
+                ))}
+              </ul>
+              <a class="btn btn-sm btn-ghost bl-more" href={branchUrl(b)}>
+                View branch <Icon name="arrow" size={16} class="arrow" />
+              </a>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .branch-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 20px;
+  }
+  .bl-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .bl-head {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .bl-head h3 {
+    margin-bottom: 2px;
+  }
+  .bl-head h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .bl-head h3 a:hover {
+    color: var(--branch);
+  }
+  .bl-head p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+  .bl-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex: none;
+    border-radius: 13px;
+    background: var(--branch-soft);
+    color: var(--branch);
+  }
+  .bl-topics {
+    list-style: none;
+    margin: 0 0 14px;
+    padding: 0;
+    flex: 1;
+  }
+  .bl-topics li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  .bl-topics a {
+    font-weight: 600;
+  }
+  .bl-more {
+    align-self: flex-start;
+  }
+</style>

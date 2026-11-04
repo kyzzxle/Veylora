@@ -1,0 +1,138 @@
+---
+import Logo from './Logo.astro';
+import { branches, branchUrl } from '../data/branches';
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <Logo size={30} />
+          <span>{site.name}</span>
+        </a>
+        <p>
+          A free interactive science lab. Experiment with simulations, read clear explanations and test what you
+          have learned.
+        </p>
+      </div>
+
+      <nav aria-label="Science branches" class="footer-col footer-branches">
+        <h2>Explore</h2>
+        <ul>
+          {branches.map((b) => <li><a href={branchUrl(b)}>{b.shortName}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav aria-label="Site" class="footer-col">
+        <h2>Site</h2>
+        <ul>
+          <li><a href="/simulations/">All simulations</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About us</a></li>
+          <li><a href="/contact/">Contact us</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-label="Legal" class="footer-col">
+        <h2>Legal</h2>
+        <ul>
+          <li><a href="/privacy/">Privacy policy</a></li>
+          <li><a href="/terms/">Terms of use</a></li>
+          <li><a href="/disclaimer/">Educational &amp; medical disclaimer</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {year} {site.name}. Free educational content for learners everywhere.</p>
+      <p class="footer-note">
+        For education only. Nothing on this site is medical advice. <a href="/disclaimer/">Read the disclaimer</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+    background: var(--bg-elev);
+    padding: 56px 0 28px;
+    font-size: 0.95rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1.4fr 1fr 1fr;
+    gap: 36px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--text);
+    text-decoration: none;
+    margin-bottom: 12px;
+  }
+  .footer-brand p {
+    color: var(--text-muted);
+    max-width: 36ch;
+  }
+  .footer-col h2 {
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .footer-branches ul {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+  }
+  .footer-col a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--dur) var(--ease), padding var(--dur) var(--ease);
+  }
+  .footer-col a:hover {
+    color: var(--accent);
+    padding-left: 3px;
+  }
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-top: 44px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    color: var(--text-faint);
+    font-size: 0.88rem;
+  }
+  .footer-bottom p {
+    margin: 0;
+  }
+  @media (max-width: 860px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer-brand,
+    .footer-branches {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

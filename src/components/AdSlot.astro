@@ -1,0 +1,84 @@
+---
+/**
+ * A reserved, clearly labelled advertising area.
+ *
+ * - Production with no AdSense IDs configured: renders nothing at all.
+ * - Production with PUBLIC_ADSENSE_CLIENT and the slot's ID set: renders an
+ *   AdSense unit inside a separated, labelled container.
+ * - Development: renders a dashed placeholder so layouts can be reviewed.
+ *
+ * Only place this component in content areas, never inside or beside
+ * simulator controls.
+ */
+import { site } from '../data/site';
+
+interface Props {
+  position: 'top' | 'sidebar' | 'mid';
+}
+const { position } = Astro.props;
+
+const slotIds: Record<Props['position'], string | undefined> = {
+  top: import.meta.env.PUBLIC_ADSENSE_SLOT_TOP,
+  sidebar: import.meta.env.PUBLIC_ADSENSE_SLOT_SIDEBAR,
+  mid: import.meta.env.PUBLIC_ADSENSE_SLOT_MID,
+};
+const slot = slotIds[position];
+const live = !!site.adsenseClient && !!slot;
+const showPlaceholder = !live && import.meta.env.DEV;
+---
+
+{
+  live && (
+    <aside class:list={['ad-slot', `ad-${position}`]} aria-label="Advertisement">
+      <span class="ad-label">Advertisement</span>
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={site.adsenseClient}
+        data-ad-slot={slot}
+        data-ad-format={position === 'sidebar' ? 'vertical' : 'auto'}
+        data-full-width-responsive="true"
+      />
+      <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </aside>
+  )
+}
+{
+  showPlaceholder && (
+    <aside class:list={['ad-slot ad-placeholder', `ad-${position}`]} aria-hidden="true">
+      <span class="ad-label">Ad space · {position} · visible in development only</span>
+    </aside>
+  )
+}
+
+<style>
+  .ad-slot {
+    margin-block: 40px;
+    padding: 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    min-height: 120px;
+    contain: layout;
+  }
+  .ad-sidebar {
+    margin-block: 0;
+    min-height: 600px;
+  }
+  .ad-label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .ad-placeholder {
+    display: grid;
+    place-items: center;
+    border-style: dashed;
+    border-color: var(--border-strong);
+    background: transparent;
+  }
+</style>

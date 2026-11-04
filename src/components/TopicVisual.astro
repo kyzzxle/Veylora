@@ -1,0 +1,107 @@
+---
+/**
+ * Thumbnail art for topic cards. Topics with a finished simulator get a
+ * hand-drawn illustration of what the simulator shows; others get a branch-
+ * themed visual generated from the topic name so every card looks distinct.
+ */
+import Icon from './Icon.astro';
+import type { Branch, Topic } from '../data/branches';
+
+interface Props {
+  branch: Branch;
+  topic: Topic;
+}
+const { branch, topic } = Astro.props;
+
+// Deterministic pseudo-random numbers from the slug, for the generated art.
+let seed = [...topic.slug].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+const rand = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32);
+const dots = Array.from({ length: 14 }, () => ({
+  x: 10 + rand() * 300,
+  y: 10 + rand() * 140,
+  r: 1.5 + rand() * 4,
+  o: 0.25 + rand() * 0.5,
+}));
+const rings = Array.from({ length: 3 }, (_, i) => ({ r: 40 + i * 22 + rand() * 8, rot: rand() * 180 }));
+
+const custom = `${branch.slug}/${topic.slug}`;
+---
+
+<div class="topic-visual hue" style={`--hue:${branch.hue}`} aria-hidden="true">
+  {
+    custom === 'biology/osmosis' ? (
+      <svg viewBox="0 0 320 160" preserveAspectRatio="xMidYMid slice">
+        <rect width="320" height="160" fill="var(--branch-soft)" />
+        <g opacity=".5">
+          {dots.map((d) => (
+            <circle cx={d.x} cy={d.y} r="2.2" fill="var(--sim-water)" />
+          ))}
+        </g>
+        <circle cx="160" cy="82" r="50" fill="var(--sim-cytoplasm)" stroke="var(--sim-membrane)" stroke-width="3" />
+        <circle cx="146" cy="72" r="4" fill="var(--sim-solute)" />
+        <circle cx="172" cy="94" r="4" fill="var(--sim-solute)" />
+        <circle cx="168" cy="66" r="4" fill="var(--sim-solute)" />
+        <circle cx="150" cy="98" r="4" fill="var(--sim-solute)" />
+        <g stroke="var(--sim-water)" stroke-width="3" stroke-linecap="round" fill="none">
+          <path d="M70 82h30m-8-7 8 7-8 7" />
+          <path d="M250 82h-30m8-7-8 7 8 7" />
+          <path d="M160 14v14m-7-6 7 6 7-6" />
+          <path d="M160 150v-14m-7 6 7-6 7 6" />
+        </g>
+      </svg>
+    ) : (
+      <svg viewBox="0 0 320 160" preserveAspectRatio="xMidYMid slice">
+        <rect width="320" height="160" fill="var(--branch-soft)" />
+        <g fill="none" stroke="var(--branch)" opacity=".35">
+          {rings.map((r) => (
+            <ellipse cx="160" cy="80" rx={r.r * 1.6} ry={r.r * 0.55} transform={`rotate(${r.rot} 160 80)`} />
+          ))}
+        </g>
+        {dots.map((d) => (
+          <circle cx={d.x} cy={d.y} r={d.r} fill="var(--branch)" opacity={d.o * 0.6} />
+        ))}
+      </svg>
+    )
+  }
+  {
+    custom !== 'biology/osmosis' && (
+      <span class="tv-icon">
+        <Icon name={branch.icon} size={40} />
+      </span>
+    )
+  }
+</div>
+
+<style>
+  .topic-visual {
+    position: relative;
+    aspect-ratio: 2 / 1;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .topic-visual svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 700ms var(--ease);
+  }
+  :global(.card:hover) .topic-visual svg {
+    transform: scale(1.06);
+  }
+  .tv-icon {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--branch);
+  }
+  .tv-icon :global(svg) {
+    width: 56px;
+    height: 56px;
+    padding: 10px;
+    border-radius: 18px;
+    background: var(--bg-elev);
+    box-shadow: var(--shadow);
+  }
+</style>

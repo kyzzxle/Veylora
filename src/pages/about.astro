@@ -1,0 +1,66 @@
+---
+import ProseLayout from '../layouts/ProseLayout.astro';
+import { site } from '../data/site';
+import { stats } from '../data/branches';
+---
+
+<ProseLayout
+  title="About us"
+  eyebrow="Our mission"
+  lead="Science is something you do, not just something you read. Veylora exists to give every learner a free, hands-on science lab in their browser."
+  description="Learn about Veylora, a free interactive science lab with simulations, explanations and quizzes for students, teachers and lifelong learners."
+  ads
+>
+  <h2>Why we built {site.name}</h2>
+  <p>
+    Many of the most important ideas in science are invisible or hard to observe directly: water molecules crossing a
+    membrane, electrons occupying energy levels, gravity bending the path of light. Textbooks describe these ideas with
+    words and static diagrams. We think learners understand them better when they can change the conditions themselves
+    and see what happens.
+  </p>
+  <p>
+    {site.name} is a growing collection of interactive simulations. Each one focuses on a single concept and pairs the
+    model with a clear explanation, the key terms and formulas, real-world applications, common misconceptions and a
+    quiz with instant feedback.
+  </p>
+
+  <h2>Who it is for</h2>
+  <ul>
+    <li><strong>Elementary and high school students</strong> exploring science for the first time or preparing for exams.</li>
+    <li><strong>STEM, biology, nursing and medical students</strong> who want to visualize mechanisms they study in lectures.</li>
+    <li><strong>Teachers</strong> looking for a demonstration they can project in class or assign for practice.</li>
+    <li><strong>Lifelong learners</strong> who are simply curious about how the world works.</li>
+  </ul>
+
+  <h2>How we build each simulator</h2>
+  <p>
+    Every simulator is a <em>simplified model</em>. We choose simplifications that keep the core science correct while
+    making the model run smoothly on an ordinary laptop or phone. Where a model leaves something out, the page says so.
+  </p>
+  <ul>
+    <li>Educational content is written originally for {site.name} and checked against open textbooks and other reputable sources, which are listed on each simulator page.</li>
+    <li>Anatomy and physiology content is presented strictly as education, never as medical advice. See our <a href="/disclaimer/">educational and medical disclaimer</a>.</li>
+    <li>Every simulator has written instructions, keyboard-accessible controls and a reset button.</li>
+  </ul>
+
+  <h2>Where we are today</h2>
+  <p>
+    The lab is organized into {stats.branches} branches of science with {stats.topics} planned topics. Simulators are
+    published one at a time, only when they are complete — {stats.live === 1 ? 'one is' : `${stats.live} are`} live now,
+    and the rest are clearly marked as in development.
+  </p>
+
+  <h2>Always free</h2>
+  <p>
+    All simulations and educational content on {site.name} are free to use, with no account required. To cover the cost
+    of running and expanding the site, we may display advertising in the future. If we do, ads will be kept clearly
+    separate from simulations and controls, and our <a href="/privacy/">privacy policy</a> will be updated before any ads
+    appear.
+  </p>
+
+  <h2>Get in touch</h2>
+  <p>
+    Found an error, have an idea for a simulator, or want to tell us how you use {site.name} in your classroom? We would
+    love to hear from you on our <a href="/contact/">contact page</a>.
+  </p>
+</ProseLayout>

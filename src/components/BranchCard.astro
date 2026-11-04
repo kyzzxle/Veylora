@@ -1,0 +1,110 @@
+---
+import Icon from './Icon.astro';
+import { branchUrl, type Branch } from '../data/branches';
+
+interface Props {
+  branch: Branch;
+  delay?: number;
+}
+const { branch, delay = 0 } = Astro.props;
+const live = branch.topics.filter((t) => t.status === 'live').length;
+---
+
+<article
+  class="card card-interactive card-glow branch-card hue"
+  style={`--hue:${branch.hue}; --reveal-delay:${delay}ms`}
+  data-reveal
+>
+  <span class="bc-icon"><Icon name={branch.icon} size={28} /></span>
+  <h3 class="bc-title"><a href={branchUrl(branch)}>{branch.name}</a></h3>
+  <p class="bc-tagline">{branch.tagline}</p>
+  <p class="bc-meta mono">
+    {branch.topics.length} topics{live > 0 && <span> · <span class="bc-live">{live} live</span></span>}
+  </p>
+  <span class="bc-arrow" aria-hidden="true"><Icon name="arrow" size={18} /></span>
+</article>
+
+<style>
+  .branch-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+  }
+  .branch-card::before {
+    content: '';
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    right: -60px;
+    top: -60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--branch-soft), transparent 70%);
+    transition: transform 600ms var(--ease);
+  }
+  .branch-card:hover::before {
+    transform: scale(1.5);
+  }
+  .bc-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    background: var(--branch-soft);
+    color: var(--branch);
+    margin-bottom: 10px;
+    transition: transform 400ms var(--ease);
+  }
+  .branch-card:hover .bc-icon {
+    transform: rotate(-8deg) scale(1.08);
+  }
+  .bc-title {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+  .bc-title a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .bc-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .bc-title a:focus-visible {
+    outline: none;
+  }
+  .branch-card:has(a:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .bc-tagline {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin: 0;
+    flex: 1;
+  }
+  .bc-meta {
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    margin: 8px 0 0;
+  }
+  .bc-live {
+    color: var(--success);
+  }
+  .bc-arrow {
+    position: absolute;
+    right: 22px;
+    bottom: 22px;
+    color: var(--branch);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 300ms var(--ease), transform 300ms var(--ease);
+  }
+  .branch-card:hover .bc-arrow {
+    opacity: 1;
+    transform: none;
+  }
+</style>

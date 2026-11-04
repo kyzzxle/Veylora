@@ -1,0 +1,48 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  lead?: string;
+  crumbs?: { label: string; href?: string }[];
+  hue?: number;
+}
+const { title, eyebrow, lead, crumbs, hue } = Astro.props;
+---
+
+<section class="page-hero lab-grid hue" style={hue !== undefined ? `--hue:${hue}` : undefined}>
+  <div class="ph-glow" aria-hidden="true"></div>
+  <div class="container">
+    {crumbs && <Breadcrumbs items={crumbs} />}
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(36px, 6vw, 72px) 0 clamp(32px, 5vw, 56px);
+    border-bottom: 1px solid var(--border);
+  }
+  .ph-glow {
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    right: -160px;
+    top: -260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--branch-soft, var(--accent-soft)), transparent 70%);
+    pointer-events: none;
+  }
+  .page-hero .container {
+    position: relative;
+  }
+  .page-hero h1 {
+    max-width: 22ch;
+  }
+</style>

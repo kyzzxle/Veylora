@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import TopicCard from '../../components/TopicCard.astro';
+import Icon from '../../components/Icon.astro';
+import { branches, branchUrl, type Branch } from '../../data/branches';
+
+export function getStaticPaths() {
+  return branches.map((branch) => ({ params: { branch: branch.slug }, props: { branch } }));
+}
+
+interface Props {
+  branch: Branch;
+}
+const { branch } = Astro.props;
+const live = branch.topics.filter((t) => t.status === 'live').length;
+const idx = branches.findIndex((b) => b.slug === branch.slug);
+const prev = branches[(idx - 1 + branches.length) % branches.length];
+const next = branches[(idx + 1) % branches.length];
+const isMedical = branch.slug === 'anatomy-physiology';
+---
+
+<BaseLayout title={`${branch.name} Simulations`} description={`${branch.tagline} ${branch.description}`}>
+  <PageHero
+    title={branch.name}
+    eyebrow={`${branch.topics.length} topics · ${live} live`}
+    lead={branch.description}
+    crumbs={[{ label: 'Simulations', href: '/simulations/' }, { label: branch.name }]}
+    hue={branch.hue}
+  >
+    <span class="branch-badge hue" style={`--hue:${branch.hue}`} aria-hidden="true">
+      <Icon name={branch.icon} size={30} />
+    </span>
+  </PageHero>
+
+  <section class="section-tight">
+    <div class="container">
+      {
+        isMedical && (
+          <div class="callout callout-warn">
+            <p>
+              <strong>Educational models only.</strong> Anatomy and physiology simulations are simplified for learning and
+              are not medical advice, diagnosis or a substitute for clinical training.{' '}
+              <a href="/disclaimer/">Read the disclaimer</a>.
+            </p>
+          </div>
+        )
+      }
+      <h2 class="sr-only">Topics in {branch.name}</h2>
+      <div class="grid grid-3">
+        {branch.topics.map((topic) => <TopicCard branch={branch} topic={topic} />)}
+      </div>
+      {
+        live < branch.topics.length && (
+          <p class="muted note">
+            Topics marked “In development” are planned simulators that will be published here as they are completed.
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <nav class="section-tight branch-nav" aria-label="Other branches">
+    <div class="container bn-inner">
+      <a class="bn-link" href={branchUrl(prev)}>
+        <Icon name="arrow-left" size={18} />
+        <span><span class="bn-dir">Previous branch</span>{prev.name}</span>
+      </a>
+      <a class="bn-link bn-next" href={branchUrl(next)}>
+        <span><span class="bn-dir">Next branch</span>{next.name}</span>
+        <Icon name="arrow" size={18} />
+      </a>
+    </div>
+  </nav>
+</BaseLayout>
+
+<style>
+  .branch-badge {
+    position: absolute;
+    right: var(--gutter);
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 22px;
+    background: var(--branch-soft);
+    color: var(--branch);
+  }
+  .note {
+    margin-top: 28px;
+    font-size: 0.92rem;
+  }
+  .branch-nav {
+    border-top: 1px solid var(--border);
+  }
+  .bn-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .bn-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+  .bn-link:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    transform: translateY(-2px);
+  }
+  .bn-next {
+    text-align: right;
+  }
+  .bn-dir {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+  }
+  @media (max-width: 720px) {
+    .branch-badge {
+      display: none;
+    }
+  }
+  @media (max-width: 560px) {
+    .bn-inner {
+      flex-direction: column;
+    }
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+import ProseLayout from '../layouts/ProseLayout.astro';
+import { site } from '../data/site';
+---
+
+<ProseLayout
+  title="Terms of use"
+  eyebrow="Legal"
+  lead={`The rules for using ${site.name}. By using the site, you agree to these terms.`}
+  description={`Terms of use for ${site.name}, the free interactive science lab.`}
+  updated={site.legalUpdated}
+>
+  <h2>1. Using the site</h2>
+  <p>
+    {site.name} provides free interactive science simulations and educational content. You may use the site for personal
+    learning, studying and teaching. You agree not to misuse the site, for example by attempting to disrupt it, gain
+    unauthorized access to it, or scrape it in a way that places an unreasonable load on it.
+  </p>
+
+  <h2>2. Educational purpose only</h2>
+  <p>
+    All content is provided for general educational purposes. Simulations are simplified models that do not represent
+    every detail of real systems. Content about anatomy, physiology, health or medicine is not medical advice. Please
+    read our full <a href="/disclaimer/">educational and medical disclaimer</a>.
+  </p>
+
+  <h2>3. Classroom and personal use</h2>
+  <p>
+    Teachers and students are welcome to display simulations in class, link to pages, and share them with learners. You
+    may not copy, republish or sell the site’s text, simulations, code or graphics as your own, or present them on
+    another website, without our written permission.
+  </p>
+
+  <h2>4. Intellectual property</h2>
+  <p>
+    The text, simulations, illustrations, design and code on {site.name} are owned by {site.name} or used with
+    permission, and are protected by copyright and other laws. Names of third-party products and organizations are used
+    for identification only.
+  </p>
+
+  <h2>5. Accuracy</h2>
+  <p>
+    We work hard to make our content accurate and to cite reputable sources, but we cannot guarantee that every page is
+    complete, current or free of errors. If you find a mistake, please <a href="/contact/">let us know</a>.
+  </p>
+
+  <h2>6. External links</h2>
+  <p>
+    Pages may link to other websites, such as textbooks and references. We do not control and are not responsible for
+    the content or practices of those sites.
+  </p>
+
+  <h2>7. No warranty</h2>
+  <p>
+    The site is provided “as is” and “as available”, without warranties of any kind, express or implied. We do not
+    guarantee that the site will always be available, uninterrupted or compatible with every device.
+  </p>
+
+  <h2>8. Limitation of liability</h2>
+  <p>
+    To the fullest extent permitted by law, {site.name} is not liable for any loss or damage arising from your use of, or
+    inability to use, the site or its content, including any decision made based on it.
+  </p>
+
+  <h2>9. Changes</h2>
+  <p>
+    We may update these terms from time to time. Changes take effect when they are posted on this page, and the “last
+    updated” date above will change. Continuing to use the site means you accept the updated terms.
+  </p>
+
+  <h2>10. Contact</h2>
+  <p>Questions about these terms? Reach us through the <a href="/contact/">contact page</a>.</p>
+</ProseLayout>

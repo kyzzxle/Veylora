@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { branches, branchUrl, liveTopics } from '../data/branches';
+---
+
+<BaseLayout title="Page not found" description="This page could not be found." ads={false} noindex>
+  <section class="section lab-grid nf">
+    <div class="container nf-inner">
+      <div class="nf-art" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="80" fill="none" stroke="var(--border-strong)" stroke-dasharray="3 9"></circle>
+          <ellipse cx="100" cy="100" rx="78" ry="26" fill="none" stroke="var(--accent)" opacity=".5" transform="rotate(-25 100 100)"></ellipse>
+          <circle cx="100" cy="100" r="18" fill="var(--accent-2)"></circle>
+          <circle cx="172" cy="68" r="7" fill="var(--accent)" class="lost"></circle>
+        </svg>
+      </div>
+      <p class="eyebrow">Error 404</p>
+      <h1>This experiment went off the chart</h1>
+      <p class="lead">
+        The page you are looking for does not exist or has moved. It may be a simulator that has not been published
+        yet.
+      </p>
+
+      <form class="nf-search" action="/search/" method="get" role="search">
+        <label for="nf-q" class="sr-only">Search science topics</label>
+        <input id="nf-q" class="input" name="q" type="search" placeholder="Search for a topic…" />
+        <button class="btn btn-primary" type="submit"><Icon name="search" size={18} /> Search</button>
+      </form>
+
+      <div class="nf-links">
+        <a href="/" class="btn">Go to the homepage</a>
+        <a href="/simulations/" class="btn">Browse all simulations</a>
+        {liveTopics.slice(0, 2).map((t) => <a href={t.url} class="btn">Try {t.topic.title}</a>)}
+      </div>
+
+      <h2 class="nf-sub">Or explore a branch</h2>
+      <ul class="nf-branches">
+        {branches.map((b) => <li><a href={branchUrl(b)}>{b.name}</a></li>)}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf-inner {
+    max-width: 760px;
+    text-align: center;
+  }
+  .nf-inner .lead {
+    margin-inline: auto;
+  }
+  .nf-art {
+    width: 160px;
+    margin: 0 auto 20px;
+  }
+  .lost {
+    transform-origin: 100px 100px;
+    animation: wander 6s ease-in-out infinite;
+  }
+  @keyframes wander {
+    50% {
+      transform: translate(14px, -20px);
+    }
+  }
+  .nf-search {
+    display: flex;
+    gap: 8px;
+    max-width: 480px;
+    margin: 28px auto;
+  }
+  .nf-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .nf-sub {
+    font-size: 1.1rem;
+    margin-top: 48px;
+  }
+  .nf-branches {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 18px;
+    list-style: none;
+    padding: 0;
+  }
+</style>

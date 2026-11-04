@@ -1,0 +1,224 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { allTopics, branches, branchUrl } from '../data/branches';
+
+const index = allTopics.map(({ branch, topic, url }) => ({
+  t: topic.title,
+  s: topic.summary,
+  k: topic.keywords.join(' '),
+  b: branch.name,
+  bs: branch.shortName,
+  bu: branchUrl(branch),
+  u: url,
+  live: topic.status === 'live',
+  lvl: topic.level,
+}));
+const branchIndex = branches.map((b) => ({ n: b.name, u: branchUrl(b), d: b.tagline }));
+const suggestions = ['osmosis', 'cell', 'gravity', 'DNA', 'circuits', 'climate', 'heart', 'probability'];
+---
+
+<BaseLayout title="Search" description="Search Veylora’s interactive science simulations and topics." noindex>
+  <PageHero title="Search the lab" crumbs={[{ label: 'Search' }]}>
+    <form class="search-form" action="/search/" method="get" role="search" data-search-form>
+      <label for="q" class="sr-only">Search science topics</label>
+      <Icon name="search" size={22} class="sf-icon" />
+      <input id="q" name="q" type="search" placeholder="Search topics, concepts or keywords" autocomplete="off" data-search-input />
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    <div class="suggest">
+      <span class="muted">Try:</span>
+      {suggestions.map((s) => <a class="chip suggest-chip" href={`/search/?q=${encodeURIComponent(s)}`}>{s}</a>)}
+    </div>
+  </PageHero>
+
+  <section class="section-tight">
+    <div class="container">
+      <p class="result-count" aria-live="polite" data-count></p>
+      <ul class="results" data-results></ul>
+      <noscript>
+        <p>Search needs JavaScript. You can also <a href="/simulations/">browse all simulations</a>.</p>
+      </noscript>
+    </div>
+  </section>
+
+  <script type="application/json" id="search-index" set:html={JSON.stringify({ topics: index, branches: branchIndex })} />
+</BaseLayout>
+
+<script>
+  type Item = { t: string; s: string; k: string; b: string; bs: string; bu: string; u: string; live: boolean; lvl: string };
+  type BranchItem = { n: string; u: string; d: string };
+
+  const data = JSON.parse(document.getElementById('search-index')!.textContent!) as { topics: Item[]; branches: BranchItem[] };
+  const input = document.querySelector<HTMLInputElement>('[data-search-input]')!;
+  const list = document.querySelector<HTMLUListElement>('[data-results]')!;
+  const count = document.querySelector<HTMLElement>('[data-count]')!;
+  const form = document.querySelector<HTMLFormElement>('[data-search-form]')!;
+
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+
+  function score(item: Item, terms: string[]) {
+    const title = norm(item.t);
+    const body = norm(`${item.s} ${item.k} ${item.b}`);
+    let total = 0;
+    for (const term of terms) {
+      let s = 0;
+      if (title.includes(term)) s += title.startsWith(term) ? 12 : 8;
+      if (norm(item.k).includes(term)) s += 5;
+      if (body.includes(term)) s += 2;
+      if (!s) return 0; // every term must match somewhere
+      total += s;
+    }
+    return total + (item.live ? 6 : 0);
+  }
+
+  function render(q: string) {
+    const terms = norm(q).split(/\s+/).filter(Boolean);
+    list.innerHTML = '';
+    if (!terms.length) {
+      count.textContent = 'Type a topic or keyword to search all simulations.';
+      return;
+    }
+    const branchHits = data.branches.filter((b) => terms.every((t) => norm(`${b.n} ${b.d}`).includes(t)));
+    const hits = data.topics
+      .map((item) => ({ item, s: score(item, terms) }))
+      .filter((h) => h.s > 0)
+      .sort((a, b) => b.s - a.s);
+
+    const n = hits.length + branchHits.length;
+    count.textContent = n
+      ? `${n} result${n === 1 ? '' : 's'} for “${q}”`
+      : `No results for “${q}”. Try a broader term, or browse all simulations.`;
+
+    const html: string[] = [];
+    for (const b of branchHits) {
+      html.push(`<li class="result card card-interactive"><span class="chip">Branch</span>
+        <h2><a href="${b.u}">${esc(b.n)}</a></h2><p>${esc(b.d)}</p></li>`);
+    }
+    for (const { item } of hits) {
+      const title = item.live ? `<a href="${item.u}">${esc(item.t)}</a>` : esc(item.t);
+      html.push(`<li class="result card ${item.live ? 'card-interactive' : ''}">
+        <div class="r-meta"><a class="r-branch" href="${item.bu}">${esc(item.bs)}</a>
+        <span class="chip">${esc(item.lvl)}</span>
+        <span class="chip ${item.live ? 'chip-live' : 'chip-planned'}">${item.live ? 'Live' : 'In development'}</span></div>
+        <h2>${title}</h2><p>${esc(item.s)}</p></li>`);
+    }
+    if (!n) html.push(`<li class="result card"><p><a href="/simulations/">Browse all simulations →</a></p></li>`);
+    list.innerHTML = html.join('');
+  }
+
+  const params = new URLSearchParams(location.search);
+  const initial = params.get('q') ?? '';
+  input.value = initial;
+  render(initial);
+
+  let timer: number | undefined;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      const q = input.value.trim();
+      const url = new URL(location.href);
+      if (q) url.searchParams.set('q', q);
+      else url.searchParams.delete('q');
+      history.replaceState(null, '', url);
+      render(q);
+    }, 120);
+  });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    render(input.value.trim());
+  });
+  if (!initial) input.focus();
+</script>
+
+<style>
+  .search-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 680px;
+    margin-top: 8px;
+    padding: 6px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-elev);
+    box-shadow: var(--shadow);
+  }
+  .search-form:focus-within {
+    border-color: var(--accent);
+    box-shadow: var(--shadow), 0 0 0 4px var(--accent-soft);
+  }
+  .search-form :global(.sf-icon) {
+    margin-left: 12px;
+    color: var(--text-faint);
+    flex: none;
+  }
+  .search-form input {
+    flex: 1;
+    min-width: 0;
+    height: 44px;
+    border: 0;
+    background: none;
+    outline: none;
+    font-size: 1.05rem;
+  }
+  .suggest {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    font-size: 0.9rem;
+  }
+  .suggest-chip {
+    text-decoration: none;
+    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .suggest-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .result-count {
+    color: var(--text-muted);
+  }
+  .results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .results :global(.result h2) {
+    font-size: 1.2rem;
+    margin: 8px 0 6px;
+  }
+  .results :global(.result h2 a) {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .results :global(.result h2 a::after) {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .results :global(.result p) {
+    margin: 0;
+    color: var(--text-muted);
+  }
+  .results :global(.r-meta) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  .results :global(.r-branch) {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+</style>

@@ -1,0 +1,380 @@
+/* ==========================================================================
+   Shared simulator UI: stage, control panel, readouts, graph, tooltip.
+   Imported by SimulatorLayout so every simulator looks consistent.
+   ========================================================================== */
+
+.sim {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    'stage panel'
+    'readouts panel'
+    'graph graph';
+  gap: 18px;
+  padding: clamp(12px, 2vw, 20px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.sim-stage-wrap {
+  grid-area: stage;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.sim-stage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--sim-bg);
+}
+.sim-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+.sim-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  text-align: center;
+  pointer-events: none;
+}
+.sim-overlay[hidden] {
+  display: none;
+}
+.sim-overlay-card {
+  max-width: 360px;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg-elev) 90%, transparent);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  animation: sim-pop 400ms var(--ease);
+}
+.sim-overlay-card p {
+  margin: 0 0 10px;
+}
+.sim-overlay-card strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin-bottom: 4px;
+}
+@keyframes sim-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+.sim-hint {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg-elev) 85%, transparent);
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.sim-badge {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--bg-elev) 88%, transparent);
+  border: 1px solid var(--border);
+  pointer-events: none;
+}
+.sim-tooltip {
+  position: absolute;
+  z-index: 5;
+  max-width: 260px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  pointer-events: none;
+  animation: sim-pop 200ms var(--ease);
+}
+.sim-tooltip[hidden] {
+  display: none;
+}
+.sim-tooltip strong {
+  display: block;
+  font-family: var(--font-display);
+  margin-bottom: 2px;
+  color: var(--accent);
+}
+.sim-error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+  background: var(--surface-2);
+}
+
+/* Toolbar directly beneath the stage */
+.sim-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.sim-toolbar .spacer {
+  flex: 1;
+}
+.sim-time {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Control panel */
+.sim-panel {
+  grid-area: panel;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 18px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  align-self: start;
+}
+.sim-panel h3 {
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
+  font-weight: 500;
+  margin: 0;
+}
+.ctrl {
+  display: grid;
+  gap: 4px;
+}
+.ctrl-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+.ctrl-row label,
+.ctrl-label {
+  font-weight: 600;
+  font-size: 0.93rem;
+}
+.ctrl output {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.ctrl-help {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  line-height: 1.45;
+}
+.ctrl-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+}
+.preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.preset {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.preset:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.preset:active {
+  transform: scale(0.96);
+}
+.preset[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+/* Readouts */
+.sim-readouts {
+  grid-area: readouts;
+  align-self: start;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.readout {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+}
+.readout dt {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.readout dd {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+.readout.is-key dd {
+  color: var(--accent);
+}
+.tone-ok {
+  color: var(--success) !important;
+}
+.tone-warn {
+  color: var(--warning) !important;
+}
+.tone-bad {
+  color: var(--danger) !important;
+}
+
+/* Graph */
+.sim-graph {
+  grid-area: graph;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+}
+.sim-graph-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.sim-graph-head h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+.sim-graph canvas {
+  width: 100%;
+  height: 220px;
+}
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.graph-legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.graph-legend .swatch {
+  width: 16px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* Legend of model parts */
+.sim-key {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.sim-key li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sim-key .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: none;
+}
+
+@media (max-width: 980px) {
+  .sim {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      'stage'
+      'panel'
+      'readouts'
+      'graph';
+  }
+  .sim-panel {
+    align-self: stretch;
+  }
+}
+@media (max-width: 560px) {
+  .sim-stage {
+    aspect-ratio: 1 / 1;
+  }
+  .sim-graph canvas {
+    height: 180px;
+  }
+}

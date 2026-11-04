@@ -1,0 +1,285 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import OsmosisSim from '../../simulators/osmosis/OsmosisSim.astro';
+import { osmosisQuiz } from '../../data/quizzes/osmosis';
+
+const toc = [
+  { id: 'what-is-osmosis', label: 'What is osmosis?' },
+  { id: 'tonicity', label: 'Hypotonic, isotonic, hypertonic' },
+  { id: 'animal-vs-plant', label: 'Animal vs. plant cells' },
+  { id: 'controls', label: 'How the controls change the model' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  {
+    text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 5.2: Passive Transport. OpenStax.',
+    url: 'https://openstax.org/books/biology-2e/pages/5-2-passive-transport',
+  },
+  {
+    text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 41.1: Osmoregulation and Osmotic Balance. OpenStax.',
+    url: 'https://openstax.org/books/biology-2e/pages/41-1-osmoregulation-and-osmotic-balance',
+  },
+  {
+    text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 3.1: The Cell Membrane. OpenStax.',
+    url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/3-1-the-cell-membrane',
+  },
+  {
+    text: 'Agre, P. (2003). Aquaporin water channels. Nobel Lecture in Chemistry. The Nobel Foundation.',
+    url: 'https://www.nobelprize.org/prizes/chemistry/2003/agre/lecture/',
+  },
+  { text: 'Hall, J. E., & Hall, M. E. (2021). Guyton and Hall Textbook of Medical Physiology (14th ed.), chapter on body fluid compartments. Elsevier.' },
+  { text: 'Taiz, L., Zeiger, E., Møller, I. M., & Murphy, A. (2015). Plant Physiology and Development (6th ed.), chapter on water and plant cells. Sinauer Associates.' },
+];
+---
+
+<SimulatorLayout
+  branch="biology"
+  topic="osmosis"
+  description="Interactive osmosis simulator: change solute concentrations inside and outside an animal or plant cell and watch water move, cells swell, shrink, burst or plasmolyze. Includes explanation and quiz."
+  toc={toc}
+  quiz={osmosisQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every living cell is surrounded by water and full of dissolved substances. <strong>Osmosis</strong> is the
+      movement of water across a cell membrane from where there is less dissolved solute to where there is more. Use
+      the simulator to place an animal or plant cell in different solutions and see how water movement makes it swell,
+      shrink, burst or wilt.
+    </p>
+  </Fragment>
+
+  <OsmosisSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Choose a cell type</strong>: a red blood cell (an animal cell) or a plant cell with a cell wall.</li>
+      <li>
+        <strong>Set the outside solution</strong> with the slider, or pick a preset such as distilled water or seawater.
+        The change applies immediately, as if you moved the cell into a new beaker.
+      </li>
+      <li>
+        <strong>Watch the water molecules</strong> (small blue dots). They cross the membrane both ways; molecules that
+        have just crossed glow. The arrows show the <em>net</em> direction of flow.
+      </li>
+      <li>
+        <strong>Read the measurements</strong> under the simulator: cell state, tonicity, net flow, crossings per second,
+        volume and concentrations. Plant cells also show turgor pressure and water potential.
+      </li>
+      <li>
+        <strong>Compare experiments</strong>: press <em>Save run &amp; start new</em>. Your run is kept on the graph and a
+        fresh cell starts — change one setting and watch the new curve. Up to three saved runs are shown.
+      </li>
+      <li><strong>Click or tap any part</strong> of the cell or solution to learn what it is.</li>
+      <li>
+        Use <strong>Pause/Start</strong> to freeze the model and <strong>Reset</strong> to restore the default cell and
+        conditions. All controls work with a keyboard (Tab, arrow keys, Space).
+      </li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what-is-osmosis">What is osmosis?</h2>
+  <p>
+    Particles in a liquid are always moving. When a substance is more concentrated in one place than another, random
+    motion spreads it out until it is evenly mixed. This is <strong>diffusion</strong>. Osmosis is a special case of
+    diffusion: the diffusion of <em>water</em> across a <strong>selectively permeable membrane</strong> — a barrier that
+    lets water through but blocks many dissolved particles (solutes) such as salt ions, sugars and proteins.
+  </p>
+  <p>
+    Solute particles attract water molecules and reduce how freely water can move. So a solution with
+    <em>more</em> solute effectively has <em>less</em> free water. When two solutions are separated by a membrane that
+    solutes cannot cross, water moves toward the side with the higher solute concentration. It keeps moving until the
+    concentrations are equal or until something, such as a cell wall, pushes back.
+  </p>
+  <p>
+    Water crosses cell membranes in two ways: slowly through the lipid bilayer itself and much faster through protein
+    channels called <strong>aquaporins</strong>. Their discovery earned Peter Agre a share of the 2003 Nobel Prize in
+    Chemistry. Cells that move a lot of water, such as red blood cells and kidney cells, have many aquaporins.
+  </p>
+
+  <h2 id="tonicity">Hypotonic, isotonic and hypertonic solutions</h2>
+  <p>
+    <strong>Tonicity</strong> describes how a solution affects a cell’s volume. It is always a comparison between the
+    outside solution and the cell’s contents.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Outside solution</th><th>Compared with the cell</th><th>Net water flow</th><th>Animal cell</th><th>Plant cell</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Hypotonic</strong></td><td>Lower solute concentration</td><td>Into the cell</td><td>Swells, may burst (lysis)</td><td>Turgid (firm) — the normal healthy state</td></tr>
+        <tr><td><strong>Isotonic</strong></td><td>Equal solute concentration</td><td>None (equal both ways)</td><td>Normal shape</td><td>Flaccid (limp)</td></tr>
+        <tr><td><strong>Hypertonic</strong></td><td>Higher solute concentration</td><td>Out of the cell</td><td>Shrinks, crenates</td><td>Plasmolyzed</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Human blood plasma has an osmolality of roughly 275–295 mOsm per kilogram of water. That is why intravenous
+    “normal saline” is 0.9% sodium chloride: it is close to isotonic with blood. In the simulator, about 300 mOsm/L is
+    isotonic to the default cell.
+  </p>
+
+  <h2 id="animal-vs-plant">Animal cells vs. plant cells</h2>
+  <h3>Animal cells</h3>
+  <p>
+    Animal cells have only a flexible membrane. In a hypotonic solution, water keeps entering and the cell swells. A red
+    blood cell first loses its dimpled, biconcave shape and becomes a sphere; if it gains still more water, the membrane
+    ruptures. The bursting of red blood cells is called <strong>hemolysis</strong>. In a hypertonic solution, red blood
+    cells lose water and shrink into a spiky shape described as <strong>crenated</strong>.
+  </p>
+  <h3>Plant cells</h3>
+  <p>
+    Plant cells are surrounded by a rigid <strong>cell wall</strong> made mostly of cellulose. The wall lets water and
+    solutes pass freely, but it resists stretching. In a hypotonic solution, the cell’s contents (the
+    <strong>protoplast</strong>, including the large central vacuole) swell and press against the wall. The wall
+    pushes back with <strong>turgor pressure</strong>, which stops further net water entry and keeps the cell firm. This
+    is what keeps leaves and young stems upright.
+  </p>
+  <p>
+    In an isotonic solution there is no turgor and the cell is <strong>flaccid</strong>; a plant made of flaccid cells
+    wilts. In a hypertonic solution the protoplast loses water and shrinks away from the wall. This is
+    <strong>plasmolysis</strong>, and it is usually damaging or fatal to the cell.
+  </p>
+
+  <h2 id="controls">How the controls change the model</h2>
+  <ul>
+    <li>
+      <strong>Outside solution</strong> sets the solute concentration around the cell. Lowering it makes the solution
+      hypotonic; raising it makes it hypertonic.
+    </li>
+    <li>
+      <strong>Inside the cell (starting)</strong> sets how much solute the cell contains. Because solutes cannot leave,
+      this amount stays fixed. As water enters or leaves, the same solute is diluted or concentrated — watch the
+      “Inside now” readout change while the cell’s solute particles spread out or crowd together.
+    </li>
+    <li>
+      <strong>Membrane water permeability</strong> changes how easily water crosses. It changes the <em>speed</em> of
+      osmosis but not where it ends up.
+    </li>
+  </ul>
+  <p>
+    The model calculates the rate of volume change from the difference between inside and outside concentrations (minus
+    turgor pressure for plant cells). As water moves, that difference shrinks, so the cell changes size quickly at first
+    and then levels off — the curved shape you see on the graph.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Solute and solvent</dt>
+    <dd>The solute is the dissolved substance (such as salt); the solvent is the liquid it dissolves in (here, water).</dd>
+    <dt>Selectively permeable membrane</dt>
+    <dd>A membrane that allows some substances, such as water, to pass while blocking others.</dd>
+    <dt>Osmolarity</dt>
+    <dd>The total concentration of dissolved particles, in osmoles (or milliosmoles, mOsm) per litre of solution.</dd>
+    <dt>Tonicity</dt>
+    <dd>The effect a solution has on a cell’s volume: hypotonic, isotonic or hypertonic.</dd>
+    <dt>Aquaporin</dt>
+    <dd>A membrane channel protein that lets water molecules pass rapidly in single file.</dd>
+    <dt>Turgor pressure</dt>
+    <dd>The pressure of a plant cell’s contents against its cell wall.</dd>
+    <dt>Hemolysis, crenation and plasmolysis</dt>
+    <dd>Bursting of red blood cells; shrinking of red blood cells; and the protoplast pulling away from a plant cell wall.</dd>
+    <dt>Water potential (Ψ)</dt>
+    <dd>A measure, used mainly in plant biology, of water’s tendency to move. Water flows from higher (less negative) to lower (more negative) water potential.</dd>
+  </dl>
+
+  <h2 id="formulas">Formulas</h2>
+  <p>Osmotic pressure of a dilute solution (the van ’t Hoff equation):</p>
+  <code class="formula">Π = i · M · R · T</code>
+  <p>
+    where <em>i</em> is the number of particles each formula unit releases (about 2 for NaCl), <em>M</em> is molarity,
+    <em>R</em> is the gas constant and <em>T</em> is absolute temperature. At 25 °C, each 1 mOsm/L of solute corresponds
+    to about 2.48 kPa of osmotic pressure.
+  </p>
+  <p>Water potential of a plant cell, the sum of its solute and pressure components:</p>
+  <code class="formula">Ψ = Ψs + Ψp      with  Ψs = −i · C · R · T</code>
+  <p>
+    Adding solute makes Ψs more negative; turgor pressure makes Ψp positive. Net water movement stops when Ψ inside
+    equals Ψ outside — check the “Ψ inside / outside” readout for a plant cell in distilled water.
+  </p>
+  <p>The simulator’s equilibrium volume follows the Boyle–van ’t Hoff relationship:</p>
+  <code class="formula">V / V₀ = b + (1 − b) · (C_in,0 / C_out)</code>
+  <p>
+    where <em>b</em> is the fraction of the cell’s volume that does not take part in osmosis (0.4 for the red blood cell
+    in this model).
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li>
+      <strong>Intravenous fluids.</strong> Fluids given into veins are formulated with their tonicity in mind, because
+      the wrong concentration could shift water into or out of blood cells. (This is an educational example only — see
+      our <a href="/disclaimer/">medical disclaimer</a>.)
+    </li>
+    <li>
+      <strong>Food preservation.</strong> Salting meat and fish or packing fruit in sugar creates a hypertonic
+      environment that draws water out of bacteria and fungi, preventing them from growing.
+    </li>
+    <li>
+      <strong>Watering plants.</strong> Wilting is what happens when plant cells lose turgor. Too much fertilizer or
+      salty soil can make soil water hypertonic to root cells, pulling water out of the roots (“fertilizer burn”).
+    </li>
+    <li>
+      <strong>Fish and other aquatic animals.</strong> Freshwater fish live in a hypotonic environment and constantly
+      gain water, so they produce lots of dilute urine. Marine fish lose water to salty seawater, so they drink water and
+      excrete excess salt.
+    </li>
+    <li>
+      <strong>Kidneys.</strong> The kidneys recover water from urine by osmosis, using aquaporins whose numbers are
+      regulated by hormones.
+    </li>
+    <li>
+      <strong>Desalination.</strong> Reverse osmosis plants apply pressure greater than seawater’s osmotic pressure to
+      push water through a membrane, leaving the salt behind.
+    </li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li>
+      <strong>“At equilibrium, water stops moving.”</strong> Water keeps crossing in both directions; it is the
+      <em>net</em> flow that becomes zero. The crossings readout shows this directly.
+    </li>
+    <li>
+      <strong>“In osmosis, the salt moves.”</strong> In osmosis, only water moves across the membrane. The solute stays
+      where it is.
+    </li>
+    <li>
+      <strong>“Water moves toward where there is more water.”</strong> The opposite: net water movement is toward the
+      side with more solute.
+    </li>
+    <li>
+      <strong>“Hypertonic” describes the cell.</strong> Tonicity describes the solution relative to the cell. A
+      solution is hypertonic <em>to</em> a cell.
+    </li>
+    <li>
+      <strong>“Plant cells burst in pure water.”</strong> The cell wall prevents bursting. Turgid cells are healthy.
+    </li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    This is a teaching model, not a precise physiological one. The cell is drawn as a two-dimensional cross-section, and
+    the number of particles is far smaller than in reality. Time is slowed down: a real red blood cell reaches osmotic
+    equilibrium in a fraction of a second. The model assumes no solute can cross the membrane, whereas real cells
+    actively pump ions and some solutes (such as urea) cross membranes easily, which changes a solution’s tonicity. The
+    bursting threshold is approximate; in laboratory tests, red blood cells typically begin to lyse in salt solutions
+    of roughly half normal strength.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Osmosis is the net movement of water across a selectively permeable membrane toward higher solute concentration.</li>
+    <li>Tonicity compares the outside solution with the cell: hypotonic solutions cause swelling, hypertonic solutions cause shrinking.</li>
+    <li>Animal cells can burst in hypotonic solutions; plant cells become turgid because their wall resists expansion.</li>
+    <li>Water always crosses in both directions — equilibrium means equal rates, not no movement.</li>
+    <li>Membrane permeability controls how fast osmosis happens, while concentrations control how far it goes.</li>
+  </ul>
+</SimulatorLayout>

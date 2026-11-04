@@ -1,0 +1,65 @@
+---
+import ProseLayout from '../layouts/ProseLayout.astro';
+import { site } from '../data/site';
+---
+
+<ProseLayout
+  title="Educational and medical disclaimer"
+  eyebrow="Legal"
+  lead={`${site.name} is a learning tool. It is not a source of medical advice and not a substitute for professional training.`}
+  description={`Educational and medical disclaimer for ${site.name}: simulations are simplified learning models and do not provide medical advice.`}
+  updated={site.legalUpdated}
+>
+  <div class="callout callout-warn">
+    <p>
+      <strong>If you have a medical concern or emergency, contact a qualified health professional or your local
+      emergency number immediately.</strong> Do not rely on this website for health decisions.
+    </p>
+  </div>
+
+  <h2>Educational purpose</h2>
+  <p>
+    Every simulation, explanation, diagram and quiz on {site.name} is designed to help people learn scientific concepts.
+    The content is general in nature and is not tailored to any individual’s circumstances.
+  </p>
+
+  <h2>Simulations are simplified models</h2>
+  <p>
+    To make complex systems understandable and to run smoothly in a web browser, our simulations deliberately simplify
+    reality. Numbers, rates, sizes and timescales may be approximate, scaled or idealized. Each simulator page explains
+    the main simplifications it makes. Results from a simulation should not be treated as precise predictions of real
+    biological, chemical, physical or environmental systems.
+  </p>
+
+  <h2>No medical advice</h2>
+  <p>
+    Content related to anatomy, physiology, nursing, medicine or health — including any discussion of clinical
+    examples such as intravenous fluids — is provided for education only. It does <strong>not</strong> constitute
+    medical advice, diagnosis or treatment, and it does not create any clinician–patient relationship.
+  </p>
+  <ul>
+    <li>Do not use {site.name} to diagnose or treat any health condition.</li>
+    <li>Do not delay seeking, or disregard, professional medical advice because of something you read or saw here.</li>
+    <li>Always follow the guidance of qualified health professionals and your institution’s clinical protocols.</li>
+  </ul>
+
+  <h2>Not a substitute for clinical training</h2>
+  <p>
+    Nursing, medical and other health-science students may find our simulations helpful for visualizing mechanisms.
+    However, they are not a substitute for accredited coursework, supervised clinical practice, professional judgment or
+    official clinical references.
+  </p>
+
+  <h2>Accuracy and sources</h2>
+  <p>
+    We base our content on reputable references and list them on each simulator page. Science advances and mistakes can
+    happen, so we cannot guarantee that all content is complete or current. Please <a href="/contact/">report any
+    errors</a> so we can correct them.
+  </p>
+
+  <h2>Safety</h2>
+  <p>
+    Some pages describe real-world experiments or applications. Do not attempt laboratory procedures, handle chemicals or
+    perform any activity described on this site without appropriate supervision, training and safety equipment.
+  </p>
+</ProseLayout>

@@ -1,0 +1,36 @@
+---
+/** Layout for text-heavy pages such as About and the legal pages. */
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+  lead?: string;
+  updated?: string;
+  ads?: boolean;
+}
+const { title, description, eyebrow, lead, updated, ads = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} ads={ads}>
+  <PageHero title={title} eyebrow={eyebrow} lead={lead} crumbs={[{ label: title }]}>
+    {updated && <p class="updated mono">Last updated: {updated}</p>}
+  </PageHero>
+  <section class="section-tight">
+    <div class="container">
+      <article class="prose">
+        <slot />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .updated {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+    margin: 0;
+  }
+</style>

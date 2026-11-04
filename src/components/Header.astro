@@ -1,0 +1,429 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { branches, branchUrl } from '../data/branches';
+import { site } from '../data/site';
+
+const path = Astro.url.pathname;
+const inSims = path === '/simulations/' || branches.some((b) => path.startsWith(branchUrl(b)));
+const isActive = (href: string) => path === href || path === href.replace(/\/$/, '');
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${site.name} home`}>
+      <Logo />
+      <span class="brand-name">{site.name}</span>
+    </a>
+
+    <button
+      class="icon-btn menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      data-menu-toggle
+    >
+      <span class="sr-only">Open menu</span>
+      <Icon name="menu" class="icon-open" />
+      <Icon name="close" class="icon-close" />
+    </button>
+
+    <div class="nav-panel" id="site-nav" data-nav-panel>
+      <nav aria-label="Main">
+        <ul class="nav-list">
+          <li class="has-mega">
+            <button
+              class="nav-link mega-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="mega-menu"
+              aria-current={inSims ? 'true' : undefined}
+              data-mega-toggle
+            >
+              Simulations <Icon name="chevron" size={16} class="chev" />
+            </button>
+            <div class="mega" id="mega-menu" data-mega>
+              <div class="mega-grid">
+                {
+                  branches.map((b) => {
+                    const live = b.topics.filter((t) => t.status === 'live').length;
+                    return (
+                      <a class="mega-item hue" style={`--hue:${b.hue}`} href={branchUrl(b)}>
+                        <span class="mega-icon">
+                          <Icon name={b.icon} size={22} />
+                        </span>
+                        <span>
+                          <span class="mega-name">{b.name}</span>
+                          <span class="mega-meta">
+                            {live > 0 ? `${live} live · ` : ''}
+                            {b.topics.length} topics
+                          </span>
+                        </span>
+                      </a>
+                    );
+                  })
+                }
+              </div>
+              <a class="mega-all" href="/simulations/">
+                Browse every branch and topic <Icon name="arrow" size={16} class="arrow" />
+              </a>
+            </div>
+          </li>
+          <li><a class="nav-link" href="/about/" aria-current={isActive('/about/') ? 'page' : undefined}>About</a></li>
+          <li><a class="nav-link" href="/contact/" aria-current={isActive('/contact/') ? 'page' : undefined}>Contact</a></li>
+        </ul>
+      </nav>
+
+      <form class="header-search" action="/search/" method="get" role="search">
+        <label for="header-q" class="sr-only">Search science topics</label>
+        <Icon name="search" size={18} class="search-icon" />
+        <input id="header-q" name="q" type="search" placeholder="Search topics…" autocomplete="off" />
+      </form>
+    </div>
+
+    <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+      <Icon name="sun" class="icon-sun" />
+      <Icon name="moon" class="icon-moon" />
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--header-h);
+    border-bottom: 1px solid transparent;
+    transition: border-color 300ms var(--ease);
+  }
+  /* The blur lives on a background layer: backdrop-filter on the header itself
+     would trap the fixed-position mobile menu inside the header's box. */
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+  }
+  .site-header.is-scrolled {
+    border-bottom-color: var(--border);
+  }
+  .header-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+    margin-right: auto;
+  }
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.03em;
+  }
+  .brand:hover {
+    color: var(--text);
+  }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+  .icon-btn:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+  .icon-btn:active {
+    transform: scale(0.94);
+  }
+  .icon-btn :global(svg) {
+    grid-area: 1 / 1;
+    transition: transform 400ms var(--ease), opacity 250ms var(--ease);
+  }
+  .icon-btn :global(.icon-sun) {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+  }
+  :global([data-theme='dark']) .icon-btn :global(.icon-sun) {
+    opacity: 1;
+    transform: none;
+  }
+  :global([data-theme='dark']) .icon-btn :global(.icon-moon) {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.6);
+  }
+
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 44px;
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 10px;
+    background: none;
+    color: var(--text-muted);
+    font-weight: 550;
+    font-size: 0.98rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 6px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms var(--ease);
+  }
+  .nav-link:hover,
+  .nav-link[aria-expanded='true'] {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current]::after {
+    transform: scaleX(1);
+  }
+  .nav-link[aria-current] {
+    color: var(--text);
+  }
+  .mega-toggle :global(.chev) {
+    transition: transform 300ms var(--ease);
+  }
+  .mega-toggle[aria-expanded='true'] :global(.chev) {
+    transform: rotate(180deg);
+  }
+
+  .has-mega {
+    position: relative;
+  }
+  .mega {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    width: min(680px, 92vw);
+    padding: 14px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -6px);
+    transition: opacity 220ms var(--ease), transform 220ms var(--ease), visibility 0s linear 220ms;
+  }
+  .mega.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+    transition: opacity 220ms var(--ease), transform 220ms var(--ease), visibility 0s;
+  }
+  .mega-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .mega-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    transition: background-color var(--dur) var(--ease);
+  }
+  .mega-item:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+  .mega-icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: var(--branch-soft);
+    color: var(--branch);
+    flex: none;
+    transition: transform var(--dur) var(--ease);
+  }
+  .mega-item:hover .mega-icon {
+    transform: scale(1.08) rotate(-4deg);
+  }
+  .mega-name {
+    display: block;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+  .mega-meta {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+  }
+  .mega-all {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--surface-2);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .mega-all:hover .arrow {
+    transform: translateX(3px);
+  }
+  .mega-all :global(.arrow) {
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .nav-panel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .header-search :global(.search-icon) {
+    position: absolute;
+    left: 12px;
+    color: var(--text-faint);
+    pointer-events: none;
+  }
+  .header-search input {
+    width: 190px;
+    height: 44px;
+    padding: 0 14px 0 38px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: width 300ms var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .header-search input:focus {
+    width: 240px;
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .menu-toggle {
+    display: none;
+    order: 3;
+  }
+  .menu-toggle :global(.icon-close),
+  .menu-toggle[aria-expanded='true'] :global(.icon-open) {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  .menu-toggle[aria-expanded='true'] :global(.icon-close) {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 920px) {
+    .menu-toggle {
+      display: inline-grid;
+    }
+    .nav-panel {
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      padding: 20px var(--gutter) 40px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      overflow-y: auto;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity 250ms var(--ease), transform 250ms var(--ease), visibility 0s linear 250ms;
+    }
+    .nav-panel.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition: opacity 250ms var(--ease), transform 250ms var(--ease), visibility 0s;
+    }
+    .header-search {
+      order: -1;
+    }
+    .header-search input,
+    .header-search input:focus {
+      width: 100%;
+    }
+    .nav-list {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .nav-link {
+      width: 100%;
+      justify-content: space-between;
+      font-size: 1.05rem;
+      padding: 12px 14px;
+    }
+    .nav-link::after {
+      display: none;
+    }
+    .mega {
+      position: static;
+      width: auto;
+      transform: none;
+      box-shadow: none;
+      margin-top: 6px;
+      display: none;
+    }
+    .mega.is-open {
+      display: block;
+      transform: none;
+    }
+    .mega-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

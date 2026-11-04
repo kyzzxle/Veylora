@@ -1,0 +1,309 @@
+---
+/**
+ * Template for every simulator page.
+ *
+ * Order: title + intro → simulator → how to use → (ad) → explanation with
+ * table of contents (+ sidebar ad on wide screens) → (ad) → quiz →
+ * references → related topics.
+ *
+ * Ads are never placed inside or beside the simulator or its controls.
+ */
+import '../styles/sim.css';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AdSlot from '../components/AdSlot.astro';
+import Quiz from '../components/Quiz.astro';
+import TopicCard from '../components/TopicCard.astro';
+import Icon from '../components/Icon.astro';
+import { branchUrl, getTopic, relatedTopics } from '../data/branches';
+import type { QuizQuestion } from '../data/quiz-types';
+import { site } from '../data/site';
+
+export interface Reference {
+  text: string;
+  url?: string;
+}
+
+interface Props {
+  branch: string;
+  topic: string;
+  description: string;
+  toc: { id: string; label: string }[];
+  quiz: QuizQuestion[];
+  references: Reference[];
+}
+
+const { branch: branchSlug, topic: topicSlug, description, toc, quiz, references } = Astro.props;
+const ref = getTopic(branchSlug, topicSlug);
+if (!ref) throw new Error(`Unknown topic ${branchSlug}/${topicSlug}`);
+const { branch, topic } = ref;
+const related = relatedTopics(ref, 4);
+const isMedical = branch.slug === 'anatomy-physiology';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LearningResource',
+  name: topic.title,
+  description,
+  learningResourceType: 'Simulation',
+  educationalLevel: topic.level,
+  isAccessibleForFree: true,
+  inLanguage: 'en',
+  about: topic.keywords,
+  publisher: { '@type': 'Organization', name: site.name },
+};
+---
+
+<BaseLayout title={`${topic.title} Simulator`} description={description} ogType="article" jsonLd={jsonLd}>
+  <section class="sim-hero lab-grid hue" style={`--hue:${branch.hue}`}>
+    <div class="container">
+      <Breadcrumbs items={[{ label: branch.name, href: branchUrl(branch) }, { label: topic.title }]} />
+      <div class="sh-meta">
+        <a class="sh-branch" href={branchUrl(branch)}><Icon name={branch.icon} size={16} /> {branch.shortName}</a>
+        <span class="chip">{topic.level}</span>
+        <span class="chip">{topic.kind} simulation</span>
+        {topic.minutes && <span class="chip">~{topic.minutes} min</span>}
+      </div>
+      <h1>{topic.title}</h1>
+      <div class="sh-intro lead">
+        <slot name="intro" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight sim-section" aria-label="Interactive simulator">
+    <div class="container">
+      <slot name="sim" />
+
+      <div class="how-to card" id="how-to-use">
+        <h2><Icon name="info" /> How to use this simulator</h2>
+        <slot name="instructions" />
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <AdSlot position="top" />
+  </div>
+
+  <section class="section-tight">
+    <div class="container content-grid">
+      <article class="prose" id="explanation">
+        <slot />
+      </article>
+      <aside class="content-side">
+        <nav class="toc card" aria-label="On this page">
+          <p class="toc-title">On this page</p>
+          <ol>
+            <li><a href="#how-to-use">How to use the simulator</a></li>
+            {toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}
+            <li><a href="#quiz">Quiz</a></li>
+            <li><a href="#references">References</a></li>
+          </ol>
+        </nav>
+        <AdSlot position="sidebar" />
+      </aside>
+    </div>
+  </section>
+
+  <div class="container">
+    <AdSlot position="mid" />
+  </div>
+
+  <section class="section-tight" aria-label="Quiz">
+    <div class="container quiz-wrap">
+      <Quiz
+        id="quiz"
+        title={`${topic.title}: test your understanding`}
+        intro="Answer each question to get instant feedback and an explanation. Use the simulator to check your thinking."
+        questions={quiz}
+      />
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="references">
+    <div class="container">
+      <div class="prose">
+        <h2 id="references">References and further reading</h2>
+        <ol class="refs">
+          {
+            references.map((r) => (
+              <li>
+                {r.text}
+                {r.url && (
+                  <>
+                    {' '}
+                    <a href={r.url} rel="noopener" target="_blank">
+                      {new URL(r.url).hostname.replace('www.', '')}
+                      <span class="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </>
+                )}
+              </li>
+            ))
+          }
+        </ol>
+        <p class="muted small">
+          {
+            isMedical
+              ? 'This page is an educational model, not medical advice. '
+              : 'This simulator is a simplified educational model. '
+          }
+          Found an error? <a href="/contact/">Let us know</a>. See our <a href="/disclaimer/">educational disclaimer</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="section-tight related" aria-labelledby="related-title">
+        <div class="container">
+          <h2 id="related-title">Related topics</h2>
+          <div class="grid grid-4">
+            {related.map((t) => (
+              <TopicCard branch={t.branch} topic={t.topic} showBranch />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .sim-hero {
+    padding: clamp(28px, 4vw, 48px) 0 clamp(20px, 3vw, 32px);
+    border-bottom: 1px solid var(--border);
+  }
+  .sim-hero h1 {
+    font-size: clamp(2rem, 4.4vw, 3rem);
+    margin-bottom: 12px;
+  }
+  .sh-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .sh-branch {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px 4px 8px;
+    border-radius: 999px;
+    background: var(--branch-soft);
+    color: var(--branch);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+  .sh-intro {
+    max-width: 75ch;
+  }
+  .sh-intro :global(p) {
+    margin-bottom: 0.6em;
+  }
+  .how-to {
+    margin-top: 20px;
+  }
+  .how-to h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+  }
+  .how-to h2 :global(svg) {
+    color: var(--accent);
+  }
+  .how-to :global(ol) {
+    margin: 0;
+    padding-left: 1.3em;
+    display: grid;
+    gap: 6px;
+  }
+  .how-to :global(li::marker) {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .content-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 48px;
+    align-items: start;
+  }
+  .content-grid .prose {
+    max-width: 76ch;
+  }
+  .content-grid .prose > :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .content-side {
+    position: sticky;
+    top: calc(var(--header-h) + 20px);
+    display: grid;
+    gap: 20px;
+  }
+  .toc {
+    padding: 18px 20px;
+  }
+  .toc-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+  }
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+  }
+  .toc a {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .toc a:hover {
+    background: var(--surface-2);
+    color: var(--text);
+    border-left-color: var(--accent);
+  }
+  .quiz-wrap {
+    max-width: 920px;
+  }
+  .refs {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  .refs a {
+    word-break: break-word;
+  }
+  .small {
+    font-size: 0.9rem;
+  }
+  .related {
+    border-top: 1px solid var(--border);
+  }
+  @media (max-width: 1020px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+    .content-side {
+      position: static;
+      order: -1;
+    }
+    .content-side :global(.ad-sidebar) {
+      display: none;
+    }
+  }
+</style>

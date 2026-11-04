@@ -1,0 +1,949 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import BranchCard from '../components/BranchCard.astro';
+import Quiz from '../components/Quiz.astro';
+import { branches, liveTopics, getTopic, stats } from '../data/branches';
+import { homeQuiz } from '../data/quizzes/home';
+import { site } from '../data/site';
+
+// Hero DNA helix geometry (generated at build time)
+const helix = Array.from({ length: 22 }, (_, i) => {
+  const y = 10 + i * 13;
+  const phase = i * 0.55;
+  const x1 = 60 + Math.sin(phase) * 38;
+  const x2 = 60 - Math.sin(phase) * 38;
+  const front = Math.cos(phase) > 0;
+  return { y, x1, x2, front };
+});
+const strandA = helix.map((p, i) => `${i ? 'L' : 'M'}${p.x1.toFixed(1)} ${p.y}`).join(' ');
+const strandB = helix.map((p, i) => `${i ? 'L' : 'M'}${p.x2.toFixed(1)} ${p.y}`).join(' ');
+
+const paths = [
+  {
+    title: 'Life at the cellular level',
+    icon: 'cell',
+    hue: 152,
+    steps: ['biology/osmosis', 'biology/cell-structure', 'zoology/animal-vs-plant-cell', 'botany/plant-cell'],
+  },
+  {
+    title: 'Forces and motion',
+    icon: 'pendulum',
+    hue: 196,
+    steps: ['physics/newtons-laws', 'physics/projectile-motion', 'physics/pendulum', 'astronomy/orbits-gravity'],
+  },
+  {
+    title: 'Inside the human body',
+    icon: 'heart',
+    hue: 352,
+    steps: ['anatomy-physiology/heart-circulation', 'anatomy-physiology/respiratory-system', 'anatomy-physiology/neuron-firing', 'anatomy-physiology/digestive-system'],
+  },
+  {
+    title: 'Our changing planet',
+    icon: 'globe',
+    hue: 168,
+    steps: ['earth-science/plate-tectonics', 'earth-science/water-cycle', 'ecology/carbon-cycle', 'ecology/climate-change'],
+  },
+].map((p) => ({
+  ...p,
+  steps: p.steps.map((s) => {
+    const [b, t] = s.split('/');
+    return getTopic(b, t)!;
+  }),
+}));
+
+const steps = [
+  { icon: 'cursor', title: 'Explore', text: 'Pick a branch of science and open a simulator. Every model is built around one clear scientific idea.' },
+  { icon: 'sliders', title: 'Experiment', text: 'Change the variables yourself. Drag, click, adjust sliders and run the model again to compare results.' },
+  { icon: 'book', title: 'Understand', text: 'Read the explanation beside the model: the principles, key terms, formulas and real-world uses.' },
+  { icon: 'quiz', title: 'Test yourself', text: 'Finish with a quiz that gives instant feedback and explains every answer, then try again.' },
+];
+
+const audiences = ['Elementary & high school', 'STEM students', 'Biology majors', 'Nursing students', 'Medical students', 'Teachers', 'Lifelong learners'];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  description: site.description,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: '/search/?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+};
+---
+
+<BaseLayout title={site.name} jsonLd={jsonLd}>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero lab-grid" aria-labelledby="hero-title">
+    <div class="hero-glow g1" data-parallax="0.25" aria-hidden="true"></div>
+    <div class="hero-glow g2" data-parallax="0.12" aria-hidden="true"></div>
+    <div class="particles" data-parallax="0.4" aria-hidden="true">
+      {Array.from({ length: 18 }, (_, i) => <span style={`--i:${i}; --m3:${(i % 3) - 1}; left:${(i * 5.6).toFixed(1)}%; top:${(i * 37) % 100}%; width:${3 + (i % 4) * 1.5}px; animation-duration:${9 + (i % 5) * 2}s`} />)}
+    </div>
+
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">Free interactive science lab</p>
+        <h1 id="hero-title">
+          Don’t just read about science. <span class="grad">Experiment with it.</span>
+        </h1>
+        <p class="lead">
+          {site.name} turns textbook concepts into hands-on simulations. Change the variables, watch what happens, read
+          why it happens, and test what you learned — free, in your browser.
+        </p>
+        <div class="hero-ctas">
+          <a href="/simulations/" class="btn btn-primary btn-lg">
+            Explore simulations <Icon name="arrow" size={18} class="arrow" />
+          </a>
+          <a href="#how" class="btn btn-ghost btn-lg">How it works</a>
+        </div>
+        <form class="hero-search" action="/search/" method="get" role="search">
+          <label for="hero-q" class="sr-only">Search science topics</label>
+          <Icon name="search" size={20} class="hs-icon" />
+          <input id="hero-q" name="q" type="search" placeholder="Try “osmosis”, “orbits” or “DNA”" autocomplete="off" />
+          <button type="submit" class="btn btn-primary btn-sm">Search</button>
+        </form>
+        <dl class="hero-stats">
+          <div><dt>Science branches</dt><dd>{stats.branches}</dd></div>
+          <div><dt>Planned topics</dt><dd>{stats.topics}</dd></div>
+          <div><dt>Cost</dt><dd>Free</dd></div>
+        </dl>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orb" data-parallax="-0.08">
+          <svg viewBox="0 0 400 400" class="atom">
+            <defs>
+              <radialGradient id="nucleus" cx="0.4" cy="0.35">
+                <stop offset="0" stop-color="var(--accent-strong)"></stop>
+                <stop offset="1" stop-color="var(--accent-2)"></stop>
+              </radialGradient>
+            </defs>
+            <circle cx="200" cy="200" r="170" class="orb-ring" />
+            <circle cx="200" cy="200" r="120" class="orb-ring faint" />
+            <g class="orbit o1"><ellipse cx="200" cy="200" rx="150" ry="52" /><circle cx="350" cy="200" r="8" class="electron" /></g>
+            <g class="orbit o2"><ellipse cx="200" cy="200" rx="150" ry="52" /><circle cx="50" cy="200" r="8" class="electron" /></g>
+            <g class="orbit o3"><ellipse cx="200" cy="200" rx="150" ry="52" /><circle cx="350" cy="200" r="8" class="electron" /></g>
+            <circle cx="200" cy="200" r="30" fill="url(#nucleus)" class="nucleus" />
+            <circle cx="191" cy="192" r="9" fill="#fff" opacity=".35" />
+          </svg>
+        </div>
+
+        <svg viewBox="0 0 120 300" class="helix" data-parallax="0.18">
+          <path d={strandA} class="strand a" />
+          <path d={strandB} class="strand b" />
+          {helix.map((p) => <line x1={p.x1} y1={p.y} x2={p.x2} y2={p.y} class:list={['rung', p.front && 'front']} />)}
+        </svg>
+
+        <div class="float-card fc1" data-parallax="-0.2">
+          <span class="fc-dot"></span>
+          <span class="mono">Osmosis · live</span>
+        </div>
+        <div class="float-card fc2" data-parallax="0.3">
+          <svg viewBox="0 0 60 30" width="60" height="30"><path d="M2 15 Q 10 2 17 15 T 32 15 T 47 15 T 58 15" fill="none" stroke="var(--accent-2)" stroke-width="2.5" stroke-linecap="round"></path></svg>
+          <span class="mono">f = 2.4 Hz</span>
+        </div>
+        <svg viewBox="0 0 80 80" class="hexmol" data-parallax="-0.3">
+          <polygon points="40,6 70,23 70,57 40,74 10,57 10,23" />
+          <polygon points="40,20 58,30 58,50 40,60 22,50 22,30" class="inner" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURED ===================== -->
+  <section class="section" aria-labelledby="featured-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Featured simulations</p>
+        <h2 id="featured-title">Step into the lab</h2>
+        <p>
+          Each simulator is a complete lesson: an interactive model, clear instructions, the science behind it, and a
+          quiz to check your understanding.
+        </p>
+      </div>
+
+      <div class="featured">
+        {
+          liveTopics.map(({ branch, topic, url }) => (
+            <article class="card featured-card hue card-interactive" style={`--hue:${branch.hue}`} data-reveal>
+              <div class="fc-copy">
+                <p class="chip chip-live">Live simulator</p>
+                <h3>
+                  <a href={url}>{topic.title}</a>
+                </h3>
+                <p class="muted">{topic.summary}</p>
+                <ul class="fc-list">
+                  <li><Icon name="check" size={18} /> Compare animal and plant cells</li>
+                  <li><Icon name="check" size={18} /> Control concentrations inside and outside the cell</li>
+                  <li><Icon name="check" size={18} /> Watch swelling, shrinking, bursting and plasmolysis</li>
+                  <li><Icon name="check" size={18} /> Plot cell volume over time and compare runs</li>
+                </ul>
+                <span class="btn btn-primary" aria-hidden="true">
+                  Start experimenting <Icon name="arrow" size={18} class="arrow" />
+                </span>
+              </div>
+              <div class="fc-art" aria-hidden="true">
+                <div class="mini-cell">
+                  {Array.from({ length: 10 }, (_, i) => <span class="w" style={`--i:${i}`} />)}
+                  <div class="mc-body">
+                    {Array.from({ length: 6 }, (_, i) => <span class="s" style={`left:${18 + ((i * 23) % 58)}%; top:${20 + ((i * 41) % 56)}%`} />)}
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BRANCHES ===================== -->
+  <section class="section branches-section" aria-labelledby="branches-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Science branches</p>
+        <h2 id="branches-title">Ten branches. Fifty experiments.</h2>
+        <p>From cells to stars, every branch is planned with five simulators, each built around a different way of interacting with the science.</p>
+      </div>
+      <div class="grid grid-4">
+        {branches.map((b, i) => <BranchCard branch={b} delay={(i % 4) * 70} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section class="section how" id="how" aria-labelledby="how-title" data-scroll-section>
+    <div class="container how-inner">
+      <div class="how-copy">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-title">Learning by doing, one variable at a time</h2>
+          <p>
+            Research on science learning consistently finds that students understand concepts more deeply when they
+            actively manipulate them. Every page follows the same four-step loop.
+          </p>
+        </div>
+        <ol class="steps">
+          {
+            steps.map((s, i) => (
+              <li class="step" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+                <span class="step-icon">
+                  <Icon name={s.icon} />
+                </span>
+                <div>
+                  <h3>
+                    <span class="mono step-n">0{i + 1}</span> {s.title}
+                  </h3>
+                  <p>{s.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="audience" data-reveal>
+          <p class="muted">Built for</p>
+          <ul>{audiences.map((a) => <li class="chip">{a}</li>)}</ul>
+        </div>
+      </div>
+      <div class="how-visual" aria-hidden="true">
+        <div class="scroll-molecule" data-scroll-rotate>
+          <svg viewBox="0 0 300 300">
+            <g class="bonds">
+              <line x1="150" y1="150" x2="150" y2="50" />
+              <line x1="150" y1="150" x2="245" y2="200" />
+              <line x1="150" y1="150" x2="55" y2="200" />
+              <line x1="150" y1="50" x2="95" y2="15" />
+              <line x1="245" y1="200" x2="285" y2="155" />
+            </g>
+            <circle cx="150" cy="150" r="34" class="atom-c" />
+            <circle cx="150" cy="50" r="22" class="atom-o" />
+            <circle cx="245" cy="200" r="22" class="atom-o" />
+            <circle cx="55" cy="200" r="22" class="atom-n" />
+            <circle cx="95" cy="15" r="12" class="atom-h" />
+            <circle cx="285" cy="155" r="12" class="atom-h" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LEARNING PATHS ===================== -->
+  <section class="section" aria-labelledby="paths-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Recommended learning paths</p>
+        <h2 id="paths-title">Follow a path through connected ideas</h2>
+        <p>Topics that build on each other. Live simulators are linked; the rest are on the way.</p>
+      </div>
+      <div class="grid grid-2">
+        {
+          paths.map((p, pi) => (
+            <article class="card path-card hue" style={`--hue:${p.hue}; --reveal-delay:${(pi % 2) * 80}ms`} data-reveal>
+              <header class="path-head">
+                <span class="path-icon">
+                  <Icon name={p.icon} />
+                </span>
+                <h3>{p.title}</h3>
+              </header>
+              <ol class="path-steps">
+                {p.steps.map((s) => (
+                  <li class:list={[s.topic.status === 'live' && 'is-live']}>
+                    {s.topic.status === 'live' ? (
+                      <a href={s.url}>{s.topic.title}</a>
+                    ) : (
+                      <span>{s.topic.title}</span>
+                    )}
+                    <span class={`chip ${s.topic.status === 'live' ? 'chip-live' : ''}`}>
+                      {s.topic.status === 'live' ? 'Live' : 'Soon'}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUIZ ===================== -->
+  <section class="section quiz-section" aria-label="Quick quiz">
+    <div class="container narrow" data-reveal>
+      <Quiz
+        id="home-quiz"
+        title="Quick lab check"
+        intro="Four questions from across the sciences. Pick an answer to see instant feedback."
+        questions={homeQuiz}
+      />
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="cta card" data-reveal>
+        <div>
+          <h2>Ready to run your first experiment?</h2>
+          <p class="muted">Start with osmosis: one cell, one membrane, and a lot of moving water.</p>
+        </div>
+        <a href="/biology/osmosis/" class="btn btn-primary btn-lg">
+          Open the osmosis lab <Icon name="arrow" size={18} class="arrow" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import '../scripts/home';
+</script>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(48px, 8vw, 110px) 0 clamp(64px, 9vw, 120px);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+  }
+  .g1 {
+    width: 560px;
+    height: 560px;
+    right: -120px;
+    top: -140px;
+    background: radial-gradient(circle, var(--glow), transparent 70%);
+  }
+  .g2 {
+    width: 480px;
+    height: 480px;
+    left: -180px;
+    bottom: -220px;
+    background: radial-gradient(circle, var(--accent-2-soft), transparent 70%);
+  }
+  .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .particles span {
+    position: absolute;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.35;
+    animation: drift 9s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * -0.8s);
+  }
+  .particles span:nth-child(3n) {
+    background: var(--accent-2);
+  }
+  @keyframes drift {
+    to {
+      transform: translate(calc(var(--m3) * 30px), -40px);
+    }
+  }
+  .hero-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 40px;
+  }
+  .hero h1 {
+    margin-bottom: 20px;
+  }
+  .grad {
+    background: linear-gradient(100deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 30px 0 24px;
+  }
+  .hero-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 520px;
+    padding: 6px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-elev);
+    box-shadow: var(--shadow);
+    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .hero-search:focus-within {
+    border-color: var(--accent);
+    box-shadow: var(--shadow), 0 0 0 4px var(--accent-soft);
+  }
+  .hero-search :global(.hs-icon) {
+    margin-left: 12px;
+    color: var(--text-faint);
+    flex: none;
+  }
+  .hero-search input {
+    flex: 1;
+    min-width: 0;
+    height: 40px;
+    padding: 0 12px;
+    border: 0;
+    background: none;
+    outline: none;
+  }
+  .hero-stats {
+    display: flex;
+    gap: clamp(20px, 4vw, 44px);
+    margin: 32px 0 0;
+  }
+  .hero-stats div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .hero-stats dt {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+  }
+  .hero-stats dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 700;
+  }
+
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 480px;
+    width: 100%;
+    justify-self: center;
+  }
+  .orb {
+    position: absolute;
+    inset: 6%;
+  }
+  .atom {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .orb-ring {
+    fill: none;
+    stroke: var(--border-strong);
+    stroke-dasharray: 2 8;
+  }
+  .orb-ring.faint {
+    opacity: 0.5;
+  }
+  .orbit {
+    transform-origin: 200px 200px;
+  }
+  .orbit ellipse {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.6;
+    opacity: 0.55;
+  }
+  .o1 {
+    transform: rotate(0deg);
+  }
+  .o2 {
+    transform: rotate(60deg);
+  }
+  .o3 {
+    transform: rotate(120deg);
+  }
+  .o2 ellipse,
+  .o2 .electron {
+    stroke: var(--accent-2);
+  }
+  .electron {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent));
+    offset-path: path('M350 200 A150 52 0 1 1 50 200 A150 52 0 1 1 350 200');
+    offset-rotate: 0deg;
+    animation: electron 5s linear infinite;
+  }
+  .o2 .electron {
+    fill: var(--accent-2);
+    filter: drop-shadow(0 0 6px var(--accent-2));
+    animation-duration: 6.5s;
+    animation-delay: -2s;
+  }
+  .o3 .electron {
+    animation-duration: 4.2s;
+    animation-delay: -1s;
+  }
+  /* offset-path replaces cx/cy positioning */
+  .orbit .electron {
+    cx: 0;
+    cy: 0;
+  }
+  @keyframes electron {
+    to {
+      offset-distance: 100%;
+    }
+  }
+  .nucleus {
+    animation: pulse 3s ease-in-out infinite;
+    transform-origin: 200px 200px;
+  }
+  @keyframes pulse {
+    50% {
+      transform: scale(1.08);
+    }
+  }
+  .helix {
+    position: absolute;
+    left: -6%;
+    top: 4%;
+    width: 22%;
+    height: auto;
+    opacity: 0.9;
+    animation: bob 7s ease-in-out infinite;
+  }
+  .strand {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .strand.a {
+    stroke: var(--accent);
+  }
+  .strand.b {
+    stroke: var(--accent-2);
+    opacity: 0.8;
+  }
+  .rung {
+    stroke: var(--text-faint);
+    stroke-width: 1.6;
+    opacity: 0.45;
+  }
+  .rung.front {
+    opacity: 0.85;
+    stroke: var(--text-muted);
+  }
+  .float-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg-elev) 85%, transparent);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow);
+    font-size: 0.85rem;
+  }
+  .fc1 {
+    right: -2%;
+    top: 14%;
+    animation: bob 6s ease-in-out infinite;
+  }
+  .fc2 {
+    left: 6%;
+    bottom: 6%;
+    animation: bob 8s ease-in-out infinite reverse;
+  }
+  .fc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 0 4px var(--success-soft);
+  }
+  .hexmol {
+    position: absolute;
+    right: 4%;
+    bottom: 12%;
+    width: 16%;
+    animation: spin 30s linear infinite;
+  }
+  .hexmol polygon {
+    fill: none;
+    stroke: var(--accent-2);
+    stroke-width: 2;
+  }
+  .hexmol .inner {
+    stroke: var(--accent);
+    opacity: 0.6;
+  }
+  @keyframes bob {
+    50% {
+      translate: 0 -12px;
+    }
+  }
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  /* ---------- Featured ---------- */
+  .featured {
+    display: grid;
+    gap: 24px;
+  }
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 32px;
+    align-items: center;
+    padding: clamp(24px, 4vw, 44px);
+    overflow: hidden;
+  }
+  .featured-card h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 14px 0 10px;
+  }
+  .featured-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .featured-card h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .featured-card:has(a:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .fc-list {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 26px;
+    display: grid;
+    gap: 8px;
+  }
+  .fc-list li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .fc-list :global(svg) {
+    color: var(--branch);
+    flex: none;
+    margin-top: 3px;
+  }
+  .fc-art {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1.2;
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at 50% 50%, var(--branch-soft), transparent 70%), var(--sim-bg);
+    border: 1px solid var(--border);
+  }
+  .mini-cell {
+    position: relative;
+    width: 70%;
+    aspect-ratio: 1;
+  }
+  .mc-body {
+    position: absolute;
+    inset: 18%;
+    border-radius: 50%;
+    border: 3px solid var(--sim-membrane);
+    background: var(--sim-cytoplasm);
+    animation: breathe 5s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    50% {
+      transform: scale(1.14);
+    }
+  }
+  .mini-cell .s {
+    position: absolute;
+    width: 10%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--sim-solute);
+  }
+  .mini-cell .w {
+    position: absolute;
+    width: 3.5%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--sim-water);
+    left: 50%;
+    top: 50%;
+    animation: inflow 3s linear infinite;
+    animation-delay: calc(var(--i) * -0.3s);
+    rotate: calc(var(--i) * 36deg);
+  }
+  @keyframes inflow {
+    from {
+      transform: translateX(160%) translateX(150px);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 0;
+    }
+  }
+
+  /* ---------- Branches ---------- */
+  .branches-section {
+    background: linear-gradient(180deg, transparent, var(--bg-elev) 30%, var(--bg-elev) 70%, transparent);
+  }
+
+  /* ---------- How ---------- */
+  .how-inner {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .step {
+    display: flex;
+    gap: 18px;
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: border-color var(--dur) var(--ease), transform 300ms var(--ease);
+  }
+  .step:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+  }
+  .step h3 {
+    margin-bottom: 4px;
+  }
+  .step p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+  .step-n {
+    color: var(--accent);
+    font-size: 0.85rem;
+    margin-right: 4px;
+  }
+  .step-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex: none;
+    border-radius: 14px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .audience {
+    margin-top: 28px;
+  }
+  .audience p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+  }
+  .audience ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .how-visual {
+    position: sticky;
+    top: calc(var(--header-h) + 40px);
+  }
+  .scroll-molecule {
+    --rot: 0deg;
+    transform: rotate(var(--rot));
+    will-change: transform;
+  }
+  .bonds line {
+    stroke: var(--border-strong);
+    stroke-width: 6;
+    stroke-linecap: round;
+  }
+  .atom-c {
+    fill: var(--text-muted);
+  }
+  .atom-o {
+    fill: var(--danger);
+  }
+  .atom-n {
+    fill: var(--accent-2);
+  }
+  .atom-h {
+    fill: var(--surface-3);
+    stroke: var(--border-strong);
+    stroke-width: 2;
+  }
+
+  /* ---------- Paths ---------- */
+  .path-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .path-head h3 {
+    margin: 0;
+  }
+  .path-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--branch-soft);
+    color: var(--branch);
+  }
+  .path-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    display: grid;
+    gap: 2px;
+  }
+  .path-steps li {
+    counter-increment: step;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 8px;
+    border-radius: 10px;
+    color: var(--text-muted);
+  }
+  .path-steps li::before {
+    content: counter(step);
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+  .path-steps li.is-live::before {
+    background: var(--branch);
+    border-color: var(--branch);
+    color: var(--bg-elev);
+  }
+  .path-steps li > :first-child {
+    flex: 1;
+  }
+  .path-steps a {
+    font-weight: 600;
+  }
+  .path-steps li.is-live:hover {
+    background: var(--surface-2);
+  }
+
+  /* ---------- Quiz & CTA ---------- */
+  .narrow {
+    max-width: 860px;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: clamp(28px, 5vw, 52px);
+    background: radial-gradient(circle at 0% 0%, var(--accent-soft), transparent 60%),
+      radial-gradient(circle at 100% 100%, var(--accent-2-soft), transparent 60%), var(--surface);
+  }
+  .cta h2 {
+    margin-bottom: 6px;
+  }
+  .cta p {
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .hero-inner,
+    .featured-card,
+    .how-inner {
+      grid-template-columns: 1fr;
+    }
+    .hero-visual {
+      max-width: 360px;
+      order: -1;
+    }
+    .how-visual {
+      display: none;
+    }
+  }
+  @media (max-width: 520px) {
+    .hero-visual {
+      max-width: 280px;
+    }
+    .hero-search .btn {
+      display: none;
+    }
+    .hero-stats dd {
+      font-size: 1.5rem;
+    }
+  }
+</style>

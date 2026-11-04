@@ -1,0 +1,118 @@
+---
+/**
+ * A card for one simulator topic. Live topics link to their simulator;
+ * topics still in development show their status instead of a dead link.
+ */
+import Icon from './Icon.astro';
+import TopicVisual from './TopicVisual.astro';
+import { topicUrl, type Branch, type Topic } from '../data/branches';
+
+interface Props {
+  branch: Branch;
+  topic: Topic;
+  showBranch?: boolean;
+  headingLevel?: 'h2' | 'h3';
+}
+const { branch, topic, showBranch = false, headingLevel = 'h3' } = Astro.props;
+const live = topic.status === 'live';
+const url = topicUrl(branch, topic);
+const Heading = headingLevel;
+---
+
+<article class:list={['card topic-card hue', live && 'card-interactive card-glow']} style={`--hue:${branch.hue}`}>
+  <TopicVisual branch={branch} topic={topic} />
+  <div class="tc-meta">
+    {showBranch && <span class="tc-branch">{branch.shortName}</span>}
+    <span class="chip">{topic.kind}</span>
+    <span class="chip">{topic.level}</span>
+    {live ? <span class="chip chip-live">Live</span> : <span class="chip chip-planned">In development</span>}
+  </div>
+  <Heading class="tc-title">
+    {live ? <a href={url} class="tc-link">{topic.title}</a> : topic.title}
+  </Heading>
+  <p class="tc-summary">{topic.summary}</p>
+  <div class="tc-foot">
+    {
+      live ? (
+        <span class="btn btn-primary btn-sm" aria-hidden="true">
+          Open simulator <Icon name="arrow" size={16} class="arrow" />
+        </span>
+      ) : (
+        <span class="tc-soon">Simulator coming in a future update</span>
+      )
+    }
+    {live && topic.minutes && <span class="tc-time mono">~{topic.minutes} min</span>}
+  </div>
+</article>
+
+<style>
+  .topic-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px 14px 20px;
+  }
+  .tc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-inline: 6px;
+  }
+  .tc-branch {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--branch);
+    margin-right: 4px;
+    align-self: center;
+  }
+  .tc-title {
+    font-size: 1.2rem;
+    margin: 0;
+    padding-inline: 6px;
+  }
+  .tc-link {
+    color: var(--text);
+    text-decoration: none;
+  }
+  /* Make the whole card clickable while keeping one real link for a11y */
+  .tc-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 1;
+  }
+  .tc-link:focus-visible {
+    outline: none;
+  }
+  .topic-card:has(.tc-link:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .tc-summary {
+    color: var(--text-muted);
+    font-size: 0.97rem;
+    margin: 0;
+    padding-inline: 6px;
+    flex: 1;
+  }
+  .tc-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-inline: 6px;
+  }
+  .tc-soon {
+    font-size: 0.88rem;
+    color: var(--text-faint);
+  }
+  .tc-time {
+    font-size: 0.82rem;
+    color: var(--text-faint);
+  }
+  .topic-card:not(.card-interactive) {
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+  }
+</style>

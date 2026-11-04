@@ -1,0 +1,352 @@
+---
+/**
+ * Knowledge quiz. All questions, answers and explanations are rendered as
+ * HTML (readable by search engines, screen readers and no-JS visitors).
+ * src/scripts/quiz.ts adds instant feedback, scoring and retry.
+ */
+import Icon from './Icon.astro';
+import type { QuizQuestion } from '../data/quiz-types';
+
+interface Props {
+  id: string;
+  title?: string;
+  intro?: string;
+  questions: QuizQuestion[];
+  headingLevel?: 'h2' | 'h3';
+}
+const { id, title = 'Test your understanding', intro, questions, headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
+const letters = 'ABCDEFGH';
+const counts = questions.reduce<Record<string, number>>((acc, q) => ((acc[q.difficulty] = (acc[q.difficulty] ?? 0) + 1), acc), {});
+---
+
+<section class="quiz card" id={id} data-quiz aria-labelledby={`${id}-title`}>
+  <header class="quiz-head">
+    <div>
+      <p class="eyebrow">Knowledge check</p>
+      <Heading id={`${id}-title`} class="quiz-title">{title}</Heading>
+      {intro && <p class="muted">{intro}</p>}
+    </div>
+    <div class="quiz-stats">
+      <span class="chip">{questions.length} questions</span>
+      {Object.entries(counts).map(([d, n]) => <span class={`chip diff diff-${d.toLowerCase()}`}>{n} {d.toLowerCase()}</span>)}
+    </div>
+  </header>
+
+  <div class="quiz-progress" aria-hidden="true">
+    <div class="quiz-progress-bar" data-progress-bar></div>
+  </div>
+  <p class="quiz-progress-text muted" data-progress-text aria-live="polite">0 of {questions.length} answered</p>
+
+  <ol class="quiz-list">
+    {
+      questions.map((q, qi) => (
+        <li class="quiz-q" data-answer={q.answer}>
+          <fieldset>
+            <legend>
+              <span class="q-num mono">Q{qi + 1}</span>
+              <span class={`chip diff diff-${q.difficulty.toLowerCase()}`}>{q.difficulty}</span>
+              <span class="q-text">{q.question}</span>
+            </legend>
+            <div class="q-options">
+              {q.options.map((opt, oi) => (
+                <label class="q-option">
+                  <input type="radio" name={`${id}-q${qi}`} value={oi} />
+                  <span class="q-letter mono" aria-hidden="true">
+                    {letters[oi]}
+                  </span>
+                  <span class="q-label">{opt}</span>
+                  <span class="q-mark" aria-hidden="true">
+                    <Icon name="check" size={18} class="m-ok" />
+                    <Icon name="x" size={18} class="m-no" />
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <details class="q-feedback">
+            <summary>Show answer</summary>
+            <p class="q-verdict" data-verdict></p>
+            <p>
+              <strong>Answer: {letters[q.answer]}. {q.options[q.answer]}</strong>
+            </p>
+            <p class="q-explain">{q.explanation}</p>
+          </details>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="quiz-result" data-result hidden>
+    <div class="score-ring" data-score-ring>
+      <span class="score-num" data-score></span>
+    </div>
+    <div>
+      <h3 class="result-title" data-result-title>Quiz complete</h3>
+      <p class="muted" data-result-msg></p>
+      <button type="button" class="btn btn-primary" data-retry>
+        <Icon name="reset" size={18} /> Retry quiz
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/quiz';
+</script>
+
+<style>
+  .quiz {
+    padding: clamp(20px, 4vw, 40px);
+  }
+  .quiz-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .quiz-title {
+    margin-bottom: 6px;
+  }
+  .quiz-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .diff-basic {
+    color: var(--success);
+  }
+  .diff-intermediate {
+    color: var(--accent-2);
+  }
+  .diff-advanced {
+    color: var(--danger);
+  }
+  .quiz-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-3);
+    overflow: hidden;
+  }
+  .quiz-progress-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 500ms var(--ease);
+  }
+  .quiz-progress-text {
+    font-size: 0.85rem;
+    margin: 8px 0 0;
+  }
+  .quiz-list {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 22px;
+  }
+  .quiz-q {
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+  }
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    margin-bottom: 14px;
+  }
+  .q-num {
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .q-text {
+    flex-basis: 100%;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.08rem;
+    line-height: 1.4;
+  }
+  .q-options {
+    display: grid;
+    gap: 8px;
+  }
+  .q-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 50px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+  .q-option:hover {
+    border-color: var(--accent);
+    transform: translateX(3px);
+  }
+  .q-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .q-option:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .q-option:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .q-letter {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    flex: none;
+    border-radius: 8px;
+    background: var(--surface-2);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .q-label {
+    flex: 1;
+  }
+  .q-mark {
+    display: none;
+  }
+  .q-mark :global(svg) {
+    display: none;
+  }
+
+  /* Answered states (set by quiz.ts) */
+  .quiz-q.is-answered .q-option {
+    cursor: default;
+    transform: none;
+  }
+  .q-option.is-correct {
+    border-color: var(--success);
+    background: var(--success-soft);
+  }
+  .q-option.is-wrong {
+    border-color: var(--danger);
+    background: var(--danger-soft);
+  }
+  .q-option.is-correct .q-mark,
+  .q-option.is-wrong .q-mark {
+    display: block;
+  }
+  .q-option.is-correct .q-mark :global(.m-ok) {
+    display: block;
+    color: var(--success);
+  }
+  .q-option.is-wrong .q-mark :global(.m-no) {
+    display: block;
+    color: var(--danger);
+  }
+  .q-option.is-correct .q-letter {
+    background: var(--success);
+    color: #fff;
+  }
+  .q-option.is-wrong .q-letter {
+    background: var(--danger);
+    color: #fff;
+  }
+
+  .q-feedback {
+    margin-top: 14px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: var(--surface-2);
+    font-size: 0.97rem;
+  }
+  .q-feedback summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .q-feedback p {
+    margin: 6px 0 0;
+  }
+  .q-verdict:empty {
+    display: none;
+  }
+  .q-verdict {
+    font-weight: 700;
+  }
+  .q-verdict.ok {
+    color: var(--success);
+  }
+  .q-verdict.no {
+    color: var(--danger);
+  }
+  .q-feedback[open] {
+    animation: fade-in 400ms var(--ease);
+  }
+  /* With JS, answers stay hidden until the question is answered */
+  :global(.js) .q-feedback summary {
+    display: none;
+  }
+  :global(.js) .q-feedback:not([open]) {
+    display: none;
+  }
+
+  .quiz-result {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 28px;
+    margin-top: 28px;
+    padding: 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--accent-soft), var(--accent-2-soft));
+    animation: fade-in 500ms var(--ease);
+  }
+  .quiz-result[hidden] {
+    display: none;
+  }
+  .score-ring {
+    --pct: 0;
+    display: grid;
+    place-items: center;
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--surface-3) 0);
+  }
+  .score-num {
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--bg-elev);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .result-title {
+    margin-bottom: 4px;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+</style>

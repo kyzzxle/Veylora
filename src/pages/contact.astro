@@ -1,0 +1,245 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const endpoint = site.contactEndpoint ?? '';
+const email = site.contactEmail ?? '';
+---
+
+<BaseLayout
+  title="Contact us"
+  description="Contact the Veylora team to report an error, suggest a simulator or ask a question."
+  ads={false}
+>
+  <PageHero
+    title="Contact us"
+    eyebrow="Get in touch"
+    lead="Report a scientific error, suggest a new simulator, or tell us how you use the lab. We read every message."
+    crumbs={[{ label: 'Contact us' }]}
+  />
+
+  <section class="section-tight">
+    <div class="container contact-grid">
+      <form
+        class="card contact-form"
+        novalidate
+        data-contact-form
+        data-endpoint={endpoint}
+        data-email={email}
+        action={endpoint || undefined}
+        method="post"
+      >
+        <div class="field">
+          <label for="c-name">Your name</label>
+          <input class="input" id="c-name" name="name" type="text" autocomplete="name" required maxlength="100" aria-describedby="c-name-err" />
+          <p class="field-error" id="c-name-err" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="c-email">Email address</label>
+          <input class="input" id="c-email" name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby="c-email-err" />
+          <p class="field-error" id="c-email-err" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="c-topic">What is this about?</label>
+          <select class="select" id="c-topic" name="topic">
+            <option>General question</option>
+            <option>Report a scientific error</option>
+            <option>Suggest a simulator</option>
+            <option>Bug or technical problem</option>
+            <option>Teaching and classroom use</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="c-msg">Message</label>
+          <textarea class="textarea" id="c-msg" name="message" required minlength="20" maxlength="5000" aria-describedby="c-msg-err"></textarea>
+          <p class="field-error" id="c-msg-err" aria-live="polite"></p>
+        </div>
+
+        <!-- Spam protection: humans never see or fill this field. -->
+        <div class="hp" aria-hidden="true">
+          <label for="c-website">Leave this field empty</label>
+          <input id="c-website" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="_started" data-started />
+
+        <p class="form-note muted">
+          If you are under 13, please ask a parent, guardian or teacher to contact us for you. See our
+          <a href="/privacy/">privacy policy</a> for how messages are handled.
+        </p>
+
+        <button class="btn btn-primary" type="submit" data-submit>
+          <Icon name="mail" size={18} /> Send message
+        </button>
+        <div class="form-status" role="status" aria-live="polite" data-status></div>
+      </form>
+
+      <aside class="contact-side">
+        <div class="card">
+          <h2>Before you write</h2>
+          <ul>
+            <li><strong>Reporting an error?</strong> Include the page address and what you think should be corrected. Sources help.</li>
+            <li><strong>Suggesting a simulator?</strong> Tell us the concept and what you would want to control.</li>
+            <li><strong>Medical questions:</strong> we cannot give medical advice. Please speak to a qualified health professional.</li>
+          </ul>
+          {
+            email && (
+              <p>
+                You can also email us directly at <a href={`mailto:${email}`}>{email}</a>.
+              </p>
+            )
+          }
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]')!;
+  const status = form.querySelector<HTMLElement>('[data-status]')!;
+  const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+  const started = form.querySelector<HTMLInputElement>('[data-started]')!;
+  const endpoint = form.dataset.endpoint ?? '';
+  const email = form.dataset.email ?? '';
+  const loadedAt = Date.now();
+  started.value = String(loadedAt);
+
+  const fields = {
+    name: form.querySelector<HTMLInputElement>('#c-name')!,
+    email: form.querySelector<HTMLInputElement>('#c-email')!,
+    message: form.querySelector<HTMLTextAreaElement>('#c-msg')!,
+  };
+
+  function setError(el: HTMLInputElement | HTMLTextAreaElement, msg: string) {
+    const err = document.getElementById(`${el.id}-err`);
+    if (err) err.textContent = msg;
+    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  }
+
+  function validate() {
+    let ok = true;
+    const name = fields.name.value.trim();
+    const mail = fields.email.value.trim();
+    const msg = fields.message.value.trim();
+    setError(fields.name, name.length >= 2 ? '' : 'Please enter your name.');
+    setError(fields.email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail) ? '' : 'Please enter a valid email address.');
+    setError(fields.message, msg.length >= 20 ? '' : 'Please write at least 20 characters.');
+    for (const el of Object.values(fields)) if (el.getAttribute('aria-invalid') === 'true') ok = false;
+    return ok;
+  }
+
+  Object.values(fields).forEach((el) =>
+    el.addEventListener('blur', () => {
+      if (el.value) validate();
+    }),
+  );
+
+  function show(html: string, kind: 'ok' | 'err' | 'info') {
+    status.className = `form-status ${kind}`;
+    status.innerHTML = html;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validate()) {
+      form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+      return;
+    }
+    const honeypot = form.querySelector<HTMLInputElement>('[name="_gotcha"]')!.value;
+    const tooFast = Date.now() - loadedAt < 3000;
+    if (honeypot || tooFast) {
+      show('Your message could not be sent. Please wait a moment and try again.', 'err');
+      return;
+    }
+
+    if (!endpoint) {
+      // No form service configured yet: be honest and offer email instead.
+      const subject = encodeURIComponent(`[Veylora] ${(form.querySelector('#c-topic') as HTMLSelectElement).value}`);
+      const body = encodeURIComponent(`${fields.message.value.trim()}\n\n— ${fields.name.value.trim()}`);
+      show(
+        email
+          ? `Our contact form is not connected to a mail service yet, so this message has <strong>not</strong> been sent. ` +
+              `<a href="mailto:${email}?subject=${subject}&body=${body}">Open it in your email app instead</a>.`
+          : 'Our contact form is not connected to a mail service yet, so this message has <strong>not</strong> been sent. Please check back soon.',
+        'info',
+      );
+      return;
+    }
+
+    submit.disabled = true;
+    show('Sending…', 'info');
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      show('Thank you! Your message has been sent. We will reply to the email address you provided.', 'ok');
+    } catch {
+      show('Sorry, your message could not be sent right now. Please try again later.', 'err');
+    } finally {
+      submit.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .contact-side h2 {
+    font-size: 1.2rem;
+  }
+  .contact-side ul {
+    padding-left: 1.1em;
+    color: var(--text-muted);
+  }
+  .contact-side li {
+    margin-bottom: 10px;
+  }
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .form-note {
+    font-size: 0.9rem;
+  }
+  .form-status {
+    margin-top: 16px;
+  }
+  .form-status:empty {
+    display: none;
+  }
+  .form-status.ok,
+  .form-status.err,
+  .form-status.info {
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+  }
+  .form-status.ok {
+    background: var(--success-soft);
+    color: var(--success);
+  }
+  .form-status.err {
+    background: var(--danger-soft);
+    color: var(--danger);
+  }
+  .form-status.info {
+    background: var(--warning-soft);
+  }
+  @media (max-width: 860px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
