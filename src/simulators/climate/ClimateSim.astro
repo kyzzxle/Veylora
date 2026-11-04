@@ -1,0 +1,44 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="climate-sim" label="Earth's atmosphere, sunlight and heat radiation." hint="Click the diagram to learn more" badge="1850">
+  <div class="ctrl">
+    <label class="ctrl-label" for="cl-scenario">Future CO₂ scenario (after 2024)</label>
+    <select id="cl-scenario" class="select" data-scenario>
+      <option value="current">Current trend (+2.5 ppm per year)</option>
+      <option value="high">High emissions (accelerating)</option>
+      <option value="hold">Concentration frozen at today’s level</option>
+      <option value="netzero">Rapid cuts to net zero by about 2050</option>
+      <option value="custom">Custom — choose the CO₂ level in 2100</option>
+    </select>
+  </div>
+  <div data-custom hidden>
+    <SliderControl name="cl-target" label="CO₂ in 2100" min={280} max={1200} step={10} value={600} />
+  </div>
+  <SliderControl name="cl-ecs" label="Climate sensitivity" min={1.5} max={4.5} step={0.1} value={3} help="Long-term warming for doubled CO₂. The IPCC’s best estimate is 3 °C (likely range 2.5–4 °C)." />
+  <SliderControl name="cl-year" label="Year" min={1850} max={2200} step={1} value={1850} help="Press Start to move through time, or drag to any year." />
+
+  <Fragment slot="readouts">
+    <Readout name="co2" label="CO₂" key />
+    <Readout name="warming" label="Warming since 1850" />
+    <Readout name="forcing" label="Extra heat trapped" />
+    <Readout name="eq" label="Eventual warming at this CO₂" />
+    <Readout name="paris" label="Paris Agreement goals" />
+    <Readout name="lag" label="Warming still to come" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="cl-co2" title="Carbon dioxide concentration (ppm)" desc="Atmospheric CO2 in parts per million from 1850 to 2200 for the chosen scenario." height={180} />
+    <GraphPanel id="cl-temp" title="Global warming since 1850 (°C)" desc="Modelled global temperature change from 1850 to 2200, with the 1.5 and 2 degree Paris Agreement levels marked." height={200} />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initClimate } from './climate';
+  mountSim('#climate-sim', initClimate);
+</script>

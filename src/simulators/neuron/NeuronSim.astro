@@ -1,0 +1,56 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import Icon from '../../components/Icon.astro';
+---
+
+<SimShell id="neuron-sim" label="A neuron with an axon and a membrane close-up." showTime hint="Click part of the neuron" badge="Resting">
+  <button slot="toolbar" type="button" class="btn btn-sm btn-primary" data-stim><Icon name="spark" size={16} /> Stimulate</button>
+
+  <ChoiceControl
+    name="nr-mode"
+    label="Stimulus type"
+    value="pulse"
+    options={[
+      { value: 'pulse', label: 'Single pulse' },
+      { value: 'steady', label: 'Steady current' },
+    ]}
+  />
+  <SliderControl name="nr-amp" label="Stimulus strength" min={0} max={30} step={0.5} value={10} help="Current injected into the neuron (µA/cm²). Find the weakest stimulus that still fires a spike." />
+  <SliderControl name="nr-dur" label="Pulse duration" min={0.2} max={5} step={0.1} value={1} help="Length of a single pulse in milliseconds." />
+  <ToggleControl name="nr-ttx" label="Block Na⁺ channels (tetrodotoxin, TTX)" />
+  <ToggleControl name="nr-tea" label="Block K⁺ channels (tetraethylammonium, TEA)" />
+  <ToggleControl name="nr-myelin" label="Myelinated axon" />
+  <SimKey
+    items={[
+      { label: 'Na⁺ ions (flow in)', color: 'warning' },
+      { label: 'K⁺ ions (flow out)', color: 'accent-2' },
+      { label: 'Signal travelling down the axon', color: 'sim-solute' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="state" label="Neuron state" value="Resting" key />
+    <Readout name="vm" label="Membrane potential" />
+    <Readout name="na" label="Na⁺ channels open" />
+    <Readout name="k" label="K⁺ channels open" />
+    <Readout name="spikes" label="Action potentials" />
+    <Readout name="speed" label="Conduction speed" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="nr-vm" title="Membrane potential (mV) over time (ms)" desc="Membrane voltage of the neuron over the last 40 milliseconds, with the resting level and the threshold marked." />
+    <GraphPanel id="nr-gates" title="Ion channel gates" desc="Fraction of sodium activation (m), sodium inactivation (h) and potassium activation (n) gates open over time." />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initNeuron } from './neuron';
+  mountSim('#neuron-sim', initNeuron);
+</script>

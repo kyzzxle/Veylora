@@ -1,0 +1,80 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+
+const parts = [
+  { key: 'p', label: 'Protons', help: 'Positive charge, in the nucleus. Sets the element.' },
+  { key: 'n', label: 'Neutrons', help: 'No charge, in the nucleus. Sets the isotope.' },
+  { key: 'e', label: 'Electrons', help: 'Negative charge, in shells. Sets the charge.' },
+];
+const presets = [
+  { label: 'Hydrogen', p: 1, n: 0, e: 1 },
+  { label: 'Carbon-12', p: 6, n: 6, e: 6 },
+  { label: 'Carbon-14', p: 6, n: 8, e: 6 },
+  { label: 'Sodium ion Na⁺', p: 11, n: 12, e: 10 },
+  { label: 'Chloride ion Cl⁻', p: 17, n: 18, e: 18 },
+  { label: 'Calcium', p: 20, n: 20, e: 20 },
+];
+---
+
+<SimShell id="atom-sim" label="A Bohr model of an atom." hint="Click a particle to identify it" badge="Carbon">
+  <button slot="toolbar" type="button" class="btn btn-sm" data-excite>Excite an electron</button>
+
+  {
+    parts.map((part) => (
+      <div class="ctrl">
+        <div class="ctrl-row">
+          <span class="ctrl-label" id={`atom-${part.key}-label`}>{part.label}</span>
+          <output data-count={part.key} aria-live="polite">0</output>
+        </div>
+        <div class="stepper" role="group" aria-labelledby={`atom-${part.key}-label`}>
+          <button type="button" class="btn btn-sm" data-dec={part.key} aria-label={`Remove one ${part.label.toLowerCase().slice(0, -1)}`}>−</button>
+          <button type="button" class="btn btn-sm btn-primary" data-inc={part.key} aria-label={`Add one ${part.label.toLowerCase().slice(0, -1)}`}>+</button>
+        </div>
+        <p class="ctrl-help">{part.help}</p>
+      </div>
+    ))
+  }
+  <div>
+    <h3>Examples</h3>
+    <div class="preset-row">
+      {presets.map((pr) => <button type="button" class="preset" data-p={pr.p} data-n={pr.n} data-e={pr.e}>{pr.label}</button>)}
+    </div>
+  </div>
+  <ToggleControl name="atom-cloud" label="Show electron shells as rings" checked />
+  <SimKey
+    items={[
+      { label: 'Proton (+)', color: 'danger' },
+      { label: 'Neutron (no charge)', color: 'text-faint' },
+      { label: 'Electron (−)', color: 'accent' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="element" label="Element" key />
+    <Readout name="mass" label="Mass number" />
+    <Readout name="charge" label="Charge" />
+    <Readout name="kind" label="Atom or ion" />
+    <Readout name="stable" label="Nucleus" />
+    <Readout name="config" label="Electron shells" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .stepper {
+    display: flex;
+    gap: 8px;
+  }
+  .stepper .btn {
+    flex: 1;
+    font-size: 1.2rem;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initAtom } from './atom';
+  mountSim('#atom-sim', initAtom);
+</script>

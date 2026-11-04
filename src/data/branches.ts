@@ -126,7 +126,9 @@ export const branches: Branch[] = [
         keywords: ['atom', 'proton', 'neutron', 'electron', 'isotope', 'ion', 'energy level', 'shell'],
         level: 'Beginner',
         kind: '2D',
-        status: 'planned',
+        status: 'live',
+        minutes: 12,
+        related: ['chemistry/chemical-bonding', 'chemistry/acids-and-bases', 'chemistry/balancing-equations', 'astronomy/stellar-life-cycle'],
       },
       {
         slug: 'chemical-bonding',
@@ -153,7 +155,9 @@ export const branches: Branch[] = [
         keywords: ['acid', 'base', 'ph', 'indicator', 'neutralization', 'hydrogen ion', 'titration'],
         level: 'Intermediate',
         kind: 'Experiment',
-        status: 'planned',
+        status: 'live',
+        minutes: 15,
+        related: ['chemistry/atomic-structure', 'chemistry/reaction-rates', 'biology/osmosis', 'ecology/pollution'],
       },
       {
         slug: 'reaction-rates',
@@ -210,7 +214,9 @@ export const branches: Branch[] = [
         keywords: ['neuron', 'action potential', 'synapse', 'axon', 'sodium', 'potassium', 'nervous system'],
         level: 'Advanced',
         kind: 'Graph',
-        status: 'planned',
+        status: 'live',
+        minutes: 15,
+        related: ['anatomy-physiology/heart-circulation', 'biology/osmosis', 'chemistry/atomic-structure', 'anatomy-physiology/respiratory-system'],
       },
       {
         slug: 'digestive-system',
@@ -555,7 +561,9 @@ export const branches: Branch[] = [
         keywords: ['climate change', 'greenhouse effect', 'global warming', 'co2', 'radiative forcing'],
         level: 'Advanced',
         kind: 'Graph',
-        status: 'planned',
+        status: 'live',
+        minutes: 15,
+        related: ['ecology/carbon-cycle', 'earth-science/weather', 'ecology/biodiversity', 'earth-science/water-cycle'],
       },
       {
         slug: 'biodiversity',

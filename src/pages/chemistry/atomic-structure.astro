@@ -1,0 +1,158 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import AtomSim from '../../simulators/atom/AtomSim.astro';
+import { atomQuiz } from '../../data/quizzes/atom';
+
+const toc = [
+  { id: 'particles', label: 'The three particles' },
+  { id: 'numbers', label: 'Atomic and mass numbers' },
+  { id: 'isotopes', label: 'Isotopes' },
+  { id: 'ions', label: 'Ions' },
+  { id: 'shells', label: 'Electron shells' },
+  { id: 'energy', label: 'Energy levels and light' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., Theopold, K., Langley, R., & Robinson, W. R. (2019). Chemistry 2e, Section 2.3: Atomic Structure and Symbolism. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/2-3-atomic-structure-and-symbolism' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 6.2: The Bohr Model. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/6-2-the-bohr-model' },
+  { text: 'International Union of Pure and Applied Chemistry (IUPAC). Periodic Table of the Elements and Isotopes.', url: 'https://iupac.org/what-we-do/periodic-table-of-elements/' },
+  { text: 'National Nuclear Data Center, Brookhaven National Laboratory. NuDat — nuclear structure and decay data.', url: 'https://www.nndc.bnl.gov/nudat3/' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="atomic-structure"
+  description="Interactive atom builder: add protons, neutrons and electrons to build the first 20 elements, and explore atomic number, mass number, isotopes, ions and electron shells."
+  toc={toc}
+  quiz={atomQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Everything around you — air, water, your own body — is made of atoms, and every atom is built from just three
+      kinds of particles. Add and remove protons, neutrons and electrons to build any of the first 20 elements, and see
+      how each particle changes the atom’s identity, mass and charge.
+    </p>
+  </Fragment>
+
+  <AtomSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Use the <strong>+</strong> and <strong>−</strong> buttons to add or remove <strong>protons, neutrons and electrons</strong>, or choose an example.</li>
+      <li>The <strong>element tile</strong> shows the symbol, atomic number (top left) and mass number (top right).</li>
+      <li>Read the <strong>readouts</strong> to see whether you have a neutral atom or an ion, and whether the nucleus is stable.</li>
+      <li>Press <strong>Excite an electron</strong> to watch an electron jump to a higher shell and emit light as it falls back.</li>
+      <li>Click a particle to identify it. <strong>Start/Pause</strong> controls the electron motion; <strong>Reset</strong> returns to carbon-12.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="particles">The three particles</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Particle</th><th>Charge</th><th>Relative mass</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Proton</strong></td><td>+1</td><td>1</td><td>Nucleus</td></tr>
+        <tr><td><strong>Neutron</strong></td><td>0</td><td>1 (very slightly more)</td><td>Nucleus</td></tr>
+        <tr><td><strong>Electron</strong></td><td>−1</td><td>About 1/1836</td><td>Shells around the nucleus</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    The <strong>nucleus</strong> contains almost all of an atom’s mass but is tiny — roughly 100,000 times smaller than
+    the atom itself. The rest of the atom is the region where electrons are found.
+  </p>
+
+  <h2 id="numbers">Atomic and mass numbers</h2>
+  <ul>
+    <li>The <strong>atomic number (Z)</strong> is the number of protons. It defines the element: every carbon atom has 6 protons, every oxygen atom has 8.</li>
+    <li>The <strong>mass number (A)</strong> is the number of protons plus neutrons.</li>
+  </ul>
+  <code class="formula">A = Z + N        number of neutrons N = A − Z</code>
+  <p>Chemists write an atom as a symbol with A at the top left and Z at the bottom left, for example ¹²₆C.</p>
+
+  <h2 id="isotopes">Isotopes</h2>
+  <p>
+    Atoms of the same element can have different numbers of neutrons. These versions are called
+    <strong>isotopes</strong>. They behave almost identically in chemical reactions because they have the same electrons,
+    but their masses differ. Some combinations of protons and neutrons are <strong>stable</strong>; others are
+    <strong>radioactive</strong> and eventually decay. Carbon-12 and carbon-13 are stable, while carbon-14 is
+    radioactive with a half-life of about 5,700 years. Too many or too few neutrons and a nucleus cannot hold together at all.
+  </p>
+
+  <h2 id="ions">Ions</h2>
+  <p>
+    In a neutral atom, the number of electrons equals the number of protons, so the charges cancel. If an atom
+    <strong>loses</strong> electrons it becomes a positive ion (<strong>cation</strong>), such as Na⁺. If it
+    <strong>gains</strong> electrons it becomes a negative ion (<strong>anion</strong>), such as Cl⁻.
+  </p>
+  <code class="formula">charge = protons − electrons</code>
+
+  <h2 id="shells">Electron shells</h2>
+  <p>
+    In the simple shell model, electrons occupy shells at increasing distances from the nucleus. For the first 20
+    elements, the shells fill in the pattern <strong>2, 8, 8, 2</strong>. The electrons in the outermost shell, called
+    <strong>valence electrons</strong>, decide how an element reacts. Atoms with full outer shells, such as neon and argon,
+    are very unreactive (noble gases). Sodium, with one valence electron, readily loses it; chlorine, one short of a full
+    shell, readily gains one. That is why sodium and chlorine combine to form sodium chloride.
+  </p>
+
+  <h2 id="energy">Energy levels and light</h2>
+  <p>
+    Each shell corresponds to an <strong>energy level</strong>. An electron can absorb exactly the right amount of energy
+    to jump to a higher level, then fall back and release that energy as a <strong>photon</strong> of light. Because each
+    element has its own pattern of energy levels, each produces its own colours — sodium streetlights glow orange-yellow,
+    and astronomers identify elements in stars from their light.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Element</dt>
+    <dd>A substance made of atoms that all have the same number of protons.</dd>
+    <dt>Isotope</dt>
+    <dd>Atoms of the same element with different numbers of neutrons.</dd>
+    <dt>Ion</dt>
+    <dd>An atom or group of atoms with an electric charge because electrons were gained or lost.</dd>
+    <dt>Valence electrons</dt>
+    <dd>Electrons in the outermost shell, involved in chemical bonding.</dd>
+    <dt>Radioactive decay</dt>
+    <dd>The spontaneous change of an unstable nucleus, releasing radiation.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Radiocarbon dating</strong> uses carbon-14 to find the age of wood, bone and other once-living material up to about 50,000 years old.</li>
+    <li><strong>Medical imaging</strong> uses radioactive isotopes such as technetium-99m as tracers (an educational example — see our <a href="/disclaimer/">disclaimer</a>).</li>
+    <li><strong>Nerves and muscles</strong> work using ions such as Na⁺, K⁺ and Ca²⁺ moving across cell membranes.</li>
+    <li><strong>Fireworks and neon signs</strong> get their colours from electrons dropping between energy levels.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Electrons orbit like planets.”</strong> The Bohr picture is a useful model, but electrons are better described as clouds of probability called orbitals.</li>
+    <li><strong>“Changing neutrons changes the element.”</strong> Only protons decide the element; neutrons give different isotopes.</li>
+    <li><strong>“Ions are different elements.”</strong> Na⁺ is still sodium — only its electron count changed.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The Bohr model, proposed in 1913, places electrons on circular shells. Modern quantum mechanics replaces these with
+    orbitals of different shapes, and from potassium onward the filling order becomes more complex. The nucleus here is
+    drawn hugely enlarged, and stability is simplified to three categories using the known stable isotopes of the first
+    20 elements.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Protons set the element, neutrons set the isotope, electrons set the charge.</li>
+    <li>Mass number = protons + neutrons.</li>
+    <li>Ions form when atoms gain or lose electrons.</li>
+    <li>Valence electrons in the outer shell control chemical behaviour.</li>
+  </ul>
+</SimulatorLayout>

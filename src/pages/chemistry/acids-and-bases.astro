@@ -1,0 +1,160 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import AcidBaseSim from '../../simulators/acidbase/AcidBaseSim.astro';
+import { acidBaseQuiz } from '../../data/quizzes/acidbase';
+
+const toc = [
+  { id: 'what', label: 'What are acids and bases?' },
+  { id: 'ph', label: 'The pH scale' },
+  { id: 'indicators', label: 'Indicators' },
+  { id: 'neutralization', label: 'Neutralization' },
+  { id: 'titration', label: 'Titration' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 14.1: Brønsted–Lowry Acids and Bases. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/14-1-bronsted-lowry-acids-and-bases' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 14.2: pH and pOH. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/14-2-ph-and-poh' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 14.7: Acid–Base Titrations. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/14-7-acid-base-titrations' },
+  { text: 'U.S. Geological Survey. pH and Water.', url: 'https://www.usgs.gov/special-topics/water-science-school/science/ph-and-water' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="acids-and-bases"
+  description="Interactive pH and acid–base simulator: compare everyday solutions, dilute acids and bases, try five indicators, and run a strong acid–strong base titration with a live titration curve."
+  toc={toc}
+  quiz={acidBaseQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Lemon juice tastes sour, soap feels slippery, and your stomach makes acid strong enough to break down food. All of
+      these come down to one tiny particle — the hydrogen ion. Explore the pH scale, watch indicators change colour, and
+      neutralize an acid drop by drop in a virtual titration.
+    </p>
+  </Fragment>
+
+  <AcidBaseSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Everyday solutions</strong> mode, pick a solution to see its pH, ion concentrations and indicator colour. <strong>Dilute</strong> it with water to see the pH move toward 7.</li>
+      <li>Choose different <strong>indicators</strong> and compare where each one changes colour.</li>
+      <li>Switch to <strong>Titration</strong>. Add sodium hydroxide with the <strong>+0.1 / +1 / +5 mL</strong> buttons or the slider, or press <strong>Start</strong> to add it gradually.</li>
+      <li>Watch your points build the <strong>titration curve</strong> and find the steep jump at the equivalence point.</li>
+      <li>Click the pH scale or the beaker for explanations. <strong>Reset</strong> returns to pure water.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What are acids and bases?</h2>
+  <p>
+    In the widely used <strong>Brønsted–Lowry</strong> definition, an <strong>acid</strong> is a substance that donates
+    hydrogen ions (H⁺, which in water become hydronium ions, H₃O⁺), and a <strong>base</strong> is a substance that
+    accepts them. Many bases release hydroxide ions (OH⁻), which combine with H⁺ to form water. Even pure water contains a
+    tiny, equal amount of both ions, because a few water molecules constantly swap H⁺ with each other.
+  </p>
+
+  <h2 id="ph">The pH scale</h2>
+  <p>
+    <strong>pH</strong> measures how acidic or basic a solution is. At 25 °C, pure water has pH 7 (neutral); lower values
+    are acidic and higher values are basic, or <strong>alkaline</strong>. The scale is <strong>logarithmic</strong>:
+    each step of 1 is a tenfold change in hydronium concentration. Lemon juice at pH 2 has about 100,000 times more
+    H₃O⁺ than pure water. The simulator shows the balance of ions with dots on a compressed scale, because the real
+    ratio can be as large as 10¹⁴.
+  </p>
+
+  <h2 id="indicators">Indicators</h2>
+  <p>
+    An <strong>indicator</strong> is a dye that changes colour over a particular pH range. Chemists choose an indicator
+    whose colour change matches what they want to detect.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Indicator</th><th>Colour change</th><th>Approximate pH range</th></tr></thead>
+      <tbody>
+        <tr><td>Methyl orange</td><td>Red → yellow</td><td>3.1–4.4</td></tr>
+        <tr><td>Litmus</td><td>Red → blue</td><td>4.5–8.3</td></tr>
+        <tr><td>Bromothymol blue</td><td>Yellow → blue</td><td>6.0–7.6</td></tr>
+        <tr><td>Phenolphthalein</td><td>Colourless → pink</td><td>8.2–10</td></tr>
+        <tr><td>Universal indicator</td><td>Red → orange → yellow → green → blue → violet</td><td>0–14</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="neutralization">Neutralization</h2>
+  <p>
+    When an acid and a base react, H⁺ and OH⁻ combine to make water, and the remaining ions form a
+    <strong>salt</strong>. For hydrochloric acid and sodium hydroxide:
+  </p>
+  <code class="formula">HCl + NaOH → NaCl + H₂O        (H⁺ + OH⁻ → H₂O)</code>
+
+  <h2 id="titration">Titration</h2>
+  <p>
+    A <strong>titration</strong> measures the concentration of an acid (or base) by adding a solution of known
+    concentration until the reaction is exactly complete — the <strong>equivalence point</strong>. For a strong acid and
+    strong base, the pH changes slowly at first, then jumps sharply from about 4 to 10 within a fraction of a millilitre
+    around the equivalence point, and then levels off again. An indicator such as phenolphthalein, which changes colour
+    in that jump, shows when to stop.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">pH = −log₁₀[H₃O⁺]        pOH = −log₁₀[OH⁻]</code>
+  <code class="formula">[H₃O⁺] × [OH⁻] = K_w = 1.0 × 10⁻¹⁴   so   pH + pOH = 14   (at 25 °C)</code>
+  <code class="formula">At equivalence:  moles of acid = moles of base   →   C_a·V_a = C_b·V_b</code>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Strong acid / strong base</dt>
+    <dd>Ionizes (or dissociates) completely in water, like HCl or NaOH.</dd>
+    <dt>Weak acid / weak base</dt>
+    <dd>Only partly ionizes, like the acetic acid in vinegar.</dd>
+    <dt>Hydronium ion</dt>
+    <dd>H₃O⁺, the form hydrogen ions take in water.</dd>
+    <dt>Equivalence point</dt>
+    <dd>The point in a titration where exactly enough base has been added to react with all the acid.</dd>
+    <dt>Buffer</dt>
+    <dd>A solution that resists changes in pH, such as the bicarbonate system in blood.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>The human body</strong> keeps blood between about pH 7.35 and 7.45 using buffers (an educational example only — see our <a href="/disclaimer/">medical disclaimer</a>).</li>
+    <li><strong>Agriculture:</strong> farmers test soil pH and add lime to reduce acidity, because many crops grow best between pH 6 and 7.</li>
+    <li><strong>Environment:</strong> acid rain and ocean acidification — seawater pH has fallen from about 8.2 to about 8.1 since the Industrial Revolution — affect lakes, forests and shell-building organisms.</li>
+    <li><strong>Everyday life:</strong> antacids neutralize excess stomach acid, and swimming pools are kept near pH 7.2–7.8.</li>
+    <li><strong>Industry and labs:</strong> titrations are used to check the concentration of everything from vinegar to medicines.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Diluting an acid enough makes it basic.”</strong> Dilution only brings pH closer to 7; it never crosses to basic.</li>
+    <li><strong>“pH 4 is twice as acidic as pH 8.”</strong> The scale is logarithmic: pH 4 has 10,000 times more H₃O⁺ than pH 8.</li>
+    <li><strong>“All acids are dangerous.”</strong> Many are weak and harmless — citric acid in fruit, for example. Strength and concentration both matter.</li>
+    <li><strong>“Neutralization makes pure water.”</strong> It also produces a salt.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    Everyday pH values are typical approximations; real products vary. Dilution treats each solution as a simple excess of
+    strong acid or base, so it ignores buffering and weak-acid behaviour (vinegar, for instance, would rise in pH more
+    slowly). The titration uses a strong acid and a strong base at 25 °C, for which the calculation is exact.
+  </p>
+  <div class="callout callout-warn">
+    <p><strong>Safety:</strong> never taste or mix household chemicals. Bleach mixed with ammonia or acids releases toxic gases.</p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Acids donate H⁺; bases accept H⁺ or release OH⁻.</li>
+    <li>pH = −log[H₃O⁺]; each pH unit is a factor of 10.</li>
+    <li>Indicators change colour over specific pH ranges.</li>
+    <li>In a strong acid–strong base titration, pH jumps sharply at the equivalence point.</li>
+  </ul>
+</SimulatorLayout>

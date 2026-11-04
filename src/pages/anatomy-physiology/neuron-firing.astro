@@ -1,0 +1,165 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import NeuronSim from '../../simulators/neuron/NeuronSim.astro';
+import { neuronQuiz } from '../../data/quizzes/neuron';
+
+const toc = [
+  { id: 'neuron', label: 'Parts of a neuron' },
+  { id: 'resting', label: 'The resting potential' },
+  { id: 'action', label: 'The action potential' },
+  { id: 'channels', label: 'How the channels work' },
+  { id: 'refractory', label: 'Refractory periods' },
+  { id: 'propagation', label: 'Propagation and myelin' },
+  { id: 'formulas', label: 'The Hodgkin–Huxley model' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world connections' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 12.4: The Action Potential. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/12-4-the-action-potential' },
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 12.2: Nervous Tissue. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/12-2-nervous-tissue' },
+  { text: 'Hodgkin, A. L., & Huxley, A. F. (1952). A quantitative description of membrane current and its application to conduction and excitation in nerve. Journal of Physiology, 117(4), 500–544.' },
+  { text: 'The Nobel Prize in Physiology or Medicine 1963 — Eccles, Hodgkin and Huxley. NobelPrize.org.', url: 'https://www.nobelprize.org/prizes/medicine/1963/summary/' },
+  { text: 'Purves, D., et al. (2018). Neuroscience (6th ed.), chapters on electrical signals and voltage-dependent membrane permeability. Oxford University Press.' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="neuron-firing"
+  description="Interactive action potential simulator based on the Hodgkin–Huxley model: stimulate a neuron, find threshold, watch Na⁺ and K⁺ channels, refractory periods, nerve toxins and myelinated conduction."
+  toc={toc}
+  quiz={neuronQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every thought, heartbeat signal and reflex depends on tiny electrical pulses racing along nerve cells. These pulses,
+      called <strong>action potentials</strong>, are created by ions flowing through channels in the cell membrane.
+      Stimulate a neuron and watch sodium and potassium channels produce a spike, using the Nobel-prize-winning
+      Hodgkin–Huxley model.
+    </p>
+  </Fragment>
+
+  <NeuronSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Stimulate</strong> to inject a brief pulse of current. Time is slowed down: 5 milliseconds pass every second.</li>
+      <li>Lower the <strong>stimulus strength</strong> to find the <strong>threshold</strong> — below it, the membrane barely changes; above it, a full spike fires.</li>
+      <li>Press Stimulate again immediately after a spike to discover the <strong>refractory period</strong>.</li>
+      <li>Choose <strong>Steady current</strong> to make the neuron fire repeatedly, and change the strength to change the firing rate.</li>
+      <li>Block channels with <strong>TTX</strong> or <strong>TEA</strong>, and switch on <strong>myelin</strong> to see faster conduction. Watch both graphs below. <strong>Reset</strong> restores the resting neuron.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="neuron">Parts of a neuron</h2>
+  <ul>
+    <li><strong>Dendrites</strong> receive signals from other cells.</li>
+    <li>The <strong>cell body (soma)</strong> contains the nucleus and combines incoming signals.</li>
+    <li>The <strong>axon</strong> carries action potentials away from the cell body, sometimes over a metre in humans.</li>
+    <li><strong>Axon terminals</strong> release chemical messengers (neurotransmitters) to the next cell at a <strong>synapse</strong>.</li>
+  </ul>
+
+  <h2 id="resting">The resting potential</h2>
+  <p>
+    A resting neuron is electrically polarized: the inside is about 65–70 mV more negative than the outside. This
+    <strong>resting membrane potential</strong> exists because the sodium–potassium pump keeps Na⁺ concentrated outside
+    and K⁺ concentrated inside, and because the resting membrane lets K⁺ leak out more easily than Na⁺ can leak in.
+  </p>
+
+  <h2 id="action">The action potential</h2>
+  <ol>
+    <li><strong>Stimulus and threshold:</strong> a stimulus makes the inside less negative. If it reaches about −55 mV (threshold), the response becomes self-sustaining.</li>
+    <li><strong>Depolarization:</strong> voltage-gated Na⁺ channels open and sodium rushes in. The membrane potential shoots up to about +40 mV within a millisecond.</li>
+    <li><strong>Repolarization:</strong> Na⁺ channels inactivate, and voltage-gated K⁺ channels open. Potassium flows out and the inside becomes negative again.</li>
+    <li><strong>Hyperpolarization:</strong> K⁺ channels close slowly, so the potential briefly dips below resting (the undershoot) before recovering.</li>
+  </ol>
+  <p>
+    The whole spike lasts only about 1–2 milliseconds. Remarkably few ions actually cross the membrane, so the
+    concentration gradients barely change during a single spike.
+  </p>
+
+  <h2 id="channels">How the channels work</h2>
+  <p>
+    Hodgkin and Huxley described each channel with “gates”. The sodium channel has a fast activation gate (m) that opens
+    when the membrane depolarizes and a slower inactivation gate (h) that closes shortly afterwards. The potassium channel
+    has a slow activation gate (n). The lower graph shows these gates: m shoots up first, then h falls and n rises — the
+    timing difference is what creates the spike’s shape.
+  </p>
+
+  <h2 id="refractory">Refractory periods</h2>
+  <p>
+    Immediately after a spike, inactivated sodium channels cannot reopen, so no second spike is possible — the
+    <strong>absolute refractory period</strong>. A little later, a stronger-than-usual stimulus can trigger a spike — the
+    <strong>relative refractory period</strong>. Refractoriness limits how fast a neuron can fire and makes signals
+    travel in one direction only.
+  </p>
+
+  <h2 id="propagation">Propagation and myelin</h2>
+  <p>
+    An action potential in one patch of membrane depolarizes the patch next to it, which then fires too, so the spike
+    travels down the axon like a falling line of dominoes. Many axons are wrapped in <strong>myelin</strong>, a fatty
+    insulating layer made by glial cells. The signal then jumps between small uninsulated gaps called <strong>nodes of
+    Ranvier</strong> — <em>saltatory conduction</em> — which is much faster and uses less energy. Diseases that damage
+    myelin, such as multiple sclerosis, slow or block nerve signals.
+  </p>
+
+  <h2 id="formulas">The Hodgkin–Huxley model</h2>
+  <p>
+    Working with the giant axon of the squid, Alan Hodgkin and Andrew Huxley described the action potential with a set of
+    equations in 1952, for which they shared the 1963 Nobel Prize. The simulator solves their equations directly:
+  </p>
+  <code class="formula">C · dV/dt = I_stim − g_Na·m³·h·(V − E_Na) − g_K·n⁴·(V − E_K) − g_L·(V − E_L)</code>
+  <p>
+    Here g are maximum conductances, E are the equilibrium (reversal) potentials for each ion (about +50 mV for Na⁺ and
+    −77 mV for K⁺), and m, h and n are the gates, each changing at voltage-dependent rates.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Membrane potential</dt>
+    <dd>The voltage difference across the cell membrane, inside relative to outside.</dd>
+    <dt>Depolarization / repolarization</dt>
+    <dd>The membrane becoming less negative / returning to negative.</dd>
+    <dt>Threshold</dt>
+    <dd>The membrane potential at which an action potential is triggered, about −55 mV.</dd>
+    <dt>Voltage-gated channel</dt>
+    <dd>A protein pore that opens or closes in response to changes in membrane potential.</dd>
+    <dt>Saltatory conduction</dt>
+    <dd>Rapid jumping of an action potential between nodes of Ranvier on a myelinated axon.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world connections</h2>
+  <ul>
+    <li><strong>Local anaesthetics</strong> such as lidocaine work by blocking sodium channels so pain signals cannot travel (educational context only).</li>
+    <li><strong>Nerve toxins:</strong> tetrodotoxin from puffer fish blocks Na⁺ channels, which is why improperly prepared puffer fish can be lethal.</li>
+    <li><strong>Medical tests</strong> such as nerve conduction studies and EEGs measure electrical activity from neurons.</li>
+    <li><strong>Neuroscience research and brain–computer interfaces</strong> build on models like Hodgkin–Huxley.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Stronger stimuli make bigger spikes.”</strong> Spikes are all-or-none; stronger stimuli produce more frequent spikes.</li>
+    <li><strong>“Nerve signals are electrons flowing like in a wire.”</strong> They are waves of ions moving across the membrane.</li>
+    <li><strong>“The sodium–potassium pump makes each spike.”</strong> The pump maintains gradients over time; the spike itself is driven by channels.</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> This simulator reproduces a classic research model of a squid axon. It is
+      not a model of any human disease or treatment and is not medical advice. See our <a href="/disclaimer/">educational
+      and medical disclaimer</a>.
+    </p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Neurons rest at about −65 to −70 mV, inside negative.</li>
+    <li>Reaching threshold opens Na⁺ channels (depolarization); K⁺ channels then restore the voltage (repolarization).</li>
+    <li>Action potentials are all-or-none and followed by refractory periods.</li>
+    <li>Myelin makes signals jump between nodes, greatly increasing speed.</li>
+  </ul>
+</SimulatorLayout>

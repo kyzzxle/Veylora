@@ -1,0 +1,150 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import ClimateSim from '../../simulators/climate/ClimateSim.astro';
+import { climateQuiz } from '../../data/quizzes/climate';
+
+const toc = [
+  { id: 'greenhouse', label: 'The greenhouse effect' },
+  { id: 'co2', label: 'Rising carbon dioxide' },
+  { id: 'balance', label: 'Earth’s energy balance' },
+  { id: 'lag', label: 'Why warming lags behind' },
+  { id: 'sensitivity', label: 'Climate sensitivity' },
+  { id: 'formulas', label: 'The model’s equations' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'impacts', label: 'Impacts and responses' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'IPCC (2021). Climate Change 2021: The Physical Science Basis — Summary for Policymakers. Contribution of Working Group I to the Sixth Assessment Report.', url: 'https://www.ipcc.ch/report/ar6/wg1/' },
+  { text: 'NOAA Global Monitoring Laboratory. Trends in Atmospheric Carbon Dioxide (Mauna Loa).', url: 'https://gml.noaa.gov/ccgg/trends/' },
+  { text: 'Myhre, G., Highwood, E. J., Shine, K. P., & Stordal, F. (1998). New estimates of radiative forcing due to well mixed greenhouse gases. Geophysical Research Letters, 25(14), 2715–2718.' },
+  { text: 'Held, I. M., et al. (2010). Probing the fast and slow components of global warming by returning abruptly to preindustrial forcing. Journal of Climate, 23(9), 2418–2427.' },
+  { text: 'NASA. Climate Change: Evidence and Causes.', url: 'https://science.nasa.gov/climate-change/' },
+];
+---
+
+<SimulatorLayout
+  branch="ecology"
+  topic="climate-change"
+  description="Interactive climate change simulator: explore CO₂ from 1850 to 2200, compare emission scenarios and climate sensitivity, and see how warming compares with the Paris Agreement goals in a simple energy-balance model."
+  toc={toc}
+  quiz={climateQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Since the 1800s, burning coal, oil and gas has raised the amount of carbon dioxide in the air by about half, and
+      the planet has warmed by more than 1 °C. Use a simplified climate model — the same kind scientists use to explain
+      the basics — to see how CO₂ traps heat, why warming arrives slowly, and how different futures compare.
+    </p>
+  </Fragment>
+
+  <ClimateSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong> to travel from 1850 to 2200 (25 years per second), or drag the <strong>Year</strong> slider.</li>
+      <li>Choose a <strong>future scenario</strong> for after 2024. The dashed lines in the graphs show the whole projection; solid lines show the years you have reached.</li>
+      <li>Change the <strong>climate sensitivity</strong> to see the range of outcomes scientists consider likely.</li>
+      <li>Compare <strong>warming so far</strong> with <strong>eventual warming</strong> to see the effect of the oceans’ slow response.</li>
+      <li>Click parts of the diagram for explanations. <strong>Reset</strong> restores the defaults.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="greenhouse">The greenhouse effect</h2>
+  <p>
+    Sunlight is mostly visible light, which passes easily through the atmosphere and warms Earth’s surface. The warm
+    surface then gives off energy as <strong>infrared radiation</strong> (heat). Gases such as water vapour, carbon
+    dioxide and methane absorb some of this infrared radiation and re-emit it in all directions, including back down.
+    This natural <strong>greenhouse effect</strong> keeps Earth about 33 °C warmer than it would otherwise be — essential
+    for life. Adding more greenhouse gases strengthens the effect.
+  </p>
+
+  <h2 id="co2">Rising carbon dioxide</h2>
+  <p>
+    Bubbles of ancient air trapped in Antarctic ice show that CO₂ stayed below about 300 ppm (parts per million) for at
+    least 800,000 years. Direct measurements at Mauna Loa, Hawaii, began in 1958 at about 315 ppm; by 2024 the yearly
+    average had passed 420 ppm. The rise comes mainly from burning fossil fuels, with a contribution from deforestation.
+  </p>
+
+  <h2 id="balance">Earth’s energy balance</h2>
+  <p>
+    Earth’s temperature settles where incoming solar energy equals outgoing infrared energy. Extra CO₂ reduces outgoing
+    energy, creating an imbalance called <strong>radiative forcing</strong>, measured in watts per square metre. Earth
+    then warms until it radiates enough extra heat to restore the balance. In the diagram, the number of heat arrows
+    trapped and sent back down grows with the forcing.
+  </p>
+
+  <h2 id="lag">Why warming lags behind</h2>
+  <p>
+    The oceans can store enormous amounts of heat. The upper ocean warms over years to decades, while the deep ocean
+    takes centuries. As a result, surface warming lags behind rising CO₂, and some warming is “in the pipeline” even if
+    concentrations stop rising. Try the “frozen at today’s level” scenario and watch temperature keep climbing for
+    decades before levelling off.
+  </p>
+
+  <h2 id="sensitivity">Climate sensitivity</h2>
+  <p>
+    <strong>Equilibrium climate sensitivity</strong> is the eventual warming for a doubling of CO₂. It includes
+    feedbacks: warming adds water vapour (itself a greenhouse gas) and melts reflective ice, which amplify the initial
+    effect. The IPCC’s Sixth Assessment Report gives a best estimate of 3 °C with a likely range of 2.5–4 °C.
+  </p>
+
+  <h2 id="formulas">The model’s equations</h2>
+  <p>The simulator uses a two-layer energy-balance model, a standard teaching and research tool:</p>
+  <code class="formula">CO₂ forcing:  F = 5.35 · ln(CO₂ / CO₂ in 1850)   W/m²</code>
+  <code class="formula">Surface &amp; upper ocean:  C · dT/dt = F − λ·T − γ·(T − T_deep)</code>
+  <code class="formula">Deep ocean:  C_deep · dT_deep/dt = γ·(T − T_deep)</code>
+  <p>
+    λ is the climate feedback parameter (3.71 W/m² divided by the climate sensitivity), C and C_deep are heat
+    capacities, and γ controls heat flow into the deep ocean. Eventual warming is F / λ.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>ppm (parts per million)</dt>
+    <dd>Number of CO₂ molecules per million molecules of dry air.</dd>
+    <dt>Radiative forcing</dt>
+    <dd>A change in Earth’s energy balance, in W/m², caused by a factor such as greenhouse gases or aerosols.</dd>
+    <dt>Feedback</dt>
+    <dd>A process that amplifies (positive) or reduces (negative) an initial change, such as melting ice exposing darker ocean.</dd>
+    <dt>Net zero</dt>
+    <dd>A state where human greenhouse gas emissions are balanced by removals from the atmosphere.</dd>
+  </dl>
+
+  <h2 id="impacts">Impacts and responses</h2>
+  <ul>
+    <li><strong>Impacts:</strong> more intense heatwaves and heavy rainfall, rising sea levels from melting ice and warming water, shrinking Arctic sea ice, and stress on ecosystems such as coral reefs.</li>
+    <li><strong>Mitigation:</strong> cutting emissions by switching to low-carbon energy, improving efficiency, protecting forests and removing CO₂.</li>
+    <li><strong>Adaptation:</strong> preparing for changes already under way, such as stronger flood defences and heat-resilient cities.</li>
+    <li><strong>Policy:</strong> the 2015 Paris Agreement aims to keep warming well below 2 °C and to pursue efforts to limit it to 1.5 °C.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Climate change is caused by the ozone hole.”</strong> They are separate problems; ozone loss affects ultraviolet radiation.</li>
+    <li><strong>“If emissions stop, temperatures will drop right away.”</strong> CO₂ stays in the air for centuries, so temperatures stay high for a long time.</li>
+    <li><strong>“A cold winter disproves global warming.”</strong> Weather varies day to day; climate is the long-term average.</li>
+    <li><strong>“CO₂ is a tiny fraction of the air, so it can’t matter.”</strong> Small amounts of strong absorbers have large effects, just as a drop of ink colours a glass of water.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    This is a teaching model, not a forecast. It includes only CO₂; in reality methane and other gases add warming while
+    air-pollution particles (aerosols) offset part of it — historically these have roughly cancelled. It treats the whole
+    planet as a single average and ignores natural variability such as El Niño, volcanic eruptions and the carbon cycle’s
+    response to warming. The future scenarios are simplified paths, not official IPCC scenarios. Real projections come
+    from comprehensive climate models; see the IPCC report for authoritative numbers.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Greenhouse gases trap outgoing infrared heat, warming the surface.</li>
+    <li>CO₂ has risen from about 280 ppm to over 420 ppm, mainly from fossil fuels.</li>
+    <li>Oceans slow the response, so some warming continues even after CO₂ stops rising.</li>
+    <li>The amount of future warming depends mainly on future emissions and on climate sensitivity.</li>
+  </ul>
+</SimulatorLayout>

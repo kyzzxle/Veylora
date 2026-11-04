@@ -1,0 +1,63 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import { SUBSTANCES } from './data';
+---
+
+<SimShell id="acidbase-sim" label="A beaker of solution with a pH scale." hint={false} badge="pH 7.0">
+  <button slot="toolbar" type="button" class="btn btn-sm" data-add="0.1">+0.1 mL</button>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-add="1">+1 mL</button>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-add="5">+5 mL</button>
+
+  <ChoiceControl
+    name="ab-mode"
+    label="Mode"
+    value="explore"
+    options={[
+      { value: 'explore', label: 'Everyday solutions' },
+      { value: 'titrate', label: 'Titration' },
+    ]}
+  />
+  <div class="ctrl" data-mode-only="explore">
+    <label class="ctrl-label" for="ab-substance">Solution</label>
+    <select id="ab-substance" class="select" data-substance>
+      {SUBSTANCES.map((s, i) => <option value={i} selected={s.name === 'Pure water'}>{s.name} (≈ pH {s.ph})</option>)}
+    </select>
+  </div>
+  <div data-mode-only="explore">
+    <SliderControl name="ab-dilute" label="Dilute with water" min={0} max={4} step={1} value={0} help="Each step dilutes the solution 10 times." />
+  </div>
+  <div data-mode-only="titrate" hidden>
+    <SliderControl name="ab-vol" label="NaOH added from the burette" min={0} max={50} step={0.1} value={0} help="Flask: 25.0 mL of 0.100 M HCl. Burette: 0.100 M NaOH. Use the buttons or press Start to add drops." />
+  </div>
+  <div class="ctrl">
+    <label class="ctrl-label" for="ab-indicator">Indicator</label>
+    <select id="ab-indicator" class="select" data-indicator>
+      <option value="universal">Universal indicator</option>
+      <option value="phenolphthalein">Phenolphthalein</option>
+      <option value="bromothymol">Bromothymol blue</option>
+      <option value="methylorange">Methyl orange</option>
+      <option value="litmus">Litmus</option>
+    </select>
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="ph" label="pH" key />
+    <Readout name="nature" label="The solution is" />
+    <Readout name="h" label="[H₃O⁺]" />
+    <Readout name="oh" label="[OH⁻]" />
+    <Readout name="colour" label="Indicator colour" />
+    <Readout name="extra" label="Neutralization" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="ab-graph" title="Titration curve: pH vs. volume of NaOH added" desc="pH of the solution in the flask plotted against millilitres of sodium hydroxide added. The steep jump happens at the equivalence point, 25 mL." />
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initAcidBase } from './acidbase';
+  mountSim('#acidbase-sim', initAcidBase);
+</script>

@@ -64,10 +64,10 @@ Target: 18 live simulators covering all 10 branches.
 - [x] Astronomy — Planetary Orbits and Gravity
 - [x] Mathematics — Probability and Random Experiments
 - [x] Ecology — Ecosystem Population Dynamics
-- [ ] Chemistry — Atomic Structure
-- [ ] Chemistry — Acid-Base Reactions
-- [ ] Anatomy — Nervous System and Neuron Firing
-- [ ] Ecology — Climate Change
+- [x] Chemistry — Atomic Structure
+- [x] Chemistry — Acid-Base Reactions
+- [x] Anatomy — Nervous System and Neuron Firing
+- [x] Ecology — Climate Change
 - [ ] Biology — Natural Selection and Evolution
 - [ ] Zoology — Animal Classification
 - [ ] Botany — Transpiration
