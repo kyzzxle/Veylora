@@ -1,0 +1,79 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import Readout from '../../components/sim/Readout.astro';
+import { ANIMALS } from './data';
+---
+
+<SimShell id="classification-sim" label="A branching identification key for animal groups." playable={false} hint="Click any box in the key" aspect="16 / 11">
+  <button slot="toolbar" type="button" class="btn btn-sm btn-primary" data-next>Next animal</button>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="cls-animal">Animal to classify</label>
+    <select id="cls-animal" class="select" data-animal>
+      {ANIMALS.map((a, i) => <option value={i}>{a.emoji} {a.name}</option>)}
+    </select>
+  </div>
+  <div class="cls-card" aria-live="polite">
+    <span class="cls-emoji" data-emoji aria-hidden="true"></span>
+    <p class="cls-question" data-question></p>
+    <div class="cls-answers">
+      <button type="button" class="btn btn-primary" data-answer="yes">Yes</button>
+      <button type="button" class="btn" data-answer="no">No</button>
+    </div>
+    <p class="cls-feedback" data-feedback></p>
+  </div>
+  <button type="button" class="btn btn-sm btn-ghost" data-reveal>Show me the answer</button>
+
+  <Fragment slot="readouts">
+    <Readout name="animal" label="Animal" key />
+    <Readout name="steps" label="Questions answered" />
+    <Readout name="group" label="Group" />
+    <Readout name="score" label="Classified correctly" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .cls-card {
+    display: grid;
+    gap: 12px;
+    padding: 16px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    text-align: center;
+  }
+  .cls-emoji {
+    font-size: 3rem;
+    line-height: 1;
+  }
+  .cls-question {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 650;
+    font-size: 1.05rem;
+  }
+  .cls-answers {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  .cls-answers .btn {
+    flex: 1;
+  }
+  .cls-feedback {
+    margin: 0;
+    font-size: 0.9rem;
+    min-height: 1.4em;
+  }
+  .cls-feedback.ok {
+    color: var(--success);
+  }
+  .cls-feedback.no {
+    color: var(--danger);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initClassification } from './classification';
+  mountSim('#classification-sim', initClassification);
+</script>

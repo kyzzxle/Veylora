@@ -1,0 +1,56 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import DataTable from '../../components/sim/DataTable.astro';
+---
+
+<SimShell id="transpiration-sim" label="A leafy shoot in a potometer, with a close-up of a leaf surface." showTime hint={false} badge="Ready">
+  <button slot="toolbar" type="button" class="btn btn-sm" data-bubble>Reset bubble</button>
+
+  <SliderControl name="tr-light" label="Light intensity" min={0} max={100} step={5} value={60} scale={['Dark', 'Bright sun']} />
+  <SliderControl name="tr-temp" label="Temperature" min={5} max={40} step={1} value={22} />
+  <SliderControl name="tr-hum" label="Relative humidity" min={10} max={95} step={5} value={50} />
+  <SliderControl name="tr-wind" label="Wind speed" min={0} max={5} step={0.5} value={1} help="Like placing a fan near the plant." />
+  <div class="ctrl">
+    <label class="ctrl-label" for="tr-coat">Petroleum jelly on leaves</label>
+    <select id="tr-coat" class="select" data-coat>
+      <option value="none">No coating</option>
+      <option value="upper">Upper surfaces coated</option>
+      <option value="lower">Lower surfaces coated</option>
+      <option value="both">Both surfaces coated</option>
+    </select>
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="rate" label="Water uptake rate" key />
+    <Readout name="stomata" label="Stomata open" />
+    <Readout name="vpd" label="Drying power of air (VPD)" />
+    <Readout name="dist" label="Bubble moved" />
+    <Readout name="limit" label="Main limiting factor" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="tr-graph" title="Distance the bubble has moved (mm) over time (minutes)" desc="Cumulative bubble movement in the potometer over time for the current conditions and any saved runs." compare saveLabel="Save run & reset bubble" />
+    <DataTable
+      id="tr-table"
+      title="Results"
+      columns={[
+        { key: 'light', label: 'Light (%)' },
+        { key: 'temp', label: 'Temp (°C)' },
+        { key: 'hum', label: 'Humidity (%)' },
+        { key: 'wind', label: 'Wind (m/s)' },
+        { key: 'coat', label: 'Coating' },
+        { key: 'rate', label: 'Rate (mm/min)' },
+      ]}
+      emptyText="Set the conditions and press Record to save the water uptake rate."
+    />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initTranspiration } from './transpiration';
+  mountSim('#transpiration-sim', initTranspiration);
+</script>

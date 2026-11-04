@@ -1,0 +1,147 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import EarthSim from '../../simulators/earth/EarthSim.astro';
+import { earthQuiz } from '../../data/quizzes/earth';
+
+const toc = [
+  { id: 'structure', label: 'Earth’s structure' },
+  { id: 'layers', label: 'The layers in detail' },
+  { id: 'conditions', label: 'Temperature, pressure and density' },
+  { id: 'evidence', label: 'How we know' },
+  { id: 'plates', label: 'Lithosphere and asthenosphere' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Dziewonski, A. M., & Anderson, D. L. (1981). Preliminary reference Earth model. Physics of the Earth and Planetary Interiors, 25(4), 297–356.' },
+  { text: 'U.S. Geological Survey. The Interior of the Earth.', url: 'https://pubs.usgs.gov/gip/interior/' },
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 8.1: The Global Perspective (Earth’s interior). OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/8-1-the-global-perspective' },
+  { text: 'British Geological Survey. The structure of the Earth.', url: 'https://www.bgs.ac.uk/discovering-geology/' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="earth-layers"
+  description="Interactive 3D model of Earth’s layers: rotate a cutaway Earth, click the crust, mantle and core, and probe temperature, pressure and density from the surface to the centre."
+  toc={toc}
+  quiz={earthQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      The deepest hole ever drilled reaches only about 12 km — less than 0.2% of the way to Earth’s centre. Yet
+      scientists have mapped the planet’s interior in remarkable detail. Rotate a cutaway Earth, click each layer, and
+      send a probe 6,371 km down to the centre.
+    </p>
+  </Fragment>
+
+  <EarthSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Drag</strong> to rotate the Earth and use the <strong>+</strong> and <strong>−</strong> buttons (or scroll after clicking the model) to zoom. On a phone, tap the model first.</li>
+      <li><strong>Click a layer</strong> to read about it; the depth probe jumps to the middle of that layer.</li>
+      <li>Drag the <strong>depth probe</strong> slider to read temperature, pressure, density and state at any depth, and watch the marker move on both graphs.</li>
+      <li>Turn the <strong>cutaway</strong> off to see the surface, and switch <strong>labels</strong> or <strong>rotation</strong> on and off.</li>
+      <li>Keyboard users: focus the 3D view with Tab, then use the arrow keys to rotate. <strong>Reset</strong> restores the starting view.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="structure">Earth’s structure</h2>
+  <p>
+    Earth is built in layers, a bit like an onion. When the young planet was largely molten, heavy materials such as iron
+    and nickel sank to the centre while lighter rocks rose — a process called <strong>differentiation</strong>. The
+    result is a dense metal core, a thick rocky mantle and a thin, light crust. Earth’s radius is about 6,371 km.
+  </p>
+
+  <h2 id="layers">The layers in detail</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Layer</th><th>Depth</th><th>State</th><th>Made of</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Crust</strong></td><td>0 to 5–70 km</td><td>Solid</td><td>Granite-type rock (continents), basalt (oceans)</td></tr>
+        <tr><td><strong>Upper mantle</strong></td><td>to ~660 km</td><td>Solid, slowly flowing</td><td>Peridotite (olivine-rich rock)</td></tr>
+        <tr><td><strong>Lower mantle</strong></td><td>660–2,890 km</td><td>Solid</td><td>Dense magnesium-iron silicates</td></tr>
+        <tr><td><strong>Outer core</strong></td><td>2,890–5,150 km</td><td>Liquid</td><td>Iron and nickel</td></tr>
+        <tr><td><strong>Inner core</strong></td><td>5,150–6,371 km</td><td>Solid</td><td>Iron and nickel</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    The <strong>crust</strong> is thinnest under the oceans (5–10 km) and thickest under mountain ranges (up to about
+    70 km). The <strong>mantle</strong> makes up about 84% of Earth’s volume. The <strong>core</strong> is roughly the
+    size of Mars, and swirling liquid iron in the outer core generates Earth’s magnetic field.
+  </p>
+
+  <h2 id="conditions">Temperature, pressure and density</h2>
+  <p>
+    Everything increases with depth. <strong>Temperature</strong> rises from surface conditions to roughly 5,000–6,000 °C
+    at the centre — similar to the surface of the Sun. <strong>Pressure</strong> reaches about 136 gigapascals at the
+    core–mantle boundary and about 360 GPa at the centre, more than 3.5 million times the pressure of air at sea level.
+    <strong>Density</strong> rises from about 2.7 g/cm³ in the crust to about 13 g/cm³ in the inner core, with sudden
+    jumps at the boundaries between layers — clearly visible in the density graph.
+  </p>
+
+  <h2 id="evidence">How we know</h2>
+  <ul>
+    <li><strong>Seismic waves:</strong> earthquakes send waves through the planet. Their speed changes with the material, they bend at boundaries, and shear (S) waves cannot pass through liquid. In 1936, Inge Lehmann used earthquake records to discover the solid inner core.</li>
+    <li><strong>Earth’s mass and gravity:</strong> Earth’s average density (about 5.5 g/cm³) is twice that of surface rocks, so the interior must be much denser.</li>
+    <li><strong>Meteorites:</strong> iron meteorites are thought to be pieces of the cores of shattered early planets.</li>
+    <li><strong>Laboratory experiments</strong> squeeze minerals between diamonds to recreate deep-Earth pressures.</li>
+  </ul>
+
+  <h2 id="plates">Lithosphere and asthenosphere</h2>
+  <p>
+    Geologists also divide the outer Earth by how it behaves. The <strong>lithosphere</strong> — the crust plus the
+    rigid top of the mantle, typically about 100 km thick — is broken into tectonic plates. Below it, the
+    <strong>asthenosphere</strong> is hot and weak enough to flow slowly, allowing the plates to move a few centimetres
+    each year.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Moho</dt>
+    <dd>The boundary between the crust and the mantle, named after Andrija Mohorovičić, who discovered it in 1909.</dd>
+    <dt>Core–mantle boundary</dt>
+    <dd>The boundary at about 2,890 km where solid rock meets liquid iron.</dd>
+    <dt>Seismic wave</dt>
+    <dd>A wave of energy that travels through Earth, usually caused by an earthquake.</dd>
+    <dt>Convection</dt>
+    <dd>Movement of material driven by heat, which occurs slowly in the solid mantle and quickly in the liquid outer core.</dd>
+  </dl>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Earthquakes and volcanoes</strong> are driven by heat escaping from Earth’s interior and the motion of plates.</li>
+    <li><strong>The magnetic field</strong> produced in the outer core protects life by deflecting charged particles from the Sun, and makes compass navigation possible.</li>
+    <li><strong>Geothermal energy</strong> taps the heat of the crust to generate electricity and heat homes.</li>
+    <li><strong>Mineral resources:</strong> understanding the crust helps locate ores and other resources.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The mantle is a sea of molten lava.”</strong> It is almost entirely solid rock that flows very slowly, like extremely stiff putty.</li>
+    <li><strong>“The core is liquid all the way through.”</strong> The inner core is solid.</li>
+    <li><strong>“The crust is thick.”</strong> If Earth were an apple, the crust would be thinner than its skin.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The layers are drawn as perfect spheres with an average crust thickness of 35 km, exaggerated five times so it can be
+    seen. In reality crust thickness varies, and the boundaries have complex structure. Densities and pressures follow the
+    standard PREM reference model; deep temperatures are estimates with uncertainties of several hundred degrees.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Earth has a thin crust, a thick solid mantle, a liquid outer core and a solid inner core.</li>
+    <li>Temperature, pressure and density all increase with depth.</li>
+    <li>Pressure keeps the inner core solid despite its extreme heat.</li>
+    <li>Seismic waves from earthquakes are the main evidence for Earth’s internal structure.</li>
+  </ul>
+</SimulatorLayout>

@@ -1,0 +1,152 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import SelectionSim from '../../simulators/selection/SelectionSim.astro';
+import { selectionQuiz } from '../../data/quizzes/selection';
+
+const toc = [
+  { id: 'what', label: 'What is natural selection?' },
+  { id: 'moths', label: 'The peppered moth story' },
+  { id: 'genetics', label: 'Genes, alleles and dominance' },
+  { id: 'other', label: 'Mutation and genetic drift' },
+  { id: 'formulas', label: 'The model’s equations' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world examples' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 19.1: Population Evolution, and 19.3: Adaptive Evolution. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/19-3-adaptive-evolution' },
+  { text: 'Cook, L. M., Grant, B. S., Saccheri, I. J., & Mallet, J. (2012). Selective bird predation on the peppered moth: the last experiment of Michael Majerus. Biology Letters, 8(4), 609–612.' },
+  { text: 'van’t Hof, A. E., et al. (2016). The industrial melanism mutation in British peppered moths is a transposable element. Nature, 534, 102–105.' },
+  { text: 'Understanding Evolution. University of California Museum of Paleontology.', url: 'https://evolution.berkeley.edu/' },
+];
+---
+
+<SimulatorLayout
+  branch="biology"
+  topic="natural-selection"
+  description="Interactive natural selection simulator based on the peppered moth: change tree bark colour and bird predation, and watch allele frequencies evolve with dominance, mutation and genetic drift."
+  toc={toc}
+  quiz={selectionQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      In the 1800s, as factories coated the trees of northern England with soot, a rare black form of the peppered moth
+      became common in just a few decades. It is one of the clearest examples of evolution ever observed. Change the
+      environment and the hunting pressure, and watch natural selection reshape a population generation by generation.
+    </p>
+  </Fragment>
+
+  <SelectionSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose the <strong>bark colour</strong> (or a preset) and the strength of <strong>bird predation</strong>, then press <strong>Start</strong>.</li>
+      <li>Each step is one generation. The moths on screen are a sample; crossed-out moths were caught by birds.</li>
+      <li>Watch the <strong>percentage of dark moths</strong> on the graph. Switch from clean forest to pollution and back to see the population respond.</li>
+      <li>Change the <strong>starting frequency</strong>, <strong>population size</strong> and <strong>mutation rate</strong> to explore dominance, genetic drift and new variation.</li>
+      <li>Press <strong>Save run &amp; restart</strong> to compare experiments on the graph. Click a moth to see its survival chance. <strong>Reset</strong> restores the defaults.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is natural selection?</h2>
+  <p>
+    Charles Darwin and Alfred Russel Wallace proposed that species change over time through <strong>natural
+    selection</strong>. It needs only three conditions:
+  </p>
+  <ol>
+    <li><strong>Variation:</strong> individuals in a population differ in their traits.</li>
+    <li><strong>Inheritance:</strong> some of those differences are passed from parents to offspring through genes.</li>
+    <li><strong>Differential survival and reproduction:</strong> some variants survive and reproduce more than others in a given environment.</li>
+  </ol>
+  <p>
+    When all three are present, helpful inherited traits become more common over generations. The population
+    <strong>adapts</strong> to its environment. Evolution is this change in the genetic makeup of a population over time.
+  </p>
+
+  <h2 id="moths">The peppered moth story</h2>
+  <p>
+    Peppered moths rest on tree trunks during the day, where birds hunt them by sight. The normal form (<em>typica</em>)
+    is pale with dark speckles, well camouflaged against lichen-covered bark. The first dark form (<em>carbonaria</em>)
+    was recorded near Manchester in 1848. By 1895, about 98% of moths there were dark, because soot had killed the
+    lichens and blackened the trees. After clean-air laws in the 1950s, the bark grew lighter and the pale form became
+    common again. Experiments, including a large study by Michael Majerus published in 2012, confirmed that birds eat
+    more of the moths that stand out.
+  </p>
+
+  <h2 id="genetics">Genes, alleles and dominance</h2>
+  <p>
+    Moth colour is controlled mainly by one gene with two versions, or <strong>alleles</strong>: dark (D) and light (l).
+    Each moth has two copies. The dark allele is <strong>dominant</strong>, so DD and Dl moths are dark and only ll moths
+    are light. Because heterozygotes are dark, selection can act on the dark allele even when it is rare — which is why
+    it spread so fast in polluted areas.
+  </p>
+
+  <h2 id="other">Mutation and genetic drift</h2>
+  <ul>
+    <li><strong>Mutation</strong> creates new alleles at random. It is the ultimate source of variation, but on its own it changes frequencies only slowly. Genetic research has shown the carbonaria mutation arose around 1819.</li>
+    <li><strong>Genetic drift</strong> is random change caused by chance — which individuals happen to reproduce. It matters most in small populations, where alleles can be lost or become fixed purely by luck.</li>
+  </ul>
+  <p>
+    Try this: set the mutation rate to 0, run the polluted forest for a few hundred generations, then switch back to a
+    clean forest. If the light allele has been lost completely, nothing happens — <strong>natural selection can only act
+    on variation that already exists</strong>. In real populations, mutation and moths migrating in from other areas keep
+    rare alleles from disappearing, which is why the light form could make its comeback.
+  </p>
+
+  <h2 id="formulas">The model’s equations</h2>
+  <p>If q is the frequency of the dark allele, the genotype frequencies before selection are:</p>
+  <code class="formula">DD = q²     Dl = 2q(1 − q)     ll = (1 − q)²</code>
+  <p>Each phenotype survives with probability s, which falls as its contrast with the bark rises. The dark allele frequency among the survivors is:</p>
+  <code class="formula">q′ = (q²·s_dark + q(1 − q)·s_dark) / (s_dark·(q² + 2q(1 − q)) + s_light·(1 − q)²)</code>
+  <p>The simulator then applies mutation and draws the next generation at random from 2N gene copies to include drift.</p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Allele</dt>
+    <dd>One version of a gene.</dd>
+    <dt>Allele frequency</dt>
+    <dd>The proportion of all gene copies in a population that are a particular allele.</dd>
+    <dt>Phenotype and genotype</dt>
+    <dd>An organism’s observable traits, and the alleles it carries.</dd>
+    <dt>Fitness</dt>
+    <dd>Relative ability to survive and reproduce in a particular environment.</dd>
+    <dt>Adaptation</dt>
+    <dd>An inherited trait that increases fitness in a particular environment.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world examples</h2>
+  <ul>
+    <li><strong>Antibiotic resistance:</strong> bacteria with resistance mutations survive antibiotic treatment and multiply — a major concern in medicine.</li>
+    <li><strong>Pesticide resistance</strong> in insects and <strong>herbicide resistance</strong> in weeds evolve the same way.</li>
+    <li><strong>Darwin’s finches:</strong> on the Galápagos, beak size shifted within a few generations after droughts changed the available seeds (studied by Peter and Rosemary Grant).</li>
+    <li><strong>Lactase persistence:</strong> in human populations with a long history of dairy farming, the ability to digest milk as adults became common.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Organisms evolve because they need to.”</strong> Mutations are random; selection only favours variants that already exist.</li>
+    <li><strong>“Individuals evolve.”</strong> Populations evolve; individuals only survive or don’t.</li>
+    <li><strong>“Survival of the fittest means the strongest.”</strong> Fitness means reproductive success in a specific environment — sometimes the best-camouflaged, not the strongest.</li>
+    <li><strong>“Evolution is always progress.”</strong> Selection tracks the current environment, which can change direction, as it did for the moths.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The model uses a single gene with two alleles, random mating, non-overlapping generations and a simple link between
+    camouflage and survival. Real moths also migrate between areas, rest in varied places, and have an intermediate
+    “insularia” form. The selection strength here is adjustable for teaching; historical estimates suggest dark moths had
+    roughly a 10–30% survival advantage in polluted areas.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Natural selection requires variation, inheritance and differences in survival or reproduction.</li>
+    <li>Allele frequencies change across generations; individuals do not evolve.</li>
+    <li>Which trait is favoured depends on the environment, and can reverse when the environment changes.</li>
+    <li>Mutation supplies variation, and drift causes random change, especially in small populations.</li>
+  </ul>
+</SimulatorLayout>

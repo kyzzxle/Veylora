@@ -1,0 +1,151 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import TranspirationSim from '../../simulators/transpiration/TranspirationSim.astro';
+import { transpirationQuiz } from '../../data/quizzes/transpiration';
+
+const toc = [
+  { id: 'what', label: 'What is transpiration?' },
+  { id: 'pathway', label: 'Water’s journey through a plant' },
+  { id: 'stomata', label: 'Stomata and guard cells' },
+  { id: 'factors', label: 'Factors affecting the rate' },
+  { id: 'potometer', label: 'Measuring with a potometer' },
+  { id: 'formulas', label: 'The model' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 30.5: Transport of Water and Solutes in Plants. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/30-5-transport-of-water-and-solutes-in-plants' },
+  { text: 'Taiz, L., Zeiger, E., Møller, I. M., & Murphy, A. (2015). Plant Physiology and Development (6th ed.), chapter on water balance of plants. Sinauer Associates.' },
+  { text: 'Allen, R. G., Pereira, L. S., Raes, D., & Smith, M. (1998). Crop evapotranspiration — FAO Irrigation and Drainage Paper 56 (saturation vapour pressure equation). Food and Agriculture Organization.' },
+  { text: 'U.S. Geological Survey. Evapotranspiration and the Water Cycle.', url: 'https://www.usgs.gov/special-topics/water-science-school/science/evapotranspiration-and-water-cycle' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="transpiration"
+  description="Interactive transpiration simulator: run a virtual potometer experiment, change light, temperature, humidity, wind and leaf coatings, watch stomata respond and record water uptake rates."
+  toc={toc}
+  quiz={transpirationQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A large tree can move hundreds of litres of water from its roots to its leaves in a single day — without a pump.
+      The driving force is <strong>transpiration</strong>, the evaporation of water from leaves. Run a classic potometer
+      experiment, change one condition at a time, and measure how fast a leafy shoot drinks.
+    </p>
+  </Fragment>
+
+  <TranspirationSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Set the <strong>light, temperature, humidity and wind</strong>, then press <strong>Start</strong>. One minute passes every second.</li>
+      <li>Watch the <strong>air bubble</strong> move along the tube as the shoot takes up water, and the <strong>stoma</strong> open or close in the leaf close-up.</li>
+      <li>Press <strong>Record</strong> to save the current rate in the results table. Change one variable, then record again.</li>
+      <li>Try coating the <strong>upper</strong> or <strong>lower</strong> leaf surfaces with petroleum jelly to find where most stomata are.</li>
+      <li>Use <strong>Save run &amp; reset bubble</strong> to compare graphs. Download your results as a CSV file. <strong>Reset</strong> restores the defaults.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is transpiration?</h2>
+  <p>
+    <strong>Transpiration</strong> is the loss of water vapour from a plant, mostly through tiny pores in the leaves
+    called stomata. Water evaporates from the moist surfaces of cells inside the leaf, fills the air spaces, and diffuses
+    out into the drier air. Plants lose more than 90% of the water they absorb this way. Transpiration cools the leaves,
+    carries dissolved minerals up from the roots, and keeps cells supplied with water.
+  </p>
+
+  <h2 id="pathway">Water’s journey through a plant</h2>
+  <ol>
+    <li>Water enters <strong>root hair cells</strong> from the soil by osmosis.</li>
+    <li>It crosses the root and enters the <strong>xylem</strong>, a network of hollow, dead tubes.</li>
+    <li>As water evaporates from the leaves, it pulls on the water column below. Water molecules stick to each other (<strong>cohesion</strong>) and to the xylem walls (<strong>adhesion</strong>), so the whole column is drawn upward — the <strong>transpiration stream</strong>.</li>
+    <li>In the leaf, water evaporates into air spaces and exits through the stomata.</li>
+  </ol>
+
+  <h2 id="stomata">Stomata and guard cells</h2>
+  <p>
+    Each stoma is surrounded by two <strong>guard cells</strong>. When they take up water and become turgid, they bend
+    apart and open the pore; when they lose water, they close it. Stomata usually open in light, to let in carbon dioxide
+    for photosynthesis, and close in darkness or when the plant is short of water. In most broad-leaved plants, the
+    majority of stomata are on the cooler, shaded lower surface of the leaf.
+  </p>
+
+  <h2 id="factors">Factors affecting the rate</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Factor</th><th>Effect</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Light intensity ↑</td><td>Rate increases</td><td>Stomata open wider</td></tr>
+        <tr><td>Temperature ↑</td><td>Rate increases</td><td>Warm air can hold more water vapour, so evaporation and diffusion are faster</td></tr>
+        <tr><td>Humidity ↑</td><td>Rate decreases</td><td>A smaller diffusion gradient between leaf and air</td></tr>
+        <tr><td>Wind speed ↑</td><td>Rate increases</td><td>Humid air next to the leaf is blown away</td></tr>
+        <tr><td>Very dry conditions</td><td>Rate may level off or fall</td><td>Stomata partly close to prevent wilting</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="potometer">Measuring with a potometer</h2>
+  <p>
+    A <strong>potometer</strong> measures how fast a cut shoot takes up water. The shoot is sealed into a water-filled
+    tube, and a single air bubble is introduced into a narrow capillary. As the shoot draws up water, the bubble moves
+    along a scale. The rate of water uptake is very close to the rate of transpiration, although a small amount of water
+    is used in photosynthesis or kept by the cells. A fair test changes one factor at a time and repeats each
+    measurement.
+  </p>
+
+  <h2 id="formulas">The model</h2>
+  <p>
+    The simulator uses the <strong>vapour pressure deficit</strong> (VPD) — how far the air is from being saturated — as
+    the driving force for water loss:
+  </p>
+  <code class="formula">e_s(T) = 0.6108 · exp(17.27·T / (T + 237.3)) kPa       VPD = e_s(T) · (1 − RH)</code>
+  <p>
+    Water must pass through two “resistances” in series: the stomata (which depend on light, temperature, dryness and
+    coatings) and the still boundary layer of air around the leaf (which shrinks with wind). The rate is proportional to
+    the combined conductance multiplied by VPD.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Stoma (plural stomata)</dt>
+    <dd>A pore in the leaf surface, opened and closed by guard cells.</dd>
+    <dt>Xylem</dt>
+    <dd>Plant tissue that carries water and minerals from roots to leaves.</dd>
+    <dt>Cuticle</dt>
+    <dd>A waxy, waterproof layer on the leaf surface.</dd>
+    <dt>Relative humidity</dt>
+    <dd>The amount of water vapour in the air compared with the maximum it could hold at that temperature.</dd>
+    <dt>Wilting</dt>
+    <dd>Drooping that happens when cells lose turgor because water is lost faster than it is replaced.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Farming and irrigation:</strong> farmers estimate crop water needs from temperature, humidity, wind and sunlight — essentially the same factors.</li>
+    <li><strong>Desert plants:</strong> cacti have few, sunken stomata, thick cuticles and often open stomata only at night to save water.</li>
+    <li><strong>Gardening:</strong> watering in the cool evening and sheltering seedlings from wind reduce water loss.</li>
+    <li><strong>Climate:</strong> transpiration from forests returns huge amounts of water to the atmosphere, helping form clouds and rain — the Amazon generates much of its own rainfall.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Roots pump water up the plant.”</strong> Most of the pull comes from evaporation at the leaves.</li>
+    <li><strong>“Transpiration is just wasted water.”</strong> It moves minerals, cools leaves and is unavoidable when stomata open for CO₂.</li>
+    <li><strong>“Stomata are on the top of leaves.”</strong> In most broad-leaved plants, most are underneath.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Transpiration is water vapour loss through stomata, which pulls water up the xylem.</li>
+    <li>Light, temperature and wind increase the rate; humidity decreases it.</li>
+    <li>Guard cells balance CO₂ uptake against water loss by opening and closing stomata.</li>
+    <li>A potometer measures water uptake, a close estimate of transpiration.</li>
+  </ul>
+  <p class="muted">Model note: the conductance values are simplified and scaled to typical potometer readings; real plants vary widely by species.</p>
+</SimulatorLayout>

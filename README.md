@@ -78,7 +78,7 @@ The output is a static site. Any static host works:
 
 This is a preparation checklist, not a guarantee of approval. Check Google's current policies first.
 
-- [ ] Publish at least 15–25 complete simulators (Stage 4). Today 1 of 50 is live.
+- [x] Publish at least 15–25 complete simulators (Stage 4). 18 of 50 are live, covering all 10 branches.
 - [ ] Set `SITE_URL` and deploy on your own domain with HTTPS.
 - [ ] Set `PUBLIC_CONTACT_ENDPOINT` (or `PUBLIC_CONTACT_EMAIL`) so visitors can actually reach you.
 - [ ] After approval, add `public/ads.txt` with the line Google gives you.

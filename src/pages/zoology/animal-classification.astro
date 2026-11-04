@@ -1,0 +1,150 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import ClassificationSim from '../../simulators/classification/ClassificationSim.astro';
+import { classificationQuiz } from '../../data/quizzes/classification';
+
+const toc = [
+  { id: 'why', label: 'Why classify animals?' },
+  { id: 'keys', label: 'Dichotomous keys' },
+  { id: 'vertebrates', label: 'Vertebrate groups' },
+  { id: 'invertebrates', label: 'Invertebrate groups' },
+  { id: 'hierarchy', label: 'The levels of classification' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the key simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 27.2: Features Used to Classify Animals. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/27-2-features-used-to-classify-animals' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 29: Vertebrates. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/29-introduction' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 28: Invertebrates. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/28-introduction' },
+  { text: 'Animal Diversity Web. University of Michigan Museum of Zoology.', url: 'https://animaldiversity.org/' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="animal-classification"
+  description="Interactive animal classification key: answer yes/no questions to sort 22 animals into mammals, birds, fish, reptiles, amphibians, insects, arachnids, crustaceans, molluscs, annelids, cnidarians and echinoderms."
+  toc={toc}
+  quiz={classificationQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Is a dolphin a fish? Is a spider an insect? Is a starfish a fish at all? Scientists sort living things into groups
+      based on the features they share. Work through an identification key, question by question, and discover where
+      some surprising animals really belong.
+    </p>
+  </Fragment>
+
+  <ClassificationSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose an <strong>animal</strong> from the menu, or press <strong>Next animal</strong> for a random one.</li>
+      <li>Answer each <strong>yes/no question</strong> about the animal. The key on the left highlights your path.</li>
+      <li>If an answer is wrong, you get an explanation and can try again. Classify every animal without mistakes to raise your score.</li>
+      <li>Stuck? Press <strong>Show me the answer</strong>. Click any box in the key to read about that feature or group.</li>
+      <li><strong>Reset</strong> clears your score.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="why">Why classify animals?</h2>
+  <p>
+    Scientists have described well over a million animal species, and many more remain undiscovered. Classification
+    organizes this diversity into groups so that we can identify organisms, communicate clearly about them, and
+    understand how they are related. Modern classification aims to reflect <strong>evolutionary relationships</strong>:
+    animals in the same group share a common ancestor and the features they inherited from it.
+  </p>
+
+  <h2 id="keys">Dichotomous keys</h2>
+  <p>
+    A <strong>dichotomous key</strong> is a tool for identifying organisms. “Dichotomous” means dividing into two: each
+    step asks a question with two possible answers, and each answer leads to another question or to a name. Good keys
+    use clear, observable features — such as the number of legs or the type of body covering — rather than vague ones
+    like size or colour, which can vary within a species.
+  </p>
+
+  <h2 id="vertebrates">Vertebrate groups</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Group</th><th>Body covering</th><th>Breathing</th><th>Body temperature</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>Fish</td><td>Scales</td><td>Gills</td><td>Cold-blooded (ectotherm)</td><td>Salmon, shark</td></tr>
+        <tr><td>Amphibians</td><td>Moist skin</td><td>Gills when young; lungs and skin as adults</td><td>Cold-blooded</td><td>Frog, salamander</td></tr>
+        <tr><td>Reptiles</td><td>Dry scales</td><td>Lungs</td><td>Cold-blooded</td><td>Snake, sea turtle</td></tr>
+        <tr><td>Birds</td><td>Feathers</td><td>Lungs</td><td>Warm-blooded (endotherm)</td><td>Eagle, penguin</td></tr>
+        <tr><td>Mammals</td><td>Hair or fur</td><td>Lungs</td><td>Warm-blooded</td><td>Dolphin, bat, platypus</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="invertebrates">Invertebrate groups</h2>
+  <p>About 95% of animal species have no backbone. Some major groups:</p>
+  <ul>
+    <li><strong>Arthropods</strong> have jointed legs and an exoskeleton. They include <strong>insects</strong> (6 legs), <strong>arachnids</strong> (8 legs) and <strong>crustaceans</strong> (usually 10 legs, mostly aquatic). Centipedes and millipedes form a further group, myriapods.</li>
+    <li><strong>Molluscs</strong> have soft bodies, often with a shell — snails, clams and the shell-less octopus.</li>
+    <li><strong>Annelids</strong> are segmented worms such as earthworms and leeches.</li>
+    <li><strong>Cnidarians</strong> such as jellyfish, corals and sea anemones have stinging cells.</li>
+    <li><strong>Echinoderms</strong> such as starfish and sea urchins have spiny skin and five-part symmetry.</li>
+  </ul>
+
+  <h2 id="hierarchy">The levels of classification</h2>
+  <p>
+    Carl Linnaeus, in the 18th century, organized life into nested levels and gave each species a two-part Latin name
+    (binomial nomenclature). From broadest to most specific:
+  </p>
+  <code class="formula">Domain → Kingdom → Phylum → Class → Order → Family → Genus → Species</code>
+  <p>
+    For example, the grey wolf is <em>Canis lupus</em>: kingdom Animalia, phylum Chordata, class Mammalia, order
+    Carnivora, family Canidae, genus <em>Canis</em>, species <em>lupus</em>. Pet dogs are usually classed as a
+    subspecies, <em>Canis lupus familiaris</em>.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Vertebrate / invertebrate</dt>
+    <dd>An animal with / without a backbone.</dd>
+    <dt>Exoskeleton</dt>
+    <dd>A hard outer covering that supports and protects the body, as in insects and crabs.</dd>
+    <dt>Endotherm / ectotherm</dt>
+    <dd>An animal that keeps its body warm with its own heat (“warm-blooded”) / relies on its surroundings (“cold-blooded”).</dd>
+    <dt>Species</dt>
+    <dd>A group of organisms that can interbreed and produce fertile offspring.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Field biology:</strong> ecologists use keys to identify species when surveying habitats.</li>
+    <li><strong>Medicine and public health:</strong> correctly identifying mosquitoes, ticks or venomous animals matters for preventing disease and treating bites.</li>
+    <li><strong>Agriculture:</strong> farmers need to tell pests from helpful insects, such as aphids from ladybirds.</li>
+    <li><strong>Conservation:</strong> protecting endangered species starts with knowing exactly which species are present.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Whales and dolphins are fish.”</strong> They are mammals that breathe air.</li>
+    <li><strong>“Spiders are insects.”</strong> They are arachnids with eight legs.</li>
+    <li><strong>“Starfish and jellyfish are fish.”</strong> Neither has a backbone.</li>
+    <li><strong>“All mammals give birth to live young.”</strong> The platypus and echidnas lay eggs.</li>
+    <li><strong>“Bats are birds.”</strong> They are flying mammals with fur and skin-covered wings.</li>
+  </ul>
+
+  <h2 id="model-limits">What the key simplifies</h2>
+  <p>
+    The key covers 12 well-known groups and asks about typical features. Real classification includes many more groups
+    (sponges, flatworms, myriapods and others) and is increasingly based on DNA comparisons. Some animals break simple
+    rules — for example, some fish breathe air and some amphibians lack lungs — so scientists use many features together.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Animals are classified by shared features that reflect common ancestry.</li>
+    <li>Dichotomous keys identify organisms through a series of two-choice questions.</li>
+    <li>Vertebrates include fish, amphibians, reptiles, birds and mammals; most animals are invertebrates.</li>
+    <li>Where an animal lives or how it moves is less important than its body features.</li>
+  </ul>
+</SimulatorLayout>

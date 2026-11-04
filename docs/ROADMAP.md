@@ -46,7 +46,7 @@ Adding a new topic: add or update its entry in `branches.ts`, write its simulati
 - [x] Stage 1
 - [x] Stage 2
 - [x] Stage 3 — see docs/SIMULATOR_GUIDE.md
-- [ ] Stage 4
+- [x] Stage 4 — 18 live simulators across all 10 branches
 - [ ] Stage 5
 - [ ] Stage 6
 
@@ -68,7 +68,7 @@ Target: 18 live simulators covering all 10 branches.
 - [x] Chemistry — Acid-Base Reactions
 - [x] Anatomy — Nervous System and Neuron Firing
 - [x] Ecology — Climate Change
-- [ ] Biology — Natural Selection and Evolution
-- [ ] Zoology — Animal Classification
-- [ ] Botany — Transpiration
-- [ ] Earth Science — Earth's Layers
+- [x] Biology — Natural Selection and Evolution
+- [x] Zoology — Animal Classification
+- [x] Botany — Transpiration
+- [x] Earth Science — Earth's Layers

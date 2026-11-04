@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import BranchCard from '../components/BranchCard.astro';
+import TopicCard from '../components/TopicCard.astro';
 import Quiz from '../components/Quiz.astro';
 import { branches, liveTopics, getTopic, stats } from '../data/branches';
 import { homeQuiz } from '../data/quizzes/home';
@@ -51,6 +52,24 @@ const paths = [
     return getTopic(b, t)!;
   }),
 }));
+
+// A hand-picked mix across branches for the homepage
+const popular = [
+  'physics/projectile-motion',
+  'astronomy/moon-phases',
+  'anatomy-physiology/neuron-firing',
+  'ecology/climate-change',
+  'chemistry/acids-and-bases',
+  'earth-science/earth-layers',
+  'biology/natural-selection',
+  'astronomy/orbits-gravity',
+  'physics/pendulum',
+]
+  .map((s) => {
+    const [b, t] = s.split('/');
+    return getTopic(b, t)!;
+  })
+  .filter((t) => t && t.topic.status === 'live');
 
 const steps = [
   { icon: 'cursor', title: 'Explore', text: 'Pick a branch of science and open a simulator. Every model is built around one clear scientific idea.' },
@@ -107,7 +126,7 @@ const jsonLd = {
         </form>
         <dl class="hero-stats">
           <div><dt>Science branches</dt><dd>{stats.branches}</dd></div>
-          <div><dt>Planned topics</dt><dd>{stats.topics}</dd></div>
+          <div><dt>Live simulators</dt><dd>{stats.live}</dd></div>
           <div><dt>Cost</dt><dd>Free</dd></div>
         </dl>
       </div>
@@ -139,7 +158,7 @@ const jsonLd = {
 
         <div class="float-card fc1" data-parallax="-0.2">
           <span class="fc-dot"></span>
-          <span class="mono">Osmosis · live</span>
+          <span class="mono">{stats.live} simulators · live</span>
         </div>
         <div class="float-card fc2" data-parallax="0.3">
           <svg viewBox="0 0 60 30" width="60" height="30"><path d="M2 15 Q 10 2 17 15 T 32 15 T 47 15 T 58 15" fill="none" stroke="var(--accent-2)" stroke-width="2.5" stroke-linecap="round"></path></svg>
@@ -167,7 +186,7 @@ const jsonLd = {
 
       <div class="featured">
         {
-          liveTopics.map(({ branch, topic, url }) => (
+          liveTopics.filter((t) => t.topic.slug === 'osmosis').map(({ branch, topic, url }) => (
             <article class="card featured-card hue card-interactive" style={`--hue:${branch.hue}`} data-reveal>
               <div class="fc-copy">
                 <p class="chip chip-live">Live simulator</p>
@@ -197,6 +216,20 @@ const jsonLd = {
           ))
         }
       </div>
+
+      <h3 class="popular-title" data-reveal>Popular simulations</h3>
+      <div class="grid grid-3 popular">
+        {popular.map(({ branch, topic }, i) => (
+          <div data-reveal style={`--reveal-delay:${(i % 3) * 70}ms`}>
+            <TopicCard branch={branch} topic={topic} showBranch />
+          </div>
+        ))}
+      </div>
+      <p class="popular-more" data-reveal>
+        <a href="/simulations/" class="btn">
+          See all {stats.live} live simulators <Icon name="arrow" size={18} class="arrow" />
+        </a>
+      </p>
     </div>
   </section>
 
@@ -737,6 +770,15 @@ const jsonLd = {
       transform: translateX(0);
       opacity: 0;
     }
+  }
+
+  .popular-title {
+    margin: 48px 0 20px;
+    font-size: 1.4rem;
+  }
+  .popular-more {
+    margin: 28px 0 0;
+    text-align: center;
   }
 
   /* ---------- Branches ---------- */

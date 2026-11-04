@@ -1,0 +1,50 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="selection-sim" label="Peppered moths resting on tree bark." showTime hint="Click a moth to see its survival chance" badge="Generation 0">
+  <SliderControl name="ns-bark" label="Tree bark colour" min={0} max={100} step={5} value={85} scale={['Dark (soot)', 'Light (lichen)']} help="Pollution kills pale lichens and blackens bark with soot.">
+    <PresetButtons
+      for="ns-bark"
+      label="Environment presets"
+      presets={[
+        { label: 'Clean forest', value: 85 },
+        { label: 'Industrial pollution', value: 15 },
+        { label: 'Recovering', value: 55 },
+      ]}
+    />
+  </SliderControl>
+  <SliderControl name="ns-pred" label="Bird predation" min={0} max={100} step={5} value={30} help="How strongly birds pick off moths they can see." />
+  <SliderControl name="ns-start" label="Starting dark allele frequency" min={0} max={100} step={1} value={2} help="Percentage of gene copies that are the dark (carbonaria) version. Changing it restarts." />
+  <SliderControl name="ns-pop" label="Population size" min={20} max={2000} step={10} value={500} help="Small populations change more randomly (genetic drift). Changing it restarts." />
+  <SliderControl name="ns-mut" label="Mutation rate" min={0} max={2} step={0.1} value={0.5} help="New dark or light mutations per 1,000 gene copies each generation." />
+  <SliderControl name="ns-speed" label="Generations per second" min={1} max={20} step={1} value={4} />
+  <SimKey
+    items={[
+      { label: 'Light (typica) moth', color: '#e8e2d0' },
+      { label: 'Dark (carbonaria) moth', color: '#2b2b2b' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="dark" label="Dark moths" key />
+    <Readout name="allele" label="Dark allele frequency" />
+    <Readout name="sd" label="Survival — dark" />
+    <Readout name="sl" label="Survival — light" />
+    <Readout name="gen" label="Generation" />
+    <Readout name="trend" label="Selection favours" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="ns-graph" title="Percentage of dark moths over generations" desc="Percentage of moths with the dark phenotype in each generation." compare saveLabel="Save run & restart" />
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initSelection } from './selection';
+  mountSim('#selection-sim', initSelection);
+</script>

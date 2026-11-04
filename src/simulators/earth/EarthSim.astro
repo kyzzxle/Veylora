@@ -1,0 +1,48 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { LAYERS } from './data';
+---
+
+<SimShell
+  id="earth-sim"
+  label="A 3D cutaway model of Earth showing its layers."
+  playable={false}
+  loadingText="Loading 3D Earth…"
+  hint="Drag to rotate · click a layer"
+  aspect="4 / 3"
+  badge="Crust"
+>
+  <div slot="stage" class="sim-3d" data-three></div>
+
+  <SliderControl name="ea-depth" label="Depth probe" min={0} max={6371} step={10} value={0} scale={['Surface', 'Centre (6,371 km)']} help="Drag to send a probe into the Earth and read conditions at that depth." />
+  <ToggleControl name="ea-cut" label="Show cutaway" checked />
+  <ToggleControl name="ea-spin" label="Slowly rotate" checked />
+  <ToggleControl name="ea-labels" label="Show layer labels" checked />
+  <p class="ctrl-help">The crust is drawn about five times thicker than it really is so that you can see it.</p>
+  <SimKey items={LAYERS.map((l) => ({ label: l.name, color: l.colour, shape: 'square' as const }))} />
+
+  <Fragment slot="readouts">
+    <Readout name="layer" label="Layer" key />
+    <Readout name="depth" label="Depth" />
+    <Readout name="temp" label="Temperature (approx.)" />
+    <Readout name="pressure" label="Pressure" />
+    <Readout name="density" label="Density" />
+    <Readout name="state" label="State" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="ea-temp" title="Temperature vs. depth" desc="Approximate temperature inside Earth from the surface to the centre, with the probe position marked." height={180} />
+    <GraphPanel id="ea-dens" title="Density vs. depth" desc="Density of Earth's interior from the surface to the centre, showing jumps at the layer boundaries." height={180} />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initEarth } from './earth';
+  mountSim('#earth-sim', initEarth);
+</script>
