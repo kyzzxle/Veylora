@@ -144,7 +144,9 @@ export function initWeather(root: HTMLElement) {
     // precipitation once the cloud has fully grown
     if (grown && res.precip !== 'None' && !res.fog) {
       const n = res.storm ? 8 : 3;
-      for (let i = 0; i < n; i++) drops.push({ x: 160 + Math.random() * 300, y: yOf(res.base), v: res.snow ? 60 + Math.random() * 30 : 380 + Math.random() * 120 });
+      // fall from under the cloud only, across 80 % of its width
+      const W = cloudWidth(res.base, res.top);
+      for (let i = 0; i < n; i++) drops.push({ x: 310 + (Math.random() - 0.5) * W * 0.8, y: yOf(res.base), v: res.snow ? 60 + Math.random() * 30 : 380 + Math.random() * 120 });
     }
     for (const d of drops) {
       d.y += d.v * dt;
@@ -165,27 +167,84 @@ export function initWeather(root: HTMLElement) {
     return { k, ox: (size.w - bw * k) / 2, oy: (size.h - bh * k) / 2 };
   };
 
-  function cloudShape(base: number, top: number, cx: number) {
+  /** Cloud width in design units: wider for taller clouds. */
+  const cloudWidth = (base: number, top: number) => Math.min(340, 150 + (yOf(base) - yOf(top)) * 0.45);
+  /** Small fixed wobble so the puffs look natural but do not flicker. */
+  const jitter = (i: number, j: number) => Math.sin(i * 12.9898 + j * 78.233) * 0.5;
+
+  /**
+   * A cloud is a heap of round puffs with a flat, darker base. Everything is
+   * clipped at the cloud base, so no part of the cloud can hang below it.
+   * Small clouds are domes; deep clouds are towers; thunderstorm clouds
+   * spread out into an anvil where they hit the top of the troposphere.
+   */
+  function drawCloud(base: number, top: number, cx: number) {
+    const anvil = top >= 8;
+    // Storm tops spread out at the tropopause (about 11.5 km) instead of rising further
+    const towerTop = anvil ? Math.min(top, 11.5) : top;
     const yb = yOf(base);
-    const yt = yOf(top);
-    const h = yb - yt;
-    const wBase = 120 + Math.min(h, 200) * 0.6;
+    const yt = yOf(towerTop);
+    // Very thin clouds are drawn a little taller so they still look like puffy domes
+    const h = Math.max(38, yb - yt);
+    const W = cloudWidth(base, towerTop);
+    const tower = towerTop - base > 3;
+    ctx.save();
     ctx.beginPath();
-    const puffs = Math.max(3, Math.round(h / 28));
-    for (let i = 0; i < puffs; i++) {
-      const f = i / Math.max(1, puffs - 1);
-      const y = yb - f * h;
-      const w = wBase * (1 - f * 0.35);
-      for (const dx of [-0.35, 0, 0.35]) ctx.moveTo(cx + dx * w + 34, y), ctx.arc(cx + dx * w, y, 34 + (1 - f) * 10, 0, Math.PI * 2);
+    ctx.rect(0, 0, 610, yb);
+    ctx.clip();
+    const shade = ctx.createLinearGradient(0, yt, 0, yb);
+    if (res.storm) {
+      shade.addColorStop(0, '#eef1f5');
+      shade.addColorStop(0.45, '#aab1bd');
+      shade.addColorStop(1, '#4e5562');
+    } else if (res.precip !== 'None') {
+      shade.addColorStop(0, '#ffffff');
+      shade.addColorStop(1, '#9ea6b2');
+    } else {
+      shade.addColorStop(0, '#ffffff');
+      shade.addColorStop(1, '#d3d9e2');
     }
-    // anvil at the tropopause for thunderstorms
-    if (top >= 8) {
-      ctx.moveTo(cx - 170, yt + 10);
-      ctx.ellipse(cx + 40, yt + 6, 210, 22, 0, 0, Math.PI * 2);
+    ctx.fillStyle = shade;
+    ctx.beginPath();
+    const puff = (x: number, y: number, r: number) => {
+      ctx.moveTo(x + r, y);
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+    };
+    // A wide row of puffs centred on the base gives the flat bottom (the lower halves are clipped)
+    for (let j = 0; j < 6; j++) puff(cx - W / 2 + (j + 0.5) * (W / 6), yb, W / 9);
+    // A solid core so no sky shows through between the puffs
+    ctx.moveTo(cx + W * (tower ? 0.3 : 0.36), yb - h * 0.45);
+    ctx.ellipse(cx, yb - h * 0.45, W * (tower ? 0.3 : 0.36), h * 0.5, 0, 0, Math.PI * 2);
+    const rows = Math.max(1, Math.ceil(h / 30));
+    for (let i = 1; i <= rows; i++) {
+      const f = i / rows; // 0 at the base, 1 at the top
+      // domes narrow towards the top; towers keep most of their width
+      // each row wobbles in width and position so the sides look billowy, not straight
+      const wobble = 1 + jitter(i, 7) * 0.35;
+      const w = (tower ? W * (0.74 - 0.2 * f) : W * (1 - 0.6 * f ** 1.4)) * wobble;
+      const shift = jitter(i, 11) * 24;
+      const r = Math.max(18, Math.min(62, w * 0.3)) * (1 - 0.2 * f);
+      const y = yb - f * h + r * 0.75;
+      const m = Math.max(2, Math.round(w / (r * 1.1)));
+      for (let j = 0; j < m; j++) puff(cx + shift - w / 2 + (j + 0.5) * (w / m) + jitter(i, j) * 12, y + jitter(j, i) * 8, r * (0.85 + jitter(i + j, 3) * 0.4));
+    }
+    // Anvil: the top spreads sideways (downwind) along the tropopause
+    if (anvil) {
+      const aw = W * 0.95;
+      ctx.moveTo(cx + 45 + aw, yt + 14);
+      ctx.ellipse(cx + 45, yt + 14, aw, 20, 0, 0, Math.PI * 2);
+      for (let j = 0; j < 8; j++) puff(cx + 45 - aw * 0.85 + j * aw * 0.24, yt + 22 + jitter(j, 5) * 6, 16 + jitter(j, 9) * 8);
     }
     ctx.fill();
-    // flat cloud base
-    ctx.fillRect(cx - wBase * 0.55, yb - 10, wBase * 1.1, 12);
+    ctx.restore();
+    // Rain or snow shaft under the cloud
+    if (res.precip !== 'None' && z >= res.top - 1e-6) {
+      const shaft = ctx.createLinearGradient(0, yb, 0, 500);
+      shaft.addColorStop(0, res.storm ? 'rgba(70, 80, 100, 0.45)' : 'rgba(120, 130, 150, 0.3)');
+      shaft.addColorStop(1, 'rgba(120, 130, 150, 0.05)');
+      ctx.fillStyle = shaft;
+      ctx.fillRect(cx - W * 0.4, yb, W * 0.8, 500 - yb);
+    }
   }
 
   function render() {
@@ -239,8 +298,7 @@ export function initWeather(root: HTMLElement) {
       ctx.fillStyle = 'rgba(230, 235, 240, 0.85)';
       ctx.fillRect(0, yOf(0.4), 610, 500 - yOf(0.4));
     } else if (!Number.isNaN(res.base) && z > res.base) {
-      ctx.fillStyle = res.storm ? 'rgba(120, 125, 140, 0.95)' : res.precip !== 'None' ? 'rgba(190, 195, 205, 0.95)' : 'rgba(255, 255, 255, 0.95)';
-      cloudShape(res.base, Math.max(res.base + 0.15, z), 310);
+      drawCloud(res.base, Math.max(res.base + 0.15, z), 310);
     }
     // precipitation
     ctx.strokeStyle = 'rgba(200, 220, 255, 0.8)';
