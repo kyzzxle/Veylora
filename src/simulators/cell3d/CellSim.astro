@@ -1,0 +1,68 @@
+---
+/** 3D cell explorer, shared by the animal-cell and plant-cell pages. */
+import SimShell from '../../components/sim/SimShell.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import { ORGANELLES, ORGANELLE_LIST, type CellKind } from './data';
+
+interface Props {
+  kind: CellKind;
+}
+const { kind } = Astro.props;
+const id = `cell3d-${kind}`;
+---
+
+<SimShell
+  id={id}
+  label={`A 3D ${kind} cell with a section cut away to show the organelles.`}
+  playable={false}
+  loadingText="Loading 3D cell…"
+  hint="Drag to rotate · click an organelle"
+  aspect="4 / 3"
+  badge={kind === 'animal' ? 'Animal cell' : 'Plant cell'}
+>
+  <div slot="stage" class="sim-3d" data-three data-kind={kind}></div>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for={`${id}-pick`}>Highlight an organelle</label>
+    <select id={`${id}-pick`} class="select" data-pick>
+      <option value="">— Choose —</option>
+      {ORGANELLE_LIST[kind].map((o) => <option value={o}>{ORGANELLES[o].name}</option>)}
+    </select>
+  </div>
+  <div class="cell-info" aria-live="polite">
+    <strong data-info-title>Click an organelle</strong>
+    <p data-info-text>Rotate the cell and click any structure, or choose one from the list above.</p>
+  </div>
+  <ToggleControl name={`${kind}-cut`} label="Cut away part of the cell" checked />
+  <ToggleControl name={`${kind}-labels`} label="Label every organelle" />
+  <ToggleControl name={`${kind}-spin`} label="Slowly rotate" />
+
+  <Fragment slot="readouts">
+    <Readout name="selected" label="Selected" key />
+    <Readout name="found" label="Found in" />
+    <Readout name="count" label="Organelles explored" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .cell-info {
+    padding: 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.92rem;
+  }
+  .cell-info p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initCell3D } from './cell3d';
+  document.querySelectorAll<HTMLElement>('[data-three][data-kind]').forEach((el) => {
+    const id = el.closest('[data-sim]')?.id;
+    if (id) mountSim(`#${id}`, (root) => initCell3D(root, el.dataset.kind as 'animal' | 'plant'));
+  });
+</script>

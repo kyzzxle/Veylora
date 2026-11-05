@@ -1,0 +1,62 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="compare-sim" label="An animal cell and a plant cell side by side." playable={false} hint="Click any structure" aspect="16 / 9" badge="Explore">
+  <ToggleControl name="cc-diff" label="Highlight the differences" />
+  <ToggleControl name="cc-labels" label="Show labels" checked />
+  <div class="cc-challenge">
+    <h3>Sorting challenge</h3>
+    <p class="cc-q" data-q aria-live="polite">Press “New question” to start.</p>
+    <div class="cc-answers">
+      <button type="button" class="btn btn-sm" data-ans="animal">Animal only</button>
+      <button type="button" class="btn btn-sm" data-ans="both">Both</button>
+      <button type="button" class="btn btn-sm" data-ans="plant">Plant only</button>
+    </div>
+    <button type="button" class="btn btn-sm btn-primary" data-new>New question</button>
+    <p class="cc-fb" data-fb></p>
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="selected" label="Selected" key />
+    <Readout name="where" label="Found in" />
+    <Readout name="score" label="Challenge score" />
+  </Fragment>
+</SimShell>
+
+<style>
+  /* Taller stage on phones so the two cells can stack */
+  :global(#compare-sim) {
+    --stage-aspect-mobile: 3 / 5;
+  }
+  .cc-challenge {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+  }
+  .cc-q {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 650;
+  }
+  .cc-answers {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .cc-fb {
+    margin: 0;
+    font-size: 0.9rem;
+    min-height: 1.3em;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initCompare } from './compare';
+  mountSim('#compare-sim', initCompare);
+</script>

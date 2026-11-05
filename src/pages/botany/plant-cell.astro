@@ -1,0 +1,136 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import CellSim from '../../simulators/cell3d/CellSim.astro';
+import { plantCellQuiz } from '../../data/quizzes/cell-structure';
+
+const toc = [
+  { id: 'overview', label: 'A plant cell up close' },
+  { id: 'wall', label: 'The cell wall' },
+  { id: 'chloroplasts', label: 'Chloroplasts' },
+  { id: 'vacuole', label: 'The central vacuole' },
+  { id: 'shared', label: 'Organelles shared with animal cells' },
+  { id: 'specialised', label: 'Specialised plant cells' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 4.3: Eukaryotic Cells. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/4-3-eukaryotic-cells' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 4.6: Connections between Cells and Cellular Activities. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/4-6-connections-between-cells-and-cellular-activities' },
+  { text: 'Taiz, L., Zeiger, E., Møller, I. M., & Murphy, A. (2015). Plant Physiology and Development (6th ed.), chapter on plant cells. Sinauer Associates.' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="plant-cell"
+  description="Interactive 3D plant cell: rotate a cutaway cell and explore the cell wall, chloroplasts, large central vacuole, nucleus and other organelles."
+  toc={toc}
+  quiz={plantCellQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Plant cells share most of their machinery with animal cells, but they also have three remarkable extras: a rigid
+      wall, solar-powered chloroplasts and a giant water-filled vacuole. Rotate a 3D plant cell, slice into it, and see how
+      these structures let plants make their own food and stand tall without a skeleton.
+    </p>
+  </Fragment>
+
+  <CellSim slot="sim" kind="plant" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Drag</strong> to rotate and use <strong>+</strong> and <strong>−</strong> to zoom. On a phone, tap the model first.</li>
+      <li><strong>Click an organelle</strong> or choose one from the list to highlight it and read about it.</li>
+      <li>The readout tells you whether a structure is found only in plant cells or in animal cells too.</li>
+      <li>Turn the <strong>cutaway</strong> off to see the box-like shape of the cell wall.</li>
+      <li><strong>Reset</strong> restores the starting view.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="overview">A plant cell up close</h2>
+  <p>
+    A typical leaf cell is a rounded box shape, about 20–100 µm long, held in place by its wall. The living part inside
+    the wall — the <strong>protoplast</strong> — contains a nucleus, cytoplasm and organelles, but much of the volume is
+    taken up by a single large vacuole, which pushes the other organelles toward the edges.
+  </p>
+
+  <h2 id="wall">The cell wall</h2>
+  <p>
+    Outside the cell membrane is a rigid <strong>cell wall</strong> made mostly of <strong>cellulose</strong> fibres.
+    It gives the cell its shape, protects it, and stops it bursting when it takes in water. The wall is fully permeable,
+    so water and dissolved substances pass through it freely; the membrane inside still controls what enters the cell.
+    Neighbouring cells are linked through tiny channels in their walls called <strong>plasmodesmata</strong>.
+  </p>
+
+  <h2 id="chloroplasts">Chloroplasts</h2>
+  <p>
+    <strong>Chloroplasts</strong> are where photosynthesis happens. They contain the green pigment chlorophyll, arranged
+    on stacks of membranes called <strong>grana</strong>, surrounded by a fluid called the stroma. Like mitochondria,
+    chloroplasts have their own DNA and ribosomes — evidence that both were once free-living bacteria taken in by an
+    ancient cell (the endosymbiotic theory).
+  </p>
+
+  <h2 id="vacuole">The central vacuole</h2>
+  <p>
+    The <strong>large central vacuole</strong> is filled with cell sap — water containing sugars, salts and pigments —
+    and surrounded by a membrane called the tonoplast. When it is full, it presses the cytoplasm against the wall,
+    making the cell firm (<strong>turgid</strong>). This turgor pressure keeps leaves and soft stems upright; when a
+    plant loses water, its cells become flaccid and the plant wilts.
+  </p>
+
+  <h2 id="shared">Organelles shared with animal cells</h2>
+  <p>
+    Plant cells also contain a <strong>nucleus</strong>, <strong>cell membrane</strong>, <strong>cytoplasm</strong>,
+    <strong>mitochondria</strong>, <strong>ribosomes</strong>, <strong>endoplasmic reticulum</strong> and a
+    <strong>Golgi apparatus</strong>, which do the same jobs as in animal cells. Plants need mitochondria too: they
+    respire all the time to release energy from the glucose made by photosynthesis.
+  </p>
+
+  <h2 id="specialised">Specialised plant cells</h2>
+  <ul>
+    <li><strong>Palisade cells</strong> in leaves are packed with chloroplasts.</li>
+    <li><strong>Root hair cells</strong> have no chloroplasts but a long extension for absorbing water.</li>
+    <li><strong>Xylem cells</strong> die and lose their contents, leaving hollow tubes with thick walls.</li>
+    <li><strong>Guard cells</strong> change shape to open and close stomata.</li>
+  </ul>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Cellulose</dt>
+    <dd>A strong carbohydrate made of glucose units, forming the cell wall.</dd>
+    <dt>Chlorophyll</dt>
+    <dd>The green pigment that absorbs light for photosynthesis.</dd>
+    <dt>Turgor</dt>
+    <dd>The pressure of the cell contents against the cell wall.</dd>
+    <dt>Plasmodesmata</dt>
+    <dd>Channels through cell walls that connect the cytoplasm of neighbouring plant cells.</dd>
+  </dl>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Materials:</strong> cotton, paper and wood are made largely of cellulose from plant cell walls.</li>
+    <li><strong>Food and fibre:</strong> dietary fibre is mostly plant cell wall material that humans cannot digest.</li>
+    <li><strong>Biofuels:</strong> scientists are developing ways to break down cellulose into fuels.</li>
+    <li><strong>Gardening:</strong> watering restores turgor in wilting plants.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Plant cells don’t have mitochondria.”</strong> They do — plants respire like animals.</li>
+    <li><strong>“All plant cells have chloroplasts.”</strong> Cells in roots and other unlit tissues usually don’t.</li>
+    <li><strong>“The cell wall controls what enters the cell.”</strong> That is the membrane’s job; the wall is fully permeable.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Plant cells have a cellulose wall, chloroplasts and a large central vacuole, in addition to the organelles of animal cells.</li>
+    <li>The wall gives support; turgor pressure from the vacuole keeps cells firm.</li>
+    <li>Chloroplasts make food; mitochondria release its energy.</li>
+    <li>Different plant cells are specialised for different jobs.</li>
+  </ul>
+  <p class="muted">Model note: organelles are shown larger and fewer than in a real cell so that each can be seen and selected.</p>
+</SimulatorLayout>

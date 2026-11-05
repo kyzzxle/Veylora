@@ -1,0 +1,37 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="dna-sim" label="A DNA double helix being unzipped and copied at a replication fork." showTime hint="Click a base or an enzyme" badge="Replicating">
+  <SliderControl name="dn-speed" label="Speed" min={0.5} max={3} step={0.25} value={1} scale={['Slow', 'Fast']} help="How fast the fork moves. Real forks copy about 50 bases per second in human cells." />
+  <ToggleControl name="dn-letters" label="Show base letters" checked />
+  <ToggleControl name="dn-enzymes" label="Label enzymes" checked />
+  <SimKey
+    items={[
+      { label: 'Original (template) strand', color: '#3b7dd8', shape: 'line' },
+      { label: 'New DNA strand', color: '#f08a4b', shape: 'line' },
+      { label: 'RNA primer', color: '#d64fb0', shape: 'line' },
+      { label: 'A (adenine)', color: '#5bbf72', shape: 'square' },
+      { label: 'T (thymine) / U (uracil in RNA)', color: '#e0605a', shape: 'square' },
+      { label: 'G (guanine)', color: '#f2c14e', shape: 'square' },
+      { label: 'C (cytosine)', color: '#7a8cf0', shape: 'square' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="step" label="What is happening" key />
+    <Readout name="fork" label="Fork position" />
+    <Readout name="copied" label="New bases added" />
+    <Readout name="frags" label="Okazaki fragments joined" />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initDna } from './dna';
+  mountSim('#dna-sim', initDna);
+</script>

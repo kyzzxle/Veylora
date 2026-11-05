@@ -1,0 +1,146 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import CellSim from '../../simulators/cell3d/CellSim.astro';
+import { cellStructureQuiz } from '../../data/quizzes/cell-structure';
+
+const toc = [
+  { id: 'cells', label: 'Cells: the units of life' },
+  { id: 'organelles', label: 'The main organelles' },
+  { id: 'protein', label: 'A protein’s journey' },
+  { id: 'size', label: 'How small is a cell?' },
+  { id: 'types', label: 'Prokaryotic and eukaryotic cells' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 4.3: Eukaryotic Cells. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/4-3-eukaryotic-cells' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 4.4: The Endomembrane System and Proteins. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/4-4-the-endomembrane-system-and-proteins' },
+  { text: 'Alberts, B., et al. (2022). Molecular Biology of the Cell (7th ed.). W. W. Norton.' },
+];
+---
+
+<SimulatorLayout
+  branch="biology"
+  topic="cell-structure"
+  description="Interactive 3D animal cell: rotate a cutaway cell and click the nucleus, mitochondria, ribosomes, endoplasmic reticulum, Golgi apparatus, lysosomes and more to learn what each organelle does."
+  toc={toc}
+  quiz={cellStructureQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every living thing is made of cells, and each cell is a busy factory with specialised compartments called
+      organelles. Rotate a 3D animal cell with a slice cut away, click each structure, and follow how they work together
+      to keep the cell alive.
+    </p>
+  </Fragment>
+
+  <CellSim slot="sim" kind="animal" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Drag</strong> to rotate the cell and use the <strong>+</strong> and <strong>−</strong> buttons to zoom. On a phone, tap the model first.</li>
+      <li><strong>Click any organelle</strong> — or choose one from the list — to highlight it and read what it does.</li>
+      <li>Switch the <strong>cutaway</strong> off to see the whole cell surface, and turn <strong>labels</strong> on or off.</li>
+      <li>Try to explore every organelle: the counter shows how many you have found.</li>
+      <li>Keyboard users: Tab to the 3D view and use the arrow keys to rotate. <strong>Reset</strong> restores the starting view.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="cells">Cells: the units of life</h2>
+  <p>
+    The <strong>cell theory</strong>, developed in the 1800s, states that all living things are made of one or more
+    cells, that the cell is the basic unit of life, and that new cells come only from existing cells. Animal cells are
+    <strong>eukaryotic</strong>: their DNA is enclosed in a nucleus, and they contain membrane-bound organelles, each
+    specialised for a particular job — like departments in a factory.
+  </p>
+
+  <h2 id="organelles">The main organelles</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Organelle</th><th>Job</th></tr></thead>
+      <tbody>
+        <tr><td>Cell membrane</td><td>Controls what enters and leaves the cell</td></tr>
+        <tr><td>Nucleus (with nucleolus)</td><td>Stores DNA and controls the cell; the nucleolus makes ribosome parts</td></tr>
+        <tr><td>Mitochondria</td><td>Release energy by aerobic respiration</td></tr>
+        <tr><td>Ribosomes</td><td>Build proteins</td></tr>
+        <tr><td>Rough endoplasmic reticulum</td><td>Folds and transports proteins made by its ribosomes</td></tr>
+        <tr><td>Smooth endoplasmic reticulum</td><td>Makes lipids and breaks down toxins</td></tr>
+        <tr><td>Golgi apparatus</td><td>Modifies, sorts and packages proteins into vesicles</td></tr>
+        <tr><td>Lysosomes</td><td>Digest worn-out organelles and engulfed material</td></tr>
+        <tr><td>Centrioles</td><td>Organise the spindle during cell division</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    All of these sit in the <strong>cytoplasm</strong>, a jelly-like fluid where many chemical reactions happen. A
+    network of protein fibres, the <strong>cytoskeleton</strong>, gives the cell its shape and moves organelles around.
+  </p>
+
+  <h2 id="protein">A protein’s journey</h2>
+  <p>Organelles work together. Here is how a cell makes and exports a protein such as a digestive enzyme or hormone:</p>
+  <ol>
+    <li>The <strong>nucleus</strong> copies the gene into messenger RNA, which leaves through a nuclear pore.</li>
+    <li><strong>Ribosomes</strong> on the rough ER read the RNA and build the protein.</li>
+    <li>The protein is folded inside the <strong>rough ER</strong> and carried in a vesicle to the <strong>Golgi apparatus</strong>.</li>
+    <li>The Golgi modifies and packages it into a new <strong>vesicle</strong>.</li>
+    <li>The vesicle fuses with the <strong>cell membrane</strong> and releases the protein outside the cell.</li>
+  </ol>
+  <p><strong>Mitochondria</strong> supply the energy (ATP) needed at every step.</p>
+
+  <h2 id="size">How small is a cell?</h2>
+  <p>
+    A typical animal cell is about 10–30 micrometres (µm) across — roughly 1/50 of a millimetre. A mitochondrion is
+    about 1 µm long, and a ribosome only about 25 nanometres. That is why cells were not discovered until microscopes
+    were invented: Robert Hooke first described “cells” in cork in 1665. Organelles such as ribosomes can only be seen
+    with an electron microscope.
+  </p>
+
+  <h2 id="types">Prokaryotic and eukaryotic cells</h2>
+  <p>
+    Bacteria are <strong>prokaryotic</strong>: they are much smaller, have no nucleus (their DNA floats in the
+    cytoplasm) and lack membrane-bound organelles, though they do have ribosomes. Animals, plants, fungi and protists are
+    made of <strong>eukaryotic</strong> cells like the one in this model.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Organelle</dt>
+    <dd>A specialised structure within a cell that performs a particular job.</dd>
+    <dt>Cytoplasm</dt>
+    <dd>The jelly-like material inside the cell membrane, surrounding the nucleus.</dd>
+    <dt>Eukaryotic cell</dt>
+    <dd>A cell with a nucleus and membrane-bound organelles.</dd>
+    <dt>ATP</dt>
+    <dd>Adenosine triphosphate, the molecule that carries energy for cell processes.</dd>
+    <dt>Vesicle</dt>
+    <dd>A small membrane bubble that transports substances within the cell.</dd>
+  </dl>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Medicine:</strong> many diseases involve faulty organelles — for example, some inherited disorders affect mitochondria or lysosomes (educational context only).</li>
+    <li><strong>Antibiotics:</strong> some target bacterial ribosomes, which differ from ours, so they harm bacteria but not human cells.</li>
+    <li><strong>Specialised cells:</strong> muscle cells are packed with mitochondria; gland cells have extensive ER and Golgi to make secretions.</li>
+    <li><strong>Biotechnology:</strong> cells are used as factories to make insulin and vaccines.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Cells are flat, like textbook diagrams.”</strong> They are three-dimensional and crowded with organelles.</li>
+    <li><strong>“The nucleus is the brain of the cell and does everything.”</strong> Organelles divide the work; the nucleus provides instructions.</li>
+    <li><strong>“All cells look the same.”</strong> Cells vary hugely in shape and contents depending on their function.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Animal cells are eukaryotic, with a nucleus and membrane-bound organelles.</li>
+    <li>Each organelle has a specific job; together they make, package and export products.</li>
+    <li>Mitochondria release energy; ribosomes build proteins; the Golgi packages them.</li>
+    <li>A cell’s structure reflects its function.</li>
+  </ul>
+  <p class="muted">Model note: organelles are shown larger and fewer than in a real cell so that each can be seen and selected.</p>
+</SimulatorLayout>

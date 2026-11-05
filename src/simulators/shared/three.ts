@@ -196,15 +196,22 @@ export async function createThreeScene(container: HTMLElement, opts: ThreeSceneO
   /* Picking */
   const raycaster = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
-  function pickAt(clientX: number, clientY: number, objects: ThreeNS.Object3D[]) {
+  function pickAt(clientX: number, clientY: number, objects: ThreeNS.Object3D[], accept?: (hit: ThreeNS.Intersection) => boolean) {
     const r = canvas.getBoundingClientRect();
     ndc.set(((clientX - r.left) / r.width) * 2 - 1, -((clientY - r.top) / r.height) * 2 + 1);
     raycaster.setFromCamera(ndc, camera);
-    return raycaster.intersectObjects(objects, true)[0] ?? null;
+    const hits = raycaster.intersectObjects(objects, true);
+    return (accept ? hits.find(accept) : hits[0]) ?? null;
   }
+  /**
+   * Call cb when the user clicks or taps (without dragging) on the view.
+   * `accept` can skip hits — for example parts hidden by clipping planes,
+   * which the raycaster would otherwise still report.
+   */
   function onPick(
     objects: () => ThreeNS.Object3D[],
     cb: (hit: ThreeNS.Intersection | null, at: { x: number; y: number }) => void,
+    accept?: (hit: ThreeNS.Intersection) => boolean,
   ) {
     let down = { x: 0, y: 0, t: 0 };
     canvas.addEventListener('pointerdown', (e) => (down = { x: e.clientX, y: e.clientY, t: performance.now() }));
@@ -212,7 +219,7 @@ export async function createThreeScene(container: HTMLElement, opts: ThreeSceneO
       const still = Math.hypot(e.clientX - down.x, e.clientY - down.y) < 6 && performance.now() - down.t < 600;
       if (!still || (coarse && !controls.enabled)) return;
       const r = stage.getBoundingClientRect();
-      cb(pickAt(e.clientX, e.clientY, objects()), { x: e.clientX - r.left, y: e.clientY - r.top });
+      cb(pickAt(e.clientX, e.clientY, objects(), accept), { x: e.clientX - r.left, y: e.clientY - r.top });
     });
   }
 

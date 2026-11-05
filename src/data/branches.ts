@@ -78,7 +78,9 @@ export const branches: Branch[] = [
         keywords: ['cell', 'organelles', 'nucleus', 'mitochondria', 'ribosome', 'golgi', 'endoplasmic reticulum'],
         level: 'Beginner',
         kind: '3D',
-        status: 'planned',
+        status: 'live',
+        minutes: 12,
+        related: ['botany/plant-cell', 'zoology/animal-vs-plant-cell', 'biology/osmosis', 'biology/dna-replication'],
       },
       {
         slug: 'photosynthesis',
@@ -98,7 +100,9 @@ export const branches: Branch[] = [
         keywords: ['dna', 'replication', 'helicase', 'polymerase', 'okazaki', 'base pairing', 'leading strand'],
         level: 'Intermediate',
         kind: '3D',
-        status: 'planned',
+        status: 'live',
+        minutes: 15,
+        related: ['biology/cell-structure', 'biology/natural-selection', 'mathematics/probability', 'biology/photosynthesis'],
       },
       {
         slug: 'natural-selection',
@@ -326,7 +330,9 @@ export const branches: Branch[] = [
         keywords: ['animal cell', 'plant cell', 'cell wall', 'chloroplast', 'vacuole', 'comparison'],
         level: 'Beginner',
         kind: '2D',
-        status: 'planned',
+        status: 'live',
+        minutes: 12,
+        related: ['biology/cell-structure', 'botany/plant-cell', 'zoology/animal-classification', 'biology/osmosis'],
       },
       {
         slug: 'animal-adaptations',
@@ -374,7 +380,9 @@ export const branches: Branch[] = [
         keywords: ['plant cell', 'cell wall', 'chloroplast', 'vacuole', 'organelles'],
         level: 'Beginner',
         kind: '3D',
-        status: 'planned',
+        status: 'live',
+        minutes: 12,
+        related: ['biology/cell-structure', 'zoology/animal-vs-plant-cell', 'biology/photosynthesis', 'botany/plant-anatomy'],
       },
       {
         slug: 'plant-anatomy',

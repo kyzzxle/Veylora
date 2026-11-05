@@ -1,0 +1,139 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import DnaSim from '../../simulators/dna/DnaSim.astro';
+import { dnaQuiz } from '../../data/quizzes/dna';
+
+const toc = [
+  { id: 'what', label: 'What DNA replication is' },
+  { id: 'structure', label: 'DNA structure in brief' },
+  { id: 'steps', label: 'Step by step' },
+  { id: 'leading-lagging', label: 'Leading and lagging strands' },
+  { id: 'semi', label: 'Semi-conservative replication' },
+  { id: 'accuracy', label: 'Speed and accuracy' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 14.4: DNA Replication in Prokaryotes. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/14-4-dna-replication-in-prokaryotes' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 14.3: Basics of DNA Replication. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/14-3-basics-of-dna-replication' },
+  { text: 'Meselson, M., & Stahl, F. W. (1958). The replication of DNA in Escherichia coli. PNAS, 44(7), 671–682.', url: 'https://doi.org/10.1073/pnas.44.7.671' },
+];
+---
+
+<SimulatorLayout
+  branch="biology"
+  topic="dna-replication"
+  description="Interactive DNA replication simulator: watch helicase unzip the helix, see the leading strand built continuously and the lagging strand in Okazaki fragments with primers and ligase."
+  toc={toc}
+  quiz={dnaQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every time a cell divides, it must copy all of its DNA, accurately, in a matter of hours. Watch a replication fork
+      in action: helicase unzips the helix, primase lays primers, DNA polymerase builds the new strands, and ligase stitches
+      the fragments together.
+    </p>
+  </Fragment>
+
+  <DnaSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong> and watch the fork move to the right as <strong>helicase</strong> unzips the helix.</li>
+      <li>Follow the <strong>leading strand</strong> (bottom): it is built continuously, right behind the fork.</li>
+      <li>Follow the <strong>lagging strand</strong> (top): primase lays a pink RNA primer, DNA polymerase builds a fragment backwards, then the primer is swapped for DNA and <strong>ligase</strong> seals the gap.</li>
+      <li><strong>Click any base</strong> to see its name, its partner and which strand it belongs to. <strong>Click an enzyme</strong> to learn its job.</li>
+      <li>Slow it down with <strong>Speed</strong> to watch each step. <strong>Reset</strong> starts again with a new random sequence.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What DNA replication is</h2>
+  <p>
+    <strong>DNA replication</strong> is the process of copying a DNA molecule before a cell divides, so each new cell
+    receives a complete set of genetic instructions. It happens during the S phase of the cell cycle. In human cells, about
+    6 billion base pairs are copied, starting at thousands of points called <strong>origins of replication</strong> so the
+    job finishes in hours rather than weeks.
+  </p>
+
+  <h2 id="structure">DNA structure in brief</h2>
+  <p>
+    DNA is a double helix: two strands, each a chain of nucleotides with a sugar-phosphate <strong>backbone</strong> and a
+    <strong>base</strong> (A, T, G or C). The bases pair across the middle by hydrogen bonds: <strong>A with T</strong> and
+    <strong>G with C</strong>. The strands are <strong>antiparallel</strong>: one runs 5′→3′ and its partner runs 3′→5′,
+    which is why the labels at the ends of the strands in the simulator alternate.
+  </p>
+
+  <h2 id="steps">Step by step</h2>
+  <ol>
+    <li><strong>Unwinding:</strong> helicase breaks the hydrogen bonds between bases, opening a Y-shaped <strong>replication fork</strong>.</li>
+    <li><strong>Priming:</strong> primase makes a short <strong>RNA primer</strong> (3 bases in the model; about 10 in real cells). DNA polymerase cannot start a strand from nothing.</li>
+    <li><strong>Elongation:</strong> DNA polymerase III adds nucleotides that pair with the template, always to the 3′ end of the growing strand.</li>
+    <li><strong>Primer removal:</strong> DNA polymerase I removes the RNA primers and fills the gaps with DNA.</li>
+    <li><strong>Joining:</strong> DNA ligase seals the remaining nicks in the backbone, producing continuous strands.</li>
+  </ol>
+  <p>
+    Other proteins help too: single-strand binding proteins stop the separated strands from re-pairing, and topoisomerase
+    relieves the twisting that builds up ahead of the fork. They are left out of the model to keep it clear.
+  </p>
+
+  <h2 id="leading-lagging">Leading and lagging strands</h2>
+  <p>
+    DNA polymerase can only build in the <strong>5′→3′ direction</strong>. Because the two templates are antiparallel, on one
+    of them that direction follows the fork: the <strong>leading strand</strong> is made continuously from a single primer.
+    On the other, 5′→3′ points away from the fork, so the <strong>lagging strand</strong> is built in short pieces called
+    <strong>Okazaki fragments</strong>, each with its own primer. In bacteria they are 1,000–2,000 bases long; in
+    eukaryotes, about 100–200.
+  </p>
+
+  <h2 id="semi">Semi-conservative replication</h2>
+  <p>
+    When copying finishes, each new molecule has one <strong>original strand</strong> (blue in the simulator) and one
+    <strong>new strand</strong> (orange). This is called <strong>semi-conservative</strong> replication. Matthew Meselson and
+    Franklin Stahl proved it in 1958 by growing bacteria in heavy nitrogen, moving them to normal nitrogen, and measuring the
+    density of the DNA after each generation.
+  </p>
+
+  <h2 id="accuracy">Speed and accuracy</h2>
+  <p>
+    Bacterial replication forks move at around 1,000 bases per second; human forks at about 50. DNA polymerase also
+    <strong>proofreads</strong>: it can remove a wrongly paired base immediately. Together with later repair systems, the
+    final error rate is roughly one mistake per billion bases copied. The rare errors that slip through are
+    <strong>mutations</strong>, which are the raw material for natural selection.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Template strand</dt>
+    <dd>An existing strand used as the pattern for building a new one.</dd>
+    <dt>Replication fork</dt>
+    <dd>The Y-shaped region where the helix is being unzipped and copied.</dd>
+    <dt>Okazaki fragment</dt>
+    <dd>A short stretch of new DNA on the lagging strand.</dd>
+    <dt>Primer</dt>
+    <dd>A short RNA strand that gives DNA polymerase a 3′ end to build onto.</dd>
+    <dt>5′ and 3′ ends</dt>
+    <dd>The two chemically different ends of a strand, named after carbon atoms in the sugar.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The new DNA molecule is completely new.”</strong> Each daughter molecule keeps one original strand.</li>
+    <li><strong>“The lagging strand is made more slowly or later.”</strong> Both strands are made at the same overall rate; the lagging one is just made in pieces.</li>
+    <li><strong>“DNA polymerase can start a strand anywhere.”</strong> It needs a primer with a free 3′ end.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Helicase unzips; primase primes; DNA polymerase builds; ligase joins.</li>
+    <li>Bases pair A–T and G–C, so each strand is a template for its partner.</li>
+    <li>Polymerase only works 5′→3′, giving a continuous leading strand and a fragmented lagging strand.</li>
+    <li>Replication is semi-conservative: each copy is half old, half new.</li>
+  </ul>
+  <p class="muted">
+    Model note: one fork copying 40 base pairs, greatly slowed down. The two primers left at the ends are removed by
+    enzymes from the neighbouring fork in a real chromosome, and at chromosome tips by telomerase.
+  </p>
+</SimulatorLayout>

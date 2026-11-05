@@ -1,0 +1,129 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import CompareSim from '../../simulators/compare-cells/CompareSim.astro';
+import { compareCellsQuiz } from '../../data/quizzes/compare-cells';
+
+const toc = [
+  { id: 'shared', label: 'What they have in common' },
+  { id: 'differences', label: 'The key differences' },
+  { id: 'table', label: 'Comparison table' },
+  { id: 'why', label: 'Why the differences exist' },
+  { id: 'microscope', label: 'Seeing cells under a microscope' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 4.3: Eukaryotic Cells. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/4-3-eukaryotic-cells' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 4.2: Prokaryotic Cells. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/4-2-prokaryotic-cells' },
+  { text: 'Alberts, B., et al. (2022). Molecular Biology of the Cell (7th ed.). W. W. Norton.' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="animal-vs-plant-cell"
+  description="Interactive animal cell vs. plant cell comparison: click structures in both cells, highlight the differences and test yourself with a sorting challenge."
+  toc={toc}
+  quiz={compareCellsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      An animal cell and a plant cell are built on the same basic plan, yet a few key differences explain why animals
+      move and eat while plants stand still and make their own food. Compare them side by side, highlight what sets them
+      apart, and sort structures in a quick challenge.
+    </p>
+  </Fragment>
+
+  <CompareSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Click any structure</strong> in either cell to see its name, its job and which cells contain it.</li>
+      <li>Turn on <strong>Highlight the differences</strong>: shared structures fade, plant-only structures are outlined in green and animal-only structures in red.</li>
+      <li>Try the <strong>sorting challenge</strong>: press <strong>New question</strong> and decide whether a structure is found in animal cells only, plant cells only, or both.</li>
+      <li>Turn labels off to test your memory. <strong>Reset</strong> clears your score.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="shared">What they have in common</h2>
+  <p>
+    Animal and plant cells are both <strong>eukaryotic</strong>: their DNA is held inside a nucleus, and they contain
+    membrane-bound organelles. Both have a <strong>cell membrane</strong>, <strong>cytoplasm</strong>, a
+    <strong>nucleus</strong>, <strong>mitochondria</strong> for respiration, <strong>ribosomes</strong> for making
+    proteins, <strong>endoplasmic reticulum</strong> and a <strong>Golgi apparatus</strong>.
+  </p>
+
+  <h2 id="differences">The key differences</h2>
+  <ul>
+    <li><strong>Cell wall:</strong> plant cells have a rigid cellulose wall; animal cells do not.</li>
+    <li><strong>Chloroplasts:</strong> many plant cells contain chloroplasts for photosynthesis; animal cells never do.</li>
+    <li><strong>Vacuole:</strong> plant cells have a large, permanent central vacuole; animal cells have only small, temporary ones.</li>
+    <li><strong>Shape:</strong> plant cells are usually regular and box-like; animal cells vary widely in shape.</li>
+    <li><strong>Food storage:</strong> plants store starch; animals store glycogen and fat.</li>
+    <li><strong>Centrioles and lysosomes:</strong> typical of animal cells and absent from most plant cells.</li>
+  </ul>
+
+  <h2 id="table">Comparison table</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Structure</th><th>Animal cell</th><th>Plant cell</th></tr></thead>
+      <tbody>
+        <tr><td>Cell membrane</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Nucleus</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Mitochondria</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Ribosomes, ER, Golgi</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Cell wall</td><td>No</td><td>Yes (cellulose)</td></tr>
+        <tr><td>Chloroplasts</td><td>No</td><td>Yes (in green parts)</td></tr>
+        <tr><td>Large central vacuole</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Centrioles</td><td>Yes</td><td>Usually no</td></tr>
+        <tr><td>Storage carbohydrate</td><td>Glycogen</td><td>Starch</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="why">Why the differences exist</h2>
+  <p>
+    The differences match the two lifestyles. Plants are <strong>producers</strong>: they stay in one place and make
+    their own food, so they need chloroplasts and a strong wall and turgid vacuole to hold them up toward the light
+    without a skeleton. Animals are <strong>consumers</strong>: they eat other organisms and many move around, so their
+    cells need no chloroplasts and benefit from flexible membranes that allow varied shapes, such as long nerve cells or
+    contracting muscle cells.
+  </p>
+
+  <h2 id="microscope">Seeing cells under a microscope</h2>
+  <p>
+    With a school light microscope you can see the nucleus, cytoplasm, membrane, and in plant cells the wall, vacuole
+    and chloroplasts. Onion epidermis cells (which have no chloroplasts, because they grow underground) and human cheek
+    cells are classic examples. Smaller organelles such as ribosomes and the details of mitochondria can only be seen
+    with an electron microscope.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Eukaryotic</dt>
+    <dd>Having a nucleus and membrane-bound organelles.</dd>
+    <dt>Autotroph and heterotroph</dt>
+    <dd>An organism that makes its own food (such as a plant) and one that must eat other organisms (such as an animal).</dd>
+    <dt>Turgor</dt>
+    <dd>Pressure of a plant cell’s contents against its wall.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Plant cells don’t have mitochondria because they have chloroplasts.”</strong> They have both.</li>
+    <li><strong>“All plant cells are green.”</strong> Root and storage cells usually lack chloroplasts.</li>
+    <li><strong>“Animal cells have a cell wall too.”</strong> Only plants, fungi and bacteria have walls (made of different materials).</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Both cell types share the core eukaryotic organelles.</li>
+    <li>Plant cells add a cell wall, chloroplasts and a large central vacuole.</li>
+    <li>Animal cells have centrioles and store glycogen rather than starch.</li>
+    <li>The differences reflect how plants and animals obtain food and support themselves.</li>
+  </ul>
+  <p class="muted">Model note: diagrams are simplified and not to scale; real cells contain many more organelles of each type.</p>
+</SimulatorLayout>
