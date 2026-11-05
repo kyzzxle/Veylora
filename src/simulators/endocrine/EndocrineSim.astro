@@ -1,0 +1,102 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="endocrine-sim" label="The endocrine glands on a body outline, a thyroid feedback loop diagram, or a blood glucose control diagram." hint={false} badge="Thyroid gland" aspect="16 / 9">
+  <ChoiceControl
+    name="en-view"
+    label="View"
+    value="glands"
+    options={[
+      { value: 'glands', label: 'Glands & hormones' },
+      { value: 'thyroid', label: 'Thyroid feedback' },
+      { value: 'glucose', label: 'Blood glucose' },
+    ]}
+  />
+  <p class="en-note" data-note aria-live="polite"></p>
+
+  <div data-only="glands" class="en-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="en-gland">Gland (or click one)</label>
+      <select id="en-gland" class="select" data-gland>
+        <option value="hypothalamus">Hypothalamus</option>
+        <option value="pituitary">Pituitary gland</option>
+        <option value="pineal">Pineal gland</option>
+        <option value="thyroid" selected>Thyroid gland</option>
+        <option value="adrenal">Adrenal glands</option>
+        <option value="pancreas">Pancreas</option>
+        <option value="gonads">Ovaries or testes</option>
+      </select>
+    </div>
+    <SliderControl name="en-level" label="Hormone level" min={0.1} max={2.5} step={0.05} value={1} help="Change how much hormone the gland releases and read its effect on the target organs." />
+  </div>
+
+  <div data-only="thyroid" class="en-group">
+    <ChoiceControl
+      name="en-scen"
+      label="Situation"
+      value="normal"
+      options={[
+        { value: 'normal', label: 'Healthy' },
+        { value: 'iodine', label: 'Iodine deficiency' },
+        { value: 'graves', label: 'Overactive thyroid' },
+        { value: 'pituitary', label: 'Pituitary problem' },
+      ]}
+    />
+    <SliderControl name="en-tablets" label="Thyroxine tablets" min={0} max={2} step={0.1} value={0} help="Extra T4 from medication, as a share of normal thyroid output." />
+  </div>
+
+  <div data-only="glucose" class="en-group">
+    <div class="preset-row" role="group" aria-label="Events">
+      <button type="button" class="preset" data-meal>🍽 Eat a meal</button>
+      <button type="button" class="preset" data-exercise>🏃 Exercise for an hour</button>
+      <button type="button" class="preset" data-inject>💉 Inject insulin</button>
+    </div>
+    <ChoiceControl
+      name="en-diabetes"
+      label="Person"
+      value="none"
+      options={[
+        { value: 'none', label: 'No diabetes' },
+        { value: 't1', label: 'Type 1 diabetes' },
+        { value: 't2', label: 'Type 2 diabetes' },
+      ]}
+    />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="en-graph" title="Levels over time" desc="Hormone or glucose levels over time for the current view." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .en-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .en-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initEndocrine } from './endocrine';
+  mountSim('#endocrine-sim', initEndocrine);
+</script>

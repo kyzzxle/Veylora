@@ -271,6 +271,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['biology/dna-replication', 'biology/cell-structure', 'anatomy-physiology/urinary-system', 'biology/natural-selection'],
       },
+      {
+        slug: 'endocrine-system',
+        title: 'Endocrine System and Hormonal Regulation',
+        summary: 'Explore the glands and their hormones, run the thyroid feedback loop and control blood glucose with insulin and glucagon.',
+        keywords: ['hormone', 'endocrine', 'gland', 'thyroid', 'insulin', 'glucagon', 'pituitary', 'feedback', 'diabetes'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['anatomy-physiology/urinary-system', 'anatomy-physiology/reproductive-system', 'anatomy-physiology/neuron-firing', 'anatomy-physiology/digestive-system'],
+      },
     ],
   },
   {

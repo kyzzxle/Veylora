@@ -1,0 +1,159 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import EndocrineSim from '../../simulators/endocrine/EndocrineSim.astro';
+import { endocrineQuiz } from '../../data/quizzes/endocrine';
+
+const toc = [
+  { id: 'what', label: 'What the endocrine system does' },
+  { id: 'glands', label: 'The major glands' },
+  { id: 'how', label: 'How hormones work' },
+  { id: 'feedback', label: 'Negative feedback: the thyroid' },
+  { id: 'glucose', label: 'Controlling blood glucose' },
+  { id: 'stress', label: 'Stress, growth and reproduction' },
+  { id: 'relevance', label: 'Hormones and health' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Chapter 17: The Endocrine System. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/17-introduction' },
+  { text: 'Hall, J. E., & Hall, M. E. (2020). Guyton and Hall Textbook of Medical Physiology (14th ed.), Chapters 75–80. Elsevier.' },
+  { text: 'Dietrich, J. W., Landgrafe, G., & Fotiadou, E. H. (2012). TSH and thyrotropic agonists: key actors in thyroid homeostasis. Journal of Thyroid Research, 2012, 351864.' },
+  { text: 'Bergman, R. N. (1989). Toward physiological understanding of glucose tolerance: minimal-model approach. Diabetes, 38(12), 1512–1527.' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="endocrine-system"
+  description="Interactive endocrine system simulator: explore the major glands and their hormones, run the thyroid negative feedback loop, and control blood glucose with insulin and glucagon."
+  toc={toc}
+  quiz={endocrineQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Your body runs on chemical messages as well as electrical ones. Hormones released by small glands travel in the
+      blood and reach almost every cell, adjusting growth, energy use, stress responses and reproduction. Explore the
+      glands, change hormone levels, and see how feedback loops keep the body in balance.
+    </p>
+  </Fragment>
+
+  <EndocrineSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Glands &amp; hormones:</strong> choose or click a gland. Watch its hormone travel in the blood to its target organs, then change the <strong>hormone level</strong> and read the effects.</li>
+      <li><strong>Thyroid feedback:</strong> press <strong>Start</strong> and change the <strong>situation</strong> or add <strong>tablets</strong>. Watch TRH, TSH and T4 respond on the graph, and the thyroid swell in iodine deficiency.</li>
+      <li><strong>Blood glucose:</strong> press <strong>Eat a meal</strong> or <strong>Exercise</strong> and watch glucose, insulin and glucagon. Switch to type 1 or type 2 diabetes and compare; try <strong>Inject insulin</strong>.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What the endocrine system does</h2>
+  <p>
+    The <strong>endocrine system</strong> is a set of glands that release <strong>hormones</strong>, chemical messengers,
+    into the blood. Hormones regulate long-term processes: <strong>growth</strong>, <strong>metabolism</strong>,
+    <strong>stress responses</strong>, <strong>reproduction</strong>, and <strong>homeostasis</strong> (keeping
+    conditions such as blood glucose, water and salt levels steady). It works alongside the nervous system: nerves send
+    fast, targeted signals, while hormones act more slowly but often for longer and over the whole body.
+  </p>
+
+  <h2 id="glands">The major glands</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Gland</th><th>Main hormones</th><th>Main effects</th></tr></thead>
+      <tbody>
+        <tr><td>Hypothalamus</td><td>Releasing hormones, ADH</td><td>Controls the pituitary; links brain and hormones</td></tr>
+        <tr><td>Pituitary</td><td>Growth hormone, TSH, ACTH, FSH, LH, ADH</td><td>Growth; controls other glands; water balance</td></tr>
+        <tr><td>Thyroid</td><td>Thyroxine (T4), T3</td><td>Metabolic rate, growth and development</td></tr>
+        <tr><td>Adrenal glands</td><td>Adrenaline, cortisol, aldosterone</td><td>Fight or flight, stress, salt balance</td></tr>
+        <tr><td>Pancreas</td><td>Insulin, glucagon</td><td>Blood glucose control</td></tr>
+        <tr><td>Ovaries / testes</td><td>Oestrogen, progesterone / testosterone</td><td>Puberty and reproduction</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="how">How hormones work</h2>
+  <p>
+    Hormones travel everywhere in the blood, but only <strong>target cells</strong> with the matching
+    <strong>receptor</strong> respond, like a key fitting a lock. Some hormones, such as adrenaline and insulin, bind to
+    receptors on the cell surface and trigger rapid changes inside. Others, such as thyroid and steroid hormones, enter the
+    cell and switch genes on or off, causing slower, longer-lasting effects.
+  </p>
+
+  <h2 id="feedback">Negative feedback: the thyroid</h2>
+  <p>
+    Most hormone levels are controlled by <strong>negative feedback</strong>. The hypothalamus releases
+    <strong>TRH</strong>, which tells the pituitary to release <strong>TSH</strong>, which tells the thyroid to make
+    <strong>thyroxine (T4)</strong>. T4 then reduces TRH and TSH. If T4 rises, the chain is turned down; if it falls, the
+    chain is turned up. This explains thyroid problems: lack of iodine means the thyroid cannot make enough T4, so TSH
+    stays high and the gland swells into a <strong>goitre</strong>; in an overactive thyroid, T4 is high and TSH almost
+    disappears.
+  </p>
+
+  <h2 id="glucose">Controlling blood glucose</h2>
+  <p>
+    Cells need a steady supply of glucose, and the brain especially. After a meal, rising glucose triggers the pancreas
+    to release <strong>insulin</strong>, which helps muscle, fat and liver cells take up glucose; the liver stores it as
+    <strong>glycogen</strong>. Between meals, falling glucose triggers <strong>glucagon</strong>, which tells the liver to
+    break glycogen down and release glucose. Together they keep glucose at about 4–7 mmol/L. In <strong>type 1
+    diabetes</strong> the insulin-making cells are destroyed, so insulin must be injected; in <strong>type 2
+    diabetes</strong> cells respond poorly to insulin.
+  </p>
+
+  <h2 id="stress">Stress, growth and reproduction</h2>
+  <p>
+    In an emergency the adrenal glands release <strong>adrenaline</strong> within seconds: heart rate and breathing
+    increase and glucose is released for the muscles. Longer-term stress raises <strong>cortisol</strong>, which keeps
+    glucose high but can weaken the immune system. <strong>Growth hormone</strong> from the pituitary drives growth in
+    childhood. Sex hormones from the ovaries and testes cause puberty and control the menstrual cycle and sperm
+    production.
+  </p>
+
+  <h2 id="relevance">Hormones and health</h2>
+  <p>
+    Many conditions involve hormones, including diabetes, thyroid disorders and growth disorders. Blood tests measure
+    hormones such as TSH, T4 and glucose. Treatments often replace a missing hormone, such as insulin injections or
+    thyroxine tablets, which is why understanding feedback matters: doses are adjusted using feedback signals such as
+    TSH levels.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Hormone</dt>
+    <dd>A chemical messenger made by a gland and carried in the blood to target organs.</dd>
+    <dt>Target organ</dt>
+    <dd>An organ whose cells have receptors for a particular hormone.</dd>
+    <dt>Negative feedback</dt>
+    <dd>A control system where a change triggers a response that reverses it.</dd>
+    <dt>Homeostasis</dt>
+    <dd>Keeping internal conditions within narrow limits.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Hormones only matter during puberty.”</strong> Hormones control body processes every minute of life.</li>
+    <li><strong>“Each hormone affects every cell.”</strong> Only cells with the right receptors respond.</li>
+    <li><strong>“More hormone is always better.”</strong> Too much is as harmful as too little; feedback keeps levels balanced.</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> These are simplified models: real hormone systems involve many more
+      hormones, feedback loops and differences between people. Values shown are illustrative, and this simulator cannot
+      be used to diagnose or manage diabetes, thyroid conditions or any other condition, or to choose doses of medicine.
+      Always follow the advice of a qualified healthcare professional. See our <a href="/disclaimer/">educational and
+      medical disclaimer</a>.
+    </p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Endocrine glands release hormones into the blood; only target cells with receptors respond.</li>
+    <li>The hypothalamus and pituitary control many other glands.</li>
+    <li>Negative feedback keeps hormone levels steady, as in the thyroid axis.</li>
+    <li>Insulin and glucagon keep blood glucose in a narrow range.</li>
+  </ul>
+  <p class="muted">Model note: thyroid levels are relative to normal and use a simple three-hormone feedback loop; the glucose model uses simplified rates tuned to typical textbook responses.</p>
+</SimulatorLayout>
