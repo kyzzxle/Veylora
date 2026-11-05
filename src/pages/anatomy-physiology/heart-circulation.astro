@@ -1,0 +1,152 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import HeartSim from '../../simulators/heart/HeartSim.astro';
+import { heartQuiz } from '../../data/quizzes/heart';
+
+const toc = [
+  { id: 'structure', label: 'Structure of the heart' },
+  { id: 'pathway', label: 'The pathway of blood' },
+  { id: 'double', label: 'Double circulation' },
+  { id: 'cycle', label: 'The cardiac cycle' },
+  { id: 'output', label: 'Heart rate and cardiac output' },
+  { id: 'vessels', label: 'Arteries, veins and capillaries' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 19.1: Heart Anatomy. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy' },
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 19.3: Cardiac Cycle. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/19-3-cardiac-cycle' },
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 19.4: Cardiac Physiology. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/19-4-cardiac-physiology' },
+  { text: 'Hall, J. E., & Hall, M. E. (2020). Guyton and Hall Textbook of Medical Physiology (14th ed.). Elsevier.' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="heart-circulation"
+  description="Interactive heart simulator: watch the four chambers and valves through the cardiac cycle, follow a blood cell through the lungs and body, and change heart rate and stroke volume."
+  toc={toc}
+  quiz={heartQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Your heart beats about 100,000 times a day, pushing blood through two loops: one to the lungs to collect oxygen,
+      and one to the rest of the body to deliver it. Watch the chambers squeeze, see the valves open and shut, and follow a
+      single blood cell all the way round.
+    </p>
+  </Fragment>
+
+  <HeartSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Watch the <strong>phase bar</strong> at the top right and the panel text: atria contract, then ventricles, then the heart relaxes.</li>
+      <li>Turn on <strong>Slow motion</strong> to see the <strong>valves</strong> (white when open, yellow when shut) and hear where “lub” and “dub” come from.</li>
+      <li>Keep <strong>Follow one blood cell</strong> on and read the <strong>Tracked cell is in</strong> readout to trace the full route.</li>
+      <li>Use <strong>Asleep</strong>, <strong>Resting</strong> and <strong>Running</strong>, or the sliders, to change heart rate and stroke volume and watch the cardiac output change.</li>
+      <li><strong>Click any chamber, valve or vessel</strong> to learn what it does.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="structure">Structure of the heart</h2>
+  <p>
+    The heart is a muscular pump about the size of a fist, sitting between the lungs. It has four chambers: two
+    <strong>atria</strong> on top that receive blood, and two <strong>ventricles</strong> below that pump it out. A wall
+    called the <strong>septum</strong> separates the right side (deoxygenated blood) from the left side (oxygenated blood).
+    Diagrams show the heart as if you were facing the person, so the right side of the heart appears on the left of the
+    picture.
+  </p>
+  <p>
+    Four <strong>valves</strong> keep blood moving one way. The <strong>tricuspid</strong> and <strong>mitral</strong>
+    (bicuspid) valves sit between each atrium and ventricle. The <strong>pulmonary</strong> and <strong>aortic</strong>
+    valves sit where blood leaves the ventricles.
+  </p>
+
+  <h2 id="pathway">The pathway of blood</h2>
+  <ol>
+    <li>Deoxygenated blood from the body returns through the <strong>venae cavae</strong> to the <strong>right atrium</strong>.</li>
+    <li>It passes through the tricuspid valve into the <strong>right ventricle</strong>.</li>
+    <li>The right ventricle pumps it through the pulmonary valve into the <strong>pulmonary artery</strong> and on to the lungs.</li>
+    <li>In the lung capillaries it picks up oxygen and gives up carbon dioxide.</li>
+    <li>Oxygenated blood returns through the <strong>pulmonary veins</strong> to the <strong>left atrium</strong>.</li>
+    <li>It passes through the mitral valve into the <strong>left ventricle</strong>.</li>
+    <li>The left ventricle pumps it through the aortic valve into the <strong>aorta</strong>, which branches to every organ.</li>
+  </ol>
+
+  <h2 id="double">Double circulation</h2>
+  <p>
+    Mammals and birds have a <strong>double circulation</strong>: blood passes through the heart twice on each full trip.
+    The <strong>pulmonary circuit</strong> carries blood between the heart and lungs at low pressure, which protects the
+    delicate lung capillaries. The <strong>systemic circuit</strong> carries blood to the rest of the body at high pressure,
+    so it can reach the brain, the feet and everywhere between. That is why the left ventricle has a much thicker muscular
+    wall than the right.
+  </p>
+
+  <h2 id="cycle">The cardiac cycle</h2>
+  <p>
+    Each heartbeat follows the same sequence. In <strong>atrial systole</strong> the atria contract, topping up the
+    ventricles. In <strong>ventricular systole</strong> the ventricles contract: the pressure rise slams the tricuspid and
+    mitral valves shut (the first heart sound, “lub”) and forces the pulmonary and aortic valves open. In
+    <strong>diastole</strong> the muscle relaxes, the pulmonary and aortic valves shut (the second sound, “dub”), and blood
+    flows in from the veins to refill the chambers. The beat is started by the heart’s own pacemaker, the
+    <strong>sinoatrial node</strong>, in the wall of the right atrium.
+  </p>
+
+  <h2 id="output">Heart rate and cardiac output</h2>
+  <p>
+    <strong>Cardiac output</strong> is the volume of blood each ventricle pumps per minute:
+  </p>
+  <p><code class="formula">cardiac output = heart rate × stroke volume</code></p>
+  <p>
+    At rest, 70 beats per minute × 70 mL ≈ 4.9 L per minute: roughly all of your blood every minute. During hard exercise,
+    adrenaline and nerve signals raise both the rate and the strength of each beat, and output can reach 15–20 L per
+    minute in a fit adult, or more in trained athletes.
+  </p>
+
+  <h2 id="vessels">Arteries, veins and capillaries</h2>
+  <ul>
+    <li><strong>Arteries</strong> carry blood away from the heart. They have thick, elastic, muscular walls to cope with high pressure.</li>
+    <li><strong>Veins</strong> carry blood back to the heart at low pressure. They have thinner walls and valves to stop backflow.</li>
+    <li><strong>Capillaries</strong> are only one cell thick, so oxygen, nutrients and waste can pass between blood and tissues.</li>
+  </ul>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Atrium / ventricle</dt>
+    <dd>Upper receiving chamber / lower pumping chamber of the heart.</dd>
+    <dt>Systole / diastole</dt>
+    <dd>Contraction / relaxation of the heart muscle.</dd>
+    <dt>Stroke volume</dt>
+    <dd>Volume of blood pumped by one ventricle in one beat.</dd>
+    <dt>Septum</dt>
+    <dd>Muscular wall dividing the left and right sides of the heart.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Arteries always carry oxygenated blood.”</strong> The pulmonary artery carries deoxygenated blood. Arteries are defined by direction: away from the heart.</li>
+    <li><strong>“Deoxygenated blood is blue.”</strong> It is dark red. Blue is just a diagram convention.</li>
+    <li><strong>“The two sides of the heart beat one after the other.”</strong> Left and right contract together; it is the atria and ventricles that take turns.</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> This simulator is a simplified diagram, not a medical tool. It cannot
+      diagnose or assess any heart condition, and the values shown are typical textbook figures. If you have concerns about
+      your heart or health, speak to a qualified healthcare professional. See our <a href="/disclaimer/">educational and
+      medical disclaimer</a>.
+    </p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>The right side of the heart pumps blood to the lungs; the left side pumps it to the body.</li>
+    <li>Valves keep blood flowing one way and make the “lub-dub” sounds as they shut.</li>
+    <li>Each beat is atrial systole, ventricular systole, then diastole.</li>
+    <li>Cardiac output = heart rate × stroke volume.</li>
+  </ul>
+  <p class="muted">Model note: the diagram is schematic, not to scale, and the vessels are rearranged so the two circuits are easy to follow. One trip round the loop takes about 8 beats here; in a resting person it takes about a minute.</p>
+</SimulatorLayout>

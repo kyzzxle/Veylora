@@ -1,0 +1,148 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import BreathingSim from '../../simulators/breathing/BreathingSim.astro';
+import { breathingQuiz } from '../../data/quizzes/breathing';
+
+const toc = [
+  { id: 'parts', label: 'Parts of the respiratory system' },
+  { id: 'ventilation', label: 'How breathing works' },
+  { id: 'exchange', label: 'Gas exchange in the alveoli' },
+  { id: 'numbers', label: 'Breathing by the numbers' },
+  { id: 'scenarios', label: 'Exercise, altitude and asthma' },
+  { id: 'control', label: 'What controls breathing' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 22.3: The Process of Breathing. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/22-3-the-process-of-breathing' },
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 22.4: Gas Exchange. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/22-4-gas-exchange' },
+  { text: 'West, J. B., & Luks, A. M. (2020). West’s Respiratory Physiology: The Essentials (11th ed.). Wolters Kluwer.' },
+  { text: 'Severinghaus, J. W. (1979). Simple, accurate equations for human blood O₂ dissociation computations. Journal of Applied Physiology, 46(3), 599–602.' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="respiratory-system"
+  description="Interactive breathing simulator: move the diaphragm, watch the lungs expand, follow oxygen into the blood and compare rest, exercise, high altitude and an asthma attack."
+  toc={toc}
+  quiz={breathingQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      You take around 20,000 breaths a day without thinking about it. Each one is driven by muscles changing the size of
+      your chest, and each one brings fresh oxygen to millions of tiny air sacs where it slips into your blood. Watch it
+      happen, take control of the diaphragm, and see how exercise, altitude and asthma change things.
+    </p>
+  </Fragment>
+
+  <BreathingSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Watch the <strong>diaphragm</strong> (red curve) move down and the <strong>ribs</strong> lift as the lungs fill, and compare with the <strong>pressure</strong> readout.</li>
+      <li>Look at the <strong>alveolus</strong> on the right: oxygen (red dots) moves into the blood and carbon dioxide (grey dots) moves out.</li>
+      <li>Change the <strong>Situation</strong>. Watch the <strong>blood oxygen saturation</strong>, the <strong>blood carbon dioxide</strong> and the <strong>lung volume graph</strong>.</li>
+      <li>Turn on <strong>Control the diaphragm yourself</strong> and drag the round handle (or use the slider) to breathe in and out by hand.</li>
+      <li><strong>Click any part</strong> of the diagram to learn what it does.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="parts">Parts of the respiratory system</h2>
+  <p>
+    Air enters through the nose or mouth, where it is warmed, moistened and filtered. It travels down the
+    <strong>trachea</strong> (windpipe), which is held open by C-shaped rings of cartilage, then into two
+    <strong>bronchi</strong>, one for each lung. The bronchi branch again and again into narrower
+    <strong>bronchioles</strong>, about 23 generations of branching in total, ending in clusters of
+    <strong>alveoli</strong>. The lungs sit inside the rib cage, above the dome-shaped <strong>diaphragm</strong>.
+  </p>
+
+  <h2 id="ventilation">How breathing works</h2>
+  <p>
+    The lungs have no muscles of their own. Breathing in (<strong>inspiration</strong>) happens when the
+    <strong>diaphragm contracts</strong> and flattens, and the <strong>external intercostal muscles</strong> pull the ribs
+    up and out. The chest gets bigger, the lungs expand with it, and the pressure inside them falls slightly below the air
+    pressure outside. Air flows in until the pressures are equal.
+  </p>
+  <p>
+    Quiet breathing out (<strong>expiration</strong>) is mostly passive: the diaphragm relaxes and domes upwards, the
+    stretchy lungs recoil, the pressure inside rises slightly above atmospheric, and air flows out. During exercise,
+    internal intercostal and abdominal muscles help push air out faster. The simulator shows the pressure inside the lungs:
+    just one or two centimetres of water below or above atmospheric is enough to move half a litre of air.
+  </p>
+
+  <h2 id="exchange">Gas exchange in the alveoli</h2>
+  <p>
+    The two lungs contain roughly 480 million alveoli with a total surface area of about 70 m², the size of a small
+    apartment. Each alveolus is wrapped in capillaries, and the barrier between air and blood is less than a thousandth of
+    a millimetre thick. Gases move by <strong>diffusion</strong>, from high to low concentration (more precisely, partial
+    pressure). Oxygen diffuses from the alveolar air into the blood and binds to <strong>haemoglobin</strong> in red blood
+    cells; carbon dioxide diffuses from the blood into the alveoli to be breathed out.
+  </p>
+
+  <h2 id="numbers">Breathing by the numbers</h2>
+  <ul>
+    <li><strong>Tidal volume:</strong> air moved in a normal breath, about 500 mL at rest.</li>
+    <li><strong>Breathing rate:</strong> about 12–20 breaths per minute in a resting adult.</li>
+    <li><strong>Minute ventilation:</strong> rate × tidal volume, about 6–8 L per minute at rest and over 100 L per minute in hard exercise.</li>
+    <li><strong>Dead space:</strong> about 150 mL of each breath stays in the airways and never reaches the alveoli.</li>
+    <li><strong>Oxygen saturation:</strong> usually 95–100 % in healthy people at sea level.</li>
+  </ul>
+
+  <h2 id="scenarios">Exercise, altitude and asthma</h2>
+  <p>
+    <strong>Exercise:</strong> working muscles produce much more carbon dioxide, so breathing becomes faster and deeper to
+    remove it and to supply extra oxygen. <strong>High altitude:</strong> air is still 21 % oxygen, but the air pressure is
+    lower, so there is less oxygen in each breath; saturation falls even though breathing speeds up, and over weeks the
+    body adapts by making more red blood cells. <strong>Asthma:</strong> the airways become inflamed and the muscles around
+    them tighten, raising resistance to airflow. Breathing out is hardest, so air becomes trapped and the lungs stay
+    over-inflated.
+  </p>
+
+  <h2 id="control">What controls breathing</h2>
+  <p>
+    Breathing is controlled automatically by the <strong>medulla</strong> in the brainstem. Chemoreceptors constantly
+    monitor carbon dioxide (and the acidity it causes) in the blood. A rise in carbon dioxide is the main stimulus to
+    breathe harder, which is why you cannot hold your breath for very long.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Ventilation</dt>
+    <dd>Moving air in and out of the lungs.</dd>
+    <dt>Alveoli</dt>
+    <dd>Microscopic air sacs where gas exchange happens.</dd>
+    <dt>Partial pressure</dt>
+    <dd>The share of the total gas pressure due to one gas, such as oxygen.</dd>
+    <dt>Haemoglobin</dt>
+    <dd>The iron-containing protein in red blood cells that carries oxygen.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The lungs pull air in.”</strong> The diaphragm and rib muscles enlarge the chest; the lungs follow.</li>
+    <li><strong>“We breathe out only carbon dioxide.”</strong> Exhaled air is still about 16 % oxygen and mostly nitrogen.</li>
+    <li><strong>“Breathing and respiration are the same thing.”</strong> Breathing is ventilation; respiration is the chemical process in cells that releases energy.</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> The values in this simulator are simplified textbook estimates. It cannot
+      assess breathing problems, asthma or oxygen levels in a real person and is not medical advice. If you or someone else
+      has difficulty breathing, seek medical help immediately. See our <a href="/disclaimer/">educational and medical
+      disclaimer</a>.
+    </p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Breathing in: diaphragm contracts and ribs lift, the chest gets bigger, pressure falls, air flows in.</li>
+    <li>Gas exchange happens by diffusion across the thin walls of the alveoli.</li>
+    <li>Ventilation = breathing rate × tidal volume.</li>
+    <li>Lower air pressure (altitude) or narrowed airways (asthma) reduce how well oxygen reaches the blood.</li>
+  </ul>
+  <p class="muted">Model note: lung mechanics use a single resistance and compliance; gas values use the alveolar gas equation and a standard oxygen–haemoglobin curve. Real lungs vary from region to region.</p>
+</SimulatorLayout>

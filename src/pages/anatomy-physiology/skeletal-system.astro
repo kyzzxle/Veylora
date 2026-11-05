@@ -1,0 +1,156 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import SkeletonSim from '../../simulators/skeleton/SkeletonSim.astro';
+import { skeletonQuiz } from '../../data/quizzes/skeleton';
+
+const toc = [
+  { id: 'functions', label: 'What the skeleton does' },
+  { id: 'divisions', label: 'Axial and appendicular skeleton' },
+  { id: 'types', label: 'Types of bone' },
+  { id: 'inside', label: 'Inside a bone' },
+  { id: 'joints', label: 'Joints' },
+  { id: 'growth', label: 'Growth and repair' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Chapter 6: Bone Tissue and the Skeletal System. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/6-introduction' },
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 9.1: Classification of Joints. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/9-1-classification-of-joints' },
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 9.5: Types of Body Movements. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/9-5-types-of-body-movements' },
+  { text: 'Standring, S. (Ed.). (2020). Gray’s Anatomy: The Anatomical Basis of Clinical Practice (42nd ed.). Elsevier.' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="skeletal-system"
+  description="Interactive 3D skeleton: rotate the human skeleton, click bones to learn their names and types, explore joint types and move the shoulder, elbow, hip, knee and neck."
+  toc={toc}
+  quiz={skeletonQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Your skeleton is a living framework of 206 bones that holds you up, protects your organs and, with your muscles,
+      lets you move. Rotate it, click any bone, colour the bones by type, and move the joints to see why a knee bends
+      differently from a shoulder.
+    </p>
+  </Fragment>
+
+  <SkeletonSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Drag</strong> to rotate the skeleton; scroll or pinch to zoom (on touch screens, tap the view first).</li>
+      <li><strong>Click any bone</strong>, or choose one from the list, to see its name, type and how many there are.</li>
+      <li>Set <strong>Colour the bones</strong> to <strong>By bone type</strong> to see long, short, flat, irregular and sesamoid bones.</li>
+      <li>Turn on <strong>Show joints</strong> and click the coloured markers to learn each joint type.</li>
+      <li>Use the <strong>Move the joints</strong> sliders to compare a hinge (elbow, knee), a ball-and-socket (shoulder, hip) and a pivot (neck).</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="functions">What the skeleton does</h2>
+  <ul>
+    <li><strong>Support:</strong> gives the body its shape and holds it upright.</li>
+    <li><strong>Protection:</strong> the skull guards the brain, the ribs guard the heart and lungs, and the vertebrae guard the spinal cord.</li>
+    <li><strong>Movement:</strong> muscles pull on bones, which act as levers around joints.</li>
+    <li><strong>Making blood cells:</strong> red bone marrow produces red and white blood cells and platelets.</li>
+    <li><strong>Storage:</strong> bones store calcium and phosphate, and yellow marrow stores fat.</li>
+  </ul>
+
+  <h2 id="divisions">Axial and appendicular skeleton</h2>
+  <p>
+    The <strong>axial skeleton</strong> (80 bones) forms the central axis: the skull, the vertebral column, the ribs and
+    the sternum. The <strong>appendicular skeleton</strong> (126 bones) includes the limbs and the girdles that attach
+    them: the shoulder girdle (clavicles and scapulae) and the pelvic girdle (hip bones). More than half of all your bones
+    are in your hands and feet.
+  </p>
+
+  <h2 id="types">Types of bone</h2>
+  <ul>
+    <li><strong>Long bones</strong> (femur, humerus, finger bones) are longer than they are wide and act as levers.</li>
+    <li><strong>Short bones</strong> (carpals, tarsals) are roughly cube-shaped and give stability with some movement.</li>
+    <li><strong>Flat bones</strong> (skull, ribs, sternum, scapula) are thin and protect organs or anchor muscles.</li>
+    <li><strong>Irregular bones</strong> (vertebrae, pelvis, mandible) have complex shapes suited to their jobs.</li>
+    <li><strong>Sesamoid bones</strong> (the patella) develop inside tendons.</li>
+  </ul>
+
+  <h2 id="inside">Inside a bone</h2>
+  <p>
+    Bone is a living tissue made of collagen fibres (for flexibility) hardened with calcium phosphate minerals (for
+    strength). A long bone has a hard outer layer of <strong>compact bone</strong>, a honeycomb of <strong>spongy
+    bone</strong> at the ends, and a central cavity containing <strong>marrow</strong>. Its surface is covered by a membrane
+    called the periosteum, rich in nerves and blood vessels. The ends of bones at joints are capped with smooth
+    <strong>cartilage</strong> to reduce friction.
+  </p>
+
+  <h2 id="joints">Joints</h2>
+  <p>
+    A joint is where two or more bones meet. <strong>Fixed (fibrous) joints</strong>, such as the sutures of the skull,
+    allow no movement. <strong>Cartilaginous joints</strong>, such as those between vertebrae, allow a little. Most joints
+    in the limbs are <strong>synovial joints</strong>, with a fluid-filled capsule that lets them move freely. Their shape
+    decides the movement:
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Synovial joint</th><th>Movement</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>Ball-and-socket</td><td>In all directions, including rotation</td><td>Shoulder, hip</td></tr>
+        <tr><td>Hinge</td><td>Bending and straightening in one plane</td><td>Elbow, knee, fingers</td></tr>
+        <tr><td>Pivot</td><td>Rotation around an axis</td><td>Atlas–axis (neck), radius–ulna</td></tr>
+        <tr><td>Gliding (plane)</td><td>Small sliding movements</td><td>Between carpals and tarsals</td></tr>
+        <tr><td>Saddle</td><td>Two directions, like a rider on a saddle</td><td>Base of the thumb</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    <strong>Ligaments</strong> join bone to bone and hold joints together; <strong>tendons</strong> join muscle to bone.
+  </p>
+
+  <h2 id="growth">Growth and repair</h2>
+  <p>
+    A newborn has around 300 bones, many partly made of cartilage. As a child grows, cartilage is replaced by bone and
+    several bones fuse, such as the vertebrae of the sacrum and the three parts of each hip bone. Long bones lengthen at
+    <strong>growth plates</strong> near their ends, which close in the late teens. Bone is constantly remodelled throughout
+    life: cells called osteoclasts remove old bone and osteoblasts build new bone, which is how broken bones heal.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Vertebral column</dt>
+    <dd>The spine: 33 vertebrae, some fused, protecting the spinal cord.</dd>
+    <dt>Synovial joint</dt>
+    <dd>A freely movable joint with a capsule of lubricating fluid.</dd>
+    <dt>Ligament / tendon</dt>
+    <dd>Connects bone to bone / connects muscle to bone.</dd>
+    <dt>Bone marrow</dt>
+    <dd>Soft tissue inside bones; red marrow makes blood cells.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Bones are dead and dry.”</strong> Living bone has blood vessels, nerves and cells, and is constantly rebuilt.</li>
+    <li><strong>“Babies have fewer bones than adults.”</strong> They have more; many fuse during growth.</li>
+    <li><strong>“Muscles push bones.”</strong> Muscles can only pull; they work in pairs to move joints both ways.</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> This 3D skeleton is simplified and not anatomically exact, and the joint
+      ranges are typical values. It cannot be used to assess injuries or medical conditions and is not medical advice. If
+      you think you have a bone or joint injury, see a qualified healthcare professional. See our
+      <a href="/disclaimer/">educational and medical disclaimer</a>.
+    </p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>The adult skeleton has 206 bones, split into the axial and appendicular skeletons.</li>
+    <li>It supports, protects, enables movement, stores minerals and makes blood cells.</li>
+    <li>Bones are classified as long, short, flat, irregular or sesamoid.</li>
+    <li>Joint shape decides movement: hinge, ball-and-socket, pivot, gliding or saddle.</li>
+  </ul>
+  <p class="muted">Model note: bones are built from simple shapes to keep the page fast. Small bones are grouped (for example, all eight carpals of a wrist highlight together).</p>
+</SimulatorLayout>

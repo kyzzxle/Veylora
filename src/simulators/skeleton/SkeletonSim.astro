@@ -1,0 +1,80 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { BONES, BONE_TYPE, JOINT_TYPE } from './data';
+---
+
+<SimShell
+  id="skeleton-sim"
+  label="A 3D human skeleton that you can rotate, with clickable bones and joints."
+  playable={false}
+  loadingText="Loading 3D skeleton…"
+  hint="Drag to rotate · click a bone"
+  aspect="1 / 1"
+  badge="206 bones"
+>
+  <div slot="stage" class="sim-3d" data-three></div>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="sk-pick">Highlight a bone</label>
+    <select id="sk-pick" class="select" data-pick>
+      <option value="">— Choose —</option>
+      {Object.entries(BONES).map(([id, b]) => <option value={id}>{b.name}</option>)}
+    </select>
+  </div>
+  <div class="sk-info" aria-live="polite">
+    <strong data-info-title>Click a bone</strong>
+    <p data-info-text></p>
+  </div>
+  <ChoiceControl name="sk-colour" label="Colour the bones" value="plain" options={[{ value: 'plain', label: 'Natural' }, { value: 'type', label: 'By bone type' }]} />
+  <div data-type-key>
+    <SimKey title="Bone types" items={Object.values(BONE_TYPE).map((t) => ({ label: t.name, color: t.colour, shape: 'square' as const }))} />
+  </div>
+  <ToggleControl name="sk-joints" label="Show joints" />
+  <div data-joint-key>
+    <SimKey title="Joint types" items={Object.values(JOINT_TYPE).map((t) => ({ label: t.name, color: t.colour }))} />
+  </div>
+
+  <h3 class="sk-h">Move the joints</h3>
+  <SliderControl name="sk-head" label="Turn head (pivot joint)" min={-70} max={70} step={5} value={0} />
+  <SliderControl name="sk-arms" label="Raise arms (ball-and-socket)" min={0} max={170} step={5} value={0} />
+  <SliderControl name="sk-elbows" label="Bend elbows (hinge)" min={0} max={145} step={5} value={0} />
+  <SliderControl name="sk-hip" label="Lift right leg (ball-and-socket)" min={0} max={110} step={5} value={0} />
+  <SliderControl name="sk-knee" label="Bend right knee (hinge)" min={0} max={135} step={5} value={0} help="Ranges are typical for a healthy adult." />
+  <ToggleControl name="sk-spin" label="Slowly rotate" />
+
+  <Fragment slot="readouts">
+    <Readout name="selected" label="Selected" key />
+    <Readout name="type" label="Type" />
+    <Readout name="count" label="Number in the body" />
+    <Readout name="explored" label="Explored" />
+    <Readout name="total" label="Bones in an adult" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .sk-info {
+    padding: 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.92rem;
+  }
+  .sk-info p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+  }
+  .sk-h {
+    margin: 8px 0 0;
+    font-size: 0.95rem;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initSkeleton } from './skeleton';
+  mountSim('#skeleton-sim', initSkeleton);
+</script>

@@ -1,0 +1,140 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import DigestionSim from '../../simulators/digestion/DigestionSim.astro';
+import { digestionQuiz } from '../../data/quizzes/digestion';
+
+const toc = [
+  { id: 'overview', label: 'What digestion does' },
+  { id: 'journey', label: 'The journey, organ by organ' },
+  { id: 'enzymes', label: 'Digestive enzymes' },
+  { id: 'absorption', label: 'Absorption and villi' },
+  { id: 'accessory', label: 'Liver, gallbladder and pancreas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 23.1: Overview of the Digestive System. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/23-1-overview-of-the-digestive-system' },
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 23.7: Chemical Digestion and Absorption: A Closer Look. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/23-7-chemical-digestion-and-absorption-a-closer-look' },
+  { text: 'Helander, H. F., & Fändriks, L. (2014). Surface area of the digestive tract – revisited. Scandinavian Journal of Gastroenterology, 49(6), 681–689.' },
+  { text: 'National Institute of Diabetes and Digestive and Kidney Diseases. Your Digestive System & How It Works.', url: 'https://www.niddk.nih.gov/health-information/digestive-diseases/digestive-system-how-it-works' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="digestive-system"
+  description="Interactive digestive system simulator: choose a meal and follow it from mouth to colon, watching where carbohydrates, proteins and fats are digested and absorbed."
+  toc={toc}
+  quiz={digestionQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A sandwich cannot pass into your blood. Before your cells can use it, it must be broken down into molecules small
+      enough to cross the gut wall. Pick a meal and follow it through about 9 metres of digestive tract, watching each
+      nutrient being taken apart and absorbed.
+    </p>
+  </Fragment>
+
+  <DigestionSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>meal</strong>. The food starts in the mouth and moves on by itself; use <strong>Speed</strong> to go faster or slower.</li>
+      <li>Watch the <strong>bars</strong>: the solid part is intact food, the faded part has been broken down, and the green part has been absorbed.</li>
+      <li>Highlighted <strong>enzyme labels</strong> show which juices are working right now. Read the panel text for what is happening.</li>
+      <li>Compare meals: when does protein start being digested? How long does olive oil stay in the stomach?</li>
+      <li><strong>Click any organ</strong> to learn about it. When the meal finishes, press <strong>Start</strong> to eat it again.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="overview">What digestion does</h2>
+  <p>
+    Food contains large molecules such as starch, proteins and fats. <strong>Digestion</strong> breaks them into small,
+    soluble molecules that can be absorbed into the blood: <strong>glucose</strong>, <strong>amino acids</strong>,
+    <strong>fatty acids and glycerol</strong>. It happens in two ways. <strong>Mechanical digestion</strong> (chewing and
+    the stomach’s churning) breaks food into smaller pieces, giving enzymes more surface to work on.
+    <strong>Chemical digestion</strong> uses enzymes to break chemical bonds.
+  </p>
+
+  <h2 id="journey">The journey, organ by organ</h2>
+  <ul>
+    <li><strong>Mouth:</strong> teeth chew; saliva moistens food into a soft ball called a <strong>bolus</strong> and starts digesting starch.</li>
+    <li><strong>Oesophagus:</strong> peristalsis carries the bolus to the stomach in about 5–10 seconds.</li>
+    <li><strong>Stomach:</strong> muscular churning mixes food with acid and pepsin, turning it into a soupy liquid called <strong>chyme</strong>. Food stays here about 2–4 hours, longer for fatty meals.</li>
+    <li><strong>Small intestine:</strong> about 6 m long. Most digestion and nearly all absorption of nutrients happen here, over about 3–5 hours.</li>
+    <li><strong>Large intestine:</strong> about 1.5 m long. It absorbs water and salts over 10–40 hours, and its bacteria ferment some fibre.</li>
+    <li><strong>Rectum and anus:</strong> the remains (faeces) are stored and then egested.</li>
+  </ul>
+
+  <h2 id="enzymes">Digestive enzymes</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Enzyme</th><th>Made in</th><th>Works in</th><th>Breaks down → into</th></tr></thead>
+      <tbody>
+        <tr><td>Amylase</td><td>Salivary glands, pancreas</td><td>Mouth, small intestine</td><td>Starch → maltose (then glucose)</td></tr>
+        <tr><td>Pepsin</td><td>Stomach</td><td>Stomach (acidic)</td><td>Proteins → peptides</td></tr>
+        <tr><td>Trypsin and peptidases</td><td>Pancreas, intestine wall</td><td>Small intestine</td><td>Peptides → amino acids</td></tr>
+        <tr><td>Lipase</td><td>Pancreas</td><td>Small intestine</td><td>Fats → fatty acids + glycerol</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Each enzyme has an <strong>optimum pH</strong>: pepsin works best in the strongly acidic stomach (about pH 2), while
+    pancreatic enzymes need the slightly alkaline conditions of the small intestine, created by bicarbonate from the
+    pancreas.
+  </p>
+
+  <h2 id="absorption">Absorption and villi</h2>
+  <p>
+    The inner wall of the small intestine is folded and covered in millions of finger-like <strong>villi</strong>, each
+    covered in even smaller microvilli. Together they give a surface area of about 30 m². Each villus has a thin wall
+    and a rich network of capillaries, which take in glucose and amino acids, and a lymph vessel called a
+    <strong>lacteal</strong>, which takes in most digested fats. Absorbed nutrients travel first to the liver.
+  </p>
+
+  <h2 id="accessory">Liver, gallbladder and pancreas</h2>
+  <p>
+    Food never passes through these <strong>accessory organs</strong>, but the tract could not work without them. The
+    <strong>liver</strong> makes bile, which the <strong>gallbladder</strong> stores and releases after a meal. Bile
+    <strong>emulsifies</strong> fats into tiny droplets. The <strong>pancreas</strong> releases a juice full of enzymes into
+    the small intestine, and separately makes the hormones insulin and glucagon that control blood sugar.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Bolus / chyme</dt>
+    <dd>A swallowed ball of chewed food / the acidic liquid that leaves the stomach.</dd>
+    <dt>Peristalsis</dt>
+    <dd>Waves of muscle contraction that push food along the gut.</dd>
+    <dt>Absorption / egestion</dt>
+    <dd>Taking digested molecules into the blood / removing undigested waste from the body.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Most digestion happens in the stomach.”</strong> The stomach starts protein digestion, but most digestion and absorption happen in the small intestine.</li>
+    <li><strong>“Bile is an enzyme.”</strong> Bile contains no enzymes; it physically breaks fat into droplets.</li>
+    <li><strong>“Fibre is useless.”</strong> It is not digested, but it feeds gut bacteria and keeps food moving.</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> Times and percentages are typical textbook values; real digestion varies a
+      great deal between people and meals. This simulator is not medical or dietary advice. If you have symptoms or
+      questions about your digestion or diet, speak to a qualified healthcare professional. See our
+      <a href="/disclaimer/">educational and medical disclaimer</a>.
+    </p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Digestion turns large food molecules into small soluble ones the body can absorb.</li>
+    <li>Amylase digests starch, proteases (pepsin, trypsin) digest proteins, and lipase digests fats.</li>
+    <li>Most absorption happens through the villi of the small intestine.</li>
+    <li>The large intestine absorbs water; fibre and waste leave as faeces.</li>
+  </ul>
+  <p class="muted">Model note: the diagram is simplified, and the meal is shown as a single lump moving through. In reality food leaves the stomach gradually in small squirts, and time in the large intestine varies widely.</p>
+</SimulatorLayout>

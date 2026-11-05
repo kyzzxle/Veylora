@@ -1,0 +1,63 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="breathing-sim" label="A chest with lungs, ribs and diaphragm, next to a magnified alveolus where oxygen and carbon dioxide are exchanged." showTime hint="Click any part to learn about it" badge="Breathing">
+  <ChoiceControl
+    name="br-scene"
+    label="Situation"
+    value="rest"
+    options={[
+      { value: 'rest', label: 'Resting' },
+      { value: 'exercise', label: 'Exercise' },
+      { value: 'altitude', label: 'High altitude' },
+      { value: 'asthma', label: 'Asthma attack' },
+    ]}
+  />
+  <p class="br-note" data-scene-note aria-live="polite"></p>
+  <SliderControl name="br-rate" label="Breathing rate" min={6} max={40} step={1} value={12} help="Breaths per minute. Adults at rest: about 12–20." />
+  <SliderControl name="br-depth" label="Breath depth (tidal volume)" min={250} max={2000} step={50} value={500} help="Air the muscles try to draw in per breath." />
+  <ToggleControl name="br-manual" label="Control the diaphragm yourself" />
+  <div data-manual-only>
+    <SliderControl name="br-effort" label="Diaphragm contraction" min={0} max={100} step={1} value={0} scale={['Relaxed', 'Fully contracted']} help="Or drag the round handle on the diaphragm up and down." />
+  </div>
+  <ToggleControl name="br-labels" label="Show labels" checked />
+
+  <Fragment slot="readouts">
+    <Readout name="phase" label="Now" key />
+    <Readout name="volume" label="Lung volume" />
+    <Readout name="pressure" label="Pressure in the lungs (vs. outside air)" />
+    <Readout name="tidal" label="Air moved" />
+    <Readout name="minute" label="Ventilation" />
+    <Readout name="sat" label="Blood oxygen saturation" />
+    <Readout name="co2" label="Blood carbon dioxide" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="br-graph" title="Lung volume over time" desc="Lung volume in litres over the last 20 seconds." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .br-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+  }
+  :global(#breathing-sim) {
+    --stage-aspect-mobile: 9 / 16;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initBreathing } from './breathing';
+  mountSim('#breathing-sim', initBreathing);
+</script>

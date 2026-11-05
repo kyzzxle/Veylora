@@ -1,0 +1,55 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="heart-sim" label="A diagram of the heart's four chambers and valves, with blood flowing to the lungs and to the body." showTime hint="Click a chamber, valve or vessel" badge="Diastole">
+  <div class="preset-row" role="group" aria-label="Activity level">
+    <button type="button" class="preset" data-scenario="55,75">Asleep</button>
+    <button type="button" class="preset" data-scenario="72,70">Resting</button>
+    <button type="button" class="preset" data-scenario="150,110">Running</button>
+  </div>
+  <SliderControl name="ht-hr" label="Heart rate" min={40} max={180} step={1} value={72} scale={['Slow', 'Fast']} help="Beats per minute. A typical resting adult rate is 60–100." />
+  <SliderControl name="ht-sv" label="Stroke volume" min={40} max={120} step={5} value={70} help="Blood pumped out of each ventricle per beat." />
+  <ToggleControl name="ht-slow" label="Slow motion" />
+  <ToggleControl name="ht-trace" label="Follow one blood cell" checked />
+  <ToggleControl name="ht-labels" label="Show labels" checked />
+  <p class="ht-phase" data-phase-text aria-live="off"></p>
+  <SimKey
+    items={[
+      { label: 'Oxygenated blood', color: '#d83a3a' },
+      { label: 'Deoxygenated blood', color: '#4a68d6' },
+      { label: 'Open valve', color: '#f2f2f2', shape: 'line' },
+      { label: 'Closed valve', color: '#ffd166', shape: 'line' },
+      { label: 'Tracked blood cell', color: 'warning', shape: 'ring' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="phase" label="Phase of the heartbeat" key />
+    <Readout name="hr" label="Heart rate" />
+    <Readout name="co" label="Cardiac output (rate × stroke volume)" />
+    <Readout name="cell" label="Tracked cell is in" />
+    <Readout name="beats" label="Beats" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .ht-phase {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 4.5em;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initHeart } from './heart';
+  mountSim('#heart-sim', initHeart);
+</script>

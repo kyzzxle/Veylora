@@ -80,7 +80,7 @@ Remaining 32 topics, built in batches of four (each batch is committed and pushe
 - [x] Batch 1: Newton's laws, circuits, balancing equations, reaction rates
 - [x] Batch 2: photosynthesis, seed germination, tropisms, plant anatomy
 - [x] Batch 3: cell structure, plant cell, animal vs. plant cell, DNA replication
-- [ ] Batch 4: heart and circulation, respiratory, digestive, skeletal
+- [x] Batch 4: heart and circulation, respiratory, digestive, skeletal
 - [ ] Batch 5: solar system, stellar life cycle, black holes, 3D geometry
 - [ ] Batch 6: plate tectonics, rock cycle, weather, water cycle
 - [ ] Batch 7: carbon cycle, biodiversity, pollution, food webs

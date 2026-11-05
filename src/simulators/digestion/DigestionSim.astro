@@ -1,0 +1,52 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="digestion-sim" label="A body outline showing the digestive tract, with a meal moving through it and bars showing how much of each nutrient has been digested and absorbed." hint="Click an organ to learn about it" badge="Mouth" aspect="10 / 7">
+  <ChoiceControl
+    name="dg-meal"
+    label="Choose a meal"
+    value="balanced"
+    options={[
+      { value: 'balanced', label: 'Balanced meal' },
+      { value: 'bread', label: 'Bread' },
+      { value: 'chicken', label: 'Chicken' },
+      { value: 'oil', label: 'Olive oil' },
+    ]}
+    help="Changing the meal starts a new one. Fatty meals stay longer in the stomach."
+  />
+  <SliderControl name="dg-speed" label="Speed" min={0.5} max={4} step={0.5} value={1} scale={['Slow', 'Fast']} />
+  <ToggleControl name="dg-enzymes" label="Show enzymes and digestive juices" checked />
+  <ToggleControl name="dg-labels" label="Show organ names" checked />
+  <p class="dg-text" data-stage-text aria-live="off"></p>
+
+  <Fragment slot="readouts">
+    <Readout name="where" label="The food is in the" key />
+    <Readout name="clock" label="Time since eating (typical)" />
+    <Readout name="energy" label="Energy absorbed so far" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .dg-text {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5.5em;
+  }
+  :global(#digestion-sim) {
+    --stage-aspect-mobile: 1 / 2;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initDigestion } from './digestion';
+  mountSim('#digestion-sim', initDigestion);
+</script>
