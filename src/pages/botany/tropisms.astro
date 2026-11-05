@@ -1,0 +1,134 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import TropismsSim from '../../simulators/tropisms/TropismsSim.astro';
+import { tropismsQuiz } from '../../data/quizzes/tropisms';
+
+const toc = [
+  { id: 'what', label: 'What are tropisms?' },
+  { id: 'photo', label: 'Phototropism' },
+  { id: 'auxin', label: 'How auxin works' },
+  { id: 'gravi', label: 'Gravitropism' },
+  { id: 'history', label: 'Classic experiments' },
+  { id: 'others', label: 'Other tropisms' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 30.6: Plant Sensory Systems and Responses. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/30-6-plant-sensory-systems-and-responses' },
+  { text: 'Darwin, C., & Darwin, F. (1880). The Power of Movement in Plants. London: John Murray.' },
+  { text: 'Went, F. W. (1928). Wuchsstoff und Wachstum. Recueil des Travaux Botaniques Néerlandais, 25, 1–116.' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="tropisms"
+  description="Interactive plant tropism simulator: move a lamp, tilt the pot and use a clinostat to see how phototropism, gravitropism and the hormone auxin shape how a seedling grows."
+  toc={toc}
+  quiz={tropismsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Plants cannot walk toward the sun or dig for water, yet they always seem to find them. They do it by growing in
+      particular directions — shoots toward light and roots toward gravity. Grow a seedling in time-lapse, move the
+      lamp, tip the pot over, and see how plants sense and respond.
+    </p>
+  </Fragment>
+
+  <TropismsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong> to grow the seedling (time-lapse).</li>
+      <li><strong>Drag the lamp</strong> or use the slider to light the plant from one side, then move it to the other side and watch the tip turn.</li>
+      <li><strong>Tilt the pot</strong>: the existing plant tips over, but new growth curves back — the shoot up, the root down.</li>
+      <li>Turn on the <strong>clinostat</strong> to rotate the pot and cancel gravity’s direction, or switch off the lamp.</li>
+      <li>Keep <strong>Show auxin</strong> on to see the hormone gather on the shaded side. <strong>Reset</strong> starts a new seedling.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What are tropisms?</h2>
+  <p>
+    A <strong>tropism</strong> is a growth response in which a plant grows toward (positive) or away from (negative) a
+    directional stimulus. Because plants respond by growing, tropisms are slow — they take hours or days — but they let
+    a plant place its leaves in the light and its roots in moist soil.
+  </p>
+
+  <h2 id="photo">Phototropism</h2>
+  <p>
+    <strong>Phototropism</strong> is growth in response to light. Shoots are <strong>positively phototropic</strong>:
+    they bend toward light, which maximises photosynthesis. Light-sensitive proteins called phototropins in the shoot tip
+    detect the direction of blue light.
+  </p>
+
+  <h2 id="auxin">How auxin works</h2>
+  <p>
+    The plant hormone <strong>auxin</strong> (indole-3-acetic acid) is made in the shoot tip and moves down the stem. When
+    light comes from one side, auxin is transported toward the <strong>shaded side</strong>. There, it stimulates cells to
+    elongate more. Faster growth on the shaded side curves the shoot toward the light. In roots, high auxin concentrations
+    have the opposite effect and slow cell elongation.
+  </p>
+
+  <h2 id="gravi">Gravitropism</h2>
+  <p>
+    <strong>Gravitropism</strong> (also called geotropism) is growth in response to gravity. Shoots are
+    <strong>negatively gravitropic</strong> (they grow up) and roots are <strong>positively gravitropic</strong> (they grow
+    down). In the root cap, special cells contain dense starch-filled grains called <strong>statoliths</strong>, which
+    settle to the lowest side of the cell. This tells the root which way is down and leads to auxin being redistributed
+    to the lower side.
+  </p>
+
+  <h2 id="history">Classic experiments</h2>
+  <ul>
+    <li><strong>Charles and Francis Darwin (1880)</strong> showed that grass seedlings bent toward light only if their tips were uncovered — the tip detects the light.</li>
+    <li><strong>Frits Went (1928)</strong> collected a growth substance from shoot tips in agar blocks; placing a block on one side of a cut shoot made it bend. That substance was later identified as auxin.</li>
+    <li><strong>Clinostats</strong> — slowly rotating holders invented in the 1800s — showed that plants grow without bending when gravity’s direction is constantly changing.</li>
+  </ul>
+
+  <h2 id="others">Other tropisms</h2>
+  <ul>
+    <li><strong>Thigmotropism:</strong> growth in response to touch, such as tendrils coiling around a support.</li>
+    <li><strong>Hydrotropism:</strong> roots growing toward moisture.</li>
+    <li><strong>Chemotropism:</strong> growth toward chemicals, such as pollen tubes growing toward the ovule.</li>
+  </ul>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Stimulus</dt>
+    <dd>A change in the environment that an organism can detect.</dd>
+    <dt>Auxin</dt>
+    <dd>A plant hormone that controls cell elongation and is involved in tropisms.</dd>
+    <dt>Statolith</dt>
+    <dd>A dense starch grain that settles under gravity and helps plants sense direction.</dd>
+    <dt>Clinostat</dt>
+    <dd>A device that slowly rotates a plant so that gravity has no consistent direction relative to it.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Horticulture:</strong> synthetic auxins are used in rooting powders to help cuttings grow roots.</li>
+    <li><strong>Agriculture:</strong> some synthetic auxins act as selective weedkillers, causing broad-leaved weeds to grow uncontrollably.</li>
+    <li><strong>Houseplants:</strong> rotating pots on a windowsill keeps plants growing straight.</li>
+    <li><strong>Space biology:</strong> experiments on the International Space Station study how plants grow without gravity — important for future long missions.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The plant bends because the lit side grows faster.”</strong> It is the shaded side that grows faster.</li>
+    <li><strong>“Plants move toward light like animals.”</strong> They grow toward it; the bending comes from uneven cell elongation.</li>
+    <li><strong>“Tropisms are instant.”</strong> They take hours to days because they depend on growth.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Shoots grow toward light and away from gravity; roots grow toward gravity.</li>
+    <li>Auxin moves to the shaded side of a shoot and makes those cells elongate more.</li>
+    <li>Statoliths in root caps sense the direction of gravity.</li>
+    <li>Only growing regions bend, so a tilted plant curves back rather than straightening.</li>
+  </ul>
+  <p class="muted">Model note: growth is drawn as simple segments that turn toward a weighted target direction; real seedlings respond more gradually and also show nutation (small circling movements).</p>
+</SimulatorLayout>

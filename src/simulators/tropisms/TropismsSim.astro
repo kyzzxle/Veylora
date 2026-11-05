@@ -1,0 +1,38 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="tropism-sim" label="A seedling growing in a pot with a lamp beside it." showTime hint="Drag the lamp around the plant" badge="Day 0">
+  <SliderControl name="tp-light" label="Lamp direction" min={-90} max={90} step={5} value={60} scale={['Left', 'Right']} help="Angle of the lamp from straight above the plant.">
+    <PresetButtons for="tp-light" label="Lamp presets" presets={[{ label: 'Left', value: -75 }, { label: 'Above', value: 0 }, { label: 'Right', value: 75 }]} />
+  </SliderControl>
+  <ToggleControl name="tp-lamp" label="Lamp on" checked />
+  <SliderControl name="tp-tilt" label="Tilt the pot" min={-90} max={90} step={15} value={0} help="Tip the pot over and watch the shoot and root re-orient." />
+  <ToggleControl name="tp-clino" label="Clinostat (slowly rotate the pot to cancel gravity’s direction)" />
+  <ToggleControl name="tp-auxin" label="Show auxin" checked />
+  <SimKey
+    items={[
+      { label: 'Shoot (grows toward light, away from gravity)', color: 'sim-wall', shape: 'line' },
+      { label: 'Root (grows toward gravity)', color: '#d9c8a5', shape: 'line' },
+      { label: 'Auxin build-up', color: 'warning' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="response" label="Main response" key />
+    <Readout name="shoot" label="Shoot tip angle" />
+    <Readout name="root" label="Root tip angle" />
+    <Readout name="len" label="Shoot / root length" />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initTropisms } from './tropisms';
+  mountSim('#tropism-sim', initTropisms);
+</script>

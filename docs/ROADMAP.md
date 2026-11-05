@@ -78,7 +78,7 @@ Target: 18 live simulators covering all 10 branches.
 Remaining 32 topics, built in batches of four (each batch is committed and pushed).
 
 - [x] Batch 1: Newton's laws, circuits, balancing equations, reaction rates
-- [ ] Batch 2: photosynthesis, seed germination, tropisms, plant anatomy
+- [x] Batch 2: photosynthesis, seed germination, tropisms, plant anatomy
 - [ ] Batch 3: cell structure, plant cell, animal vs. plant cell, DNA replication
 - [ ] Batch 4: heart and circulation, respiratory, digestive, skeletal
 - [ ] Batch 5: solar system, stellar life cycle, black holes, 3D geometry

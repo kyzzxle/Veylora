@@ -1,0 +1,146 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import AnatomySim from '../../simulators/anatomy/AnatomySim.astro';
+import { plantAnatomyQuiz } from '../../data/quizzes/plant-anatomy';
+
+const toc = [
+  { id: 'organs', label: 'The organs of a plant' },
+  { id: 'leaf', label: 'Inside a leaf' },
+  { id: 'stem', label: 'Inside a stem' },
+  { id: 'root', label: 'Roots and root hairs' },
+  { id: 'flower', label: 'Parts of a flower' },
+  { id: 'transport', label: 'Transport: xylem and phloem' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 30: Plant Form and Physiology. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/30-introduction' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 32.1: Reproductive Development and Structure. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/32-1-reproductive-development-and-structure' },
+  { text: 'Evert, R. F., & Eichhorn, S. E. (2013). Raven Biology of Plants (8th ed.). W. H. Freeman.' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="plant-anatomy"
+  description="Interactive plant anatomy explorer: click roots, stems, leaves and flowers, zoom into cross-sections of a leaf, stem and root, see xylem and phloem transport, and test yourself."
+  toc={toc}
+  quiz={plantAnatomyQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A plant may look simple, but every part is precisely built for a job: capturing light, moving water to the top of
+      a tree, or making seeds. Explore a flowering plant from the whole organism down to its tissues, and discover how
+      structure fits function.
+    </p>
+  </Fragment>
+
+  <AnatomySim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Click any part</strong> of the whole plant to learn what it does.</li>
+      <li>Select a leaf, the stem, the roots or the flower and press <strong>Zoom in</strong> — or choose a <strong>view</strong> directly — to see its internal structure.</li>
+      <li>Keep <strong>Show transport</strong> on to watch water (blue) rise through the xylem and sugars (orange) travel through the phloem.</li>
+      <li>Press <strong>Find the part</strong> for a challenge: labels hide and you must click the named structure.</li>
+      <li><strong>Reset</strong> returns to the whole plant and clears your score.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="organs">The organs of a plant</h2>
+  <p>
+    Flowering plants have four main organs. <strong>Roots</strong> anchor the plant and absorb water and minerals.
+    The <strong>stem</strong> supports the plant and transports materials. <strong>Leaves</strong> make food by
+    photosynthesis. <strong>Flowers</strong> produce seeds for reproduction. Organs are made of tissues — groups of
+    similar cells working together — such as epidermis, mesophyll, xylem and phloem.
+  </p>
+
+  <h2 id="leaf">Inside a leaf</h2>
+  <ul>
+    <li>A <strong>waxy cuticle</strong> reduces water loss.</li>
+    <li>The <strong>upper epidermis</strong> is transparent, letting light through.</li>
+    <li><strong>Palisade mesophyll</strong> cells are tall and packed with chloroplasts for maximum photosynthesis.</li>
+    <li><strong>Spongy mesophyll</strong> has air spaces for gas exchange.</li>
+    <li><strong>Stomata</strong>, mostly in the lower epidermis, let CO₂ in and O₂ and water vapour out; guard cells open and close them.</li>
+    <li><strong>Veins</strong> contain xylem (bringing water) and phloem (taking sugars away).</li>
+  </ul>
+
+  <h2 id="stem">Inside a stem</h2>
+  <p>
+    In the stem of a typical dicot (a plant like a bean or sunflower), <strong>vascular bundles</strong> are arranged in
+    a ring. Each bundle has <strong>xylem</strong> toward the centre and <strong>phloem</strong> toward the outside, with a
+    layer of dividing <strong>cambium</strong> between them that lets the stem grow thicker. The <strong>cortex</strong>
+    and central <strong>pith</strong> store food and provide support.
+  </p>
+
+  <h2 id="root">Roots and root hairs</h2>
+  <p>
+    A root grows from its tip. The <strong>root cap</strong> protects the tip and senses gravity. Just behind it, cells
+    in the <strong>zone of cell division</strong> multiply; in the <strong>zone of elongation</strong> they lengthen,
+    pushing the root forward; and further back, cells mature and grow <strong>root hairs</strong>. Root hairs provide an
+    enormous surface area for absorbing water by osmosis and minerals by active transport.
+  </p>
+
+  <h2 id="flower">Parts of a flower</h2>
+  <ul>
+    <li><strong>Sepals</strong> protect the flower bud; <strong>petals</strong> attract pollinators.</li>
+    <li>The male <strong>stamen</strong> is made of a <strong>filament</strong> supporting an <strong>anther</strong>, which produces pollen.</li>
+    <li>The female <strong>carpel</strong> is made of the <strong>stigma</strong> (catches pollen), <strong>style</strong> and <strong>ovary</strong>, which contains <strong>ovules</strong>.</li>
+    <li>After pollination and fertilization, ovules become seeds and the ovary becomes the fruit.</li>
+  </ul>
+
+  <h2 id="transport">Transport: xylem and phloem</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Xylem</th><th>Phloem</th></tr></thead>
+      <tbody>
+        <tr><td>Carries</td><td>Water and mineral ions</td><td>Dissolved sugars (and other organic substances)</td></tr>
+        <tr><td>Direction</td><td>Up, from roots to leaves</td><td>Both ways, from sources to sinks</td></tr>
+        <tr><td>Cells</td><td>Dead, hollow, with lignin-strengthened walls</td><td>Living sieve tubes with companion cells</td></tr>
+        <tr><td>Driven by</td><td>Transpiration pull from the leaves</td><td>Pressure differences created by loading sugars</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Tissue</dt>
+    <dd>A group of similar cells that work together to carry out a function.</dd>
+    <dt>Vascular bundle</dt>
+    <dd>A strand of xylem and phloem running through stems, leaves and roots.</dd>
+    <dt>Mesophyll</dt>
+    <dd>The inner tissue of a leaf where photosynthesis takes place.</dd>
+    <dt>Translocation</dt>
+    <dd>The movement of sugars through the phloem.</dd>
+    <dt>Pollination</dt>
+    <dd>The transfer of pollen from an anther to a stigma.</dd>
+  </dl>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Agriculture:</strong> understanding roots and leaves guides watering, fertilizing and pruning.</li>
+    <li><strong>Food:</strong> we eat many plant organs — roots (carrots), stems (potatoes are swollen stems), leaves (lettuce), flowers (broccoli) and fruits (tomatoes).</li>
+    <li><strong>Materials:</strong> wood is mostly old xylem, and cotton comes from seed hairs.</li>
+    <li><strong>Pollinators:</strong> flower structure explains why bees, birds and bats are essential to many crops.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Plants take in food through their roots.”</strong> Roots absorb water and minerals; plants make their own food in the leaves.</li>
+    <li><strong>“Xylem and phloem both carry water up.”</strong> Phloem carries sugars in both directions.</li>
+    <li><strong>“Potatoes are roots.”</strong> Potatoes are tubers — swollen underground stems.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Roots, stems, leaves and flowers each have structures suited to their functions.</li>
+    <li>Leaves are layered to capture light and exchange gases efficiently.</li>
+    <li>Xylem carries water up; phloem carries sugars where they are needed.</li>
+    <li>Flowers contain male (stamen) and female (carpel) parts for producing seeds.</li>
+  </ul>
+  <p class="muted">Model note: diagrams are simplified and not to scale; real tissues contain many more cell types.</p>
+</SimulatorLayout>

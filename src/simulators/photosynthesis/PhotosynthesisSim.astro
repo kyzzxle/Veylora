@@ -1,0 +1,55 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import DataTable from '../../components/sim/DataTable.astro';
+---
+
+<SimShell id="photo-sim" label="Pondweed in a beaker of water lit by a lamp, giving off oxygen bubbles." showTime hint={false} badge="Ready">
+  <SliderControl name="ph-dist" label="Lamp distance" min={5} max={50} step={1} value={15} scale={['5 cm', '50 cm']} help="Light intensity falls with the square of the distance." />
+  <SliderControl name="ph-co2" label="Carbon dioxide (sodium hydrogen carbonate)" min={0} max={100} step={5} value={40} help="Relative amount of dissolved CO₂ available to the plant." />
+  <SliderControl name="ph-temp" label="Water temperature" min={0} max={50} step={1} value={25} />
+  <ChoiceControl
+    name="ph-colour"
+    label="Light colour"
+    value="white"
+    options={[
+      { value: 'white', label: 'White' },
+      { value: 'red', label: 'Red' },
+      { value: 'blue', label: 'Blue' },
+      { value: 'green', label: 'Green' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="rate" label="Bubbles per minute" key />
+    <Readout name="light" label="Relative light intensity" />
+    <Readout name="limit" label="Limiting factor" />
+    <Readout name="count" label="Bubbles counted" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="ph-graph" title="Rate of photosynthesis vs. light intensity" desc="Recorded bubble rates plotted against relative light intensity, with the model's prediction for the current carbon dioxide and temperature as a dashed curve." />
+    <DataTable
+      id="ph-table"
+      title="Results"
+      columns={[
+        { key: 'dist', label: 'Distance (cm)' },
+        { key: 'light', label: 'Light (relative)' },
+        { key: 'co2', label: 'CO₂ (%)' },
+        { key: 'temp', label: 'Temp (°C)' },
+        { key: 'colour', label: 'Colour' },
+        { key: 'rate', label: 'Bubbles/min' },
+      ]}
+      emptyText="Press Record to save the current rate."
+    />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initPhotosynthesis } from './photosynthesis';
+  mountSim('#photo-sim', initPhotosynthesis);
+</script>

@@ -1,0 +1,64 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="germ-sim" label="A petri dish with twenty seeds." showTime hint="Click a seed to see its stage" badge="Day 0">
+  <ChoiceControl
+    name="gm-seed"
+    label="Seed"
+    value="bean"
+    options={[
+      { value: 'bean', label: 'Bean' },
+      { value: 'lettuce', label: 'Lettuce' },
+    ]}
+  />
+  <ChoiceControl
+    name="gm-water"
+    label="Water"
+    value="moist"
+    options={[
+      { value: 'dry', label: 'Dry' },
+      { value: 'moist', label: 'Moist' },
+      { value: 'flooded', label: 'Flooded' },
+    ]}
+  />
+  <SliderControl name="gm-temp" label="Temperature" min={0} max={45} step={1} value={22} />
+  <ChoiceControl
+    name="gm-oxygen"
+    label="Air"
+    value="air"
+    options={[
+      { value: 'air', label: 'Normal air' },
+      { value: 'none', label: 'No oxygen' },
+    ]}
+  />
+  <ChoiceControl
+    name="gm-light"
+    label="Light"
+    value="light"
+    options={[
+      { value: 'light', label: 'Light' },
+      { value: 'dark', label: 'Dark' },
+    ]}
+  />
+  <p class="ctrl-help">Changing a condition starts a new set of seeds.</p>
+
+  <Fragment slot="readouts">
+    <Readout name="pct" label="Germinated" key />
+    <Readout name="day" label="Day" />
+    <Readout name="mean" label="Mean time to germinate" />
+    <Readout name="verdict" label="Conditions" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="gm-graph" title="Seeds germinated (%) over days" desc="Cumulative percentage of seeds that have germinated against days, for the current conditions and any saved runs." compare saveLabel="Save run & restart" />
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initGermination } from './germination';
+  mountSim('#germ-sim', initGermination);
+</script>

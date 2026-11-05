@@ -1,0 +1,141 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import GerminationSim from '../../simulators/germination/GerminationSim.astro';
+import { germinationQuiz } from '../../data/quizzes/germination';
+
+const toc = [
+  { id: 'seed', label: 'Inside a seed' },
+  { id: 'germination', label: 'What happens during germination' },
+  { id: 'conditions', label: 'The conditions seeds need' },
+  { id: 'temperature', label: 'Temperature and germination speed' },
+  { id: 'light', label: 'Does light matter?' },
+  { id: 'experiment', label: 'Designing a fair test' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 32.2: Pollination and Fertilization (seed development and germination). OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/32-2-pollination-and-fertilization' },
+  { text: 'Bewley, J. D., Bradford, K. J., Hilhorst, H. W. M., & Nonogaki, H. (2013). Seeds: Physiology of Development, Germination and Dormancy (3rd ed.). Springer.' },
+  { text: 'Borthwick, H. A., Hendricks, S. B., Parker, M. W., Toole, E. H., & Toole, V. K. (1952). A reversible photoreaction controlling seed germination. Proceedings of the National Academy of Sciences, 38(8), 662–666.' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="seed-germination"
+  description="Interactive seed germination experiment: control water, temperature, oxygen and light for bean and lettuce seeds, and graph how many germinate each day."
+  toc={toc}
+  quiz={germinationQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A seed can lie dormant for years, then spring to life in a few days. What wakes it up? Set up your own petri-dish
+      experiment, change the water, temperature, oxygen and light, and watch twenty seeds decide whether to germinate.
+    </p>
+  </Fragment>
+
+  <GerminationSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>seed</strong> and set the <strong>water</strong>, <strong>temperature</strong>, <strong>air</strong> and <strong>light</strong> conditions.</li>
+      <li>Press <strong>Start</strong> to run the experiment for 14 days. Watch seeds swell, then grow a root and a shoot.</li>
+      <li>Follow the <strong>graph</strong> of seeds germinated over time and read the <strong>conditions</strong> verdict.</li>
+      <li>Press <strong>Save run &amp; restart</strong>, change <strong>one</strong> condition, and run again to compare.</li>
+      <li>Click a seed to see its stage. <strong>Reset</strong> restores the default conditions.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="seed">Inside a seed</h2>
+  <p>
+    A seed is a baby plant in a protective package. It contains an <strong>embryo</strong> (with an embryonic root, the
+    radicle, and an embryonic shoot, the plumule), a <strong>food store</strong> (in the cotyledons or endosperm) and a
+    tough <strong>seed coat</strong> (testa). Dry seeds are dormant: their metabolism is almost stopped, which lets them
+    survive cold, drought and long journeys.
+  </p>
+
+  <h2 id="germination">What happens during germination</h2>
+  <ol>
+    <li><strong>Imbibition:</strong> the seed absorbs water and swells, often splitting the seed coat.</li>
+    <li><strong>Activation:</strong> enzymes switch on and break down stored starch, proteins and fats into small molecules the embryo can use.</li>
+    <li><strong>Respiration:</strong> the embryo respires these foods to release energy for growth.</li>
+    <li><strong>Emergence:</strong> the radicle pushes out first, then the shoot grows toward the light. Once leaves open, the seedling can photosynthesise.</li>
+  </ol>
+
+  <h2 id="conditions">The conditions seeds need</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Condition</th><th>Why it is needed</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Water</strong></td><td>Rehydrates cells, activates enzymes and lets the seed swell</td></tr>
+        <tr><td><strong>Oxygen</strong></td><td>Needed for aerobic respiration to release energy from stored food</td></tr>
+        <tr><td><strong>Suitable temperature</strong></td><td>Enzymes work fastest at an optimum; too cold is slow, too hot denatures them</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="temperature">Temperature and germination speed</h2>
+  <p>
+    Every species has a <strong>base temperature</strong> below which it will not germinate, an
+    <strong>optimum</strong> at which it is fastest, and a <strong>maximum</strong> above which it fails. Beans prefer
+    warmth (an optimum near 25–30 °C), while lettuce prefers cool conditions and becomes dormant when it is too warm —
+    which is why gardeners sow lettuce in spring and autumn.
+  </p>
+
+  <h2 id="light">Does light matter?</h2>
+  <p>
+    Most large seeds, like beans, germinate equally well in light or dark because they carry plenty of food. Some small
+    seeds, including certain lettuce varieties, germinate much better in light. Their pigment <strong>phytochrome</strong>
+    detects red light, signalling that the seed is close to the surface where the seedling will soon reach sunlight.
+  </p>
+
+  <h2 id="experiment">Designing a fair test</h2>
+  <p>
+    Change one <strong>independent variable</strong> at a time (for example water), keep all others the same, and
+    measure the <strong>dependent variable</strong> (the percentage germinated). Use many seeds, because a few seeds are
+    always dead (not viable) and individual seeds vary. Including a <strong>control</strong> dish with ideal conditions
+    lets you compare results.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Germination</dt>
+    <dd>The process by which a seed begins to grow into a seedling.</dd>
+    <dt>Dormancy</dt>
+    <dd>A resting state in which a seed does not germinate even if conditions seem suitable.</dd>
+    <dt>Radicle and plumule</dt>
+    <dd>The embryonic root and embryonic shoot.</dd>
+    <dt>Cotyledon</dt>
+    <dd>A seed leaf that often stores food for the developing seedling.</dd>
+    <dt>Viability</dt>
+    <dd>Whether a seed is alive and able to germinate.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Farming and gardening:</strong> sowing at the right depth, soil temperature and moisture gives even, fast crop emergence.</li>
+    <li><strong>Seed testing:</strong> seed companies run germination tests to label the percentage of seeds that will grow.</li>
+    <li><strong>Seed banks:</strong> facilities such as the Svalbard Global Seed Vault store seeds dry and frozen to keep them dormant for decades.</li>
+    <li><strong>Brewing:</strong> malting deliberately germinates barley so its enzymes convert starch to sugar.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Seeds need soil to germinate.”</strong> Soil helps seedlings grow, but germination only needs water, oxygen and warmth.</li>
+    <li><strong>“Seeds need light to germinate.”</strong> Many germinate in the dark using stored food.</li>
+    <li><strong>“More water is always better.”</strong> Waterlogging starves seeds of oxygen.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Germination needs water, oxygen and a suitable temperature.</li>
+    <li>Stored food supplies energy until the seedling can photosynthesise.</li>
+    <li>Each species has its own temperature range; some small seeds also need light.</li>
+    <li>Fair tests change one variable at a time and use many seeds.</li>
+  </ul>
+  <p class="muted">Model note: germination times use a simple thermal-time model with natural variation; real values depend on variety and seed age.</p>
+</SimulatorLayout>

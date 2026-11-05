@@ -1,0 +1,45 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import { VIEWS } from './data';
+---
+
+<SimShell id="plant-anatomy-sim" label="An interactive diagram of a flowering plant." hint="Click any part" aspect="4 / 3" badge="Whole plant">
+  <button slot="toolbar" type="button" class="btn btn-sm" data-zoom hidden>Zoom in</button>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-challenge>Find the part</button>
+
+  <ChoiceControl name="pa-view" label="View" value="plant" options={VIEWS.map((v) => ({ value: v.id, label: v.label }))} />
+  <ToggleControl name="pa-labels" label="Show labels" checked />
+  <ToggleControl name="pa-transport" label="Show transport (water and sugar)" checked />
+  <div class="pa-info" aria-live="polite">
+    <strong data-info-title>Click a part of the plant</strong>
+    <p data-info-text>Each structure has a job. Click one to learn what it does, or use “Find the part” to test yourself.</p>
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="selected" label="Selected" key />
+    <Readout name="challenge" label="Challenge" />
+    <Readout name="score" label="Score" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .pa-info {
+    padding: 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.92rem;
+  }
+  .pa-info p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initPlantAnatomy } from './anatomy';
+  mountSim('#plant-anatomy-sim', initPlantAnatomy);
+</script>
