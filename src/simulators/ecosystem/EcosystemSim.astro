@@ -1,0 +1,115 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell
+  id="ecosystem-sim"
+  label="A meadow food web with plants, grasshoppers, rabbits, frogs, foxes and decomposers, showing energy flowing from the Sun and lost as heat while nutrients are recycled; or the same ecosystem as a carbon or nitrogen cycle."
+  hint="Click an organism or a process"
+  badge="Week 0"
+  aspect="16 / 9"
+>
+  <ChoiceControl
+    name="eco-view"
+    label="View"
+    value="web"
+    options={[
+      { value: 'web', label: 'Food web and energy' },
+      { value: 'cycles', label: 'Nutrient cycles' },
+    ]}
+  />
+  <p class="eco-note" data-note aria-live="polite"></p>
+
+  <div data-only="web" class="eco-group">
+    <ChoiceControl
+      name="eco-show"
+      label="Show"
+      value="both"
+      options={[
+        { value: 'energy', label: 'Energy flow' },
+        { value: 'matter', label: 'Matter cycling' },
+        { value: 'both', label: 'Both' },
+      ]}
+    />
+  </div>
+  <div data-only="cycles" class="eco-group">
+    <ChoiceControl
+      name="eco-cycle"
+      label="Cycle"
+      value="carbon"
+      options={[
+        { value: 'carbon', label: 'Carbon cycle' },
+        { value: 'nitrogen', label: 'Nitrogen cycle' },
+      ]}
+    />
+  </div>
+
+  <div class="eco-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="eco-org">Change a population</label>
+      <select id="eco-org" class="select" data-org>
+        <option value="G">🌿 Plants (producers)</option>
+        <option value="H">🦗 Grasshoppers</option>
+        <option value="R" selected>🐇 Rabbits</option>
+        <option value="F">🐸 Frogs</option>
+        <option value="X">🦊 Foxes</option>
+        <option value="B">🍄 Decomposers</option>
+      </select>
+    </div>
+    <div class="preset-row" role="group" aria-label="Change the selected population">
+      <button type="button" class="preset" data-act="remove">Remove all</button>
+      <button type="button" class="preset" data-act="halve">Halve</button>
+      <button type="button" class="preset" data-act="double">Double / add</button>
+      <button type="button" class="preset" data-act="restore">Restore</button>
+    </div>
+    <div class="preset-row" role="group" aria-label="Scenarios">
+      <button type="button" class="preset" data-scenario="balanced">Balanced</button>
+      <button type="button" class="preset" data-scenario="nofox">No foxes</button>
+      <button type="button" class="preset" data-scenario="nofrog">No frogs</button>
+      <button type="button" class="preset" data-scenario="nodecomp">No decomposers</button>
+      <button type="button" class="preset" data-scenario="shade">Half sunlight</button>
+    </div>
+    <SliderControl name="eco-light" label="Sunlight" min={25} max={150} step={5} value={100} />
+    <SliderControl name="eco-speed" label="Simulation speed" min={1} max={10} step={1} value={4} />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="eco-graph" title="Populations over time" desc="Each population as a percentage of its balanced level over the last 100 weeks, with soil nutrients dashed." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .eco-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .eco-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#ecosystem-sim) {
+    --stage-aspect-mobile: 3 / 4;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initEcosystem } from './ecosystem';
+  mountSim('#ecosystem-sim', initEcosystem);
+</script>

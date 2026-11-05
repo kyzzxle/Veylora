@@ -1,0 +1,149 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import EcosystemSim from '../../simulators/ecosystem/EcosystemSim.astro';
+import { ecosystemQuiz } from '../../data/quizzes/ecosystem';
+
+const toc = [
+  { id: 'what', label: 'Energy flows, matter cycles' },
+  { id: 'roles', label: 'Producers, consumers and decomposers' },
+  { id: 'chains', label: 'Food chains and food webs' },
+  { id: 'energy', label: 'Energy transfer between levels' },
+  { id: 'pyramids', label: 'Pyramids of energy' },
+  { id: 'carbon', label: 'The carbon cycle' },
+  { id: 'nitrogen', label: 'The nitrogen cycle' },
+  { id: 'changes', label: 'Adding and removing organisms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 46: Ecosystems (Energy Flow through Ecosystems; Biogeochemical Cycles). OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/46-introduction' },
+  { text: 'Lindeman, R. L. (1942). The trophic-dynamic aspect of ecology. Ecology, 23(4), 399–417.' },
+  { text: 'Pauly, D., & Christensen, V. (1995). Primary production required to sustain global fisheries. Nature, 374, 255–257.' },
+  { text: 'Galloway, J. N., et al. (2004). Nitrogen cycles: past, present, and future. Biogeochemistry, 70, 153–226.' },
+];
+---
+
+<SimulatorLayout
+  branch="biology"
+  topic="ecosystem-energy-flow"
+  description="Interactive ecosystem simulator: follow energy from the Sun through a meadow food web, watch it lost as heat at every level, see decomposers recycle nutrients, and explore the carbon and nitrogen cycles."
+  toc={toc}
+  quiz={ecosystemQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A meadow runs on sunlight. Plants capture it, rabbits and grasshoppers eat the plants, foxes and frogs eat them, and
+      fungi and bacteria clean up whatever dies. Watch energy flow through this food web and drain away as heat, while the
+      same carbon and nitrogen atoms go round and round. Then remove a species and see what happens.
+    </p>
+  </Fragment>
+
+  <EcosystemSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong>. In <strong>Food web and energy</strong>, yellow dots are energy in food, red wisps are heat, brown dots are dead matter and green dots are recycled nutrients. Use <strong>Show</strong> to see energy and matter separately.</li>
+      <li><strong>Click</strong> any organism to see its role and what it eats. Watch the <strong>energy pyramid</strong> and the readouts for how much energy reaches each level.</li>
+      <li>Choose an organism and press <strong>Remove all</strong>, <strong>Halve</strong>, <strong>Double / add</strong> or <strong>Restore</strong>, or try a scenario such as <strong>No decomposers</strong>. Follow the populations on the graph.</li>
+      <li>Change <strong>Sunlight</strong> to see how the energy input limits the whole ecosystem.</li>
+      <li>Switch to <strong>Nutrient cycles</strong> to follow carbon or nitrogen atoms, and click each process.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">Energy flows, matter cycles</h2>
+  <p>
+    Two things move through every ecosystem: <strong>energy</strong> and <strong>matter</strong>. Energy arrives as
+    sunlight, is passed along food chains in chemical form, and eventually leaves as heat. It cannot be recycled, so
+    ecosystems need a constant supply. Matter, the atoms of carbon, nitrogen and other elements, is not lost: it is used
+    again and again as it moves between the air, soil, water and living things. This is <strong>nutrient
+    cycling</strong>.
+  </p>
+
+  <h2 id="roles">Producers, consumers and decomposers</h2>
+  <p>
+    <strong>Producers</strong>, mainly plants and algae, capture light energy by photosynthesis and build it into
+    sugars. <strong>Consumers</strong> obtain energy by eating: <strong>herbivores</strong> (primary consumers) eat
+    producers, and <strong>carnivores</strong> (secondary and tertiary consumers) eat other animals.
+    <strong>Decomposers</strong>, mostly fungi and bacteria, feed on dead organisms and waste. They are essential, because
+    they release the nutrients locked in dead matter back into the soil and air.
+  </p>
+
+  <h2 id="chains">Food chains and food webs</h2>
+  <p>
+    A <strong>food chain</strong> shows one path of feeding, such as plants → rabbits → foxes. The arrows point in the
+    direction energy moves, from the eaten to the eater. Real ecosystems contain many linked chains, forming a
+    <strong>food web</strong>. Each feeding step is a <strong>trophic level</strong>.
+  </p>
+
+  <h2 id="energy">Energy transfer between levels</h2>
+  <p>
+    Only a small part of the energy at one level becomes new biomass at the next. Some of the plant is never eaten, some
+    of what is eaten is not digested and leaves as waste, and most of the energy that is absorbed is used for respiration
+    and lost as <strong>heat</strong>. Typically about 5–20% passes on; the often-quoted “10% rule” is a rough
+    average, not a law. In the simulator the efficiencies are not fixed: they come out of the model and change as
+    populations change. This is why food chains rarely have more than four or five levels.
+  </p>
+
+  <h2 id="pyramids">Pyramids of energy</h2>
+  <p>
+    A <strong>pyramid of energy</strong> shows how much energy each trophic level stores per unit of time. It is always
+    wider at the bottom, because energy is lost at every step. Pyramids of numbers or biomass can sometimes be inverted
+    (one tree can feed thousands of insects), but a pyramid of energy cannot.
+  </p>
+
+  <h2 id="carbon">The carbon cycle</h2>
+  <p>
+    <strong>Photosynthesis</strong> removes carbon dioxide from the air and turns it into organic compounds.
+    <strong>Feeding</strong> passes them along food chains. <strong>Respiration</strong> by plants, animals and
+    decomposers returns carbon dioxide to the air, and <strong>decomposition</strong> releases the carbon in dead matter.
+    Some carbon is stored for a long time in wood, soils, oceans and fossil fuels; burning fossil fuels releases it much
+    faster than it was stored.
+  </p>
+
+  <h2 id="nitrogen">The nitrogen cycle</h2>
+  <p>
+    Organisms need nitrogen to make proteins and DNA, but most cannot use the nitrogen gas that makes up 78% of the air.
+    <strong>Nitrogen-fixing bacteria</strong>, some living in the root nodules of plants such as peas and clover, turn it
+    into ammonium. <strong>Decomposers</strong> release ammonium from dead matter, <strong>nitrifying bacteria</strong>
+    convert it to nitrates, and plants absorb nitrates through their roots. <strong>Denitrifying bacteria</strong> return
+    some nitrogen to the air, and nitrates can also be washed out of soil by rain.
+  </p>
+
+  <h2 id="changes">Adding and removing organisms</h2>
+  <p>
+    Because organisms are linked, a change in one population spreads through the web. Remove a predator and its prey may
+    increase until their food runs short; remove the prey and the predator declines. Remove the decomposers and nutrients
+    stop cycling, so producers and everything that depends on them decline. Reducing the energy input, for example by
+    shading, shrinks every level.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <p>
+    Farmers rotate crops with legumes to add nitrogen to soil, and composting relies on decomposers. Fisheries scientists
+    use energy transfer to estimate how many fish an ecosystem can support. Conservationists study food webs to predict the
+    effects of losing or reintroducing species, such as wolves in Yellowstone.
+  </p>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Energy is recycled by decomposers.”</strong> Decomposers recycle nutrients; the energy ends up as heat.</li>
+    <li><strong>“Arrows in a food chain show who eats whom.”</strong> They show the direction energy moves: from food to feeder.</li>
+    <li><strong>“Exactly 10% is passed on.”</strong> The share varies widely between ecosystems.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Energy flows one way through ecosystems and is lost as heat; matter is recycled.</li>
+    <li>Producers capture energy, consumers obtain it by eating, and decomposers return nutrients.</li>
+    <li>Only a small, variable share of energy passes from one trophic level to the next.</li>
+    <li>Carbon and nitrogen cycle between the air, soil and living things, driven largely by microbes.</li>
+  </ul>
+  <p class="muted">
+    Model note: this is a simplified meadow with six groups of organisms and nitrogen as the limiting nutrient. All
+    amounts are relative units chosen for teaching, not measurements, and no number in it should be taken as a constant
+    for real ecosystems.
+  </p>
+</SimulatorLayout>

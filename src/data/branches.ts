@@ -55,7 +55,7 @@ export const branches: Branch[] = [
     shortName: 'Biology',
     tagline: 'How living things work, from molecules to populations.',
     description:
-      'Explore the machinery of life. Watch water cross cell membranes, take apart a cell organelle by organelle, tune the conditions for photosynthesis, unzip DNA and see natural selection reshape a population.',
+      'Explore the machinery of life. Watch water cross cell membranes, take apart a cell, tune photosynthesis, turn glucose into ATP, unzip DNA, watch cells divide by mitosis and meiosis, predict offspring with Punnett squares, trace energy and nutrients through an ecosystem and see natural selection reshape a population.',
     hue: 152,
     icon: 'cell',
     topics: [
@@ -158,6 +158,17 @@ export const branches: Branch[] = [
         status: 'live',
         minutes: 15,
         related: ['biology/meiosis', 'biology/natural-selection', 'mathematics/probability', 'biology/dna-replication'],
+      },
+      {
+        slug: 'ecosystem-energy-flow',
+        title: 'Ecosystem Energy Flow and Nutrient Cycling',
+        summary: 'Follow energy from the Sun through a meadow food web as it is lost as heat, watch decomposers recycle nutrients, and explore the carbon and nitrogen cycles.',
+        keywords: ['ecosystem', 'energy flow', 'food web', 'trophic level', 'energy pyramid', 'decomposer', 'producer', 'consumer', 'carbon cycle', 'nitrogen cycle', 'nutrient cycling'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['zoology/food-webs', 'ecology/carbon-cycle', 'ecology/population-dynamics', 'biology/photosynthesis'],
       },
     ],
   },
