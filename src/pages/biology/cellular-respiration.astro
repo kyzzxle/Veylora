@@ -1,0 +1,158 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import RespirationSim from '../../simulators/respiration/RespirationSim.astro';
+import { respirationQuiz } from '../../data/quizzes/respiration';
+
+const toc = [
+  { id: 'what', label: 'What is cellular respiration?' },
+  { id: 'atp', label: 'ATP: the cell’s energy currency' },
+  { id: 'where', label: 'Where it happens' },
+  { id: 'stages', label: 'The four stages' },
+  { id: 'oxygen', label: 'What oxygen does' },
+  { id: 'anaerobic', label: 'Anaerobic respiration' },
+  { id: 'formulas', label: 'Equations and ATP yield' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 7: Cellular Respiration. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/7-introduction' },
+  { text: 'Berg, J. M., Tymoczko, J. L., Gatto, G. J., & Stryer, L. (2019). Biochemistry (9th ed.), Chapters 16–18. W. H. Freeman.' },
+  { text: 'Rich, P. R. (2003). The molecular machinery of Keilin’s respiratory chain. Biochemical Society Transactions, 31(6), 1095–1105.' },
+  { text: 'Hinkle, P. C. (2005). P/O ratios of mitochondrial oxidative phosphorylation. Biochimica et Biophysica Acta, 1706(1–2), 1–11.' },
+];
+---
+
+<SimulatorLayout
+  branch="biology"
+  topic="cellular-respiration"
+  description="Interactive cellular respiration simulator: watch glucose become ATP in the cytoplasm and mitochondria, step through glycolysis, the Krebs cycle and the electron transport chain, and compare aerobic and anaerobic respiration."
+  toc={toc}
+  quiz={respirationQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every heartbeat, thought and step needs energy, and that energy comes from the food you eat. Inside every cell,
+      cellular respiration breaks glucose down in a series of small steps and captures the energy in ATP. Watch it happen
+      in a living cell, follow each stage, and see what happens when oxygen runs short.
+    </p>
+  </Fragment>
+
+  <RespirationSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Inside the cell:</strong> press <strong>Start</strong>. Glucose (yellow hexagons) enters, splits into pyruvate (triangles) and releases ATP. Click the cell parts and the large mitochondrion to learn their roles.</li>
+      <li>Lower <strong>Oxygen available</strong> or try the <strong>Sprinting muscle</strong> and <strong>No oxygen</strong> buttons. Watch the ATP bar, lactate and the graph, and compare the ATP made per glucose.</li>
+      <li>Change <strong>Glucose available</strong> and the <strong>energy demand</strong> to see what limits ATP production.</li>
+      <li><strong>Stage by stage:</strong> use <strong>Previous</strong> and <strong>Next</strong> to follow glycolysis, the link reaction, the Krebs cycle and the electron transport chain, with a running tally per glucose.</li>
+      <li><strong>Aerobic vs anaerobic:</strong> compare the ATP yield and products, for animal muscle and for yeast.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is cellular respiration?</h2>
+  <p>
+    <strong>Cellular respiration</strong> is the set of chemical reactions that transfers energy from glucose and other
+    food molecules to <strong>ATP</strong>. It happens continuously in almost every living cell, in plants as well as
+    animals. It is not the same as breathing: breathing moves air in and out of the lungs to supply oxygen and remove
+    carbon dioxide, while respiration is the chemistry inside cells that uses that oxygen.
+  </p>
+
+  <h2 id="atp">ATP: the cell’s energy currency</h2>
+  <p>
+    Glucose holds a lot of energy, but cells cannot use it directly. Instead, the energy is passed in small amounts to
+    <strong>adenosine triphosphate (ATP)</strong>. When ATP is broken down to ADP and phosphate, it releases energy exactly
+    where it is needed: to contract muscles, pump ions across membranes, build proteins and DNA, and send nerve impulses.
+    A cell recycles its ATP thousands of times a day, so respiration must never stop.
+  </p>
+
+  <h2 id="where">Where it happens</h2>
+  <p>
+    The first stage, <strong>glycolysis</strong>, takes place in the <strong>cytoplasm</strong>. The later stages take
+    place in the <strong>mitochondria</strong>. A mitochondrion has a smooth outer membrane and a highly folded inner
+    membrane; the folds, called <strong>cristae</strong>, provide a large surface for the proteins of the electron
+    transport chain. The fluid inside is the <strong>matrix</strong>. Active cells such as muscle and liver cells contain
+    hundreds or thousands of mitochondria.
+  </p>
+
+  <h2 id="stages">The four stages</h2>
+  <ol>
+    <li><strong>Glycolysis</strong> (cytoplasm): glucose (6 carbons) is split into two pyruvate (3 carbons each). It uses 2 ATP and makes 4, a net gain of 2 ATP, plus 2 NADH.</li>
+    <li><strong>Link reaction</strong> (matrix): each pyruvate loses a carbon as CO₂, and the remaining acetyl group joins coenzyme A to form acetyl-CoA. NADH is made.</li>
+    <li><strong>Krebs cycle</strong> (matrix): acetyl-CoA joins a 4-carbon molecule to make citrate. As the cycle turns, CO₂ is released and hydrogen is passed to the carriers NAD⁺ and FAD. It turns twice per glucose, making 2 ATP in total.</li>
+    <li><strong>Electron transport chain</strong> (inner membrane): NADH and FADH₂ deliver electrons to a chain of proteins. Their energy pumps H⁺ ions into the intermembrane space. The ions flow back through <strong>ATP synthase</strong>, which turns like a tiny motor and makes most of the cell’s ATP.</li>
+  </ol>
+
+  <h2 id="oxygen">What oxygen does</h2>
+  <p>
+    Oxygen is needed only at the very end. It is the <strong>final electron acceptor</strong>: it combines with electrons
+    and H⁺ ions to form water. Without oxygen the chain backs up, NADH cannot be turned back into NAD⁺, and the link
+    reaction and Krebs cycle stop as well. This is why oxygen is so important even though it is used in just one step.
+  </p>
+
+  <h2 id="anaerobic">Anaerobic respiration</h2>
+  <p>
+    When oxygen is short, cells can still run glycolysis, but they need a way to regenerate NAD⁺. In
+    <strong>lactic acid fermentation</strong>, used by animal muscle cells during intense exercise, pyruvate is turned
+    into lactate. In <strong>alcoholic fermentation</strong>, used by yeast, it becomes ethanol and carbon dioxide. Both
+    give only <strong>2 ATP per glucose</strong>, so cells must use glucose much faster. After exercise, extra oxygen is
+    used to deal with the lactate, which is one reason you keep breathing hard after you stop.
+  </p>
+
+  <h2 id="formulas">Equations and ATP yield</h2>
+  <ul>
+    <li>Aerobic: <strong>C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O</strong>, about <strong>30–32 ATP</strong> per glucose.</li>
+    <li>Lactic acid fermentation: <strong>C₆H₁₂O₆ → 2 C₃H₆O₃</strong> (lactic acid; lactate in cells), 2 ATP.</li>
+    <li>Alcoholic fermentation: <strong>C₆H₁₂O₆ → 2 C₂H₅OH + 2 CO₂</strong>, 2 ATP.</li>
+  </ul>
+  <p>
+    Older textbooks give 36–38 ATP per glucose. Modern measurements give lower values because the H⁺ gradient leaks
+    slightly and moving molecules into the mitochondria costs energy. The yield is an average, not a fixed whole number.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>ATP</dt>
+    <dd>Adenosine triphosphate, the molecule cells use to transfer energy.</dd>
+    <dt>Pyruvate</dt>
+    <dd>The 3-carbon product of glycolysis.</dd>
+    <dt>NAD⁺ / NADH</dt>
+    <dd>A carrier that picks up hydrogen and electrons (NADH) and delivers them to the electron transport chain.</dd>
+    <dt>Mitochondrion</dt>
+    <dd>The organelle where aerobic respiration is completed.</dd>
+    <dt>Fermentation</dt>
+    <dd>Anaerobic pathways that regenerate NAD⁺ so glycolysis can continue.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <p>
+    Athletes train to deliver oxygen to muscles faster and to tolerate lactate. Bakers rely on yeast fermentation to make
+    bread rise, and brewers to make alcohol. Some poisons, such as cyanide, block the electron transport chain, which is
+    why they are so dangerous. Many inherited conditions affect mitochondria, especially in tissues with high energy needs
+    like muscle and brain.
+  </p>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Respiration means breathing.”</strong> Breathing supplies oxygen; respiration is the chemistry in cells.</li>
+    <li><strong>“Plants photosynthesise instead of respiring.”</strong> Plants respire all the time, day and night.</li>
+    <li><strong>“Respiration makes energy.”</strong> Energy cannot be created; respiration transfers it from glucose to ATP.</li>
+    <li><strong>“Lactate causes the muscle soreness felt days later.”</strong> Lactate is cleared within hours; later soreness has other causes.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Respiration transfers energy from glucose to ATP in every living cell.</li>
+    <li>Glycolysis happens in the cytoplasm; the link reaction, Krebs cycle and electron transport chain happen in mitochondria.</li>
+    <li>Oxygen is the final electron acceptor; without it only glycolysis can continue.</li>
+    <li>Aerobic respiration gives about 30–32 ATP per glucose; fermentation gives only 2.</li>
+  </ul>
+  <p class="muted">
+    Model note: the simulator is a simplified teaching model. Real respiration involves around 20 enzyme-catalysed
+    reactions, several shuttles and transport proteins, and tight regulation. Rates, oxygen and glucose levels, and lactate
+    are shown in relative units, not measured values, and ATP per glucose uses rounded textbook figures.
+  </p>
+</SimulatorLayout>

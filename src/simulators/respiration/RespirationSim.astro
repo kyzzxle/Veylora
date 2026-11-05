@@ -1,0 +1,119 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell
+  id="respiration-sim"
+  label="An animal cell where glucose is broken down in the cytoplasm and mitochondria to make ATP, the stages of respiration one at a time, or a comparison of aerobic and anaerobic respiration."
+  hint={false}
+  badge="Resting cell"
+  aspect="16 / 9"
+>
+  <ChoiceControl
+    name="cr-view"
+    label="View"
+    value="cell"
+    options={[
+      { value: 'cell', label: 'Inside the cell' },
+      { value: 'steps', label: 'Stage by stage' },
+      { value: 'compare', label: 'Aerobic vs anaerobic' },
+    ]}
+  />
+  <p class="cr-note" data-note aria-live="polite"></p>
+
+  <div data-only="cell" class="cr-group">
+    <div class="preset-row" role="group" aria-label="Situations">
+      <button type="button" class="preset" data-preset="rest">Resting</button>
+      <button type="button" class="preset" data-preset="sprint">Sprinting muscle</button>
+      <button type="button" class="preset" data-preset="none">No oxygen</button>
+      <button type="button" class="preset" data-preset="fasting">Low glucose</button>
+    </div>
+  </div>
+
+  <div data-only="steps" class="cr-group">
+    <div class="preset-row" role="group" aria-label="Move through the stages">
+      <button type="button" class="preset" data-prev>◀ Previous</button>
+      <button type="button" class="preset" data-next>Next ▶</button>
+    </div>
+    <p class="cr-step" data-step-label aria-live="polite">Stage 0 of 4: Overview</p>
+    <p class="cr-step-text" data-step-text></p>
+  </div>
+
+  <div data-only="o2" class="cr-group">
+    <SliderControl name="cr-o2" label="Oxygen available" min={0} max={100} step={1} value={100} help="Relative oxygen supply to the cell, from none to plenty. It is a teaching scale, not a measured concentration." />
+  </div>
+
+  <div data-only="cell" class="cr-group">
+    <SliderControl name="cr-glucose" label="Glucose available" min={0} max={100} step={1} value={100} />
+    <ChoiceControl
+      name="cr-demand"
+      label="Energy demand"
+      value="rest"
+      options={[
+        { value: 'rest', label: 'Resting cell' },
+        { value: 'active', label: 'Active muscle cell' },
+      ]}
+    />
+  </div>
+
+  <div data-only="compare" class="cr-group">
+    <ChoiceControl
+      name="cr-ferm"
+      label="Anaerobic pathway"
+      value="animal"
+      options={[
+        { value: 'animal', label: 'Animal muscle (lactate)' },
+        { value: 'yeast', label: 'Yeast (ethanol)' },
+      ]}
+    />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="cr-graph" title="ATP production and lactate over time" desc="ATP made as a percentage of what the cell needs, and lactate build-up, over the last minute of simulation time." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .cr-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .cr-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  .cr-step {
+    margin: 0;
+    font-weight: 700;
+  }
+  .cr-step-text {
+    margin: -6px 0 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  :global(#respiration-sim) {
+    --stage-aspect-mobile: 3 / 4;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initRespiration } from './respiration';
+  mountSim('#respiration-sim', initRespiration);
+</script>

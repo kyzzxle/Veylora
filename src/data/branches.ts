@@ -115,6 +115,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['zoology/animal-adaptations', 'mathematics/probability', 'ecology/population-dynamics', 'ecology/biodiversity'],
       },
+      {
+        slug: 'cellular-respiration',
+        title: 'Cellular Respiration and ATP Production',
+        summary: 'Watch glucose become ATP in the cytoplasm and mitochondria, step through glycolysis, the Krebs cycle and the electron transport chain, and see what happens when oxygen runs out.',
+        keywords: ['respiration', 'cellular respiration', 'atp', 'glycolysis', 'krebs cycle', 'electron transport chain', 'mitochondria', 'anaerobic', 'fermentation', 'lactate'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['biology/photosynthesis', 'biology/cell-structure', 'anatomy-physiology/respiratory-system', 'anatomy-physiology/muscular-system'],
+      },
     ],
   },
   {
