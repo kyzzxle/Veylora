@@ -1,0 +1,95 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell
+  id="mitosis-sim"
+  label="An animal cell going through the cell cycle and mitosis, with chromosomes, centrosomes and spindle fibres, beside a cell-cycle wheel; or a comparison of mitosis and meiosis."
+  hint="Click a chromosome or any part of the cell"
+  badge="Interphase"
+  aspect="16 / 9"
+>
+  <ChoiceControl
+    name="mi-view"
+    label="View"
+    value="cycle"
+    options={[
+      { value: 'cycle', label: 'Cell cycle and mitosis' },
+      { value: 'compare', label: 'Mitosis vs meiosis' },
+    ]}
+  />
+  <p class="mi-note" data-note aria-live="polite"></p>
+
+  <div data-only="cycle" class="mi-group">
+    <div class="preset-row" role="group" aria-label="Move through the stages">
+      <button type="button" class="preset" data-prev>◀ Previous stage</button>
+      <button type="button" class="preset" data-next>Next stage ▶</button>
+    </div>
+    <p class="mi-stage" data-stage-label aria-live="polite">Stage 1 of 8: G1 phase</p>
+    <p class="mi-stage-text" data-stage-text></p>
+    <SliderControl name="mi-pos" label="Position in the cycle" min={0} max={800} step={1} value={50} help="Drag to move smoothly through the cycle. Start plays it automatically." />
+    <SliderControl name="mi-speed" label="Animation speed" min={0.25} max={3} step={0.25} value={1} />
+    <ChoiceControl
+      name="mi-pairs"
+      label="Chromosomes in the cell"
+      value="2"
+      options={[
+        { value: '2', label: '2 pairs (2n = 4)' },
+        { value: '3', label: '3 pairs (2n = 6)' },
+      ]}
+    />
+    <ToggleControl name="mi-error" label="Simulate a mistake: one chromosome fails to separate" />
+    <ToggleControl name="mi-labels" label="Show labels" checked />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="mi-graph" title="DNA and chromosome number through the cycle" desc="Relative DNA content per cell and the number of chromosomes in the cell at each stage; the marker shows the current position." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .mi-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .mi-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 4em;
+  }
+  .mi-stage {
+    margin: 0;
+    font-weight: 700;
+  }
+  .mi-stage-text {
+    margin: -6px 0 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    min-height: 4.5em;
+  }
+  :global(#mitosis-sim) {
+    --stage-aspect-mobile: 3 / 4;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initMitosis } from './mitosis';
+  mountSim('#mitosis-sim', initMitosis);
+</script>

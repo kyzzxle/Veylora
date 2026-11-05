@@ -126,6 +126,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['biology/photosynthesis', 'biology/cell-structure', 'anatomy-physiology/respiratory-system', 'anatomy-physiology/muscular-system'],
       },
+      {
+        slug: 'mitosis',
+        title: 'Mitosis and the Cell Cycle',
+        summary: 'Follow an animal cell through interphase and every stage of mitosis to two identical daughter cells, click its chromosomes and spindle, and compare mitosis with meiosis.',
+        keywords: ['mitosis', 'cell cycle', 'interphase', 'prophase', 'metaphase', 'anaphase', 'telophase', 'cytokinesis', 'chromosome', 'chromatid', 'spindle', 'cell division'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['biology/dna-replication', 'biology/cell-structure', 'biology/cellular-respiration', 'biology/natural-selection'],
+      },
     ],
   },
   {

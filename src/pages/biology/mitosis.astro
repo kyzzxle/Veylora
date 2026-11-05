@@ -1,0 +1,160 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import MitosisSim from '../../simulators/mitosis/MitosisSim.astro';
+import { mitosisQuiz } from '../../data/quizzes/mitosis';
+
+const toc = [
+  { id: 'what', label: 'Why cells divide' },
+  { id: 'cycle', label: 'The cell cycle' },
+  { id: 'chromosomes', label: 'Chromosomes and chromatids' },
+  { id: 'stages', label: 'The stages of mitosis' },
+  { id: 'cytokinesis', label: 'Cytokinesis' },
+  { id: 'distribution', label: 'Sharing the chromosomes' },
+  { id: 'control', label: 'Checkpoints and cancer' },
+  { id: 'meiosis', label: 'Mitosis vs meiosis' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 10: Cell Reproduction. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/10-introduction' },
+  { text: 'Alberts, B., et al. (2022). Molecular Biology of the Cell (7th ed.), Chapter 17: The Cell Cycle. W. W. Norton.' },
+  { text: 'Cooper, G. M. (2000). The Cell: A Molecular Approach (2nd ed.), The Eukaryotic Cell Cycle. Sinauer Associates.', url: 'https://www.ncbi.nlm.nih.gov/books/NBK9876/' },
+  { text: 'Musacchio, A., & Salmon, E. D. (2007). The spindle-assembly checkpoint in space and time. Nature Reviews Molecular Cell Biology, 8(5), 379–393.' },
+];
+---
+
+<SimulatorLayout
+  branch="biology"
+  topic="mitosis"
+  description="Interactive mitosis simulator: follow an animal cell through interphase, prophase, metaphase, anaphase, telophase and cytokinesis, click chromosomes and spindle fibres, and compare mitosis with meiosis."
+  toc={toc}
+  quiz={mitosisQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      You started life as a single cell. Today you are made of tens of trillions of cells, and millions of them divide
+      every second to grow, heal wounds and replace worn-out tissue. Watch one animal cell copy its chromosomes and split
+      into two identical daughter cells, stage by stage.
+    </p>
+  </Fragment>
+
+  <MitosisSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong> to play the whole cell cycle, or use <strong>Previous stage</strong> and <strong>Next stage</strong> to move one step at a time. Drag <strong>Position in the cycle</strong> to move smoothly.</li>
+      <li><strong>Click</strong> any chromosome, centrosome, spindle fibre or part of the cell to see what it does at that stage. Click a section of the <strong>cell-cycle wheel</strong> to jump there.</li>
+      <li>Watch the graph below: DNA doubles in S phase, and the chromosome count doubles briefly in anaphase.</li>
+      <li>Switch between <strong>2 and 3 chromosome pairs</strong>, and turn on the <strong>mistake</strong> to see what happens when one chromosome fails to separate.</li>
+      <li>Choose <strong>Mitosis vs meiosis</strong> to compare the two kinds of cell division.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">Why cells divide</h2>
+  <p>
+    Cells divide for three main reasons: <strong>growth</strong> (a baby becomes an adult by adding cells, not by making
+    cells bigger), <strong>repair and replacement</strong> (skin, gut lining and blood cells are constantly renewed), and
+    <strong>asexual reproduction</strong> (yeast, many single-celled organisms and plants grown from cuttings). In each
+    case the new cells must receive exactly the same genetic information as the parent cell. Mitosis is the process that
+    makes sure they do.
+  </p>
+
+  <h2 id="cycle">The cell cycle</h2>
+  <p>
+    The life of a dividing cell is called the <strong>cell cycle</strong>. Most of it is <strong>interphase</strong>, when
+    the cell is not dividing but is far from resting. In <strong>G1</strong> it grows and does its normal work; in
+    <strong>S phase</strong> it copies (synthesises) all of its DNA; in <strong>G2</strong> it grows further and checks
+    the copies. Only then does the short <strong>M phase</strong> (mitosis and cytokinesis) take place. In a typical human
+    cell in culture the whole cycle takes about 24 hours, of which mitosis takes only about one. Some cells, such as most
+    neurons, leave the cycle and stop dividing; this resting state is called G0.
+  </p>
+
+  <h2 id="chromosomes">Chromosomes and chromatids</h2>
+  <p>
+    A <strong>chromosome</strong> is one long DNA molecule wrapped around proteins. Human body cells have 46 chromosomes in
+    23 <strong>homologous pairs</strong>: one of each pair came from the mother and one from the father, and the two carry
+    the same genes. After S phase, each chromosome consists of two identical <strong>sister chromatids</strong> joined at
+    the <strong>centromere</strong>. Mitosis separates sister chromatids, not homologous pairs.
+  </p>
+
+  <h2 id="stages">The stages of mitosis</h2>
+  <ol>
+    <li><strong>Prophase:</strong> chromatin coils into compact chromosomes that can be moved without tangling. The nucleolus disappears and the two centrosomes move to opposite poles, building the spindle. Late in prophase (prometaphase) the nuclear envelope breaks down and spindle fibres attach to the kinetochores.</li>
+    <li><strong>Metaphase:</strong> the chromosomes line up on the metaphase plate, each attached to fibres from both poles.</li>
+    <li><strong>Anaphase:</strong> the sister chromatids separate and are pulled to opposite poles, centromere first.</li>
+    <li><strong>Telophase:</strong> the chromosomes reach the poles and uncoil, and a nuclear envelope forms around each set.</li>
+  </ol>
+
+  <h2 id="cytokinesis">Cytokinesis</h2>
+  <p>
+    Mitosis divides the nucleus; <strong>cytokinesis</strong> divides the rest of the cell. In animal cells a ring of
+    actin and myosin filaments contracts beneath the membrane, forming a <strong>cleavage furrow</strong> that pinches the
+    cell in two. Plant cells have rigid walls, so they build a <strong>cell plate</strong> across the middle that becomes
+    a new wall.
+  </p>
+
+  <h2 id="distribution">Sharing the chromosomes</h2>
+  <p>
+    Because each daughter receives one chromatid from every chromosome, both get a complete, identical set: a human cell
+    with 46 chromosomes produces two cells with 46. The amount of DNA doubles in S phase and halves again at cytokinesis.
+    For a short time in anaphase the cell contains twice the usual number of chromosomes, because each separated chromatid
+    is counted as a chromosome.
+  </p>
+
+  <h2 id="control">Checkpoints and cancer</h2>
+  <p>
+    The cycle is controlled by proteins such as cyclins and cyclin-dependent kinases. <strong>Checkpoints</strong> pause
+    it if something is wrong: at G1/S if DNA is damaged, at G2/M if replication is incomplete, and at the spindle
+    checkpoint if a chromosome is not attached to both poles. If a chromosome fails to separate
+    (<strong>non-disjunction</strong>), daughters receive one too many or one too few. <strong>Cancer</strong> develops
+    when mutations disable this control, so cells divide when they should not.
+  </p>
+
+  <h2 id="meiosis">Mitosis vs meiosis</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Mitosis</th><th>Meiosis</th></tr></thead>
+      <tbody>
+        <tr><td>Divisions</td><td>One</td><td>Two</td></tr>
+        <tr><td>Cells produced</td><td>2</td><td>4</td></tr>
+        <tr><td>Chromosome number</td><td>Kept (diploid, 2n)</td><td>Halved (haploid, n)</td></tr>
+        <tr><td>Genetic make-up</td><td>Identical to parent</td><td>All different (crossing over, independent assortment)</td></tr>
+        <tr><td>Purpose</td><td>Growth, repair, asexual reproduction</td><td>Gametes for sexual reproduction</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Sister chromatids</dt>
+    <dd>The two identical copies of a chromosome made in S phase, joined at the centromere.</dd>
+    <dt>Centromere and kinetochore</dt>
+    <dd>The joining point of sister chromatids, and the protein structure on it where spindle fibres attach.</dd>
+    <dt>Spindle</dt>
+    <dd>Microtubule fibres organised by the centrosomes that move the chromosomes.</dd>
+    <dt>Diploid (2n)</dt>
+    <dd>Having two sets of chromosomes, one from each parent.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Interphase is a resting stage.”</strong> The cell is busy growing and copying its DNA.</li>
+    <li><strong>“Homologous chromosomes separate in mitosis.”</strong> Sister chromatids separate; homologues separate in meiosis I.</li>
+    <li><strong>“Cells grow by getting bigger.”</strong> Organisms grow mainly by increasing their number of cells.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>The cell cycle is interphase (G1, S, G2) followed by mitosis and cytokinesis.</li>
+    <li>DNA is copied in S phase; mitosis separates the sister chromatids so each daughter gets an identical set.</li>
+    <li>Mitosis is for growth, repair and asexual reproduction; meiosis makes gametes.</li>
+    <li>Checkpoints protect against errors; their failure can lead to cancer.</li>
+  </ul>
+  <p class="muted">
+    Model note: the simulator shows 2 or 3 chromosome pairs instead of 23 and gives every stage equal animation time; the
+    wheel shows typical real durations. Shapes and positions are simplified, and real chromosomes move less tidily.
+  </p>
+</SimulatorLayout>
