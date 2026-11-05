@@ -1,0 +1,136 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import FoodWebSim from '../../simulators/foodweb/FoodWebSim.astro';
+import { foodWebQuiz } from '../../data/quizzes/foodweb';
+
+const toc = [
+  { id: 'chains', label: 'Food chains' },
+  { id: 'levels', label: 'Trophic levels' },
+  { id: 'webs', label: 'Food webs' },
+  { id: 'energy', label: 'Energy flow and the 10 % rule' },
+  { id: 'cascades', label: 'Knock-on effects and trophic cascades' },
+  { id: 'decomposers', label: 'Decomposers' },
+  { id: 'humans', label: 'Humans and food webs' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 46.2: Energy Flow through Ecosystems. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/46-2-energy-flow-through-ecosystems' },
+  { text: 'Ripple, W. J., & Beschta, R. L. (2012). Trophic cascades in Yellowstone: The first 15 years after wolf reintroduction. Biological Conservation, 145(1), 205–213.' },
+  { text: 'Lindeman, R. L. (1942). The trophic-dynamic aspect of ecology. Ecology, 23(4), 399–417.' },
+  { text: 'Paine, R. T. (1966). Food web complexity and species diversity. The American Naturalist, 100(910), 65–75.' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="food-webs"
+  description="Interactive food web simulator: remove, reduce or boost species in a woodland ecosystem and watch the knock-on effects ripple through producers, herbivores and predators."
+  toc={toc}
+  quiz={foodWebQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      In nature, everything is connected by who eats whom. Take away one species and the effects can spread through the
+      whole ecosystem, sometimes in surprising ways. Explore a woodland food web of 14 species and test what happens when
+      you remove a predator, spread a disease or wipe out the insects.
+    </p>
+  </Fragment>
+
+  <FoodWebSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Click a species</strong> to select it. Its food and predators light up, and the graph shows their populations.</li>
+      <li>Press <strong>Remove</strong> and watch the web adjust over the following years. Species that run out of food die out.</li>
+      <li>Try <strong>Disease</strong> (halve the population) or <strong>Introduce more</strong> (double it), and see whether it recovers.</li>
+      <li>Experiments to try: remove the wolves; remove both insects; remove the grass; remove the mice.</li>
+      <li>Press <strong>Reset</strong> to restore the ecosystem.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="chains">Food chains</h2>
+  <p>
+    A <strong>food chain</strong> shows how energy passes from one organism to another as each is eaten: for example,
+    grass → rabbit → fox. The arrows point in the direction energy flows, from the food to the eater. Every food chain
+    starts with a <strong>producer</strong>, an organism such as a plant or alga that makes its own food from sunlight by
+    photosynthesis.
+  </p>
+
+  <h2 id="levels">Trophic levels</h2>
+  <ul>
+    <li><strong>Producers</strong> make food from sunlight (grass, oak, berry bushes).</li>
+    <li><strong>Primary consumers</strong> are herbivores that eat producers (grasshoppers, rabbits, deer).</li>
+    <li><strong>Secondary consumers</strong> eat herbivores (frogs, snakes); omnivores such as foxes and songbirds eat both plants and animals.</li>
+    <li><strong>Tertiary consumers</strong> or <strong>top predators</strong> are not usually eaten by anything else (hawks, wolves).</li>
+  </ul>
+
+  <h2 id="webs">Food webs</h2>
+  <p>
+    Real animals rarely eat just one thing, so food chains link together into a <strong>food web</strong>. A fox eats
+    rabbits, mice, birds and berries; a mouse is eaten by snakes, foxes and hawks. Generalists with many food sources can
+    switch when one runs short, which makes them resilient. <strong>Specialists</strong>, such as a frog that eats only
+    insects, are much more vulnerable.
+  </p>
+
+  <h2 id="energy">Energy flow and the 10 % rule</h2>
+  <p>
+    At each step along a food chain, most energy is used for movement, growth, keeping warm and other life processes, or
+    is lost as heat and waste. Typically only about <strong>10 %</strong> is passed on to the next level. That is why
+    there is much more plant material than herbivores, and many more herbivores than predators, and why food chains rarely
+    have more than four or five links. Drawn as a chart, this makes an <strong>energy pyramid</strong>.
+  </p>
+
+  <h2 id="cascades">Knock-on effects and trophic cascades</h2>
+  <p>
+    Because species are linked, a change to one affects many others. Removing a predator lets its prey increase, which
+    can then overeat their own food: a <strong>trophic cascade</strong>. When wolves were reintroduced to Yellowstone
+    National Park in 1995, elk numbers fell and changed their behaviour, letting willows and aspens regrow along rivers,
+    which in turn helped beavers and songbirds. Species with an unusually large effect for their numbers are called
+    <strong>keystone species</strong>.
+  </p>
+
+  <h2 id="decomposers">Decomposers</h2>
+  <p>
+    Every food web relies on <strong>decomposers</strong>, mainly fungi and bacteria, along with detritivores such as
+    earthworms. They break down dead organisms and waste, releasing nutrients such as nitrogen and phosphorus back into
+    the soil for producers to reuse. Without them, nutrients would stay locked in dead matter.
+  </p>
+
+  <h2 id="humans">Humans and food webs</h2>
+  <p>
+    Overfishing, hunting, habitat loss, pesticides and invasive species all disrupt food webs. Some pollutants, such as
+    the pesticide DDT or mercury, are not broken down and become more concentrated at each level of a food chain
+    (<strong>biomagnification</strong>). In the 1960s this thinned the eggshells of eagles and falcons, almost wiping them
+    out until DDT was banned.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Trophic level</dt>
+    <dd>A step in a food chain, such as producer or primary consumer.</dd>
+    <dt>Keystone species</dt>
+    <dd>A species whose effect on its ecosystem is much larger than its numbers suggest.</dd>
+    <dt>Trophic cascade</dt>
+    <dd>A chain of effects through several levels, caused by a change at one level.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Arrows show who eats whom.”</strong> They show the direction energy flows: from the food to the eater.</li>
+    <li><strong>“Removing a predator helps everything it ate.”</strong> Prey may boom and then crash after overeating their food.</li>
+    <li><strong>“Top predators are the most important.”</strong> Every level matters; without producers and decomposers nothing survives.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Food chains link into food webs; arrows show the flow of energy.</li>
+    <li>Only about 10 % of energy passes between levels, so higher levels support fewer organisms.</li>
+    <li>Changing one population causes knock-on effects throughout the web.</li>
+    <li>Specialists are more vulnerable than generalists; decomposers recycle nutrients for everyone.</li>
+  </ul>
+  <p class="muted">Model note: populations are shown relative to normal levels and respond to the average amount of food and predators. Real food webs involve many more species, seasons and behaviours.</p>
+</SimulatorLayout>

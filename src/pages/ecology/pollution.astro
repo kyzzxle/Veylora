@@ -1,0 +1,140 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import PollutionSim from '../../simulators/pollution/PollutionSim.astro';
+import { pollutionQuiz } from '../../data/quizzes/pollution';
+
+const toc = [
+  { id: 'what', label: 'What is pollution?' },
+  { id: 'eutrophication', label: 'Eutrophication step by step' },
+  { id: 'oxygen', label: 'Why oxygen matters' },
+  { id: 'bioaccumulation', label: 'Bioaccumulation and biomagnification' },
+  { id: 'other', label: 'Other kinds of pollution' },
+  { id: 'measuring', label: 'Measuring water quality' },
+  { id: 'solutions', label: 'Reducing pollution' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'U.S. Environmental Protection Agency. Nutrient Pollution: The Problem.', url: 'https://www.epa.gov/nutrientpollution/problem' },
+  { text: 'U.S. Environmental Protection Agency (2001). Water Quality Criterion for the Protection of Human Health: Methylmercury (EPA-823-R-01-001).' },
+  { text: 'Smith, V. H., & Schindler, D. W. (2009). Eutrophication science: where do we go from here? Trends in Ecology & Evolution, 24(4), 201–207.' },
+  { text: 'UN Environment Programme. Minamata Convention on Mercury.', url: 'https://www.mercuryconvention.org/en' },
+];
+---
+
+<SimulatorLayout
+  branch="ecology"
+  topic="pollution"
+  description="Interactive lake pollution simulator: add fertiliser runoff, sewage and factory mercury, and watch algal blooms, oxygen loss, fish kills and bioaccumulation up the food chain."
+  toc={toc}
+  quiz={pollutionQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A lake can look peaceful while invisible changes threaten everything living in it. Add fertiliser from a farm,
+      sewage, or mercury from a factory, and follow what happens to the algae, the oxygen, the fish, and the birds that
+      eat them. Then stop the pollution and see how long the lake takes to recover.
+    </p>
+  </Fragment>
+
+  <PollutionSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Start with the <strong>clean lake</strong> and note the oxygen level and fish population.</li>
+      <li>Choose <strong>Farm runoff</strong> or raise the fertiliser slider. Watch the water turn green, oxygen fall and fish die over the following months.</li>
+      <li>Try <strong>Sewage leak</strong>, which adds nutrients and dead organic matter at the same time.</li>
+      <li>Choose <strong>Factory mercury</strong> and watch the bars on the right: mercury builds up more at each step of the food chain.</li>
+      <li>Press <strong>Stop all pollution</strong> and see which problems clear quickly and which linger.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is pollution?</h2>
+  <p>
+    <strong>Pollution</strong> is the release of substances or energy into the environment in amounts that cause harm.
+    Pollutants can be <strong>nutrients</strong> (too much of something that is normally useful), <strong>toxic
+    chemicals</strong> such as heavy metals and pesticides, <strong>organic waste</strong> such as sewage,
+    <strong>plastics</strong>, or even heat and noise. Lakes and rivers are especially vulnerable because pollution from
+    a whole catchment drains into them.
+  </p>
+
+  <h2 id="eutrophication">Eutrophication step by step</h2>
+  <ol>
+    <li>Fertiliser or sewage washes nitrates and phosphates into the water.</li>
+    <li>Algae, no longer limited by nutrients, multiply rapidly: an <strong>algal bloom</strong> turns the water green.</li>
+    <li>The algae block sunlight, so plants deeper in the water cannot photosynthesise and die.</li>
+    <li>Algae and plants die in huge numbers. <strong>Decomposing bacteria</strong> multiply and use up dissolved oxygen.</li>
+    <li>Oxygen falls so low that fish and other animals suffocate: a <strong>fish kill</strong>. Low-oxygen “dead zones” also form in coastal seas, such as the Gulf of Mexico.</li>
+  </ol>
+
+  <h2 id="oxygen">Why oxygen matters</h2>
+  <p>
+    Fish, insects and other water animals breathe oxygen dissolved in water. Even cool, clean water holds only about
+    8–10 milligrams per litre, compared with about 270 mg in a litre of air, and warm water holds less. Most fish are
+    stressed below about 5 mg/L and die below about 2 mg/L. That is why oxygen is one of the most important measures of
+    water health.
+  </p>
+
+  <h2 id="bioaccumulation">Bioaccumulation and biomagnification</h2>
+  <p>
+    Some pollutants, such as mercury, lead and the pesticide DDT, are <strong>persistent</strong>: they are not broken
+    down and are stored in body tissue instead of being excreted. Over an animal’s lifetime they build up
+    (<strong>bioaccumulation</strong>). Because each predator eats many prey, concentrations multiply at each step of the
+    food chain (<strong>biomagnification</strong>). Top predators, including people who eat large fish such as tuna or
+    swordfish, can receive concentrations thousands or millions of times higher than in the water. In the 1950s, mercury
+    from a factory poisoned thousands of people in <strong>Minamata</strong>, Japan, who ate contaminated seafood.
+  </p>
+
+  <h2 id="other">Other kinds of pollution</h2>
+  <ul>
+    <li><strong>Plastic pollution</strong> entangles wildlife and breaks into microplastics found in food chains worldwide.</li>
+    <li><strong>Thermal pollution</strong> from power stations warms rivers, reducing how much oxygen water can hold.</li>
+    <li><strong>Acid rain</strong> from sulfur and nitrogen oxides acidifies lakes and damages forests.</li>
+    <li><strong>Oil spills</strong> coat birds and animals and poison shoreline life.</li>
+  </ul>
+
+  <h2 id="measuring">Measuring water quality</h2>
+  <p>
+    Scientists measure dissolved oxygen, nutrient levels, water clarity, pH and temperature. Living things also act as
+    <strong>indicator species</strong>: mayfly and stonefly larvae need clean, well-oxygenated water, while sludge worms
+    and rat-tailed maggots tolerate heavy pollution. Counting them reveals water quality over time.
+  </p>
+
+  <h2 id="solutions">Reducing pollution</h2>
+  <p>
+    Solutions include treating sewage, applying fertiliser only when and where crops need it, planting
+    <strong>buffer strips</strong> of vegetation and restoring wetlands along rivers to trap nutrients, and strict limits on
+    industrial discharges. International agreements such as the <strong>Minamata Convention on Mercury</strong> (2013) aim
+    to reduce mercury worldwide. Nutrient problems can clear within a few years once inputs stop; persistent chemicals can
+    linger for decades.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Algal bloom</dt>
+    <dd>A rapid increase in algae, often turning water green.</dd>
+    <dt>Dissolved oxygen</dt>
+    <dd>Oxygen gas dissolved in water, measured in mg/L.</dd>
+    <dt>Biomagnification</dt>
+    <dd>Increasing concentration of a persistent pollutant at each level of a food chain.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“More nutrients make a lake healthier.”</strong> Excess nutrients cause blooms that can suffocate the lake.</li>
+    <li><strong>“Algae add oxygen, so blooms are good.”</strong> Their decomposition uses more oxygen than they produce.</li>
+    <li><strong>“If water looks clear, it’s safe.”</strong> Mercury and many chemicals are invisible.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Nutrient pollution causes eutrophication: algal bloom → decomposition → oxygen loss → fish kills.</li>
+    <li>Fish need at least about 5 mg/L of dissolved oxygen to stay healthy.</li>
+    <li>Persistent pollutants such as mercury biomagnify, reaching the highest levels in top predators.</li>
+    <li>Reducing pollution at the source, plus buffer strips and treatment, lets ecosystems recover.</li>
+  </ul>
+  <p class="muted">Model note: a simplified lake with average daily rates; real lakes vary with temperature, depth, seasons and day–night cycles. Mercury factors of about 5 times per food-chain level are typical but vary widely between lakes.</p>
+</SimulatorLayout>

@@ -1,0 +1,136 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import BiodiversitySim from '../../simulators/biodiversity/BiodiversitySim.astro';
+import { biodiversityQuiz } from '../../data/quizzes/biodiversity';
+
+const toc = [
+  { id: 'what', label: 'What is biodiversity?' },
+  { id: 'stability', label: 'Diversity and stability' },
+  { id: 'experiment', label: 'The experiment behind the model' },
+  { id: 'services', label: 'Why biodiversity matters to people' },
+  { id: 'keystone', label: 'Keystone species' },
+  { id: 'threats', label: 'Threats to biodiversity' },
+  { id: 'protect', label: 'Protecting biodiversity' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Tilman, D., Reich, P. B., & Knops, J. M. H. (2006). Biodiversity and ecosystem stability in a decade-long grassland experiment. Nature, 441, 629–632.', url: 'https://doi.org/10.1038/nature04742' },
+  { text: 'Isbell, F., et al. (2015). Biodiversity increases the resistance of ecosystem productivity to climate extremes. Nature, 526, 574–577.', url: 'https://doi.org/10.1038/nature15374' },
+  { text: 'Yachi, S., & Loreau, M. (1999). Biodiversity and ecosystem productivity in a fluctuating environment: the insurance hypothesis. PNAS, 96(4), 1463–1468.' },
+  { text: 'IPBES (2019). Global Assessment Report on Biodiversity and Ecosystem Services: Summary for Policymakers.', url: 'https://www.ipbes.net/global-assessment' },
+];
+---
+
+<SimulatorLayout
+  branch="ecology"
+  topic="biodiversity"
+  description="Interactive biodiversity experiment: compare grassland plots with 1, 4 and many species as droughts, heatwaves and disease strike, and see why diverse ecosystems are more stable."
+  toc={toc}
+  quiz={biodiversityQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Does it matter how many species live in an ecosystem? Run an experiment that ecologists have carried out for real:
+      grow three meadows with different numbers of plant species, hit them with the same drought, heatwave or disease, and
+      compare how well each one copes and recovers.
+    </p>
+  </Fragment>
+
+  <BiodiversitySim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Let the three plots grow. Note that the mixed plots end up slightly more productive than the monoculture.</li>
+      <li>Press <strong>Drought</strong>, <strong>Heatwave</strong> or <strong>Ryegrass disease</strong>. All three plots are hit at the same time.</li>
+      <li>Compare how far each plot’s growth falls (<strong>resistance</strong>) and how quickly it recovers (<strong>resilience</strong>) in the readouts and graph.</li>
+      <li>Watch which species survive and spread in the diverse plots while others suffer.</li>
+      <li>Change the number of species in plot C and repeat. Is there a point where adding more species makes little difference?</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is biodiversity?</h2>
+  <p>
+    <strong>Biodiversity</strong> is the variety of life on Earth. It is usually described at three levels:
+    <strong>genetic diversity</strong> (differences between individuals of the same species), <strong>species
+    diversity</strong> (how many different species there are and how evenly they are spread), and <strong>ecosystem
+    diversity</strong> (the range of habitats, from coral reefs to grasslands). Scientists have described about 2 million
+    species, but there may be 8 million or more.
+  </p>
+
+  <h2 id="stability">Diversity and stability</h2>
+  <p>
+    Ecosystems are constantly disturbed by droughts, storms, pests and diseases. In a diverse community, species react
+    differently: when a drought kills a shallow-rooted grass, a deep-rooted plant or a drought-tolerant clover may survive
+    and expand into the space. Total plant growth stays more stable even though individual species rise and fall. This
+    is known as the <strong>insurance hypothesis</strong>: the more species there are, the more likely it is that some
+    will cope with whatever happens.
+  </p>
+
+  <h2 id="experiment">The experiment behind the model</h2>
+  <p>
+    At Cedar Creek in Minnesota, ecologist David Tilman and colleagues planted 168 grassland plots with between 1 and 16
+    species and measured them for decades. Plots with more species produced more plant growth and varied much less from
+    year to year. During severe droughts, diverse plots lost far less productivity and recovered faster. Similar results
+    have since been found in many experiments around the world.
+  </p>
+
+  <h2 id="services">Why biodiversity matters to people</h2>
+  <ul>
+    <li><strong>Food security:</strong> crop diversity and wild relatives protect against pests and diseases. The Irish potato famine of the 1840s struck a country depending on very few potato varieties.</li>
+    <li><strong>Pollination:</strong> about three quarters of food crops benefit from animal pollinators.</li>
+    <li><strong>Clean water and air, fertile soils and flood control</strong> all depend on healthy ecosystems.</li>
+    <li><strong>Medicines:</strong> many drugs, from aspirin to cancer treatments, come from wild organisms.</li>
+  </ul>
+
+  <h2 id="keystone">Keystone species</h2>
+  <p>
+    Some species matter far more than their numbers suggest. Sea otters eat sea urchins; without otters, urchins strip
+    kelp forests bare. Beavers build dams that create wetlands used by hundreds of other species. Losing a
+    <strong>keystone species</strong> can cause an entire ecosystem to change.
+  </p>
+
+  <h2 id="threats">Threats to biodiversity</h2>
+  <p>
+    The main causes of biodiversity loss today are <strong>habitat loss</strong> from farming and building,
+    <strong>overexploitation</strong> through overfishing and hunting, <strong>climate change</strong>,
+    <strong>pollution</strong> and <strong>invasive species</strong>. Wildlife populations monitored worldwide have fallen
+    by around two thirds on average since 1970, and about a million species are estimated to be at risk of extinction.
+  </p>
+
+  <h2 id="protect">Protecting biodiversity</h2>
+  <p>
+    Protected areas, habitat restoration, wildlife corridors that link habitats, sustainable farming and fishing,
+    controlling invasive species, and seed banks all help. Even small actions, such as leaving wildflower patches for
+    pollinators, add up.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Monoculture</dt>
+    <dd>Growing a single species over a large area.</dd>
+    <dt>Resistance / resilience</dt>
+    <dd>How little an ecosystem changes during a disturbance / how quickly it recovers afterwards.</dd>
+    <dt>Ecosystem services</dt>
+    <dd>The benefits people get from nature, such as food, clean water and pollination.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Biodiversity just means lots of animals.”</strong> It includes plants, fungi, microbes, genes and habitats.</li>
+    <li><strong>“Losing one species doesn’t matter.”</strong> Each loss removes a role and a backup in the ecosystem; keystone losses can be dramatic.</li>
+    <li><strong>“Monocultures are always more productive.”</strong> Diverse systems often match or exceed them, and are far more stable.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Biodiversity is the variety of genes, species and ecosystems.</li>
+    <li>Diverse ecosystems resist disturbances better and recover faster.</li>
+    <li>Different species use resources in different ways, often making diverse systems more productive.</li>
+    <li>Habitat loss is the leading cause of biodiversity decline.</li>
+  </ul>
+  <p class="muted">Model note: species traits are invented for the demonstration and the plots are simplified. The pattern, more stability with more species, matches long-term field experiments.</p>
+</SimulatorLayout>

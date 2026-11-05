@@ -83,5 +83,5 @@ Remaining 32 topics, built in batches of four (each batch is committed and pushe
 - [x] Batch 4: heart and circulation, respiratory, digestive, skeletal
 - [x] Batch 5: solar system, stellar life cycle, black holes, 3D geometry
 - [x] Batch 6: plate tectonics, rock cycle, weather, water cycle
-- [ ] Batch 7: carbon cycle, biodiversity, pollution, food webs
+- [x] Batch 7: carbon cycle, biodiversity, pollution, food webs
 - [ ] Batch 8: animal adaptations, animal locomotion, chemical bonding, data visualization

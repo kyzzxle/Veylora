@@ -1,0 +1,50 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="pollution-sim" label="A lake with a farm and a factory beside it, fish swimming in it, and a chart of mercury levels in living things." hint={false} badge="Healthy" aspect="16 / 9">
+  <div class="preset-row" role="group" aria-label="Scenarios">
+    <button type="button" class="preset" data-scenario="0,0,0">Clean lake</button>
+    <button type="button" class="preset" data-scenario="7,0,0">Farm runoff</button>
+    <button type="button" class="preset" data-scenario="0,1,0">Sewage leak</button>
+    <button type="button" class="preset" data-scenario="0,0,8">Factory mercury</button>
+    <button type="button" class="preset" data-scenario="0,0,0">Stop all pollution</button>
+  </div>
+  <SliderControl name="pl-fert" label="Fertiliser running off farmland" min={0} max={10} step={1} value={0} help="Nitrates and phosphates feed algae." />
+  <ToggleControl name="pl-sewage" label="Untreated sewage flowing in" />
+  <SliderControl name="pl-hg" label="Mercury released by the factory" min={0} max={10} step={1} value={0} help="Mercury is not broken down; it builds up in living things." />
+  <p class="pl-status" data-status aria-live="polite"></p>
+
+  <Fragment slot="readouts">
+    <Readout name="oxygen" label="Dissolved oxygen" key />
+    <Readout name="fish" label="Fish population" />
+    <Readout name="algae" label="Algae" />
+    <Readout name="clarity" label="Water clarity (how deep you can see)" />
+    <Readout name="hg" label="Mercury in large fish" />
+    <Readout name="time" label="Time" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="pl-graph" title="Lake health over time" desc="Dissolved oxygen, algae and fish in the lake over time." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .pl-status {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initPollution } from './pollution';
+  mountSim('#pollution-sim', initPollution);
+</script>

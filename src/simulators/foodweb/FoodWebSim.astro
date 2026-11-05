@@ -1,0 +1,67 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="foodweb-sim" label="A woodland food web with producers at the bottom and top predators at the top, arrows showing who eats whom." showTime hint={false} badge="14 species" aspect="16 / 10">
+  <div class="fw-info" aria-live="polite">
+    <strong data-info-title>Wolf</strong>
+    <p data-info-text></p>
+  </div>
+  <div class="fw-actions" role="group" aria-label="Change the selected species">
+    <button type="button" class="btn btn-sm btn-primary" data-remove>Remove wolf</button>
+    <button type="button" class="btn btn-sm" data-halve>Disease: halve it</button>
+    <button type="button" class="btn btn-sm" data-boost>Introduce more: double it</button>
+  </div>
+  <p class="ctrl-help">Click any species in the web to select it. Press <strong>Reset</strong> to restore everything.</p>
+  <SimKey
+    items={[
+      { label: 'Producers', color: '#4caf50' },
+      { label: 'Herbivores', color: '#f2a541' },
+      { label: 'Secondary consumers', color: '#4c8dd6' },
+      { label: 'Top predators', color: '#e0605a' },
+      { label: 'Arrow: energy flows from food to eater', color: 'text-faint', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="sel" label="Selected" key />
+    <Readout name="pop" label="Population" />
+    <Readout name="level" label="Feeding level" />
+    <Readout name="eats" label="Eats" />
+    <Readout name="eatenBy" label="Eaten by" />
+    <Readout name="alive" label="Species still present" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="fw-graph" title="Populations over time" desc="The selected species (solid line) with its food and predators (dashed), as a percentage of normal." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .fw-info {
+    padding: 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.92rem;
+  }
+  .fw-info p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+  }
+  :global(#foodweb-sim) {
+    --stage-aspect-mobile: 4 / 5;
+  }
+  .fw-actions {
+    display: grid;
+    gap: 6px;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initFoodWeb } from './foodweb';
+  mountSim('#foodweb-sim', initFoodWeb);
+</script>

@@ -1,0 +1,43 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="biodiversity-sim" label="Three grassland plots with 1, 4 and many plant species, shown from above, that can be hit by droughts, heatwaves and disease." showTime hint={false} badge="Calm" aspect="5 / 2">
+  <p class="ctrl-help">Each plot is a square of meadow seen from above; each coloured dot is a plant, coloured by species. All three plots contain ryegrass.</p>
+  <div class="bd-events" role="group" aria-label="Disturbances">
+    <button type="button" class="btn btn-sm" data-event="drought">☀ Drought</button>
+    <button type="button" class="btn btn-sm" data-event="heat">🔥 Heatwave</button>
+    <button type="button" class="btn btn-sm" data-event="disease">🦠 Ryegrass disease</button>
+  </div>
+  <SliderControl name="bd-n" label="Species in plot C" min={2} max={20} step={1} value={16} help="Changing this starts a new experiment." />
+
+  <Fragment slot="readouts">
+    <Readout name="event" label="Conditions" key />
+    <Readout name="p0" label="Plot A (1 species)" />
+    <Readout name="p1" label="Plot B (4 species)" />
+    <Readout name="p2" label="Plot C" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="bd-graph" title="Plant growth in each plot" desc="Total plant growth in each plot as a percentage of the maximum, with disturbances marked." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .bd-events {
+    display: grid;
+    gap: 6px;
+  }
+  :global(#biodiversity-sim) {
+    --stage-aspect-mobile: 2 / 7;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initBiodiversity } from './biodiversity';
+  mountSim('#biodiversity-sim', initBiodiversity);
+</script>

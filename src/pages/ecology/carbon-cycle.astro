@@ -1,0 +1,146 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import CarbonSim from '../../simulators/carbon/CarbonSim.astro';
+import { carbonQuiz } from '../../data/quizzes/carbon';
+
+const toc = [
+  { id: 'what', label: 'What is the carbon cycle?' },
+  { id: 'stores', label: 'Carbon stores' },
+  { id: 'processes', label: 'The processes' },
+  { id: 'fast-slow', label: 'The fast and slow cycles' },
+  { id: 'humans', label: 'How humans are changing it' },
+  { id: 'sinks', label: 'Ocean and land sinks' },
+  { id: 'solutions', label: 'Bringing it back into balance' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Friedlingstein, P., et al. (2023). Global Carbon Budget 2023. Earth System Science Data, 15, 5301–5369.', url: 'https://doi.org/10.5194/essd-15-5301-2023' },
+  { text: 'Ciais, P., et al. (2013). Carbon and Other Biogeochemical Cycles. In Climate Change 2013: The Physical Science Basis (IPCC AR5 WG1, Chapter 6). Cambridge University Press.' },
+  { text: 'NOAA Global Monitoring Laboratory. Trends in Atmospheric Carbon Dioxide.', url: 'https://gml.noaa.gov/ccgg/trends/' },
+  { text: 'NASA Earth Observatory. The Carbon Cycle.', url: 'https://earthobservatory.nasa.gov/features/CarbonCycle' },
+];
+---
+
+<SimulatorLayout
+  branch="ecology"
+  topic="carbon-cycle"
+  description="Interactive carbon cycle simulator: follow carbon between the atmosphere, plants, soils, oceans and fossil fuels from 1850 to 2100, and test future emission scenarios."
+  toc={toc}
+  quiz={carbonQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every living thing is built from carbon, and that carbon is always on the move: from the air into leaves, from food
+      into animals, from the sea floor into rocks, and back again. Run history from 1850 to today, then decide what humans
+      do next and watch the atmosphere respond.
+    </p>
+  </Fragment>
+
+  <CarbonSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong>. From 1850 to 2025 the simulation follows real emissions; watch the stores and arrows change and the CO₂ graph rise.</li>
+      <li>Arrows show yearly flows in GtC (billion tonnes of carbon). Thicker arrows mean bigger flows.</li>
+      <li>Before or after 2025, choose a <strong>future</strong>: keep rising, stay level, net zero by 2050, or set your own emissions.</li>
+      <li>Move <strong>deforestation</strong> below zero to plant forests instead.</li>
+      <li>Compare where CO₂ ends up by 2100, the ocean pH, and the long-term warming each scenario would cause. <strong>Click any store</strong> to learn about it.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is the carbon cycle?</h2>
+  <p>
+    Carbon is the backbone of every molecule of life: sugars, fats, proteins and DNA. The <strong>carbon cycle</strong> is
+    the movement of carbon between the atmosphere, oceans, living things, soils and rocks. Over thousands of years the
+    flows in and out of each store have roughly balanced, keeping the amount of carbon dioxide in the air, and so Earth’s
+    climate, fairly steady.
+  </p>
+
+  <h2 id="stores">Carbon stores</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Store</th><th>Approximate carbon (GtC)</th></tr></thead>
+      <tbody>
+        <tr><td>Atmosphere (pre-industrial / today)</td><td>590 / about 890</td></tr>
+        <tr><td>Plants</td><td>450</td></tr>
+        <tr><td>Soils</td><td>1,500–2,400</td></tr>
+        <tr><td>Surface ocean</td><td>900</td></tr>
+        <tr><td>Deep ocean</td><td>37,000</td></tr>
+        <tr><td>Fossil fuel reserves</td><td>roughly 1,000–2,000</td></tr>
+        <tr><td>Rocks (limestone and other sediments)</td><td>over 60,000,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="processes">The processes</h2>
+  <ul>
+    <li><strong>Photosynthesis</strong> takes about 120 GtC a year out of the air into plants.</li>
+    <li><strong>Respiration</strong> by plants, animals and microbes returns CO₂ to the air.</li>
+    <li><strong>Decomposition</strong> of dead material by fungi and bacteria releases carbon from soils.</li>
+    <li><strong>Feeding</strong> passes carbon along food chains.</li>
+    <li><strong>Diffusion</strong> moves CO₂ between the air and the sea surface; ocean currents and sinking plankton carry it to the deep ocean.</li>
+    <li><strong>Combustion</strong> of fossil fuels and forests releases carbon to the air.</li>
+  </ul>
+
+  <h2 id="fast-slow">The fast and slow cycles</h2>
+  <p>
+    The <strong>fast carbon cycle</strong> moves carbon between air, life, soils and the surface ocean over years to
+    centuries. The <strong>slow carbon cycle</strong> works over millions of years: carbon is locked into limestone and
+    fossil fuels, and returned by volcanoes and the weathering of rocks. Burning fossil fuels short-circuits the slow cycle,
+    moving carbon that took millions of years to bury back into the air within a few human lifetimes.
+  </p>
+
+  <h2 id="humans">How humans are changing it</h2>
+  <p>
+    Since 1850, burning fossil fuels and clearing forests has added about 700 GtC to the atmosphere. Atmospheric CO₂ has
+    risen from about 280 parts per million (ppm) to over 420 ppm, higher than at any time in at least 800,000 years.
+    Carbon dioxide is a <strong>greenhouse gas</strong>: it absorbs heat radiated by Earth’s surface, so more CO₂ warms the
+    planet. Each doubling of CO₂ is expected to warm Earth by roughly 3 °C in the long run.
+  </p>
+
+  <h2 id="sinks">Ocean and land sinks</h2>
+  <p>
+    Fortunately, not all emitted carbon stays in the air. The ocean absorbs about a quarter, and land plants another
+    quarter or so, partly because extra CO₂ boosts photosynthesis. But the ocean becomes more acidic as it absorbs CO₂,
+    and its ability to take up carbon weakens as the surface water fills up: chemists call this the <strong>Revelle
+    buffer factor</strong>. The deep ocean could store much more, but mixing down takes centuries.
+  </p>
+
+  <h2 id="solutions">Bringing it back into balance</h2>
+  <p>
+    To stop CO₂ from rising, human emissions must fall to the point where they no longer exceed what the ocean and land
+    absorb: <strong>net zero</strong>. Ways to get there include renewable energy, energy efficiency, protecting and
+    restoring forests, peatlands and wetlands, and technologies that capture carbon. Try the scenarios to see how much
+    difference the timing makes.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Carbon sink / source</dt>
+    <dd>A store that takes in more carbon than it releases / one that releases more than it takes in.</dd>
+    <dt>GtC</dt>
+    <dd>Gigatonnes of carbon: a billion tonnes. 1 GtC in the air is about 0.47 ppm of CO₂.</dd>
+    <dt>Ocean acidification</dt>
+    <dd>The fall in seawater pH caused by absorbing CO₂.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Plants make carbon.”</strong> Carbon is never created; plants take it from CO₂ in the air.</li>
+    <li><strong>“CO₂ disappears quickly once emitted.”</strong> Much of it stays in the air-ocean system for centuries.</li>
+    <li><strong>“Planting trees alone can solve climate change.”</strong> Forests help, but cannot absorb carbon as fast as fossil fuels release it.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Carbon moves between air, life, soils, oceans and rocks through photosynthesis, respiration, decomposition, diffusion and combustion.</li>
+    <li>Burning fossil fuels moves ancient carbon into the air far faster than natural processes remove it.</li>
+    <li>About half of human emissions stay in the atmosphere; the rest goes into the ocean and land.</li>
+    <li>Reaching net zero emissions stops atmospheric CO₂ from rising.</li>
+  </ul>
+  <p class="muted">Model note: a simplified five-box model calibrated to reproduce the observed rise in CO₂. It leaves out climate feedbacks such as warmer oceans absorbing less carbon, so future values are indicative rather than forecasts. pH and warming are approximate formulas based on CO₂ only.</p>
+</SimulatorLayout>

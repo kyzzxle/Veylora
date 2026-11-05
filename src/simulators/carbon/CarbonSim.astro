@@ -1,0 +1,47 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="carbon-sim" label="A landscape showing carbon stored in the air, plants, soil, fossil fuels and the ocean, with arrows for the flows between them." hint="Click a store to learn about it" badge="History" aspect="16 / 9">
+  <p class="ctrl-help">The years 1850–2025 follow real historical emissions. After that, you choose what happens.</p>
+  <ChoiceControl
+    name="cc-scen"
+    label="Future fossil fuel use (after 2025)"
+    value="steady"
+    options={[
+      { value: 'rising', label: 'Keep rising' },
+      { value: 'steady', label: 'Stay level' },
+      { value: 'netzero', label: 'Net zero by 2050' },
+      { value: 'custom', label: 'Choose' },
+    ]}
+  />
+  <div data-custom-only>
+    <SliderControl name="cc-custom" label="Fossil fuel emissions" min={0} max={25} step={0.5} value={10} help="Today the world emits about 10 GtC (37 billion tonnes of CO₂) per year." />
+  </div>
+  <SliderControl name="cc-land" label="Future deforestation" min={-2} max={3} step={0.1} value={1.1} scale={['Planting forests', 'Clearing forests']} help="Negative values mean planting trees, which takes carbon back out of the air." />
+  <SliderControl name="cc-speed" label="Speed" min={1} max={20} step={1} value={5} />
+
+  <Fragment slot="readouts">
+    <Readout name="year" label="Year" key />
+    <Readout name="ppm" label="CO₂ in the air" />
+    <Readout name="emis" label="Human emissions" />
+    <Readout name="sinks" label="Taken up by ocean and land" />
+    <Readout name="airborne" label="Still in the air" />
+    <Readout name="ph" label="Surface ocean pH (pre-industrial 8.18)" />
+    <Readout name="warm" label="Warming this CO₂ level would cause in the long run" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="cc-graph" title="Carbon dioxide in the atmosphere" desc="Atmospheric CO₂ in parts per million from 1850 onwards." />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initCarbon } from './carbon';
+  mountSim('#carbon-sim', initCarbon);
+</script>
