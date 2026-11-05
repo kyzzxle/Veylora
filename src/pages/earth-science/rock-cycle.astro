@@ -1,0 +1,143 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import RocksSim from '../../simulators/rocks/RocksSim.astro';
+import { rocksQuiz } from '../../data/quizzes/rocks';
+
+const toc = [
+  { id: 'what', label: 'What is the rock cycle?' },
+  { id: 'igneous', label: 'Igneous rocks' },
+  { id: 'sedimentary', label: 'Sedimentary rocks' },
+  { id: 'metamorphic', label: 'Metamorphic rocks' },
+  { id: 'processes', label: 'The processes' },
+  { id: 'driving', label: 'What drives the cycle' },
+  { id: 'identify', label: 'Identifying rocks' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Earle, S. (2019). Physical Geology (2nd ed.), Chapter 3: Intrusive Igneous Rocks; Chapter 6: Sediments and Sedimentary Rocks; Chapter 7: Metamorphism. BCcampus Open Education.', url: 'https://opentextbc.ca/physicalgeology2ed/' },
+  { text: 'U.S. Geological Survey. Rocks and Minerals: The Rock Cycle.', url: 'https://www.usgs.gov/programs/mineral-resources-program' },
+  { text: 'Grotzinger, J., & Jordan, T. H. (2020). Understanding Earth (8th ed.). W. H. Freeman.' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="rock-cycle"
+  description="Interactive rock cycle simulator: weather, bury, heat, melt, erupt and uplift rocks to turn granite into sand, sandstone, quartzite, magma and back again."
+  toc={toc}
+  quiz={rocksQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      The rocks around you are not permanent. Over millions of years, mountains wear down into sand, sand becomes stone,
+      stone is baked and squeezed into new rock, and rock can melt and rise again as lava. Pick a rock and push it around
+      the rock cycle yourself.
+    </p>
+  </Fragment>
+
+  <RocksSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>starting rock</strong>.</li>
+      <li>Press a <strong>process</strong> button. Watch the rock travel through the landscape and see the new rock on the right.</li>
+      <li>Faded buttons are not possible right now; hover over or press one to find out why (for example, buried rock must be uplifted before it can weather).</li>
+      <li>Follow your rock’s <strong>journey</strong> and the rough <strong>time</strong> it would take.</li>
+      <li>Challenge: turn granite into marble. (Hint: granite contains no calcium carbonate, so you will need a few steps and some help from sea creatures.)</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is the rock cycle?</h2>
+  <p>
+    The <strong>rock cycle</strong> describes how Earth’s rocks are continually changed from one type into another. There
+    are three main types: <strong>igneous</strong>, <strong>sedimentary</strong> and <strong>metamorphic</strong>. No rock
+    is created from nothing or destroyed: the same material is recycled again and again by processes on the surface and
+    deep inside the Earth.
+  </p>
+
+  <h2 id="igneous">Igneous rocks</h2>
+  <p>
+    Igneous rocks form when <strong>magma</strong> (molten rock underground) or <strong>lava</strong> (molten rock at the
+    surface) cools and crystallises. <strong>Intrusive</strong> igneous rocks such as granite and gabbro cool slowly
+    underground and have large crystals you can see. <strong>Extrusive</strong> rocks such as basalt and rhyolite cool
+    quickly at the surface, so their crystals are tiny; lava that cools almost instantly forms volcanic glass (obsidian).
+    The ocean floor is made mostly of basalt, and the continents contain a lot of granite.
+  </p>
+
+  <h2 id="sedimentary">Sedimentary rocks</h2>
+  <p>
+    <strong>Weathering</strong> breaks rocks into fragments and dissolved minerals; <strong>erosion</strong> carries them
+    away by rivers, glaciers, wind and waves. When the sediment settles, usually in lakes and seas, it builds up in layers.
+    Over time the weight of new layers <strong>compacts</strong> the older ones and minerals <strong>cement</strong> the
+    grains together. Sandstone (from sand), shale (from mud) and limestone (largely from shells) are common examples.
+    Sedimentary rocks cover about three quarters of the land surface and hold almost all fossils.
+  </p>
+
+  <h2 id="metamorphic">Metamorphic rocks</h2>
+  <p>
+    When rocks are buried deeply or caught between colliding plates, high temperature and pressure change their minerals
+    and texture <strong>without melting</strong>. This is <strong>metamorphism</strong>. Limestone becomes marble,
+    sandstone becomes quartzite, and shale becomes slate, then schist, then gneiss as conditions get more extreme.
+    Pressure often lines minerals up in layers, a texture called <strong>foliation</strong>.
+  </p>
+
+  <h2 id="processes">The processes</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Process</th><th>Changes</th><th>Typical time</th></tr></thead>
+      <tbody>
+        <tr><td>Weathering and erosion</td><td>Rock → sediment</td><td>Thousands to millions of years</td></tr>
+        <tr><td>Deposition, compaction, cementation</td><td>Sediment → sedimentary rock</td><td>Millions of years</td></tr>
+        <tr><td>Heat and pressure</td><td>Any rock → metamorphic rock</td><td>Millions to tens of millions of years</td></tr>
+        <tr><td>Melting</td><td>Any rock → magma</td><td>Depends on depth and heat</td></tr>
+        <tr><td>Cooling and crystallisation</td><td>Magma → igneous rock</td><td>Days (lava) to a million years (large bodies of magma)</td></tr>
+        <tr><td>Uplift</td><td>Buried rock → surface</td><td>Millions of years</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="driving">What drives the cycle</h2>
+  <p>
+    Two engines power the rock cycle. <strong>Energy from the Sun</strong> drives the weather and water cycle that weather
+    and erode rocks at the surface. <strong>Heat from Earth’s interior</strong> drives plate tectonics, which buries rocks,
+    melts them, builds mountains and lifts deep rocks back to the surface. Without plate tectonics, Earth’s surface would
+    gradually wear flat.
+  </p>
+
+  <h2 id="identify">Identifying rocks</h2>
+  <ul>
+    <li><strong>Interlocking crystals</strong> with no layers: probably igneous. Large crystals mean slow cooling.</li>
+    <li><strong>Grains, layers or fossils</strong>, sometimes crumbly: probably sedimentary. Limestone fizzes in dilute acid.</li>
+    <li><strong>Bands, sheets or shiny aligned crystals</strong>: probably metamorphic.</li>
+  </ul>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Weathering / erosion</dt>
+    <dd>Breaking rock down where it is / carrying the pieces away.</dd>
+    <dt>Lithification</dt>
+    <dd>Turning sediment into rock by compaction and cementation.</dd>
+    <dt>Intrusive / extrusive</dt>
+    <dd>Igneous rock that cooled underground / at the surface.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Rocks always go igneous → sedimentary → metamorphic in order.”</strong> There are many shortcuts in every direction.</li>
+    <li><strong>“Metamorphic rocks are melted rocks.”</strong> Metamorphism happens in the solid state; melting makes magma.</li>
+    <li><strong>“Rocks never change.”</strong> They change constantly, just very slowly.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Igneous rocks come from cooling magma; sedimentary rocks from compacted sediment; metamorphic rocks from heat and pressure.</li>
+    <li>Cooling speed controls crystal size in igneous rocks.</li>
+    <li>Any rock type can become any other through different processes.</li>
+    <li>The Sun’s energy and Earth’s internal heat keep the cycle going.</li>
+  </ul>
+  <p class="muted">Model note: real rocks follow many more paths and form mixtures; the times shown are rough orders of magnitude.</p>
+</SimulatorLayout>

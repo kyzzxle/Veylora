@@ -1,0 +1,61 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="tectonics-sim" label="A cross-section of Earth's crust and mantle at a plate boundary, or a map of a transform fault." hint={false} badge="Divergent boundary" aspect="16 / 9">
+  <ChoiceControl
+    name="pt-kind"
+    label="Plate boundary"
+    value="divergent"
+    options={[
+      { value: 'divergent', label: 'Pulling apart' },
+      { value: 'subduction', label: 'Ocean meets continent' },
+      { value: 'collision', label: 'Continents collide' },
+      { value: 'transform', label: 'Sliding past' },
+    ]}
+  />
+  <p class="pt-text" data-kind-text aria-live="polite"></p>
+  <SliderControl name="pt-speed" label="Plate speed" min={1} max={10} step={1} value={5} help="Real plates move about 1–10 cm per year, about as fast as fingernails grow." />
+  <ToggleControl name="pt-conv" label="Show mantle convection" checked />
+  <ToggleControl name="pt-quakes" label="Show earthquakes" checked />
+  <ToggleControl name="pt-labels" label="Show labels" checked />
+  <SimKey
+    items={[
+      { label: 'Earthquake', color: 'warning' },
+      { label: 'Normal magnetic polarity (ridge)', color: '#2f3b55', shape: 'square' },
+      { label: 'Reversed magnetic polarity (ridge)', color: '#c9c2b4', shape: 'square' },
+      { label: 'Magma', color: '#ff9632' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="kind" label="Boundary" key />
+    <Readout name="time" label="Time passed" />
+    <Readout name="moved" label="Plate movement" />
+    <Readout name="feature" label="Landforms" />
+    <Readout name="quakes" label="Earthquakes" />
+    <Readout name="hazards" label="Hazards" />
+    <Readout name="example" label="Real example" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .pt-text {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initTectonics } from './tectonics';
+  mountSim('#tectonics-sim', initTectonics);
+</script>

@@ -1,0 +1,48 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="watercycle-sim" label="A landscape with an ocean, a mountain, a river and groundwater, showing water moving between them." showTime hint={false} badge="Forest" aspect="16 / 9">
+  <SliderControl name="wc-sun" label="Sunshine" min={0.2} max={1.6} step={0.1} value={1} scale={['Weak', 'Strong']} help="The Sun’s energy drives evaporation and melts snow." />
+  <SliderControl name="wc-wind" label="Wind" min={0} max={2} step={0.1} value={1} help="Wind carries clouds from the ocean over the land." />
+  <ChoiceControl
+    name="wc-land"
+    label="Ground cover"
+    value="forest"
+    options={[
+      { value: 'forest', label: 'Forest' },
+      { value: 'farm', label: 'Farmland' },
+      { value: 'city', label: 'City' },
+    ]}
+    help="Compare how much rain soaks into the ground and how much runs straight off."
+  />
+  <ToggleControl name="wc-labels" label="Show process names" checked />
+  <SimKey
+    items={[
+      { label: 'Water vapour (invisible gas)', color: 'rgba(255,255,255,0.6)' },
+      { label: 'Rain and surface water', color: '#7cc3ff' },
+      { label: 'Snow', color: '#ffffff', shape: 'ring' },
+      { label: 'Groundwater', color: '#4aa0e8' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="ocean" label="In the ocean" key />
+    <Readout name="air" label="In the air" />
+    <Readout name="land" label="On land (rivers, snow, plants)" />
+    <Readout name="ground" label="Underground" />
+    <Readout name="flows" label="Movements so far" />
+    <Readout name="total" label="Total water" />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initWaterCycle } from './watercycle';
+  mountSim('#watercycle-sim', initWaterCycle);
+</script>

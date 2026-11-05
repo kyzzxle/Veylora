@@ -1,0 +1,139 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import WeatherSim from '../../simulators/weather/WeatherSim.astro';
+import { weatherQuiz } from '../../data/quizzes/weather';
+
+const toc = [
+  { id: 'atmosphere', label: 'The atmosphere' },
+  { id: 'ingredients', label: 'The ingredients of weather' },
+  { id: 'clouds', label: 'How clouds form' },
+  { id: 'stability', label: 'Stable and unstable air' },
+  { id: 'pressure', label: 'High and low pressure' },
+  { id: 'precipitation', label: 'Rain, snow and storms' },
+  { id: 'formulas', label: 'The numbers behind the model' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ahrens, C. D., & Henson, R. (2021). Meteorology Today (13th ed.). Cengage.' },
+  { text: 'Lawrence, M. G. (2005). The relationship between relative humidity and the dewpoint temperature in moist air. Bulletin of the American Meteorological Society, 86(2), 225–233.', url: 'https://doi.org/10.1175/BAMS-86-2-225' },
+  { text: 'Met Office. Clouds: how clouds form and the different types of cloud.', url: 'https://weather.metoffice.gov.uk/learn-about/weather/types-of-weather/clouds' },
+  { text: 'NOAA National Weather Service. JetStream: An Online School for Weather.', url: 'https://www.weather.gov/jetstream/' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="weather"
+  description="Interactive weather simulator: set temperature, humidity and pressure, watch rising air cool to its dew point, and see when you get clear skies, cumulus clouds, thunderstorms, snow or fog."
+  toc={toc}
+  quiz={weatherQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Why are some days cloudless while others build towering thunderclouds? It comes down to warm air rising, cooling
+      and reaching its dew point. Set the temperature, humidity and pressure, release a bubble of warm air from the
+      ground, and watch what the sky does.
+    </p>
+  </Fragment>
+
+  <WeatherSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Try the example days, or set the <strong>ground temperature</strong>, <strong>humidity</strong> and <strong>pressure system</strong> yourself.</li>
+      <li>Watch the <strong>rising air</strong> (orange) cool as it climbs. When it reaches its dew point it turns into cloud.</li>
+      <li>On the chart, the rising air keeps going while it is <strong>warmer than the surrounding air</strong> (orange line right of the blue line).</li>
+      <li>Read the cloud type and precipitation. Make the air more humid and watch the cloud base drop.</li>
+      <li>Find the settings that make a thunderstorm, snow showers and fog.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="atmosphere">The atmosphere</h2>
+  <p>
+    Weather happens in the <strong>troposphere</strong>, the lowest layer of the atmosphere, about 8–16 km deep. It
+    contains most of the air’s mass and almost all its water vapour. On average the temperature falls by about 6.5 °C for
+    every kilometre you climb, which is why mountain tops are cold. At the top of the troposphere, the
+    <strong>tropopause</strong>, the temperature stops falling, acting as a lid on most clouds.
+  </p>
+
+  <h2 id="ingredients">The ingredients of weather</h2>
+  <ul>
+    <li><strong>Temperature:</strong> how warm the air is, set mainly by sunshine and where the air came from.</li>
+    <li><strong>Humidity:</strong> how much water vapour the air holds. <strong>Relative humidity</strong> compares this with the maximum the air could hold at that temperature.</li>
+    <li><strong>Air pressure:</strong> the weight of the air above, about 1,013 hPa at sea level on average.</li>
+    <li><strong>Wind:</strong> air moving from high pressure towards low pressure.</li>
+  </ul>
+
+  <h2 id="clouds">How clouds form</h2>
+  <p>
+    When the Sun warms the ground, the air above it warms, becomes less dense and rises. As it rises the pressure around it
+    falls, so it <strong>expands and cools</strong>: about 9.8 °C per kilometre while it is unsaturated. Eventually it cools
+    to its <strong>dew point</strong>, the temperature at which its water vapour condenses onto tiny particles of dust and
+    salt, forming billions of cloud droplets. That height is the flat <strong>cloud base</strong> you often see under
+    cumulus clouds. Air can also be forced up over mountains or along weather fronts.
+  </p>
+
+  <h2 id="stability">Stable and unstable air</h2>
+  <p>
+    Whether a cloud stays small or grows into a giant depends on the surrounding air. If the rising air stays
+    <strong>warmer than its surroundings</strong>, it keeps rising, like a hot-air balloon: the atmosphere is
+    <strong>unstable</strong>. Inside a cloud, condensation releases <strong>latent heat</strong>, so cloudy air cools only
+    about 4–7 °C per kilometre and can keep rising for many kilometres. If the surroundings are warm aloft, the air is
+    <strong>stable</strong>: rising air soon becomes cooler than its surroundings and sinks back, so clouds stay flat or do
+    not form.
+  </p>
+
+  <h2 id="pressure">High and low pressure</h2>
+  <p>
+    In a <strong>high-pressure system</strong> (anticyclone), air slowly sinks and warms. This creates a warm layer, an
+    <strong>inversion</strong>, that caps rising air, so highs bring settled, often sunny weather, and calm nights with fog
+    or frost. In a <strong>low-pressure system</strong> (depression), air converges and rises, so clouds build easily and the
+    weather is unsettled, wet and windy.
+  </p>
+
+  <h2 id="precipitation">Rain, snow and storms</h2>
+  <p>
+    Cloud droplets are far too small to fall. In deep clouds, droplets collide and merge, and ice crystals grow at the
+    expense of droplets, until they are heavy enough to fall as <strong>precipitation</strong>. If the air below the cloud
+    is below about 2 °C, it reaches the ground as <strong>snow</strong>. In the tallest clouds, cumulonimbus, strong
+    updrafts separate electric charges, producing <strong>lightning</strong> and thunder, and can carry ice up and down
+    until it grows into <strong>hail</strong>.
+  </p>
+
+  <h2 id="formulas">The numbers behind the model</h2>
+  <p><code class="formula">Td = c·γ / (b − γ), γ = ln(RH/100) + b·T/(c + T) · cloud base ≈ 125 m × (T − Td)</code></p>
+  <p>
+    The simulator uses the Magnus formula for the dew point (b = 17.62, c = 243.12 °C), the dry rate of 9.8 °C per km
+    below the cloud, and the moist adiabatic rate inside it, which depends on temperature and pressure.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Relative humidity</dt>
+    <dd>Water vapour in the air as a percentage of the maximum it could hold at that temperature.</dd>
+    <dt>Condensation</dt>
+    <dd>Water vapour turning into liquid water droplets.</dd>
+    <dt>Lapse rate</dt>
+    <dd>How fast temperature falls with height.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Clouds are made of water vapour.”</strong> Vapour is invisible; clouds are tiny liquid droplets or ice crystals.</li>
+    <li><strong>“Higher up is warmer because it’s closer to the Sun.”</strong> The air is heated mainly by the ground, so it gets colder with height.</li>
+    <li><strong>“100 % humidity means it is raining.”</strong> It means the air is saturated; you might have fog or cloud without rain.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Rising air expands and cools; clouds form when it reaches its dew point.</li>
+    <li>More humid air means a lower cloud base.</li>
+    <li>Unstable air (often low pressure) builds tall clouds and storms; stable air (high pressure) keeps skies clear.</li>
+    <li>Latent heat released by condensation powers thunderstorms.</li>
+  </ul>
+  <p class="muted">Model note: a single bubble of air rising through a simplified atmosphere. Real forecasts use measured temperature and humidity at every height, wind, fronts and much more.</p>
+</SimulatorLayout>

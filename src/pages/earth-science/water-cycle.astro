@@ -1,0 +1,139 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import WaterCycleSim from '../../simulators/watercycle/WaterCycleSim.astro';
+import { waterCycleQuiz } from '../../data/quizzes/watercycle';
+
+const toc = [
+  { id: 'what', label: 'What is the water cycle?' },
+  { id: 'stores', label: 'Where Earth’s water is' },
+  { id: 'processes', label: 'The processes' },
+  { id: 'land', label: 'How the land changes the cycle' },
+  { id: 'times', label: 'How long water stays' },
+  { id: 'climate', label: 'The water cycle and climate' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'U.S. Geological Survey. The Water Cycle.', url: 'https://www.usgs.gov/special-topics/water-science-school/science/water-cycle' },
+  { text: 'Shiklomanov, I. A. (1993). World fresh water resources. In P. H. Gleick (Ed.), Water in Crisis. Oxford University Press.' },
+  { text: 'Trenberth, K. E., Smith, L., Qian, T., Dai, A., & Fasullo, J. (2007). Estimates of the global water budget and its annual cycle using observational and model data. Journal of Hydrometeorology, 8(4), 758–769.' },
+  { text: 'NASA Earth Observatory. The Water Cycle.', url: 'https://earthobservatory.nasa.gov/features/Water' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="water-cycle"
+  description="Interactive water cycle simulator: follow water through evaporation, condensation, precipitation, runoff, infiltration and transpiration, and see how sunshine, wind and ground cover change it."
+  toc={toc}
+  quiz={waterCycleQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      The water in your glass may once have been part of a cloud, a glacier, a river or even a dinosaur. Water is
+      constantly on the move between the ocean, the air, the land and underground. Change the sunshine, wind and ground
+      cover and follow hundreds of drops around the cycle.
+    </p>
+  </Fragment>
+
+  <WaterCycleSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Watch drops <strong>evaporate</strong> from the ocean, rise and <strong>condense</strong> into clouds.</li>
+      <li>See clouds drift inland and <strong>rain or snow</strong> most heavily as they rise over the mountain.</li>
+      <li>Follow water on land: some <strong>runs off</strong> into the river, some <strong>soaks in</strong> to become groundwater, and some is taken up by plants and <strong>transpired</strong>.</li>
+      <li>Change the <strong>sunshine</strong>: weak sun builds up snow on the mountain; strong sun speeds evaporation and melts it.</li>
+      <li>Switch the <strong>ground cover</strong> to City and compare the runoff and infiltration numbers.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is the water cycle?</h2>
+  <p>
+    The <strong>water cycle</strong> (or hydrological cycle) is the continuous movement of water around Earth. Water
+    changes state between liquid, gas (water vapour) and solid (ice and snow), and moves between the oceans, atmosphere,
+    land, living things and rocks underground. It is powered by the <strong>Sun’s energy</strong>, which evaporates water,
+    and by <strong>gravity</strong>, which pulls rain, rivers and groundwater back down. The total amount of water stays
+    essentially the same; it just keeps moving.
+  </p>
+
+  <h2 id="stores">Where Earth’s water is</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Store</th><th>Share of all water</th></tr></thead>
+      <tbody>
+        <tr><td>Oceans</td><td>about 96.5 %</td></tr>
+        <tr><td>Ice caps and glaciers</td><td>about 1.7 %</td></tr>
+        <tr><td>Groundwater</td><td>about 1.7 %</td></tr>
+        <tr><td>Lakes, rivers, soil</td><td>under 0.1 %</td></tr>
+        <tr><td>Atmosphere</td><td>about 0.001 %</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Less than 1 % of all water is liquid fresh water that people can easily use.</p>
+
+  <h2 id="processes">The processes</h2>
+  <ul>
+    <li><strong>Evaporation:</strong> the Sun heats water, which turns into invisible water vapour. Most comes from the oceans.</li>
+    <li><strong>Transpiration:</strong> plants release water vapour from their leaves. Together with evaporation this is called evapotranspiration.</li>
+    <li><strong>Condensation:</strong> rising vapour cools to its dew point and forms cloud droplets.</li>
+    <li><strong>Precipitation:</strong> droplets grow and fall as rain, snow, sleet or hail.</li>
+    <li><strong>Infiltration:</strong> water soaks into the soil and down into the rocks, becoming <strong>groundwater</strong>.</li>
+    <li><strong>Runoff:</strong> water flows over the surface into streams and rivers, and back to the sea.</li>
+    <li><strong>Melting and sublimation:</strong> snow and ice melt into water, or turn directly into vapour.</li>
+  </ul>
+
+  <h2 id="land">How the land changes the cycle</h2>
+  <p>
+    What happens to rain depends on where it lands. Forests intercept rain with their leaves, their roots open up the
+    soil so water soaks in, and they return large amounts of vapour to the air by transpiration. Bare or compacted soil
+    lets more water run off. In cities, roofs and roads are <strong>impermeable</strong>, so rain rushes into drains and
+    rivers within minutes, raising the risk of flash floods and reducing the groundwater that keeps rivers flowing in dry
+    weather. Mountains force moist air to rise, so the side facing the wind is much wetter than the sheltered “rain
+    shadow” beyond.
+  </p>
+
+  <h2 id="times">How long water stays</h2>
+  <p>
+    Water passes quickly through some parts of the cycle and very slowly through others. A water molecule spends on
+    average about 9 days in the atmosphere, weeks to months in rivers, decades to centuries in lakes, around 3,000 years in
+    the oceans, and up to tens of thousands of years in deep groundwater or ice sheets.
+  </p>
+
+  <h2 id="climate">The water cycle and climate</h2>
+  <p>
+    Evaporation takes in heat and condensation releases it, so the water cycle moves huge amounts of energy around the
+    planet, warming high latitudes and powering storms. Warmer air can hold about 7 % more water vapour for each degree
+    Celsius, so as the climate warms the water cycle intensifies: heavier downpours in some places and more severe
+    droughts in others.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Water vapour</dt>
+    <dd>Water as an invisible gas.</dd>
+    <dt>Groundwater</dt>
+    <dd>Water stored in the spaces in soil and rocks below the water table.</dd>
+    <dt>Catchment</dt>
+    <dd>The area of land that drains into a particular river.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Clouds are made of steam or vapour.”</strong> Clouds are liquid droplets or ice crystals; vapour is invisible.</li>
+    <li><strong>“Groundwater flows in underground rivers.”</strong> Mostly it seeps slowly through tiny gaps in soil and rock.</li>
+    <li><strong>“Water used up by people is gone forever.”</strong> It returns to the cycle, though it may become polluted or move somewhere less useful.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>The Sun’s energy and gravity drive water around the cycle.</li>
+    <li>Evaporation, condensation, precipitation, infiltration, runoff and transpiration move water between stores.</li>
+    <li>Ground cover strongly affects how much rain soaks in versus runs off.</li>
+    <li>Water is conserved: the same water is used again and again.</li>
+  </ul>
+  <p class="muted">Model note: each drop stands for a large amount of water, and the rates are chosen to show the processes clearly rather than to match a real place.</p>
+</SimulatorLayout>

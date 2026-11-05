@@ -1,0 +1,60 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="weather-sim" label="A sky scene where a bubble of air rises from the ground, next to a chart of temperature against height." hint={false} badge="Cloudy" aspect="16 / 9">
+  <div class="preset-row" role="group" aria-label="Example days">
+    <button type="button" class="preset" data-wx="20,50,normal">Pleasant day</button>
+    <button type="button" class="preset" data-wx="25,35,high">Clear and dry</button>
+    <button type="button" class="preset" data-wx="30,70,low">Summer storm</button>
+    <button type="button" class="preset" data-wx="-2,85,low">Winter snow</button>
+    <button type="button" class="preset" data-wx="8,98,high">Foggy morning</button>
+  </div>
+  <SliderControl name="wx-t" label="Ground temperature" min={-10} max={40} step={1} value={20} />
+  <SliderControl name="wx-rh" label="Relative humidity" min={10} max={100} step={1} value={50} help="How close the air is to holding all the water vapour it can at this temperature." />
+  <ChoiceControl
+    name="wx-sys"
+    label="Pressure system"
+    value="normal"
+    options={[
+      { value: 'high', label: 'High' },
+      { value: 'normal', label: 'Average' },
+      { value: 'low', label: 'Low' },
+    ]}
+    help="High pressure: sinking air, settled weather. Low pressure: rising air, unsettled weather."
+  />
+  <p class="wx-note" data-note aria-live="polite"></p>
+
+  <Fragment slot="readouts">
+    <Readout name="type" label="Clouds" key />
+    <Readout name="precip" label="Precipitation" />
+    <Readout name="td" label="Dew point" />
+    <Readout name="base" label="Cloud base" />
+    <Readout name="top" label="Cloud top" />
+    <Readout name="freezing" label="Freezing level" />
+    <Readout name="pressure" label="Surface pressure" />
+  </Fragment>
+</SimShell>
+
+<style>
+  :global(#weather-sim) {
+    --stage-aspect-mobile: 5 / 9;
+  }
+  .wx-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 4.5em;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initWeather } from './weather';
+  mountSim('#weather-sim', initWeather);
+</script>

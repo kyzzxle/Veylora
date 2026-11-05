@@ -1,0 +1,132 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import TectonicsSim from '../../simulators/tectonics/TectonicsSim.astro';
+import { tectonicsQuiz } from '../../data/quizzes/tectonics';
+
+const toc = [
+  { id: 'plates', label: 'Earth’s moving plates' },
+  { id: 'drive', label: 'What moves the plates' },
+  { id: 'divergent', label: 'Divergent boundaries' },
+  { id: 'convergent', label: 'Convergent boundaries' },
+  { id: 'transform', label: 'Transform boundaries' },
+  { id: 'evidence', label: 'The evidence' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Kious, W. J., & Tilling, R. I. (1996). This Dynamic Earth: The Story of Plate Tectonics. U.S. Geological Survey.', url: 'https://pubs.usgs.gov/gip/dynamic/dynamic.html' },
+  { text: 'Wells, D. L., & Coppersmith, K. J. (1994). New empirical relationships among magnitude, rupture length, rupture width, rupture area, and surface displacement. Bulletin of the Seismological Society of America, 84(4), 974–1002.' },
+  { text: 'Parsons, B., & Sclater, J. G. (1977). An analysis of the variation of ocean floor bathymetry and heat flow with age. Journal of Geophysical Research, 82(5), 803–827.' },
+  { text: 'Vine, F. J., & Matthews, D. H. (1963). Magnetic anomalies over oceanic ridges. Nature, 199, 947–949.' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="plate-tectonics"
+  description="Interactive plate tectonics simulator: watch sea-floor spreading with magnetic stripes, subduction zones and volcanoes, colliding continents building mountains, and earthquakes on a transform fault."
+  toc={toc}
+  quiz={tectonicsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      The ground beneath your feet is moving, about as fast as your fingernails grow. Earth’s outer shell is broken into
+      giant plates that pull apart, crash together and grind past one another, building mountains, opening oceans and
+      causing earthquakes and volcanoes. Choose a boundary and fast-forward millions of years.
+    </p>
+  </Fragment>
+
+  <TectonicsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>plate boundary</strong>, then watch it change. In the cross-sections, one second is one million years.</li>
+      <li><strong>Pulling apart:</strong> see new sea floor form at the ridge, with magnetic stripes recording reversals of Earth’s field.</li>
+      <li><strong>Ocean meets continent:</strong> watch the ocean plate sink, earthquakes along the slab and a volcanic mountain range grow.</li>
+      <li><strong>Continents collide:</strong> watch the crust fold and rise into mountains with a deep root.</li>
+      <li><strong>Sliding past:</strong> a map view (one second is 20 years). Watch the roads bend as strain builds, then snap in an earthquake.</li>
+      <li>Change the <strong>plate speed</strong> and compare how quickly features form.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="plates">Earth’s moving plates</h2>
+  <p>
+    Earth’s rigid outer layer, the <strong>lithosphere</strong> (the crust plus the top of the mantle), is broken into
+    about 15 major <strong>tectonic plates</strong> and many smaller ones. They float on the
+    <strong>asthenosphere</strong>, a hot, slowly flowing layer of the mantle, and move a few centimetres a year. There are
+    two kinds of crust: thin, dense <strong>oceanic crust</strong> made of basalt, and thick, lighter
+    <strong>continental crust</strong> rich in granite. Most earthquakes and volcanoes happen where plates meet.
+  </p>
+
+  <h2 id="drive">What moves the plates</h2>
+  <p>
+    Heat from Earth’s interior keeps the mantle churning in slow <strong>convection currents</strong>: hot rock rises, cools
+    and sinks again over millions of years. The plates are also pulled along by their own cold, heavy edges sinking at
+    subduction zones (<strong>slab pull</strong>) and pushed away from high mid-ocean ridges (<strong>ridge push</strong>).
+    Slab pull is thought to be the largest force.
+  </p>
+
+  <h2 id="divergent">Divergent boundaries</h2>
+  <p>
+    Where plates move apart, hot mantle rock rises, partly melts and erupts to form new crust. Under the oceans this
+    builds <strong>mid-ocean ridges</strong>, a 65,000 km mountain chain winding around the globe. As the new sea floor
+    moves away from the ridge it cools, becomes denser and sinks deeper, so the ocean is shallow at the ridge and deep far
+    from it. On land, divergence creates <strong>rift valleys</strong> such as the East African Rift, which may one day
+    become a new ocean.
+  </p>
+
+  <h2 id="convergent">Convergent boundaries</h2>
+  <p>
+    Where plates collide, what happens depends on the crust involved. When ocean meets continent, the denser ocean plate is
+    forced down in <strong>subduction</strong>, forming a deep <strong>trench</strong>. Water released from the sinking
+    slab lowers the melting point of the mantle above, creating magma that feeds explosive volcanoes such as those of the
+    Andes. Ocean–ocean subduction builds volcanic island arcs such as Japan. When two continents meet, neither sinks:
+    the crust thickens into great <strong>fold mountains</strong> such as the Himalayas and the Alps.
+  </p>
+
+  <h2 id="transform">Transform boundaries</h2>
+  <p>
+    Where plates slide past each other sideways, crust is neither made nor destroyed. Friction locks the fault, so the
+    rocks on either side bend as the plates keep moving. When the stored strain overcomes friction, the fault slips
+    suddenly in an <strong>earthquake</strong> and the rocks snap back: this is the <strong>elastic rebound theory</strong>,
+    developed after the 1906 San Francisco earthquake. The San Andreas Fault moves about 3–5 cm a year on average, but in
+    sudden jumps of several metres.
+  </p>
+
+  <h2 id="evidence">The evidence</h2>
+  <ul>
+    <li><strong>Fitting coastlines and fossils:</strong> Alfred Wegener noticed in 1912 that South America and Africa fit together and share fossils such as <em>Mesosaurus</em>.</li>
+    <li><strong>Magnetic stripes:</strong> symmetric bands of normal and reversed magnetism on either side of ridges (Vine and Matthews, 1963).</li>
+    <li><strong>Sea-floor age:</strong> the youngest rock is at the ridges; no ocean floor is older than about 200 million years.</li>
+    <li><strong>GPS:</strong> today satellites measure plate motions directly, to the millimetre.</li>
+  </ul>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Lithosphere / asthenosphere</dt>
+    <dd>The rigid outer shell broken into plates / the soft, slowly flowing mantle layer beneath it.</dd>
+    <dt>Subduction</dt>
+    <dd>One plate sinking beneath another into the mantle.</dd>
+    <dt>Fault</dt>
+    <dd>A fracture where rocks on either side have moved.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Plates float on an ocean of liquid magma.”</strong> The mantle is almost entirely solid rock that flows extremely slowly.</li>
+    <li><strong>“Continents move but the ocean floor doesn’t.”</strong> Plates carry both; ocean floor is constantly made and destroyed.</li>
+    <li><strong>“Earthquakes only happen at plate boundaries.”</strong> Most do, but some occur inside plates on old faults.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Earth’s lithosphere is divided into moving plates driven by mantle convection and slab pull.</li>
+    <li>Divergent boundaries make new crust; convergent boundaries destroy or crumple it; transform boundaries slide past.</li>
+    <li>Plate boundaries are where most earthquakes, volcanoes and mountain ranges form.</li>
+    <li>Magnetic stripes, matching fossils and GPS measurements all support plate tectonics.</li>
+  </ul>
+  <p class="muted">Model note: cross-sections are schematic with exaggerated vertical scale. Sea-floor depth uses the age–depth relation d ≈ 2.5 km + 0.35 km × √age. Earthquake magnitudes on the transform fault are estimated from the slip using the Wells and Coppersmith relationship.</p>
+</SimulatorLayout>

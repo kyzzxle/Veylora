@@ -1,0 +1,67 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="rocks-sim" label="A landscape cross-section showing where rocks form and change, with a close-up of the current rock." playable={false} hint={false} badge="Igneous rock" aspect="16 / 9">
+  <div class="ctrl">
+    <label class="ctrl-label" for="rk-start">Starting rock</label>
+    <select id="rk-start" class="select" data-start>
+      <option value="granite">Granite (igneous)</option>
+      <option value="basalt">Basalt (igneous)</option>
+      <option value="sandstone">Sandstone (sedimentary)</option>
+      <option value="shale">Shale (sedimentary)</option>
+      <option value="limestone">Limestone (sedimentary)</option>
+      <option value="marble">Marble (metamorphic)</option>
+    </select>
+  </div>
+  <div class="rk-procs" role="group" aria-label="Rock cycle processes">
+    <button type="button" class="btn btn-sm" data-proc="weather">🌧 Weathering and erosion</button>
+    <button type="button" class="btn btn-sm" data-proc="deposit">🌊 Deposition and burial</button>
+    <button type="button" class="btn btn-sm" data-proc="metamorph">🔥 Heat and pressure</button>
+    <button type="button" class="btn btn-sm" data-proc="melt">🌋 Melting</button>
+    <button type="button" class="btn btn-sm" data-proc="cool">🧊 Slow cooling underground</button>
+    <button type="button" class="btn btn-sm" data-proc="erupt">💥 Eruption and fast cooling</button>
+    <button type="button" class="btn btn-sm" data-proc="uplift">⛰ Uplift</button>
+  </div>
+  <p class="rk-status" data-status-text aria-live="polite"></p>
+
+  <Fragment slot="readouts">
+    <Readout name="rock" label="Current material" key />
+    <Readout name="kind" label="Type" />
+    <Readout name="where" label="Where it is" />
+    <Readout name="about" label="What it is like" />
+    <Readout name="journey" label="Its journey so far" />
+    <Readout name="time" label="Time taken (rough)" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .rk-procs {
+    display: grid;
+    gap: 6px;
+  }
+  .rk-procs :global(.btn) {
+    justify-content: flex-start;
+  }
+  .rk-procs :global(.btn.is-off) {
+    opacity: 0.45;
+  }
+  .rk-status {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 4.5em;
+  }
+  :global(#rocks-sim) {
+    --stage-aspect-mobile: 5 / 8;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initRocks } from './rocks';
+  mountSim('#rocks-sim', initRocks);
+</script>
