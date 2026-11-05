@@ -148,6 +148,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['biology/mitosis', 'biology/natural-selection', 'biology/dna-replication', 'anatomy-physiology/reproductive-system'],
       },
+      {
+        slug: 'mendelian-genetics',
+        title: 'Mendelian Genetics and Inheritance',
+        summary: 'Choose parent genotypes, build Punnett squares for one or two traits, and breed pea plants to compare predicted ratios with real chance.',
+        keywords: ['genetics', 'mendel', 'punnett square', 'allele', 'dominant', 'recessive', 'genotype', 'phenotype', 'heterozygous', 'homozygous', 'inheritance', 'dihybrid'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['biology/meiosis', 'biology/natural-selection', 'mathematics/probability', 'biology/dna-replication'],
+      },
     ],
   },
   {

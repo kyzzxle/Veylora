@@ -1,0 +1,145 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import GeneticsSim from '../../simulators/genetics/GeneticsSim.astro';
+import { geneticsQuiz } from '../../data/quizzes/genetics';
+
+const toc = [
+  { id: 'mendel', label: 'Mendel and his peas' },
+  { id: 'words', label: 'Genes, alleles, genotypes and phenotypes' },
+  { id: 'dominance', label: 'Dominant and recessive' },
+  { id: 'punnett', label: 'Using a Punnett square' },
+  { id: 'probability', label: 'Probability, not certainty' },
+  { id: 'testcross', label: 'The test cross' },
+  { id: 'dihybrid', label: 'Two traits at once' },
+  { id: 'beyond', label: 'Beyond Mendel' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 12: Mendel’s Experiments and Heredity. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/12-introduction' },
+  { text: 'Mendel, G. (1866). Versuche über Pflanzen-Hybriden [Experiments on plant hybridization]. Verhandlungen des naturforschenden Vereines in Brünn, 4, 3–47.' },
+  { text: 'Griffiths, A. J. F., et al. (2020). Introduction to Genetic Analysis (12th ed.), Chapter 3: Single-Gene Inheritance. W. H. Freeman.' },
+  { text: 'Miko, I. (2008). Gregor Mendel and the principles of inheritance. Nature Education, 1(1), 134.', url: 'https://www.nature.com/scitable/topicpage/gregor-mendel-and-the-principles-of-inheritance-593/' },
+];
+---
+
+<SimulatorLayout
+  branch="biology"
+  topic="mendelian-genetics"
+  description="Interactive Mendelian genetics simulator: choose parent genotypes for pea plants, build Punnett squares for monohybrid and dihybrid crosses, and breed offspring to compare predicted ratios with real chance."
+  toc={toc}
+  quiz={geneticsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Why do some traits skip a generation? In the 1860s a monk named Gregor Mendel answered this by breeding thousands of
+      pea plants and counting the results. Choose the parents, predict their offspring with a Punnett square, then breed
+      hundreds of plants to see how real chance compares with the prediction.
+    </p>
+  </Fragment>
+
+  <GeneticsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>pea trait</strong> and the <strong>genotype of each parent</strong>, or press one of the classic crosses.</li>
+      <li>Read the Punnett square: each parent’s possible gametes are along the edges, and each box is one equally likely offspring. <strong>Click</strong> a box or an allele to learn more.</li>
+      <li>Press <strong>Breed 1</strong>, <strong>Breed 10</strong> or <strong>Breed 100</strong>, or <strong>Start</strong> to breed continuously. Compare the filled bars (bred) with the outlines (predicted), and watch the graph.</li>
+      <li>Switch to <strong>Two traits</strong> to cross seed shape and seed colour in a 4 × 4 Punnett square.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="mendel">Mendel and his peas</h2>
+  <p>
+    Gregor Mendel chose garden peas because they have clear either/or traits (purple or white flowers, round or wrinkled
+    seeds), grow quickly and can be cross-pollinated by hand. He started with <strong>pure-breeding</strong> plants, crossed
+    them, and counted the traits of the offspring over several generations. When he crossed purple-flowered and
+    white-flowered plants, all the offspring were purple; but when those offspring were crossed together, white flowers
+    reappeared in about one plant in four. He concluded that traits are passed on as separate “factors” that do not blend.
+  </p>
+
+  <h2 id="words">Genes, alleles, genotypes and phenotypes</h2>
+  <p>
+    Mendel’s factors are now called <strong>genes</strong>. A gene can come in different versions called
+    <strong>alleles</strong>. Body cells carry two alleles of each gene, one from each parent. The pair of alleles is the
+    <strong>genotype</strong>: <strong>homozygous</strong> if both are the same (PP or pp) and <strong>heterozygous</strong>
+    if they differ (Pp). The characteristic you can observe, such as purple flowers, is the <strong>phenotype</strong>.
+  </p>
+
+  <h2 id="dominance">Dominant and recessive</h2>
+  <p>
+    A <strong>dominant</strong> allele, written with a capital letter, shows its effect even when only one copy is present.
+    A <strong>recessive</strong> allele, written in lower case, only shows when an individual has two copies. So PP and Pp
+    plants both have purple flowers, and only pp plants are white. A heterozygous individual is a <strong>carrier</strong>:
+    it hides the recessive allele but can pass it on, which is how traits seem to skip a generation.
+  </p>
+
+  <h2 id="punnett">Using a Punnett square</h2>
+  <p>
+    Each parent makes gametes carrying just one allele of each gene, and each allele has an equal chance of being passed
+    on. This is Mendel’s <strong>law of segregation</strong>, explained by the separation of homologous chromosomes in
+    meiosis. A <strong>Punnett square</strong> lists one parent’s possible gametes across the top and the other’s down the
+    side; each box shows one possible offspring, and all boxes are equally likely. For Pp × Pp the boxes are PP, Pp, Pp and
+    pp: a genotype ratio of 1 : 2 : 1 and a phenotype ratio of 3 purple : 1 white.
+  </p>
+
+  <h2 id="probability">Probability, not certainty</h2>
+  <p>
+    A Punnett square predicts <strong>probabilities</strong>, not exact outcomes. A ratio of 3 : 1 means each offspring has
+    a 3 in 4 chance of being purple, not that every family of four will contain exactly one white plant. Each offspring is
+    an independent event: two carrier parents who already have an affected child still have a 1 in 4 chance for the next
+    one. With small numbers the results can differ a lot from the prediction; with large numbers they get closer, as the
+    simulator’s graph shows.
+  </p>
+
+  <h2 id="testcross">The test cross</h2>
+  <p>
+    A purple plant could be PP or Pp. To find out, cross it with a homozygous recessive (pp) plant. If all offspring are
+    purple, the plant is probably PP; if about half are white, it must be Pp.
+  </p>
+
+  <h2 id="dihybrid">Two traits at once</h2>
+  <p>
+    Mendel also followed two traits together, such as seed shape (round R, wrinkled r) and seed colour (yellow Y, green y).
+    Crossing two RrYy plants gave about 9 round yellow : 3 round green : 3 wrinkled yellow : 1 wrinkled green. Each gene
+    still gave 3 : 1, and the genes were inherited independently. This is the <strong>law of independent
+    assortment</strong>, which holds for genes on different chromosomes.
+  </p>
+
+  <h2 id="beyond">Beyond Mendel</h2>
+  <p>
+    Many traits do not follow these simple patterns. In <strong>incomplete dominance</strong> heterozygotes are
+    intermediate (red × white snapdragons give pink); in <strong>codominance</strong> both alleles show (the AB blood
+    group). Genes close together on one chromosome are <strong>linked</strong>, and most human traits, such as height,
+    depend on many genes and the environment.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <p>
+    Plant and animal breeders use these rules to produce crops and livestock with useful traits. Genetic counsellors use
+    them to work out the chance of inherited conditions such as cystic fibrosis, which is recessive.
+  </p>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Dominant means more common.”</strong> Dominance describes how alleles interact, not how frequent they are.</li>
+    <li><strong>“A 3 : 1 ratio means exactly 3 out of every 4.”</strong> It is a probability for each offspring.</li>
+    <li><strong>“Recessive alleles disappear.”</strong> They are hidden in carriers and can reappear in later generations.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Genes come in alleles; the genotype is the pair of alleles, the phenotype is the trait shown.</li>
+    <li>Dominant alleles show with one copy; recessive alleles need two.</li>
+    <li>Punnett squares give the probability of each genotype and phenotype for every offspring.</li>
+    <li>Large samples approach the predicted ratios; small samples vary by chance.</li>
+  </ul>
+  <p class="muted">
+    Model note: the simulator assumes complete dominance, equal chances for each allele and, in the dihybrid cross,
+    genes on different chromosomes. Real inheritance can involve linkage, several genes and environmental effects. This is
+    a learning tool, not a genetic risk calculator.
+  </p>
+</SimulatorLayout>

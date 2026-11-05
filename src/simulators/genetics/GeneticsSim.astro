@@ -1,0 +1,116 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+
+const genotypes = [
+  { value: 'AA', label: 'PP' },
+  { value: 'Aa', label: 'Pp' },
+  { value: 'aa', label: 'pp' },
+];
+---
+
+<SimShell
+  id="genetics-sim"
+  label="A Punnett square for a cross between two pea plants, with allele tokens for each parent's gametes, the offspring genotypes and phenotypes, and bars comparing predicted and bred offspring."
+  hint="Click a box or an allele"
+  badge="Flower colour"
+  aspect="16 / 9"
+>
+  <ChoiceControl
+    name="ge-view"
+    label="Cross"
+    value="mono"
+    options={[
+      { value: 'mono', label: 'One trait (monohybrid)' },
+      { value: 'di', label: 'Two traits (dihybrid)' },
+    ]}
+  />
+  <p class="ge-note" data-note aria-live="polite"></p>
+
+  <div data-only="mono" class="ge-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="ge-trait">Pea trait</label>
+      <select id="ge-trait" class="select" data-trait>
+        <option value="flower" selected>Flower colour: purple (P) or white (p)</option>
+        <option value="height">Plant height: tall (T) or short (t)</option>
+        <option value="shape">Seed shape: round (R) or wrinkled (r)</option>
+        <option value="colour">Seed colour: yellow (Y) or green (y)</option>
+      </select>
+    </div>
+    <ChoiceControl name="ge-p1" label="Parent 1 genotype" value="Aa" options={genotypes} />
+    <ChoiceControl name="ge-p2" label="Parent 2 genotype" value="Aa" options={genotypes} />
+    <div class="preset-row" role="group" aria-label="Classic crosses">
+      <button type="button" class="preset" data-mono-preset="AAxaa">Pure-breeding parents</button>
+      <button type="button" class="preset" data-mono-preset="AaxAa">Two hybrids (3 : 1)</button>
+      <button type="button" class="preset" data-mono-preset="Aaxaa">Test cross (1 : 1)</button>
+    </div>
+  </div>
+
+  <div data-only="di" class="ge-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="ge-di1">Parent 1 genotype (seed shape, seed colour)</label>
+      <select id="ge-di1" class="select" data-di1></select>
+    </div>
+    <div class="ctrl">
+      <label class="ctrl-label" for="ge-di2">Parent 2 genotype</label>
+      <select id="ge-di2" class="select" data-di2></select>
+    </div>
+    <div class="preset-row" role="group" aria-label="Classic crosses">
+      <button type="button" class="preset" data-di-preset="RrYyxRrYy">Two hybrids (9 : 3 : 3 : 1)</button>
+      <button type="button" class="preset" data-di-preset="RrYyxrryy">Test cross (1 : 1 : 1 : 1)</button>
+      <button type="button" class="preset" data-di-preset="RRYYxrryy">Pure-breeding parents</button>
+    </div>
+  </div>
+
+  <div class="ge-group">
+    <div class="preset-row" role="group" aria-label="Breed offspring">
+      <button type="button" class="preset" data-breed="1">Breed 1</button>
+      <button type="button" class="preset" data-breed="10">Breed 10</button>
+      <button type="button" class="preset" data-breed="100">Breed 100</button>
+      <button type="button" class="preset" data-clear>Clear offspring</button>
+    </div>
+    <p class="muted ge-small">Start breeds one offspring at a time and shows which gametes met.</p>
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="Cross" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="ge-graph" title="Bred offspring compared with the prediction" desc="The percentage of bred offspring showing the dominant phenotype as more offspring are added, with the predicted percentage as a dashed line." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .ge-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .ge-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  .ge-small {
+    margin: -6px 0 0;
+    font-size: 0.82rem;
+  }
+  :global(#genetics-sim) {
+    --stage-aspect-mobile: 3 / 4;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initGenetics } from './genetics';
+  mountSim('#genetics-sim', initGenetics);
+</script>
