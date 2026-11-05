@@ -1,0 +1,84 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="immune-sim" label="The immune organs on a body outline, an infected wound with immune cells responding, or a chart comparing the first and second immune responses." hint={false} badge="Immune organs" aspect="16 / 9">
+  <ChoiceControl
+    name="im-view"
+    label="View"
+    value="organs"
+    options={[
+      { value: 'organs', label: 'Immune organs' },
+      { value: 'infection', label: 'Fight an infection' },
+      { value: 'memory', label: 'Primary vs secondary' },
+    ]}
+  />
+  <p class="im-note" data-note aria-live="polite"></p>
+
+  <div data-only="inf-only" class="im-group">
+    <div class="preset-row" role="group" aria-label="Infection">
+      <button type="button" class="preset" data-infect>🦠 Introduce pathogen</button>
+    </div>
+  </div>
+  <div data-only="infection" class="im-group">
+    <ChoiceControl
+      name="im-path"
+      label="Pathogen"
+      value="bacteria"
+      options={[
+        { value: 'bacteria', label: 'Bacteria' },
+        { value: 'virus', label: 'Virus' },
+      ]}
+    />
+    <SliderControl name="im-dose" label="Starting dose" min={5} max={200} step={5} value={20} help="How many pathogens get in through the wound (relative units)." />
+  </div>
+  <div data-only="inf-only" class="im-group">
+    <ToggleControl name="im-vacc" label="Already immune (vaccinated or infected before)" />
+    <p class="muted im-small">Starts the response with memory B and T cells. It switches on by itself after you clear an infection.</p>
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="im-graph" title="Infection over time" desc="Pathogen numbers and antibody level over the days of the infection." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .im-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .im-small {
+    margin: -6px 0 0;
+    font-size: 0.82rem;
+  }
+  :global(#immune-sim) {
+    --stage-aspect-mobile: 3 / 4;
+  }
+  .im-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initImmune } from './immune';
+  mountSim('#immune-sim', initImmune);
+</script>

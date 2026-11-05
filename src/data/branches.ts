@@ -282,6 +282,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['anatomy-physiology/urinary-system', 'anatomy-physiology/reproductive-system', 'anatomy-physiology/neuron-firing', 'anatomy-physiology/digestive-system'],
       },
+      {
+        slug: 'immune-system',
+        title: 'Immune System and Defence Against Disease',
+        summary: 'Explore the immune organs, let a pathogen in through a cut and watch innate and adaptive immunity respond, then compare first and second exposures.',
+        keywords: ['immune', 'immunity', 'antibody', 'antigen', 'white blood cell', 'lymph', 'vaccine', 'pathogen', 'infection', 'phagocyte'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['anatomy-physiology/endocrine-system', 'anatomy-physiology/heart-circulation', 'anatomy-physiology/urinary-system', 'biology/cell-structure'],
+      },
     ],
   },
   {

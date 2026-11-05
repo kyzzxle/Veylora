@@ -1,0 +1,170 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import ImmuneSim from '../../simulators/immune/ImmuneSim.astro';
+import { immuneQuiz } from '../../data/quizzes/immune';
+
+const toc = [
+  { id: 'what', label: 'What the immune system does' },
+  { id: 'organs', label: 'The immune organs' },
+  { id: 'barriers', label: 'First line: barriers' },
+  { id: 'innate', label: 'Innate immunity' },
+  { id: 'adaptive', label: 'Adaptive immunity' },
+  { id: 'memory', label: 'Immune memory and vaccines' },
+  { id: 'relevance', label: 'The immune system and health' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Chapter 21: The Lymphatic and Immune System. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/21-introduction' },
+  { text: 'Murphy, K., & Weaver, C. (2016). Janeway’s Immunobiology (9th ed.). Garland Science.' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 42: The Immune System. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/42-introduction' },
+  { text: 'Perelson, A. S. (2002). Modelling viral and immune system dynamics. Nature Reviews Immunology, 2(1), 28–36.' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="immune-system"
+  description="Interactive immune system simulator: explore the immune organs, introduce a pathogen and watch innate and adaptive immunity respond, then compare primary and secondary immune responses."
+  toc={toc}
+  quiz={immuneQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every day your body meets bacteria, viruses and other microbes. Most never get past your skin, and the few that do
+      are usually destroyed before you notice. Explore the organs of the immune system, let a pathogen in through a cut,
+      and watch the body’s defences respond, first quickly and generally, then slowly but precisely, and faster still the
+      next time.
+    </p>
+  </Fragment>
+
+  <ImmuneSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Immune organs:</strong> click the bone marrow, thymus, spleen, lymph nodes, tonsils or vessels to read what each does. Press <strong>Start</strong> to see white blood cells moving in the blood and lymph.</li>
+      <li><strong>Fight an infection:</strong> choose a pathogen and dose, then press <strong>Introduce pathogen</strong>. Watch inflammation and phagocytes act within hours, then B cells, T cells and antibodies take over. Follow the graph below.</li>
+      <li>When the infection clears, the person has memory cells. Press <strong>Introduce pathogen</strong> again and compare how quickly it is cleared.</li>
+      <li><strong>Primary vs secondary:</strong> see both responses side by side and read how much faster and larger the second one is.</li>
+    </ol>
+  </Fragment>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> This simulator is a simplified teaching model. It cannot diagnose,
+      treat or predict any real infection, and its numbers do not describe how any real person will respond. If you are
+      worried about an infection or your immunity, speak to a qualified healthcare professional.
+    </p>
+  </div>
+
+  <h2 id="what">What the immune system does</h2>
+  <p>
+    The <strong>immune system</strong> defends the body against <strong>pathogens</strong>, the microorganisms that
+    cause disease, such as bacteria, viruses, fungi and parasites. It also removes damaged and abnormal cells. Unlike the
+    heart or lungs, it is not one organ but a network of barriers, organs, cells and chemicals spread through the whole
+    body. Its defences work in layers: <strong>barriers</strong> keep pathogens out, <strong>innate immunity</strong>
+    responds quickly to anything foreign, and <strong>adaptive immunity</strong> builds a targeted response and remembers
+    it.
+  </p>
+
+  <h2 id="organs">The immune organs</h2>
+  <p>
+    All white blood cells are made in the <strong>bone marrow</strong>, the soft tissue inside bones such as the femur
+    and sternum. B cells mature there, while T cells move to the <strong>thymus</strong> in the chest, where they learn to
+    ignore the body’s own cells. The <strong>lymphatic system</strong> collects fluid that leaks out of capillaries into
+    tissues. This fluid, called <strong>lymph</strong>, flows through <strong>lymphatic vessels</strong> and passes through
+    hundreds of <strong>lymph nodes</strong>, small filters packed with B and T cells, before returning to the blood near
+    the heart. The <strong>spleen</strong> filters the blood in the same way, and the <strong>tonsils</strong> guard the
+    throat. Swollen lymph nodes in the neck during a cold are a sign that lymphocytes there are multiplying.
+  </p>
+
+  <h2 id="barriers">First line: barriers</h2>
+  <p>
+    Most pathogens never get inside. Unbroken <strong>skin</strong> is a tough, dry barrier. The airways are lined with
+    <strong>mucus</strong> that traps microbes and <strong>cilia</strong> that sweep it away. <strong>Stomach acid</strong>
+    kills many swallowed microbes, and <strong>tears</strong> and saliva contain enzymes that break down bacteria. A cut
+    or burn breaks this barrier, which is why the simulator introduces its pathogen through a wound.
+  </p>
+
+  <h2 id="innate">Innate immunity</h2>
+  <p>
+    The <strong>innate</strong> response starts within minutes and is the same for every pathogen. Damaged cells release
+    chemicals such as histamine, causing <strong>inflammation</strong>: nearby capillaries widen and become leakier, so
+    the area becomes red, swollen, warm and sometimes painful. White blood cells called <strong>phagocytes</strong>
+    (neutrophils and macrophages) squeeze out of the capillaries, move towards the pathogens and
+    <strong>engulf</strong> them in a process called <strong>phagocytosis</strong>, destroying them with enzymes. Chemicals
+    released during infection can also reset the brain’s thermostat, causing a <strong>fever</strong>. Innate immunity
+    often clears small infections alone; if not, it holds the pathogen back while the adaptive response prepares.
+  </p>
+
+  <h2 id="adaptive">Adaptive immunity</h2>
+  <p>
+    Every pathogen carries <strong>antigens</strong>, molecules that the immune system recognises as foreign. Phagocytes
+    carry pieces of these antigens to the lymph nodes and present them to <strong>lymphocytes</strong>. Each B or T cell
+    has receptors that fit just one antigen, so at first only a few cells can respond. When a matching cell is found it
+    divides again and again, a process called <strong>clonal expansion</strong>, which is why this response takes several
+    days the first time.
+  </p>
+  <ul>
+    <li><strong>B cells</strong> become <strong>plasma cells</strong> that release <strong>antibodies</strong>, Y-shaped proteins that stick to antigens. Antibodies clump pathogens together, neutralise toxins and mark pathogens for phagocytes.</li>
+    <li><strong>Helper T cells</strong> coordinate the response and activate B cells.</li>
+    <li><strong>Cytotoxic (killer) T cells</strong> destroy body cells that have been infected by viruses.</li>
+  </ul>
+
+  <h2 id="memory">Immune memory and vaccines</h2>
+  <p>
+    After an infection, most of the expanded B and T cells die, but some remain as long-lived <strong>memory
+    cells</strong>. If the same pathogen returns, they recognise it straight away. The <strong>secondary
+    response</strong> starts sooner, produces far more antibodies and usually clears the pathogen before it can cause
+    illness. This is what being <strong>immune</strong> means. <strong>Vaccines</strong> use this: they contain a harmless
+    form of an antigen, such as an inactivated pathogen or a piece of its protein, so the body makes memory cells without
+    having the disease. When many people are vaccinated, a pathogen struggles to spread, which also protects people who
+    cannot be vaccinated; this is called <strong>herd immunity</strong>.
+  </p>
+
+  <h2 id="relevance">The immune system and health</h2>
+  <p>
+    Sometimes the immune system responds when it should not. In <strong>allergies</strong> it reacts to harmless
+    substances such as pollen; in <strong>autoimmune diseases</strong>, such as type 1 diabetes, it attacks the body’s
+    own cells. In <strong>immunodeficiency</strong>, for example in HIV infection, it is weakened and infections become
+    more dangerous. Antibiotics kill bacteria but have no effect on viruses, and their overuse helps antibiotic
+    resistance evolve.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Pathogen</dt>
+    <dd>A microorganism that causes disease.</dd>
+    <dt>Antigen</dt>
+    <dd>A molecule recognised by the immune system as foreign.</dd>
+    <dt>Antibody</dt>
+    <dd>A Y-shaped protein made by plasma B cells that binds to a specific antigen.</dd>
+    <dt>Phagocytosis</dt>
+    <dd>The engulfing and digestion of a pathogen by a phagocyte.</dd>
+    <dt>Lymphocyte</dt>
+    <dd>A B or T cell, the white blood cells of adaptive immunity.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Antibodies stay high for life after an infection.”</strong> Antibody levels fall; it is memory cells that last.</li>
+    <li><strong>“Antibiotics cure colds.”</strong> Colds are caused by viruses, and antibiotics only work against bacteria.</li>
+    <li><strong>“A fever is always harmful.”</strong> A moderate fever is part of the body’s defence, although very high fevers need medical attention.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Barriers stop most pathogens; innate immunity responds quickly with inflammation and phagocytes.</li>
+    <li>Adaptive immunity uses B cells, antibodies and T cells that target one specific antigen.</li>
+    <li>White blood cells are made in the bone marrow; T cells mature in the thymus; lymph nodes and the spleen filter lymph and blood.</li>
+    <li>Memory cells make the secondary response faster and larger, which is how vaccines work.</li>
+  </ul>
+  <p class="muted">
+    Model note: pathogen numbers, cell numbers and antibody levels are in relative units from a small set of equations
+    tuned to show textbook-shaped curves. Real responses involve many more cell types and signals and vary greatly between
+    pathogens and people. See our <a href="/disclaimer/">educational and medical disclaimer</a>.
+  </p>
+</SimulatorLayout>
