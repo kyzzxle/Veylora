@@ -1,0 +1,54 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import { SHAPES } from './shapes';
+---
+
+<SimShell id="geometry3d-sim" label="A 3D solid shape that can be rotated, resized and sliced." playable={false} loadingText="Loading 3D shapes…" hint="Drag to rotate" aspect="4 / 3" badge="Cube">
+  <div slot="stage" class="sim-3d" data-three></div>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="g-shape">Shape</label>
+    <select id="g-shape" class="select" data-shape>
+      {Object.entries(SHAPES).map(([id, s]) => <option value={id}>{s.name}</option>)}
+    </select>
+  </div>
+  <p class="g-about" data-about aria-live="polite"></p>
+  <div data-dim="a"><SliderControl name="g-a" label="Side length a (length l for a cuboid)" min={1} max={10} step={0.5} value={4} /></div>
+  <div data-dim="b"><SliderControl name="g-b" label="Width w" min={1} max={10} step={0.5} value={3} /></div>
+  <div data-dim="h"><SliderControl name="g-h" label="Height h" min={1} max={10} step={0.5} value={6} /></div>
+  <div data-dim="r"><SliderControl name="g-r" label="Radius r" min={0.5} max={5} step={0.25} value={3} /></div>
+  <ToggleControl name="g-slice" label="Slice the shape (cross-section)" />
+  <div data-cut-only><SliderControl name="g-cut" label="Slice height" min={0} max={100} step={1} value={50} /></div>
+  <ToggleControl name="g-edges" label="Show edges" checked />
+  <ToggleControl name="g-spin" label="Slowly rotate" />
+
+  <Fragment slot="readouts">
+    <Readout name="shape" label="Shape" key />
+    <Readout name="volume" label="Volume" />
+    <Readout name="area" label="Surface area" />
+    <Readout name="vf" label="Volume formula" />
+    <Readout name="af" label="Surface area formula" />
+    <Readout name="fev" label="Faces, edges, vertices" />
+    <Readout name="section" label="Cross-section" />
+    <Readout name="ratio" label="Surface area : volume" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .g-about {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initGeometry3D } from './geometry3d';
+  mountSim('#geometry3d-sim', initGeometry3D);
+</script>

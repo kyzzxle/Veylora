@@ -1,0 +1,50 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="stars-sim" label="A Hertzsprung–Russell diagram with a star's life path, next to a picture of the star at its current stage." hint={false} badge="1 M☉">
+  <SliderControl name="sl-mass" label="Starting mass" min={0} max={100} step={1} value={38} scale={['0.1 × Sun', '40 × Sun']} help="The mass a star is born with decides almost everything about its life." />
+  <div class="preset-row" role="group" aria-label="Example stars">
+    <button type="button" class="preset" data-mass="0.3">Red dwarf</button>
+    <button type="button" class="preset" data-mass="1">The Sun</button>
+    <button type="button" class="preset" data-mass="5">5 Suns</button>
+    <button type="button" class="preset" data-mass="12">12 Suns</button>
+    <button type="button" class="preset" data-mass="30">30 Suns</button>
+  </div>
+  <button type="button" class="btn btn-sm" data-next>Skip to next stage</button>
+  <p class="sl-text" data-stage-text aria-live="off"></p>
+  <ToggleControl name="sl-known" label="Show well-known stars" checked />
+
+  <Fragment slot="readouts">
+    <Readout name="stage" label="Stage" key />
+    <Readout name="age" label="Age" />
+    <Readout name="temp" label="Surface temperature" />
+    <Readout name="lum" label="Brightness (luminosity)" />
+    <Readout name="radius" label="Radius" />
+    <Readout name="life" label="Time on the main sequence" />
+    <Readout name="fate" label="How it ends" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .sl-text {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5.5em;
+  }
+  :global(#stars-sim) {
+    --stage-aspect-mobile: 4 / 7;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initStars } from './stars';
+  mountSim('#stars-sim', initStars);
+</script>

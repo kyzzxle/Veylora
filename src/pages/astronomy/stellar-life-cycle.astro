@@ -1,0 +1,139 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import StarsSim from '../../simulators/stars/StarsSim.astro';
+import { starsQuiz } from '../../data/quizzes/stars';
+
+const toc = [
+  { id: 'birth', label: 'How stars are born' },
+  { id: 'main', label: 'The main sequence' },
+  { id: 'hr', label: 'Reading the HR diagram' },
+  { id: 'low', label: 'Low- and medium-mass stars' },
+  { id: 'massive', label: 'Massive stars' },
+  { id: 'remnants', label: 'Stellar remnants' },
+  { id: 'formulas', label: 'The numbers behind the model' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Chapter 18.4: The H–R Diagram. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/18-4-the-h-r-diagram' },
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Chapter 22: Stars from Adolescence to Old Age. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/22-introduction' },
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Chapter 23: The Death of Stars. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/23-introduction' },
+  { text: 'Kippenhahn, R., Weigert, A., & Weiss, A. (2012). Stellar Structure and Evolution (2nd ed.). Springer.' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="stellar-life-cycle"
+  description="Interactive stellar life cycle simulator: choose a star’s mass and follow it across the Hertzsprung–Russell diagram from protostar to white dwarf, neutron star or black hole."
+  toc={toc}
+  quiz={starsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Stars are born, shine for millions or billions of years, and die, some quietly and some in explosions visible across
+      the universe. The one thing that decides a star’s story is the mass it starts with. Pick a mass and watch its life
+      unfold on the astronomer’s favourite chart, the Hertzsprung–Russell diagram.
+    </p>
+  </Fragment>
+
+  <StarsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>starting mass</strong> with the slider or a preset, then press <strong>Start</strong>.</li>
+      <li>Watch the star’s dot move across the <strong>HR diagram</strong>; the dashed line shows where it will go next.</li>
+      <li>On the right, see the star’s size and colour change, with the Sun’s size for comparison.</li>
+      <li>Use <strong>Skip to next stage</strong> to jump ahead, and read what is happening in the panel.</li>
+      <li>Compare the <strong>Time on the main sequence</strong> and <strong>How it ends</strong> readouts for small and large stars.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="birth">How stars are born</h2>
+  <p>
+    Stars form inside cold, dense clouds of gas and dust called <strong>nebulae</strong>. When part of a cloud becomes
+    dense enough, gravity makes it collapse. The collapsing clump heats up and glows as a <strong>protostar</strong>,
+    often surrounded by a spinning disc of material from which planets may later form. When the core reaches about 10
+    million °C, hydrogen fusion begins and a true star is born.
+  </p>
+
+  <h2 id="main">The main sequence</h2>
+  <p>
+    For about 90 % of its life, a star fuses hydrogen into helium in its core. The energy released pushes outward and
+    balances the inward pull of gravity, so the star is stable. This long, steady phase is the <strong>main
+    sequence</strong>. Massive stars are much hotter, brighter and bluer, but they use up their fuel far faster: a star of
+    30 Suns lasts only a few million years, while the Sun lasts about 10 billion and a small red dwarf can last trillions.
+  </p>
+
+  <h2 id="hr">Reading the HR diagram</h2>
+  <p>
+    The <strong>Hertzsprung–Russell (HR) diagram</strong> plots a star’s luminosity (how much light it gives out) against
+    its surface temperature. By tradition, temperature increases to the <strong>left</strong>. Most stars fall on a
+    diagonal band, the main sequence. <strong>Giants and supergiants</strong> sit at the top right, cool but huge.
+    <strong>White dwarfs</strong> sit at the bottom left, hot but tiny. As a star ages it moves across the diagram, so
+    each position tells you about its stage of life.
+  </p>
+
+  <h2 id="low">Low- and medium-mass stars</h2>
+  <p>
+    When a star like the Sun runs out of hydrogen in its core, the core shrinks and heats while the outer layers swell
+    into a <strong>red giant</strong>, possibly a hundred times wider than before. Helium then fuses into carbon and
+    oxygen. Eventually the star gently puffs off its outer layers, forming a glowing <strong>planetary nebula</strong>
+    (nothing to do with planets; early telescopes made them look like discs). The exposed core remains as a
+    <strong>white dwarf</strong>. Red dwarfs, the most common stars of all, are expected to fade into white dwarfs
+    without ever becoming giants, but they live so long that none has done so yet.
+  </p>
+
+  <h2 id="massive">Massive stars</h2>
+  <p>
+    Stars above about 8 solar masses become <strong>red supergiants</strong> and fuse ever-heavier elements in shells:
+    carbon, neon, oxygen, silicon and finally iron. Fusing iron absorbs energy instead of releasing it, so once the core
+    is iron it collapses in less than a second. The rebound and a flood of neutrinos blow the star apart in a
+    <strong>core-collapse supernova</strong>, which can briefly outshine an entire galaxy and scatters newly made elements
+    into space. The atoms in your blood and bones were made in stars like these.
+  </p>
+
+  <h2 id="remnants">Stellar remnants</h2>
+  <ul>
+    <li><strong>White dwarf:</strong> about Earth-sized, with roughly the Sun’s mass. A teaspoon weighs several tonnes.</li>
+    <li><strong>Neutron star:</strong> about 20 km across, packing more than the Sun’s mass. Some spin rapidly and sweep beams of radio waves across space as <strong>pulsars</strong>.</li>
+    <li><strong>Black hole:</strong> formed when the collapsing core is too massive (very roughly, from stars above 20–25 Suns) for anything to stop the collapse.</li>
+  </ul>
+
+  <h2 id="formulas">The numbers behind the model</h2>
+  <p>The simulator uses standard approximate relations for main-sequence stars (in units of the Sun):</p>
+  <p><code class="formula">L ≈ M³·⁵ · R ≈ M⁰·⁵⁷ to M⁰·⁸ · L = 4πR²σT⁴ · lifetime ≈ 10 billion years × M⁻²·⁵</code></p>
+  <p>
+    The last relation explains the key idea: doubling a star’s mass gives it twice the fuel but makes it about 11 times
+    brighter, so it lives less than a fifth as long.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Luminosity</dt>
+    <dd>The total power a star gives out as light, often given relative to the Sun.</dd>
+    <dt>Solar mass (M☉)</dt>
+    <dd>The mass of the Sun, about 2 × 10³⁰ kg, used as a unit for stars.</dd>
+    <dt>Supernova</dt>
+    <dd>The explosive death of a massive star (or of a white dwarf in a binary system).</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The Sun will explode as a supernova.”</strong> It is far too small; it will end as a white dwarf.</li>
+    <li><strong>“Black holes suck everything in.”</strong> From far away, a black hole’s gravity is the same as any object of the same mass.</li>
+    <li><strong>“Stars burn like fire.”</strong> Their energy comes from nuclear fusion, not chemical burning.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>A star’s starting mass determines its brightness, lifetime and fate.</li>
+    <li>Massive stars live fast and die young in supernovae; small stars live for billions to trillions of years.</li>
+    <li>Sun-like stars end as white dwarfs; massive stars leave neutron stars or black holes.</li>
+    <li>The HR diagram maps a star’s temperature and luminosity, and so its life stage.</li>
+  </ul>
+  <p class="muted">Model note: tracks after the main sequence are schematic, showing typical positions for each stage rather than a detailed stellar-evolution calculation. Mass boundaries such as 8 and 20 solar masses are approximate.</p>
+</SimulatorLayout>

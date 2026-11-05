@@ -1,0 +1,149 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import Geometry3DSim from '../../simulators/geometry3d/Geometry3DSim.astro';
+import { geometry3dQuiz } from '../../data/quizzes/geometry3d';
+
+const toc = [
+  { id: 'solids', label: 'Solid shapes' },
+  { id: 'parts', label: 'Faces, edges and vertices' },
+  { id: 'volume', label: 'Volume' },
+  { id: 'area', label: 'Surface area' },
+  { id: 'formulas', label: 'Formula sheet' },
+  { id: 'sections', label: 'Cross-sections' },
+  { id: 'scaling', label: 'Scaling and the square–cube law' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Abramson, J. (2021). Prealgebra 2e, Section 9.6: Solve Geometry Applications: Volume and Surface Area. OpenStax.', url: 'https://openstax.org/books/prealgebra-2e/pages/9-6-solve-geometry-applications-volume-and-surface-area' },
+  { text: 'Richeson, D. S. (2008). Euler’s Gem: The Polyhedron Formula and the Birth of Topology. Princeton University Press.' },
+  { text: 'Coxeter, H. S. M. (1973). Regular Polytopes (3rd ed.). Dover.' },
+  { text: 'Haldane, J. B. S. (1926). On Being the Right Size. Harper’s Magazine.' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="geometry-3d"
+  description="Interactive 3D geometry explorer: rotate and resize cubes, prisms, pyramids, cylinders, cones and spheres, read volume and surface area, check Euler’s formula and slice shapes into cross-sections."
+  toc={toc}
+  quiz={geometry3dQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Boxes, cans, ice-cream cones and footballs are all solid shapes with exact rules for how much they hold and how
+      much material covers them. Pick a shape, spin it round, change its size and slice it open to see the geometry
+      that connects them all.
+    </p>
+  </Fragment>
+
+  <Geometry3DSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>shape</strong> from the list. <strong>Drag</strong> to rotate it; scroll or pinch to zoom (tap first on touch screens).</li>
+      <li>Use the sliders to change its <strong>dimensions</strong> and watch the <strong>volume</strong> and <strong>surface area</strong> update. The grid squares are 1 cm.</li>
+      <li>Check <strong>Faces, edges, vertices</strong> for every flat-faced shape: does F − E + V always equal 2?</li>
+      <li>Turn on <strong>Slice the shape</strong> and move the <strong>slice height</strong> to see the cross-section (orange) and its area.</li>
+      <li>Double a length and see how much the volume and area grow.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="solids">Solid shapes</h2>
+  <p>
+    A <strong>three-dimensional (3D)</strong> shape has length, width and height. Shapes with only flat faces and straight
+    edges are called <strong>polyhedra</strong>: cubes, cuboids, prisms and pyramids. Shapes with curved surfaces, such as
+    cylinders, cones and spheres, are not polyhedra. A <strong>prism</strong> has the same cross-section all along its
+    length, while a <strong>pyramid</strong> or cone narrows to a point called the <strong>apex</strong>.
+  </p>
+
+  <h2 id="parts">Faces, edges and vertices</h2>
+  <p>
+    A <strong>face</strong> is a flat surface, an <strong>edge</strong> is where two faces meet, and a
+    <strong>vertex</strong> (plural vertices) is a corner. In 1750 Leonhard Euler noticed that for every convex
+    polyhedron:
+  </p>
+  <p><code class="formula">F − E + V = 2</code></p>
+  <p>
+    A cube has 6 − 12 + 8 = 2; a tetrahedron 4 − 6 + 4 = 2. This simple rule was one of the first results in
+    <strong>topology</strong>, the mathematics of shape.
+  </p>
+
+  <h2 id="volume">Volume</h2>
+  <p>
+    <strong>Volume</strong> is the amount of space a shape fills, measured in cubic units such as cm³. For any prism
+    (including cuboids and cylinders), volume = area of cross-section × length. A pyramid or cone holds exactly one third
+    of the prism or cylinder with the same base and height, which you can show by filling one with sand or water three
+    times. Archimedes proved that a sphere has two thirds of the volume of the cylinder that just encloses it, and was so
+    proud of it that he asked for the diagram on his tomb.
+  </p>
+
+  <h2 id="area">Surface area</h2>
+  <p>
+    <strong>Surface area</strong> is the total area of all the outside surfaces, in square units such as cm². For
+    polyhedra, add up the areas of all the faces; it helps to imagine unfolding the shape into a flat
+    <strong>net</strong>. The curved surface of a cylinder unrolls into a rectangle whose length is the circumference,
+    2πr, giving 2πrh. A cone’s curved surface is a sector of a circle with area πrl, where l is the slant height.
+  </p>
+
+  <h2 id="formulas">Formula sheet</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Shape</th><th>Volume</th><th>Surface area</th></tr></thead>
+      <tbody>
+        <tr><td>Cube (side a)</td><td>a³</td><td>6a²</td></tr>
+        <tr><td>Cuboid</td><td>l × w × h</td><td>2(lw + lh + wh)</td></tr>
+        <tr><td>Cylinder</td><td>πr²h</td><td>2πr² + 2πrh</td></tr>
+        <tr><td>Cone</td><td>⅓πr²h</td><td>πr² + πrl</td></tr>
+        <tr><td>Sphere</td><td>⁴⁄₃πr³</td><td>4πr²</td></tr>
+        <tr><td>Square pyramid</td><td>⅓a²h</td><td>a² + 2as</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="sections">Cross-sections</h2>
+  <p>
+    A <strong>cross-section</strong> is the flat shape you get when you slice through a solid. Slices of a prism parallel
+    to its end are all identical. Slices of a pyramid or cone parallel to the base are the same shape as the base but
+    shrink towards the apex: halfway up, the side length is halved and the area is a quarter. Slices of a sphere are
+    always circles, largest through the centre. Cross-sections are used in medicine (CT scans), engineering and
+    3D printing, which builds objects one slice at a time.
+  </p>
+
+  <h2 id="scaling">Scaling and the square–cube law</h2>
+  <p>
+    If every length of a shape is multiplied by a scale factor k, its surface area is multiplied by k² and its volume by
+    k³. Double the size and you get 4 times the area but 8 times the volume. This <strong>square–cube law</strong> explains
+    why small animals lose heat quickly, why cells divide rather than growing huge, and why giant insects from films could
+    not exist: their legs could not support their weight.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Polyhedron</dt>
+    <dd>A solid with flat polygon faces, straight edges and vertices.</dd>
+    <dt>Net</dt>
+    <dd>A flat pattern that folds up to make a 3D shape.</dd>
+    <dt>Slant height (l or s)</dt>
+    <dd>The distance from the apex to the edge of the base, measured along the surface.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Doubling the sides doubles the volume.”</strong> It multiplies the volume by 8.</li>
+    <li><strong>“A cylinder has no edges.”</strong> It has two curved edges where the flat faces meet the curved surface.</li>
+    <li><strong>“Surface area and volume use the same units.”</strong> Area is in square units (cm²), volume in cubic units (cm³).</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Volume measures space inside (cm³); surface area measures the outside covering (cm²).</li>
+    <li>Prisms: V = cross-section × length. Pyramids and cones: one third of the matching prism or cylinder.</li>
+    <li>For polyhedra, F − E + V = 2.</li>
+    <li>Scaling lengths by k scales area by k² and volume by k³.</li>
+  </ul>
+  <p class="muted">Model note: curved shapes are drawn with many small flat panels, but the readouts use the exact formulas.</p>
+</SimulatorLayout>

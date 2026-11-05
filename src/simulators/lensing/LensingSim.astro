@@ -1,0 +1,43 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell id="lensing-sim" label="A star field with a black hole in front of it, bending the light of the stars and galaxy behind it." showTime hint="Drag the black hole" badge="Black hole" aspect="16 / 10">
+  <ChoiceControl
+    name="ln-bg"
+    label="What is behind the black hole?"
+    value="galaxy"
+    options={[
+      { value: 'galaxy', label: 'A distant galaxy' },
+      { value: 'stars', label: 'A single star' },
+    ]}
+  />
+  <SliderControl name="ln-mass" label="Black hole mass" min={0} max={12} step={1} value={6} scale={['1 Sun', '100 Suns']} help="A bigger mass bends light more: the Einstein ring grows with the square root of the mass." />
+  <button type="button" class="btn btn-sm" data-align>Line it up exactly</button>
+  <ToggleControl name="ln-ring" label="Show the Einstein radius" checked />
+  <ToggleControl name="ln-on" label="Lensing on (turn off to see the real sky)" checked />
+  <p class="ctrl-help">Press <strong>Start</strong> to let the black hole drift across and record how much brighter the source looks (a microlensing light curve). With the view selected, arrow keys move the black hole.</p>
+
+  <Fragment slot="readouts">
+    <Readout name="images" label="What you see" key />
+    <Readout name="mag" label="Source brightness (vs. normal)" />
+    <Readout name="mass" label="Mass" />
+    <Readout name="rs" label="Schwarzschild radius" />
+    <Readout name="thetaE" label="Real Einstein radius (lens 1 kpc, source 8 kpc)" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="ln-graph" title="Brightness of the source over time" desc="How much brighter the background source appears as the black hole drifts past." />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initLensing } from './lensing';
+  mountSim('#lensing-sim', initLensing);
+</script>

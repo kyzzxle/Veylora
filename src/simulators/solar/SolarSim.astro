@@ -1,0 +1,69 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import { PLANETS } from './data';
+---
+
+<SimShell id="solar-sim" label="A 3D model of the solar system." loadingText="Loading the solar system…" hint="Drag to rotate · click a planet" aspect="16 / 10" badge="Solar system">
+  <div slot="stage" class="sim-3d" data-three></div>
+
+  <ChoiceControl
+    name="so-mode"
+    label="View"
+    value="fit"
+    options={[
+      { value: 'fit', label: 'Fit everything' },
+      { value: 'true', label: 'True scale' },
+      { value: 'sizes', label: 'Compare sizes' },
+    ]}
+    help="“Fit everything” squeezes distances and enlarges planets. “True scale” shows real distances and sizes. “Compare sizes” lines the planets up beside the Sun."
+  />
+  <SliderControl name="so-speed" label="Time speed" min={1} max={1825} step={1} value={30} scale={['1 day/s', '5 years/s']} />
+  <button type="button" class="btn btn-sm" data-today>Jump to today</button>
+  <div class="ctrl">
+    <label class="ctrl-label" for="so-follow">Follow a planet</label>
+    <select id="so-follow" class="select" data-follow>
+      <option value="">— Whole solar system —</option>
+      {PLANETS.map((p) => <option value={p.id}>{p.name}</option>)}
+    </select>
+  </div>
+  <div class="so-info" aria-live="polite">
+    <strong data-info-title>Earth</strong>
+    <p data-info-text></p>
+  </div>
+  <ToggleControl name="so-orbits" label="Show orbits" checked />
+  <ToggleControl name="so-labels" label="Show names" checked />
+
+  <Fragment slot="readouts">
+    <Readout name="selected" label="Selected" key />
+    <Readout name="date" label="Date shown" />
+    <Readout name="distance" label="Average distance from the Sun" />
+    <Readout name="period" label="One orbit (a year there)" />
+    <Readout name="size" label="Diameter" />
+    <Readout name="day" label="Length of a day" />
+    <Readout name="temp" label="Temperature" />
+    <Readout name="moons" label="Known moons" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .so-info {
+    padding: 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.92rem;
+  }
+  .so-info p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initSolar } from './solar';
+  mountSim('#solar-sim', initSolar);
+</script>

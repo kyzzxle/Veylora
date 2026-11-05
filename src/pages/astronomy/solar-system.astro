@@ -1,0 +1,145 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import SolarSim from '../../simulators/solar/SolarSim.astro';
+import { solarQuiz } from '../../data/quizzes/solar';
+
+const toc = [
+  { id: 'overview', label: 'What is the solar system?' },
+  { id: 'planets', label: 'The eight planets' },
+  { id: 'scale', label: 'A sense of scale' },
+  { id: 'orbits', label: 'How the planets move' },
+  { id: 'formation', label: 'How it formed' },
+  { id: 'more', label: 'Beyond the planets' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Williams, D. R. Planetary Fact Sheet – Metric. NASA Goddard Space Flight Center.', url: 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/' },
+  { text: 'NASA Science. Solar System Exploration: Our Solar System.', url: 'https://science.nasa.gov/solar-system/' },
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Chapter 7: Other Worlds: An Introduction to the Solar System. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/7-introduction' },
+  { text: 'Simon, J. L., et al. (1994). Numerical expressions for precession formulae and mean elements for the Moon and the planets. Astronomy and Astrophysics, 282, 663–683.' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="solar-system"
+  description="Interactive 3D solar system: watch the planets orbit from today’s date, switch to true scale, compare planet sizes and explore facts about each world."
+  toc={toc}
+  quiz={solarQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Eight planets, hundreds of moons and countless smaller bodies circle our Sun. Explore them in 3D, starting from
+      where they are today, speed up time to watch them orbit, and switch to true scale to discover just how vast and
+      empty the solar system really is.
+    </p>
+  </Fragment>
+
+  <SolarSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Drag</strong> to rotate the view and scroll or pinch to zoom (on touch screens, tap the view first).</li>
+      <li><strong>Click a planet</strong> or the Sun to see its facts in the readouts.</li>
+      <li>Change <strong>Time speed</strong> and watch the inner planets race round while the outer planets crawl. <strong>Jump to today</strong> resets the date.</li>
+      <li>Use <strong>Follow a planet</strong> to ride along with one world.</li>
+      <li>Switch the <strong>View</strong> to <strong>True scale</strong> (zoom right in to find the planets) and to <strong>Compare sizes</strong>.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="overview">What is the solar system?</h2>
+  <p>
+    The solar system is the Sun and everything held in orbit by its gravity: eight planets and their moons, dwarf planets
+    such as Pluto, asteroids, comets and dust. The Sun contains about 99.8 % of all the mass, which is why everything
+    else orbits it. The planets all travel in the same direction and in nearly the same flat plane, a clue to how the
+    solar system formed.
+  </p>
+
+  <h2 id="planets">The eight planets</h2>
+  <p>
+    The four <strong>inner, rocky planets</strong> are Mercury, Venus, Earth and Mars. They are small and dense, with solid
+    surfaces. The four <strong>outer giant planets</strong> are Jupiter and Saturn, the <strong>gas giants</strong> made
+    mostly of hydrogen and helium, and Uranus and Neptune, the <strong>ice giants</strong> with large amounts of water,
+    ammonia and methane ices. All four giants have rings and many moons. The asteroid belt between Mars and Jupiter
+    separates the two groups.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Planet</th><th>Distance (AU)</th><th>Diameter (Earth = 1)</th><th>Year</th></tr></thead>
+      <tbody>
+        <tr><td>Mercury</td><td>0.39</td><td>0.38</td><td>88 days</td></tr>
+        <tr><td>Venus</td><td>0.72</td><td>0.95</td><td>225 days</td></tr>
+        <tr><td>Earth</td><td>1.00</td><td>1.00</td><td>365 days</td></tr>
+        <tr><td>Mars</td><td>1.52</td><td>0.53</td><td>1.9 years</td></tr>
+        <tr><td>Jupiter</td><td>5.20</td><td>11.2</td><td>11.9 years</td></tr>
+        <tr><td>Saturn</td><td>9.54</td><td>9.4</td><td>29.4 years</td></tr>
+        <tr><td>Uranus</td><td>19.2</td><td>4.0</td><td>84 years</td></tr>
+        <tr><td>Neptune</td><td>30.1</td><td>3.9</td><td>165 years</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="scale">A sense of scale</h2>
+  <p>
+    Most pictures of the solar system, including the “Fit everything” view here, are not to scale, because a true-scale
+    picture would show almost nothing. If the Sun were the size of a football (22 cm), Earth would be a peppercorn about
+    24 m away, Jupiter a large marble about 120 m away, and Neptune a small bead nearly 700 m away. Light, the fastest
+    thing in the universe, takes about 8 minutes to reach us from the Sun and over 4 hours to reach Neptune.
+  </p>
+
+  <h2 id="orbits">How the planets move</h2>
+  <p>
+    Gravity from the Sun pulls each planet towards it, while the planet’s sideways speed carries it forward, so it falls
+    around the Sun in an <strong>orbit</strong>. Planets closer to the Sun feel stronger gravity and move faster. Johannes
+    Kepler discovered that the square of a planet’s orbital period is proportional to the cube of its distance
+    (<strong>Kepler’s third law</strong>): Jupiter is about 5.2 times further from the Sun than Earth, and
+    5.2³ ≈ 141 ≈ 11.9², so its year is about 11.9 Earth years. Real orbits are slightly stretched ellipses; this model
+    uses circles, which is a good approximation for most planets.
+  </p>
+
+  <h2 id="formation">How it formed</h2>
+  <p>
+    About 4.6 billion years ago a cloud of gas and dust collapsed under its own gravity. Most of the material fell to the
+    centre and became the Sun, while the rest flattened into a spinning disc. Near the hot young Sun only rock and metal
+    could stay solid, forming small rocky planets. Further out, beyond the “frost line”, ices could also form, so planets
+    grew big enough to pull in huge amounts of hydrogen and helium gas.
+  </p>
+
+  <h2 id="more">Beyond the planets</h2>
+  <p>
+    Past Neptune lies the <strong>Kuiper Belt</strong>, home to icy dwarf planets such as Pluto and Eris. Much further out,
+    the <strong>Oort Cloud</strong> is thought to surround the solar system in a giant shell of icy bodies and is the source
+    of long-period comets. Pluto was reclassified as a dwarf planet in 2006 because it has not cleared its orbit of other
+    objects.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Astronomical unit (AU)</dt>
+    <dd>The average Earth–Sun distance, about 149.6 million km.</dd>
+    <dt>Orbital period</dt>
+    <dd>The time for one complete orbit: a planet’s year.</dd>
+    <dt>Dwarf planet</dt>
+    <dd>A round body orbiting the Sun that has not cleared its orbit of other objects.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The planets line up neatly in a row.”</strong> They are spread around their orbits; true alignments are rare.</li>
+    <li><strong>“Space between the planets is small.”</strong> The planets would fit between Earth and the Moon several times over.</li>
+    <li><strong>“Summer happens when Earth is closest to the Sun.”</strong> Seasons are caused by Earth’s tilt; Earth is actually closest in January.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>The Sun holds almost all the mass, and its gravity keeps the planets in orbit.</li>
+    <li>Four small rocky inner planets, four giant outer planets.</li>
+    <li>Further planets orbit more slowly and have much longer years (Kepler’s third law).</li>
+    <li>The solar system is enormous and mostly empty space.</li>
+  </ul>
+  <p class="muted">Model note: orbits are drawn as circles in a single plane. Positions start from today’s date using each planet’s average position, so they can differ from the real sky by a few degrees. Moon counts keep rising as new small moons are discovered.</p>
+</SimulatorLayout>

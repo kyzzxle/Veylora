@@ -1,0 +1,140 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import LensingSim from '../../simulators/lensing/LensingSim.astro';
+import { lensingQuiz } from '../../data/quizzes/lensing';
+
+const toc = [
+  { id: 'what', label: 'What is a black hole?' },
+  { id: 'kinds', label: 'Kinds of black holes' },
+  { id: 'lensing', label: 'How gravity bends light' },
+  { id: 'ring', label: 'Einstein rings and arcs' },
+  { id: 'formulas', label: 'The equations' },
+  { id: 'micro', label: 'Microlensing' },
+  { id: 'seeing', label: 'How we observe black holes' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Chapter 24: Black Holes and Curved Spacetime. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/24-introduction' },
+  { text: 'Event Horizon Telescope Collaboration (2019). First M87 Event Horizon Telescope Results. I. The Shadow of the Supermassive Black Hole. The Astrophysical Journal Letters, 875, L1.', url: 'https://doi.org/10.3847/2041-8213/ab0ec7' },
+  { text: 'Paczyński, B. (1986). Gravitational microlensing by the galactic halo. The Astrophysical Journal, 304, 1–5.' },
+  { text: 'Sahu, K. C., et al. (2022). An isolated stellar-mass black hole detected through astrometric microlensing. The Astrophysical Journal, 933, 83.', url: 'https://doi.org/10.3847/1538-4357/ac739e' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="black-holes"
+  description="Interactive gravitational lensing simulator: drag a black hole across the sky and watch it bend light into arcs and Einstein rings, then record a microlensing light curve."
+  toc={toc}
+  quiz={lensingQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A black hole cannot be seen directly, but it gives itself away by what it does to light passing nearby. Drag a black
+      hole in front of a distant galaxy and watch space itself act like a giant, warped lens, stretching the galaxy into
+      arcs and, when everything lines up, a perfect ring of light.
+    </p>
+  </Fragment>
+
+  <LensingSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Drag the black hole</strong> around the sky. Watch the stars behind it stretch and split into two images.</li>
+      <li>Move it close to the marked galaxy, or press <strong>Line it up exactly</strong>, to make an <strong>Einstein ring</strong>.</li>
+      <li>Change the <strong>mass</strong> and see the Einstein radius (dashed circle) grow.</li>
+      <li>Choose <strong>A single star</strong>, place the black hole a little above or below it, and press <strong>Start</strong>. The graph records the microlensing light curve as the black hole drifts past.</li>
+      <li>Turn <strong>Lensing</strong> off and on to compare with the real, undistorted sky.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is a black hole?</h2>
+  <p>
+    A black hole is a region where so much mass is packed into so little space that gravity becomes overwhelming. Around
+    it is a boundary called the <strong>event horizon</strong>: inside it, the speed needed to escape would be greater
+    than the speed of light, so nothing, not even light, can get out. The size of the event horizon is set by the mass:
+    for a black hole of the Sun’s mass it would be only about 3 km in radius.
+  </p>
+
+  <h2 id="kinds">Kinds of black holes</h2>
+  <ul>
+    <li><strong>Stellar-mass black holes</strong> (about 3 to 100 Suns) form when the cores of very massive stars collapse at the end of their lives.</li>
+    <li><strong>Supermassive black holes</strong> (millions to billions of Suns) sit at the centres of most large galaxies. Our galaxy’s, Sagittarius A*, is about 4 million Suns.</li>
+    <li><strong>Intermediate-mass black holes</strong> (hundreds to hundreds of thousands of Suns) are rarer and still being studied.</li>
+  </ul>
+
+  <h2 id="lensing">How gravity bends light</h2>
+  <p>
+    Einstein’s <strong>general theory of relativity</strong> describes gravity as the curving of space and time by mass.
+    Light always travels along the straightest possible path, but near a massive object that path is curved, so light
+    bends. This was first confirmed in 1919, when astronomers saw stars near the eclipsed Sun shifted by exactly the
+    amount Einstein predicted. Because a black hole packs a lot of mass into a small space, light passing close to it can
+    be bent dramatically. This bending is called <strong>gravitational lensing</strong>.
+  </p>
+
+  <h2 id="ring">Einstein rings and arcs</h2>
+  <p>
+    A point-like lens forms <strong>two images</strong> of each background object: a bright one outside the
+    <strong>Einstein radius</strong> and a fainter one inside it, on the opposite side. Images are stretched into
+    <strong>arcs</strong> around the lens. When the source lies exactly behind the lens, the light is bent equally all the
+    way round and the images merge into an <strong>Einstein ring</strong>. Space telescopes have photographed many such
+    rings and arcs produced by massive galaxies and galaxy clusters.
+  </p>
+
+  <h2 id="formulas">The equations</h2>
+  <p>The simulator uses the lens equation for a point mass and the matching brightening formula:</p>
+  <p><code class="formula">β = θ − θE² / θ    ·    A = (u² + 2) / (u √(u² + 4)),  u = β / θE</code></p>
+  <p>
+    Here θ is where we see light, β is where it really comes from, and θE is the Einstein radius, which grows as the
+    square root of the mass. The event horizon’s size is the <strong>Schwarzschild radius</strong>, r<sub>s</sub> = 2GM/c²,
+    about 2.95 km for every solar mass.
+  </p>
+
+  <h2 id="micro">Microlensing</h2>
+  <p>
+    For a stellar-mass black hole in our galaxy, the Einstein radius is only a few thousandths of an arcsecond: far too
+    small to see the ring. But the lensing still makes the background star look brighter. As the black hole drifts past,
+    the star brightens and fades in a smooth, symmetrical curve over days to months. Surveys watching hundreds of millions
+    of stars use this <strong>microlensing</strong> to find objects that give out no light. In 2022 astronomers confirmed
+    the first isolated black hole drifting through our galaxy this way.
+  </p>
+
+  <h2 id="seeing">How we observe black holes</h2>
+  <p>
+    Besides lensing, black holes reveal themselves through the stars and gas around them. Gas spiralling in heats up and
+    glows brightly in X-rays; stars near the centre of our galaxy race around an invisible object of 4 million Suns. In
+    2019 the Event Horizon Telescope released the first image of a black hole’s shadow, in galaxy M87, and in 2022 the
+    shadow of Sagittarius A*. Since 2015, detectors such as LIGO have also “heard” black holes merging through the
+    gravitational waves they send out.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Event horizon</dt>
+    <dd>The boundary of a black hole from inside which nothing can escape.</dd>
+    <dt>Einstein radius</dt>
+    <dd>The radius of the ring formed when a source is exactly behind a lens.</dd>
+    <dt>Microlensing</dt>
+    <dd>Temporary brightening of a star when a massive object passes in front of it.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Black holes are cosmic vacuum cleaners.”</strong> Far away, they pull like any other object of the same mass. If the Sun became a black hole, Earth’s orbit would not change.</li>
+    <li><strong>“Black holes are holes in space.”</strong> They are extremely dense concentrations of mass.</li>
+    <li><strong>“Black holes are invisible, so we cannot study them.”</strong> We detect them through lensing, orbits, glowing gas and gravitational waves.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>A black hole’s gravity is so strong that light cannot escape from inside its event horizon.</li>
+    <li>Mass bends light: a black hole acts as a gravitational lens, making arcs, double images and Einstein rings.</li>
+    <li>The Einstein radius grows with the square root of the mass.</li>
+    <li>Microlensing brightens background stars and lets astronomers find dark objects.</li>
+  </ul>
+  <p class="muted">Model note: the view is enormously magnified, the black hole’s dark shadow is drawn much larger than it would really appear compared with the Einstein ring, and the lens is treated as a single point mass.</p>
+</SimulatorLayout>
