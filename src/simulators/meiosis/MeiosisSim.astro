@@ -1,0 +1,108 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell
+  id="meiosis-sim"
+  label="A diploid cell going through meiosis I and II, with homologous chromosome pairs, crossing over and four haploid cells; or a lab for exploring independent assortment and the variety of gametes."
+  hint="Click a chromosome to learn about it"
+  badge="Interphase"
+  aspect="16 / 9"
+>
+  <ChoiceControl
+    name="me-view"
+    label="View"
+    value="steps"
+    options={[
+      { value: 'steps', label: 'Meiosis step by step' },
+      { value: 'variation', label: 'Genetic variation lab' },
+    ]}
+  />
+  <p class="me-note" data-note aria-live="polite"></p>
+
+  <div data-only="steps" class="me-group">
+    <div class="preset-row" role="group" aria-label="Move through the stages">
+      <button type="button" class="preset" data-prev>◀ Previous stage</button>
+      <button type="button" class="preset" data-next>Next stage ▶</button>
+    </div>
+    <p class="me-stage" data-stage-label aria-live="polite">Stage 1 of 8: Interphase</p>
+    <p class="me-stage-text" data-stage-text></p>
+    <SliderControl name="me-pos" label="Position in meiosis" min={0} max={800} step={1} value={80} help="Drag to examine chromosome separation smoothly. Start plays it automatically." />
+    <SliderControl name="me-speed" label="Animation speed" min={0.25} max={3} step={0.25} value={1} />
+  </div>
+
+  <div data-only="variation" class="me-group">
+    <div class="preset-row" role="group" aria-label="Gametes">
+      <button type="button" class="preset" data-make>Make 4 gametes</button>
+      <button type="button" class="preset" data-clear>Clear</button>
+    </div>
+    <SliderControl name="me-count" label="Chromosome pairs to count combinations for" min={1} max={23} step={1} value={23} help="Humans have 23 pairs. Each extra pair doubles the number of possible gametes." />
+  </div>
+
+  <div class="me-group">
+    <div class="preset-row" role="group" aria-label="Arrangement">
+      <button type="button" class="preset" data-shuffle>🔀 New random meiosis</button>
+    </div>
+    <ChoiceControl
+      name="me-pairs"
+      label="Chromosomes in the cell"
+      value="2"
+      options={[
+        { value: '2', label: '2 pairs (2n = 4)' },
+        { value: '3', label: '3 pairs (2n = 6)' },
+      ]}
+    />
+    <ToggleControl name="me-cross" label="Crossing over" checked />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="me-graph" title="DNA and chromosome number through meiosis" desc="Relative DNA content per cell and chromosomes per cell at each stage of meiosis; the marker shows the current position." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .me-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .me-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 4em;
+  }
+  .me-stage {
+    margin: 0;
+    font-weight: 700;
+  }
+  .me-stage-text {
+    margin: -6px 0 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    min-height: 4.5em;
+  }
+  :global(#meiosis-sim) {
+    --stage-aspect-mobile: 3 / 4;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initMeiosis } from './meiosis';
+  mountSim('#meiosis-sim', initMeiosis);
+</script>

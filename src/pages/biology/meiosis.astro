@@ -1,0 +1,158 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import MeiosisSim from '../../simulators/meiosis/MeiosisSim.astro';
+import { meiosisQuiz } from '../../data/quizzes/meiosis';
+
+const toc = [
+  { id: 'what', label: 'What meiosis is for' },
+  { id: 'numbers', label: 'Chromosomes, homologues and chromatids' },
+  { id: 'meiosis1', label: 'Meiosis I' },
+  { id: 'meiosis2', label: 'Meiosis II' },
+  { id: 'crossing', label: 'Crossing over' },
+  { id: 'assortment', label: 'Independent assortment' },
+  { id: 'variation', label: 'How much variation?' },
+  { id: 'mitosis', label: 'Meiosis vs mitosis' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 11: Meiosis and Sexual Reproduction. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/11-introduction' },
+  { text: 'Alberts, B., et al. (2022). Molecular Biology of the Cell (7th ed.), Chapter 17: Meiosis. W. W. Norton.' },
+  { text: 'Page, S. L., & Hawley, R. S. (2003). Chromosome choreography: the meiotic ballet. Science, 301(5634), 785–789.' },
+  { text: 'Hassold, T., & Hunt, P. (2001). To err (meiotically) is human: the genesis of human aneuploidy. Nature Reviews Genetics, 2(4), 280–291.' },
+];
+---
+
+<SimulatorLayout
+  branch="biology"
+  topic="meiosis"
+  description="Interactive meiosis simulator: watch homologous chromosomes pair, cross over and separate through meiosis I and II, then flip their arrangement and make gametes to see how genetic variation arises."
+  toc={toc}
+  quiz={meiosisQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      You share half your DNA with each parent, yet you are not identical to your brothers or sisters. The reason is
+      meiosis, the special cell division that makes sperm and eggs. Follow homologous chromosomes as they pair, swap pieces
+      and separate, then shuffle them yourself to see how much variety meiosis can create.
+    </p>
+  </Fragment>
+
+  <MeiosisSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>Meiosis step by step:</strong> press <strong>Start</strong>, or use <strong>Previous stage</strong> and <strong>Next stage</strong>. Drag <strong>Position in meiosis</strong> to examine each separation slowly.</li>
+      <li>Click any chromosome to see whether it came from the mother or the father, and whether it has crossed over.</li>
+      <li>Press <strong>New random meiosis</strong> to change the metaphase I arrangement and crossover points, and compare the four cells at the end with the starting cell.</li>
+      <li><strong>Genetic variation lab:</strong> click each pair to flip its orientation and watch the gametes change. Press <strong>Make 4 gametes</strong> repeatedly and count how many different types appear, with crossing over on and off.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What meiosis is for</h2>
+  <p>
+    In sexual reproduction, two <strong>gametes</strong> (a sperm and an egg in animals) fuse at fertilisation. If each
+    carried a full set of chromosomes, the number would double every generation. <strong>Meiosis</strong> prevents this by
+    halving the chromosome number, making <strong>haploid</strong> gametes (n) from a <strong>diploid</strong> cell (2n).
+    Fertilisation then restores the diploid number: n + n = 2n. Meiosis also shuffles the parents’ genes, so every gamete
+    is genetically unique.
+  </p>
+
+  <h2 id="numbers">Chromosomes, homologues and chromatids</h2>
+  <p>
+    A diploid cell has two of each kind of chromosome: <strong>homologous chromosomes</strong>, one inherited from each
+    parent. Homologues have the same size and carry the same genes, but may carry different versions of them
+    (<strong>alleles</strong>). Before meiosis the DNA is copied, so each chromosome consists of two identical
+    <strong>sister chromatids</strong>. Keep these apart: homologues come from different parents; sister chromatids are
+    copies of each other. Humans have 46 chromosomes in 23 pairs, and gametes have 23.
+  </p>
+
+  <h2 id="meiosis1">Meiosis I</h2>
+  <p>
+    In <strong>prophase I</strong>, chromosomes condense and homologues pair up along their length
+    (<strong>synapsis</strong>), forming a bivalent of four chromatids, and crossing over takes place. In
+    <strong>metaphase I</strong> the pairs line up across the middle of the cell. In <strong>anaphase I</strong> the
+    homologues separate to opposite poles while sister chromatids stay joined. After <strong>telophase I</strong> and
+    cytokinesis there are two haploid cells, each with one chromosome from every pair. Because the chromosome number is
+    halved, meiosis I is called the <strong>reduction division</strong>.
+  </p>
+
+  <h2 id="meiosis2">Meiosis II</h2>
+  <p>
+    Meiosis II follows without another round of DNA replication and works like mitosis. In each cell the chromosomes line
+    up singly in <strong>metaphase II</strong>, the sister chromatids separate in <strong>anaphase II</strong>, and after
+    <strong>telophase II</strong> and cytokinesis there are four haploid cells, each with one chromatid of every
+    chromosome.
+  </p>
+
+  <h2 id="crossing">Crossing over</h2>
+  <p>
+    While homologues are paired, non-sister chromatids can break and rejoin at the same point, exchanging matching
+    segments. The crossing points are visible as <strong>chiasmata</strong>. The result is <strong>recombinant</strong>
+    chromatids carrying a new mix of the mother’s and father’s alleles. Human chromosomes usually have one to three
+    crossovers each, at positions that vary from cell to cell.
+  </p>
+
+  <h2 id="assortment">Independent assortment</h2>
+  <p>
+    At metaphase I, each homologous pair lines up in a random orientation, independently of every other pair. The maternal
+    chromosome of pair 1 might face the same pole as the paternal chromosome of pair 2, or not. Each gamete therefore
+    receives a random mixture of maternal and paternal chromosomes.
+  </p>
+
+  <h2 id="variation">How much variation?</h2>
+  <p>
+    With n pairs, independent assortment alone gives 2ⁿ possible gametes. For humans that is 2²³, about
+    <strong>8.4 million</strong>. Crossing over multiplies this enormously, and <strong>random fertilisation</strong>, any
+    sperm meeting any egg, squares it again: about 70 trillion combinations from one couple even without crossing over.
+    This variation is the raw material for natural selection.
+  </p>
+
+  <h2 id="mitosis">Meiosis vs mitosis</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Mitosis</th><th>Meiosis</th></tr></thead>
+      <tbody>
+        <tr><td>Divisions</td><td>One</td><td>Two</td></tr>
+        <tr><td>Homologues pair and cross over</td><td>No</td><td>Yes, in prophase I</td></tr>
+        <tr><td>What separates</td><td>Sister chromatids</td><td>Homologues (I), then sister chromatids (II)</td></tr>
+        <tr><td>Result</td><td>2 identical diploid cells</td><td>4 different haploid cells</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Haploid (n) / diploid (2n)</dt>
+    <dd>One set of chromosomes / two sets, one from each parent.</dd>
+    <dt>Bivalent (tetrad)</dt>
+    <dd>A pair of homologous chromosomes joined during prophase I, made of four chromatids.</dd>
+    <dt>Chiasma</dt>
+    <dd>The point where non-sister chromatids have crossed over.</dd>
+    <dt>Non-disjunction</dt>
+    <dd>Failure of chromosomes to separate properly, giving gametes with an extra or missing chromosome; it causes conditions such as Down syndrome.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Homologous chromosomes are identical.”</strong> They carry the same genes but often different alleles.</li>
+    <li><strong>“DNA is copied again before meiosis II.”</strong> It is copied only once, before meiosis I.</li>
+    <li><strong>“Each gamete gets all of one parent’s chromosomes.”</strong> Independent assortment mixes them.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Meiosis makes four haploid, genetically different cells from one diploid cell.</li>
+    <li>Meiosis I separates homologues (reduction); meiosis II separates sister chromatids.</li>
+    <li>Crossing over and independent assortment create new combinations of alleles.</li>
+    <li>Fertilisation restores the diploid number and adds still more variation.</li>
+  </ul>
+  <p class="muted">
+    Model note: the simulator uses 2 or 3 chromosome pairs with one crossover per pair between two adjacent non-sister
+    chromatids (the lab picks any non-sister pair). Real cells have more chromosomes, can have several crossovers per pair,
+    and in many species meiosis is unequal: in human females only one of the four cells becomes an egg.
+  </p>
+</SimulatorLayout>

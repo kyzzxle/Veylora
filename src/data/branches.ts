@@ -137,6 +137,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['biology/dna-replication', 'biology/cell-structure', 'biology/cellular-respiration', 'biology/natural-selection'],
       },
+      {
+        slug: 'meiosis',
+        title: 'Meiosis and Genetic Variation',
+        summary: 'Watch homologous chromosomes pair, cross over and separate through meiosis I and II, then flip their arrangement and make gametes to see how variation arises.',
+        keywords: ['meiosis', 'gamete', 'haploid', 'diploid', 'homologous', 'crossing over', 'independent assortment', 'chiasma', 'genetic variation', 'sexual reproduction'],
+        level: 'Advanced',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['biology/mitosis', 'biology/natural-selection', 'biology/dna-replication', 'anatomy-physiology/reproductive-system'],
+      },
     ],
   },
   {
