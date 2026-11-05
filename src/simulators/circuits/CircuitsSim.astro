@@ -1,0 +1,42 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="circuits-sim" label="An electric circuit with a battery, switches and three bulbs." hint="Click a switch to open or close it" badge="Series circuit">
+  <ChoiceControl
+    name="ci-type"
+    label="Circuit"
+    value="series"
+    options={[
+      { value: 'series', label: 'Series' },
+      { value: 'parallel', label: 'Parallel' },
+      { value: 'combo', label: 'Combination' },
+    ]}
+  />
+  <SliderControl name="ci-v" label="Battery voltage" min={0} max={24} step={0.5} value={12} />
+  <SliderControl name="ci-r1" label="Bulb 1 resistance" min={2} max={50} step={1} value={10} />
+  <SliderControl name="ci-r2" label="Bulb 2 resistance" min={2} max={50} step={1} value={10} />
+  <SliderControl name="ci-r3" label="Bulb 3 resistance" min={2} max={50} step={1} value={10} />
+  <ToggleControl name="ci-s1" label="Switch 1 closed" checked />
+  <ToggleControl name="ci-s2" label="Switch 2 closed" checked />
+  <ToggleControl name="ci-s3" label="Switch 3 closed" checked />
+
+  <Fragment slot="readouts">
+    <Readout name="i" label="Current from battery" key />
+    <Readout name="r" label="Total resistance" />
+    <Readout name="p" label="Total power" />
+    <Readout name="b1" label="Bulb 1" />
+    <Readout name="b2" label="Bulb 2" />
+    <Readout name="b3" label="Bulb 3" />
+  </Fragment>
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initCircuits } from './circuits';
+  mountSim('#circuits-sim', initCircuits);
+</script>

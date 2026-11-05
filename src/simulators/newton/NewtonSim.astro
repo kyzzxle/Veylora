@@ -1,0 +1,54 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="newton-sim" label="A cart on a track being pushed." showTime hint="Click an arrow to learn about that force" badge="At rest">
+  <SliderControl name="nw-force" label="Applied push" min={-100} max={100} step={5} value={40} help="Positive pushes right, negative pushes left. The force acts as long as it is set.">
+    <PresetButtons for="nw-force" label="Force presets" presets={[{ label: '← 40 N', value: -40 }, { label: 'No push (0 N)', value: 0 }, { label: '40 N →', value: 40 }]} />
+  </SliderControl>
+  <SliderControl name="nw-mass" label="Cart mass" min={1} max={50} step={1} value={10} />
+  <ChoiceControl
+    name="nw-surface"
+    label="Surface"
+    value="wood"
+    options={[
+      { value: 'ice', label: 'Ice' },
+      { value: 'wood', label: 'Wood' },
+      { value: 'carpet', label: 'Carpet' },
+    ]}
+  />
+  <ToggleControl name="nw-fbd" label="Show all forces (free-body diagram)" checked />
+  <ToggleControl name="nw-pair" label="Show action–reaction pair (3rd law)" />
+  <SimKey
+    items={[
+      { label: 'Applied force', color: 'accent', shape: 'line' },
+      { label: 'Friction', color: 'danger', shape: 'line' },
+      { label: 'Weight and normal force', color: 'text-faint', shape: 'line' },
+      { label: 'Net force', color: 'accent-2', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="net" label="Net force" key />
+    <Readout name="acc" label="Acceleration" />
+    <Readout name="vel" label="Velocity" />
+    <Readout name="fric" label="Friction" />
+    <Readout name="pos" label="Distance travelled" />
+    <Readout name="law" label="Which law is visible?" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="nw-graph" title="Velocity over time" desc="The cart's velocity in metres per second over time." compare saveLabel="Save run & restart" />
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initNewton } from './newton';
+  mountSim('#newton-sim', initNewton);
+</script>

@@ -1,0 +1,50 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="rates-sim" label="Acid particles colliding with a solid in a beaker." showTime hint="Click a particle" badge="Ready">
+  <SliderControl name="rr-temp" label="Temperature" min={250} max={500} step={10} value={300} scale={['250 K (−23 °C)', '500 K (227 °C)']} help="Hotter particles move faster and collide harder." />
+  <SliderControl name="rr-conc" label="Acid concentration" min={20} max={140} step={10} value={70} help="Number of acid particles in the same volume." />
+  <ChoiceControl
+    name="rr-size"
+    label="Solid’s surface area"
+    value="1"
+    options={[
+      { value: '1', label: 'One lump' },
+      { value: '4', label: 'Chunks' },
+      { value: '16', label: 'Powder' },
+    ]}
+    help="The same amount of solid, broken into smaller pieces."
+  />
+  <ToggleControl name="rr-cat" label="Add a catalyst (lowers activation energy)" />
+  <SimKey
+    items={[
+      { label: 'Acid particle (A)', color: 'sim-water' },
+      { label: 'Solid atom (B) — reacts only on the surface', color: 'text-faint', shape: 'square' },
+      { label: 'Product particle (AB)', color: 'success' },
+      { label: 'Successful collision flash', color: 'warning' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="rate" label="Reaction rate" key />
+    <Readout name="prod" label="Product formed" />
+    <Readout name="coll" label="Collisions with solid / s" />
+    <Readout name="succ" label="Successful collisions" />
+    <Readout name="exposed" label="Exposed solid atoms" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="rr-graph" title="Product formed over time" desc="Number of product particles formed against time for the current run and any saved runs." compare saveLabel="Save run & restart" />
+</SimShell>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initRates } from './rates';
+  mountSim('#rates-sim', initRates);
+</script>

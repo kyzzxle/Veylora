@@ -1,0 +1,126 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import BalancingSim from '../../simulators/balancing/BalancingSim.astro';
+import { balancingQuiz } from '../../data/quizzes/balancing';
+
+const toc = [
+  { id: 'equations', label: 'Reading a chemical equation' },
+  { id: 'conservation', label: 'Conservation of mass' },
+  { id: 'coefficients', label: 'Coefficients vs. subscripts' },
+  { id: 'method', label: 'A step-by-step method' },
+  { id: 'example', label: 'Worked example' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 4.1: Writing and Balancing Chemical Equations. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/4-1-writing-and-balancing-chemical-equations' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 4.3: Reaction Stoichiometry. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/4-3-reaction-stoichiometry' },
+  { text: 'Lavoisier, A.-L. (1789). Traité élémentaire de chimie. Paris: Cuchet.' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="balancing-equations"
+  description="Interactive chemical equation balancer: adjust coefficients for ten real reactions, see every atom drawn on both sides, and learn conservation of mass step by step."
+  toc={toc}
+  quiz={balancingQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      When wood burns or iron rusts, it can look as if matter appears or disappears. It doesn’t: every atom is still
+      there, just rearranged. Balancing a chemical equation is how chemists keep count. Adjust the numbers, watch the
+      atoms on each side, and make both sides match.
+    </p>
+  </Fragment>
+
+  <BalancingSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>reaction</strong> from the menu.</li>
+      <li>Use the <strong>+</strong> and <strong>−</strong> buttons to change the coefficient in front of each substance. The molecules on the stage update to match.</li>
+      <li>Check the <strong>atom tallies</strong> under the scale: green means that element is balanced, red means it is not.</li>
+      <li>When every element is green and the numbers are as small as possible, the equation is balanced. Use <strong>Hint</strong> if you get stuck, or <strong>Show answer</strong> to check.</li>
+      <li>Click an atom to identify it. <strong>Reset</strong> returns to the first reaction.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="equations">Reading a chemical equation</h2>
+  <p>
+    A chemical equation describes a reaction. The starting substances, called <strong>reactants</strong>, are written on
+    the left; the substances formed, called <strong>products</strong>, are on the right; and an arrow means “react to
+    form”. In 2 H₂ + O₂ → 2 H₂O, two molecules of hydrogen react with one molecule of oxygen to form two molecules of
+    water.
+  </p>
+
+  <h2 id="conservation">Conservation of mass</h2>
+  <p>
+    In the 1780s, Antoine Lavoisier carefully weighed reactions in sealed containers and showed that the total mass does
+    not change. We now know why: in a chemical reaction, atoms are rearranged into new combinations, but none are created
+    or destroyed. A balanced equation shows the same number of each kind of atom on both sides.
+  </p>
+
+  <h2 id="coefficients">Coefficients vs. subscripts</h2>
+  <ul>
+    <li>A <strong>subscript</strong> (the small number in H₂O) tells you how many atoms are in one molecule. It is part of the substance’s identity and must never be changed to balance an equation.</li>
+    <li>A <strong>coefficient</strong> (the big number in 2 H₂O) tells you how many molecules there are. It multiplies every atom in the formula.</li>
+  </ul>
+
+  <h2 id="method">A step-by-step method</h2>
+  <ol>
+    <li>Write the correct formulas for all reactants and products.</li>
+    <li>Count the atoms of each element on both sides.</li>
+    <li>Balance elements that appear in only one substance on each side first — often metals, then carbon, then hydrogen.</li>
+    <li>Leave elements that appear on their own (such as O₂ or H₂) until last, since changing them affects nothing else.</li>
+    <li>Check every element again, and reduce the coefficients to the smallest whole numbers.</li>
+  </ol>
+
+  <h2 id="example">Worked example: burning propane</h2>
+  <p>Start with C₃H₈ + O₂ → CO₂ + H₂O.</p>
+  <ol>
+    <li>Carbon: 3 on the left, so put 3 in front of CO₂.</li>
+    <li>Hydrogen: 8 on the left, so put 4 in front of H₂O (4 × 2 = 8).</li>
+    <li>Oxygen: on the right there are 3 × 2 + 4 × 1 = 10 atoms, so put 5 in front of O₂.</li>
+  </ol>
+  <code class="formula">C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O</code>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Reactant and product</dt>
+    <dd>A starting substance in a reaction, and a substance that is formed.</dd>
+    <dt>Coefficient</dt>
+    <dd>The number in front of a formula showing how many molecules or formula units take part.</dd>
+    <dt>Subscript</dt>
+    <dd>The small number in a formula showing how many atoms of an element are in one unit.</dd>
+    <dt>Stoichiometry</dt>
+    <dd>Using the ratios in a balanced equation to calculate the amounts of substances that react and form.</dd>
+  </dl>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Industry:</strong> balanced equations tell chemists exactly how much of each raw material is needed, such as nitrogen and hydrogen for ammonia fertilizer.</li>
+    <li><strong>Engines and stoves:</strong> the right fuel-to-air ratio for complete combustion comes straight from the balanced equation.</li>
+    <li><strong>Medicine and pharmacy:</strong> stoichiometry is used to make and dose medicines accurately.</li>
+    <li><strong>Environment:</strong> balanced equations let scientists calculate how much CO₂ is released by burning a given amount of fuel.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The number of molecules must be the same on both sides.”</strong> Only the number of each type of atom must match; molecules can change in number.</li>
+    <li><strong>“You can fix an equation by changing H₂O to H₂O₂.”</strong> That creates a different substance.</li>
+    <li><strong>“Mass is lost when things burn.”</strong> The products include gases that escape; in a sealed container, the mass stays the same.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Atoms are conserved in chemical reactions.</li>
+    <li>Balance with coefficients only, never subscripts.</li>
+    <li>Balance unique elements first and lone elements last.</li>
+    <li>Use the smallest whole-number coefficients.</li>
+  </ul>
+</SimulatorLayout>

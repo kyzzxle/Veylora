@@ -1,0 +1,134 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import NewtonSim from '../../simulators/newton/NewtonSim.astro';
+import { newtonQuiz } from '../../data/quizzes/newton';
+
+const toc = [
+  { id: 'forces', label: 'Forces and net force' },
+  { id: 'first', label: 'The first law: inertia' },
+  { id: 'second', label: 'The second law: F = ma' },
+  { id: 'third', label: 'The third law: action and reaction' },
+  { id: 'friction', label: 'Friction' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Chapter 5: Newton’s Laws of Motion. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/5-introduction' },
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 6.2: Friction. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/6-2-friction' },
+  { text: 'NASA Glenn Research Center. Newton’s Laws of Motion.' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="newtons-laws"
+  description="Interactive Newton’s laws simulator: push a cart with different forces and masses on ice, wood or carpet, see the free-body diagram, friction, acceleration and action–reaction pairs."
+  toc={toc}
+  quiz={newtonQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Why does a shopping trolley keep rolling after you let go? Why is a full one harder to start than an empty one? In
+      1687, Isaac Newton answered both questions with three laws that still describe almost every motion you see. Push
+      a cart, change its mass and the surface, and test them for yourself.
+    </p>
+  </Fragment>
+
+  <NewtonSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Set the <strong>applied push</strong>, the cart’s <strong>mass</strong> and the <strong>surface</strong>, then press <strong>Start</strong>.</li>
+      <li>Watch the <strong>free-body diagram</strong>: your push (teal), friction (red), weight and normal force (grey) and the net force (purple).</li>
+      <li>While the cart moves, set the push to <strong>0 N</strong>. On ice it glides on; on carpet it stops quickly.</li>
+      <li>Try a small push on carpet — static friction can hold the cart still. Turn on the <strong>action–reaction pair</strong> to see the third law.</li>
+      <li>Use <strong>Save run &amp; restart</strong> to compare velocity graphs. <strong>Reset</strong> restores the defaults.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="forces">Forces and net force</h2>
+  <p>
+    A <strong>force</strong> is a push or a pull, measured in newtons (N). Several forces usually act on an object at
+    once. What matters for its motion is the <strong>net force</strong> — the overall result when all forces are added as
+    vectors. Forces in opposite directions partly or completely cancel. When the net force is zero, the forces are
+    <strong>balanced</strong>.
+  </p>
+
+  <h2 id="first">The first law: inertia</h2>
+  <p>
+    <em>An object at rest stays at rest, and an object in motion keeps moving at the same speed in the same direction,
+    unless a net force acts on it.</em> This tendency to resist changes in motion is called <strong>inertia</strong>, and
+    more massive objects have more of it. On Earth, moving objects usually slow down because friction and air resistance
+    act on them — not because motion naturally fades away.
+  </p>
+
+  <h2 id="second">The second law: F = ma</h2>
+  <p>
+    <em>The acceleration of an object is proportional to the net force on it and inversely proportional to its mass.</em>
+    Double the net force and the acceleration doubles; double the mass and it halves. Acceleration is in the same
+    direction as the net force, so a net force opposite to the motion slows the object down.
+  </p>
+
+  <h2 id="third">The third law: action and reaction</h2>
+  <p>
+    <em>When one object exerts a force on another, the second object exerts an equal and opposite force on the first.</em>
+    When you push the cart, the cart pushes back on you just as hard. These two forces act on <strong>different</strong>
+    objects, so they do not cancel each other out. The cart accelerates because of the forces acting <em>on the cart</em>.
+  </p>
+
+  <h2 id="friction">Friction</h2>
+  <p>
+    <strong>Friction</strong> acts along surfaces in contact and opposes sliding. <strong>Static friction</strong> stops an
+    object from starting to move and can grow up to a maximum value, μs × N. Once the object slides, the smaller
+    <strong>kinetic friction</strong>, μk × N, acts. That is why it is harder to start pushing a heavy box than to keep
+    it moving. The coefficients μ depend on the two surfaces: ice is very slippery, carpet is not.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">F_net = m · a        a = F_net / m</code>
+  <code class="formula">Weight  W = m · g  (g ≈ 9.8 m/s² on Earth)       Normal force on level ground  N = W</code>
+  <code class="formula">Static friction ≤ μs · N        Kinetic friction = μk · N</code>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Newton (N)</dt>
+    <dd>The unit of force: 1 N accelerates 1 kg at 1 m/s².</dd>
+    <dt>Inertia</dt>
+    <dd>The resistance of an object to changes in its motion; it depends on mass.</dd>
+    <dt>Free-body diagram</dt>
+    <dd>A sketch showing all the forces acting on one object as arrows.</dd>
+    <dt>Normal force</dt>
+    <dd>The push of a surface perpendicular to it, supporting an object.</dd>
+    <dt>Equilibrium</dt>
+    <dd>The state of zero net force: at rest or moving at constant velocity.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Seat belts and airbags</strong> exist because of inertia: in a crash, your body keeps moving forward when the car stops.</li>
+    <li><strong>Rockets</strong> push exhaust gas backward; by the third law, the gas pushes the rocket forward.</li>
+    <li><strong>Vehicle design:</strong> lighter cars accelerate faster with the same engine force (second law).</li>
+    <li><strong>Road safety:</strong> braking distances are longer on ice because the maximum friction is much smaller.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“A moving object needs a force to keep it moving.”</strong> A force is needed only to overcome friction or to change velocity.</li>
+    <li><strong>“Action and reaction cancel, so nothing can move.”</strong> They act on different objects.</li>
+    <li><strong>“Heavier objects always need a force to stay still.”</strong> At rest with balanced forces, no net force is needed at all.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>First law: without a net force, velocity stays constant.</li>
+    <li>Second law: a = F_net / m.</li>
+    <li>Third law: forces come in equal and opposite pairs acting on different objects.</li>
+    <li>Friction opposes sliding; static friction can hold objects still up to a limit.</li>
+  </ul>
+  <p class="muted">Model note: air resistance is ignored, and friction coefficients are typical values for each surface.</p>
+</SimulatorLayout>

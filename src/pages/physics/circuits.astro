@@ -1,0 +1,139 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import CircuitsSim from '../../simulators/circuits/CircuitsSim.astro';
+import { circuitsQuiz } from '../../data/quizzes/circuits';
+
+const toc = [
+  { id: 'circuit', label: 'What makes a circuit?' },
+  { id: 'quantities', label: 'Voltage, current and resistance' },
+  { id: 'ohm', label: 'Ohm’s law and power' },
+  { id: 'series', label: 'Series circuits' },
+  { id: 'parallel', label: 'Parallel circuits' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 2, Chapter 9: Current and Resistance. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-2/pages/9-introduction' },
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 2, Section 10.2: Resistors in Series and Parallel. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-2/pages/10-2-resistors-in-series-and-parallel' },
+  { text: 'Urone, P. P., & Hinrichs, R. (2020). College Physics 2e, Section 20.2: Ohm’s Law. OpenStax.', url: 'https://openstax.org/books/college-physics-2e/pages/20-2-ohms-law-resistance-and-simple-circuits' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="circuits"
+  description="Interactive electric circuit simulator: compare series, parallel and combination circuits, change voltage and resistance, open switches and measure current, voltage and power with Ohm’s law."
+  toc={toc}
+  quiz={circuitsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Flip a switch and a light comes on instantly — but what is actually happening inside the wires? Build series,
+      parallel and combination circuits, change the battery and the bulbs, and use Ohm’s law to predict which bulbs glow
+      brightest.
+    </p>
+  </Fragment>
+
+  <CircuitsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>series</strong>, <strong>parallel</strong> or <strong>combination</strong> circuit.</li>
+      <li>Change the <strong>battery voltage</strong> and each bulb’s <strong>resistance</strong>. Brighter glow means more power.</li>
+      <li><strong>Click a switch</strong> on the diagram (or use the toggles) to open or close it, and see which bulbs go out.</li>
+      <li>Read the voltage and current on each bulb’s label, and the totals below the diagram. Blue dots show the electrons; faster dots mean more current.</li>
+      <li>Click the battery, a bulb or a wire for an explanation. <strong>Reset</strong> returns to three equal bulbs in series.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="circuit">What makes a circuit?</h2>
+  <p>
+    An electric <strong>circuit</strong> is a closed loop through which electric charge can flow. It needs a source of
+    energy (such as a battery), conducting paths (wires) and components that use the energy (such as bulbs). If the loop
+    is broken anywhere — by an open switch or a broken filament — the current stops.
+  </p>
+
+  <h2 id="quantities">Voltage, current and resistance</h2>
+  <ul>
+    <li><strong>Voltage</strong> (V, in volts) is the energy given to each unit of charge — the “push” from the battery.</li>
+    <li><strong>Current</strong> (I, in amperes or amps) is the rate at which charge flows past a point.</li>
+    <li><strong>Resistance</strong> (R, in ohms, Ω) is how strongly a component opposes the current.</li>
+  </ul>
+  <p>
+    A useful picture is water in pipes: voltage is like pressure, current like the flow rate, and resistance like a
+    narrow section of pipe. In metal wires the moving charges are electrons, which drift from the negative terminal to
+    the positive one. By an old convention, <em>conventional current</em> is drawn in the opposite direction, from + to −.
+  </p>
+
+  <h2 id="ohm">Ohm’s law and power</h2>
+  <p>
+    For many conductors at constant temperature, current is proportional to voltage: <strong>V = I × R</strong>. This is
+    Ohm’s law, named after Georg Ohm (1827). The <strong>power</strong> — the rate at which energy is converted, for
+    example into light and heat in a bulb — is P = V × I. A bulb’s brightness depends on its power.
+  </p>
+
+  <h2 id="series">Series circuits</h2>
+  <ul>
+    <li>There is only <strong>one path</strong>, so the <strong>same current</strong> flows through every component.</li>
+    <li>The battery voltage is <strong>shared</strong> between the components; bigger resistances take a bigger share.</li>
+    <li>Total resistance is the sum of the individual resistances, so adding bulbs makes them all dimmer.</li>
+    <li>If one component fails, the whole circuit stops.</li>
+  </ul>
+
+  <h2 id="parallel">Parallel circuits</h2>
+  <ul>
+    <li>Each component is on its own <strong>branch</strong> connected across the battery, so each gets the <strong>full voltage</strong>.</li>
+    <li>The total current is the <strong>sum</strong> of the branch currents.</li>
+    <li>Adding branches <strong>lowers</strong> the total resistance and increases the current from the battery.</li>
+    <li>Each branch can be switched independently.</li>
+  </ul>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">Ohm’s law:  V = I × R        Power:  P = V × I = I² × R = V² / R</code>
+  <code class="formula">Series:  R_total = R₁ + R₂ + R₃</code>
+  <code class="formula">Parallel:  1 / R_total = 1/R₁ + 1/R₂ + 1/R₃</code>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Ammeter</dt>
+    <dd>Measures current; connected in series.</dd>
+    <dt>Voltmeter</dt>
+    <dd>Measures voltage; connected in parallel across a component.</dd>
+    <dt>Open and closed circuit</dt>
+    <dd>A broken loop with no current / a complete loop with current.</dd>
+    <dt>Short circuit</dt>
+    <dd>An accidental path with almost no resistance, allowing a dangerously large current.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Home wiring</strong> is parallel, so every appliance gets the full mains voltage and works independently.</li>
+    <li><strong>Fuses and circuit breakers</strong> cut the current if too much flows, preventing overheating and fires.</li>
+    <li><strong>Old holiday lights</strong> were wired in series — one failed bulb made the whole string go dark.</li>
+    <li><strong>Batteries in a torch</strong> are connected in series to add their voltages.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Current gets used up by the bulbs.”</strong> Current is the same before and after a bulb in series; it is energy that is converted.</li>
+    <li><strong>“Electricity flows from + to −.”</strong> In metals, electrons actually flow from − to +; conventional current is a historical convention.</li>
+    <li><strong>“More bulbs always means more resistance.”</strong> Only in series; in parallel, adding bulbs reduces total resistance.</li>
+  </ul>
+  <div class="callout callout-warn">
+    <p><strong>Safety:</strong> mains electricity can kill. Only experiment with low-voltage batteries.</p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>V = I × R and P = V × I.</li>
+    <li>Series: same current, shared voltage, resistances add.</li>
+    <li>Parallel: same voltage, currents add, total resistance falls.</li>
+    <li>Brightness depends on power, not just on current or voltage alone.</li>
+  </ul>
+  <p class="muted">Model note: bulbs are treated as fixed resistors and the battery as ideal. Real filaments’ resistance rises as they heat up.</p>
+</SimulatorLayout>

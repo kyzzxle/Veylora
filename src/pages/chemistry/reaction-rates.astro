@@ -1,0 +1,141 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import RatesSim from '../../simulators/rates/RatesSim.astro';
+import { ratesQuiz } from '../../data/quizzes/rates';
+
+const toc = [
+  { id: 'rate', label: 'What is a reaction rate?' },
+  { id: 'collision', label: 'Collision theory' },
+  { id: 'factors', label: 'Four factors that change the rate' },
+  { id: 'graph', label: 'Reading the rate graph' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 12.2: Factors Affecting Reaction Rates. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/12-2-factors-affecting-reaction-rates' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 12.5: Collision Theory. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/12-5-collision-theory' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 12.7: Catalysis. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/12-7-catalysis' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="reaction-rates"
+  description="Interactive reaction rate simulator based on collision theory: change temperature, concentration, surface area and add a catalyst, and measure how fast product forms."
+  toc={toc}
+  quiz={ratesQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Some reactions are over in a flash, like fireworks; others take years, like rusting. Chemists can speed reactions
+      up or slow them down by controlling just four things. Watch individual particles collide, see which collisions
+      succeed, and discover why.
+    </p>
+  </Fragment>
+
+  <RatesSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong>. Blue acid particles move around the beaker; the grey solid sits at the bottom. Lighter grey atoms are on the surface and can react.</li>
+      <li>Watch for <strong>yellow flashes</strong>: successful collisions that turn an acid particle green (product).</li>
+      <li>Change one factor at a time — <strong>temperature</strong>, <strong>concentration</strong>, <strong>surface area</strong> or a <strong>catalyst</strong> — and compare the results.</li>
+      <li>Press <strong>Save run &amp; restart</strong> to keep a curve on the graph for comparison.</li>
+      <li>Click a particle to see whether it has enough energy to react. <strong>Reset</strong> restores the defaults.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="rate">What is a reaction rate?</h2>
+  <p>
+    The <strong>rate of reaction</strong> is how quickly reactants are used up or products are formed. It can be measured
+    as the amount of product formed per second, the volume of gas given off per minute, or the time taken for a colour
+    change or for a solid to disappear.
+  </p>
+
+  <h2 id="collision">Collision theory</h2>
+  <p>
+    Particles must <strong>collide</strong> to react. But most collisions just bounce off: to react, particles must hit
+    with at least a minimum amount of energy, called the <strong>activation energy</strong> (Eₐ), and in a suitable
+    orientation. The activation energy is like a hill the particles must climb before the reaction can “roll” on to
+    products. Anything that makes successful collisions more frequent increases the rate.
+  </p>
+
+  <h2 id="factors">Four factors that change the rate</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Factor</th><th>Effect</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Temperature</strong> ↑</td><td>Rate ↑ (often strongly)</td><td>Particles move faster, collide more often, and a much larger fraction has energy ≥ Eₐ</td></tr>
+        <tr><td><strong>Concentration</strong> (or gas pressure) ↑</td><td>Rate ↑</td><td>More particles in the same space collide more often</td></tr>
+        <tr><td><strong>Surface area</strong> ↑</td><td>Rate ↑</td><td>More particles of a solid are exposed and available for collisions</td></tr>
+        <tr><td><strong>Catalyst</strong></td><td>Rate ↑</td><td>Provides a pathway with a lower Eₐ, so more collisions succeed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="graph">Reading the rate graph</h2>
+  <p>
+    The graph shows the amount of product against time. Its <strong>slope</strong> is the rate: steepest at the start,
+    when reactants are plentiful, then flattening as they are used up. A steeper curve means a faster reaction. If the
+    same amount of reactant is used, every curve eventually reaches the same final amount of product — the factors change
+    <em>how fast</em> the reaction goes, not how much product it can make.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">Rate = change in amount of product ÷ time taken</code>
+  <p>The fraction of collisions with enough energy depends strongly on temperature (the Arrhenius relationship):</p>
+  <code class="formula">k = A · e^(−Eₐ / RT)</code>
+  <p>
+    Here k is the rate constant, A depends on collision frequency and orientation, R is the gas constant and T is the
+    absolute temperature. Lowering Eₐ (a catalyst) or raising T both increase k.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Activation energy (Eₐ)</dt>
+    <dd>The minimum energy colliding particles need to react.</dd>
+    <dt>Catalyst</dt>
+    <dd>A substance that speeds up a reaction without being used up. Biological catalysts are called enzymes.</dd>
+    <dt>Successful collision</dt>
+    <dd>A collision with enough energy and the right orientation to produce a reaction.</dd>
+    <dt>Surface area to volume ratio</dt>
+    <dd>How much surface a solid has relative to its size; it increases as a solid is broken into smaller pieces.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Food storage:</strong> refrigerators slow the reactions that spoil food.</li>
+    <li><strong>Catalytic converters</strong> in cars use platinum-group metals to convert toxic gases quickly.</li>
+    <li><strong>Industry:</strong> the Haber process uses an iron catalyst, high pressure and a carefully chosen temperature to make ammonia fast enough to be economical.</li>
+    <li><strong>Safety:</strong> fine dust (flour, coal, sawdust) has so much surface area that it can explode — a serious hazard in mills and mines.</li>
+    <li><strong>Your body:</strong> enzymes speed up digestion and metabolism enormously at body temperature.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Every collision causes a reaction.”</strong> Only a small fraction succeed.</li>
+    <li><strong>“A catalyst gives more product.”</strong> It only gives the same product faster.</li>
+    <li><strong>“Temperature only makes particles collide more often.”</strong> The main effect is more collisions with enough energy.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The simulator is two-dimensional, ignores orientation, and treats the solid as a grid of identical atoms. Particle
+    speeds are randomly refreshed to mimic collisions with water molecules, keeping a temperature-dependent spread of
+    energies.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Reactions need collisions with energy at least equal to the activation energy.</li>
+    <li>Temperature, concentration, surface area and catalysts all increase the rate.</li>
+    <li>The slope of a product–time graph is the rate.</li>
+    <li>Catalysts lower the activation energy and are not used up.</li>
+  </ul>
+</SimulatorLayout>

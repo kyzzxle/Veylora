@@ -1,0 +1,80 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import Readout from '../../components/sim/Readout.astro';
+import { REACTIONS } from './data';
+---
+
+<SimShell id="balancing-sim" label="A chemical equation drawn as molecules, with atom counts on each side." playable={false} hint={false} aspect="16 / 10" badge="Not balanced">
+  <button slot="toolbar" type="button" class="btn btn-sm" data-hint>Hint</button>
+  <button slot="toolbar" type="button" class="btn btn-sm btn-ghost" data-show>Show answer</button>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="bal-reaction">Reaction</label>
+    <select id="bal-reaction" class="select" data-reaction>
+      {REACTIONS.map((r, i) => <option value={i}>{r.name}</option>)}
+    </select>
+  </div>
+  <div>
+    <h3>Coefficients</h3>
+    <div class="bal-eq" data-equation aria-live="polite"></div>
+    <p class="ctrl-help">Change only the big numbers in front. Changing the small subscripts would make a different substance.</p>
+  </div>
+  <p class="bal-msg" data-msg></p>
+
+  <Fragment slot="readouts">
+    <Readout name="status" label="Equation" key />
+    <Readout name="counts" label="Atoms (left = right?)" />
+    <Readout name="moves" label="Changes made" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .bal-eq {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+  }
+  .bal-eq :global(.term) {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 10px;
+    background: var(--surface-2);
+  }
+  .bal-eq :global(.term .step) {
+    display: flex;
+    gap: 2px;
+  }
+  .bal-eq :global(.term button) {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .bal-eq :global(.term button:hover) {
+    border-color: var(--accent);
+  }
+  .bal-eq :global(.coef) {
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .bal-msg {
+    margin: 0;
+    font-size: 0.9rem;
+    min-height: 1.4em;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initBalancing } from './balancing';
+  mountSim('#balancing-sim', initBalancing);
+</script>
