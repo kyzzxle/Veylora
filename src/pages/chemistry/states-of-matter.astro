@@ -1,0 +1,184 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import StatesSim from '../../simulators/states/StatesSim.astro';
+import { statesQuiz } from '../../data/quizzes/states';
+
+const toc = [
+  { id: 'model', label: 'The particle model' },
+  { id: 'three', label: 'Solids, liquids and gases' },
+  { id: 'temperature', label: 'Temperature and particle motion' },
+  { id: 'changes', label: 'Changes of state' },
+  { id: 'energy', label: 'Energy during a change of state' },
+  { id: 'phase-diagram', label: 'Pressure and phase diagrams' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Chapter 10: Liquids and Solids (10.3 Phase Transitions; 10.4 Phase Diagrams). OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/10-3-phase-transitions' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 9.5: The Kinetic-Molecular Theory. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/9-5-the-kinetic-molecular-theory' },
+  { text: 'Allen, M. P., & Tildesley, D. J. (2017). Computer Simulation of Liquids (2nd ed.). Oxford University Press. (Lennard-Jones molecular dynamics.)' },
+  { text: 'NIST Chemistry WebBook: phase change data for water and carbon dioxide.', url: 'https://webbook.nist.gov/chemistry/' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="states-of-matter"
+  description="Interactive states of matter simulator: heat and cool a simplified particle model and watch it melt, freeze, evaporate, boil and condense, with energy bars and a phase diagram."
+  toc={toc}
+  quiz={statesQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Ice, water and steam are the same substance. So what actually changes when ice melts or water boils? Heat and cool a
+      container of particles and watch a regular solid loosen into a flowing liquid, then fly apart into a gas. Nothing
+      in the model tells the particles which state to be in: it all comes from attraction competing with motion.
+    </p>
+  </Fragment>
+
+  <StatesSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong>. The particles begin as a cold solid. Colours show their speed: blue is slow, red is fast.</li>
+      <li>Drag the <strong>Temperature</strong> slider or press <strong>Solid</strong>, <strong>Liquid</strong> or <strong>Gas</strong>. Watch the arrangement, the spacing and the readouts change.</li>
+      <li>Press a <strong>change of state</strong> button, such as <strong>Melting</strong> or <strong>Condensation</strong>, to watch the model heated or cooled slowly through that change. Read the note under the buttons.</li>
+      <li>Switch <strong>Colour particles by</strong> to <strong>Arrangement</strong> to see which particles are solid-like, liquid-like or gas-like, and follow the graph below.</li>
+      <li>Click a particle, the thermometer, the energy bars or a line on the phase diagram to learn more. <strong>Reset</strong> restores the cold solid.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="model">The particle model</h2>
+  <p>
+    All matter is made of tiny particles: atoms, molecules or ions. The <strong>particle model</strong> (also called the
+    kinetic theory of matter) explains the states of matter with three ideas. The particles are always
+    <strong>moving</strong>. They <strong>attract</strong> each other when close together, and repel strongly if pushed
+    into each other. And the hotter the substance, the <strong>faster</strong> its particles move on average.
+  </p>
+  <p>
+    Whether a substance is a solid, liquid or gas depends on a contest between those attractions, which try to hold the
+    particles together, and their motion, which tries to separate them.
+  </p>
+
+  <h2 id="three">Solids, liquids and gases</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>State</th><th>Arrangement</th><th>Motion</th><th>Properties</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Solid</strong></td><td>Close together, usually in a regular pattern</td><td>Vibrate about fixed places</td><td>Fixed shape and volume; hard to compress</td></tr>
+        <tr><td><strong>Liquid</strong></td><td>Close together, irregular</td><td>Slide past each other</td><td>Flows and takes the shape of its container; fixed volume; hard to compress</td></tr>
+        <tr><td><strong>Gas</strong></td><td>Far apart, random</td><td>Move quickly in straight lines between collisions</td><td>Fills its container; easy to compress</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Notice in the simulator that the gap between neighbouring particles barely changes between solid and liquid, but jumps
+    in the gas. That is why solids and liquids have similar densities, while a gas is far less dense.
+  </p>
+
+  <h2 id="temperature">Temperature and particle motion</h2>
+  <p>
+    <strong>Temperature</strong> is a measure of the average kinetic energy of the particles. Not every particle moves at
+    the same speed: at any temperature there is a range, from slow to fast, and collisions constantly swap energy between
+    them. Click a few particles in the simulator to see their different speeds. Heating raises the average; cooling
+    lowers it. At absolute zero (0 K, −273.15 °C) particle motion would be at its minimum.
+  </p>
+
+  <h2 id="changes">Changes of state</h2>
+  <ul>
+    <li><strong>Melting</strong> (solid → liquid): particles vibrate so strongly that they break out of their fixed places.</li>
+    <li><strong>Freezing</strong> (liquid → solid): particles slow down until attractions lock them into place.</li>
+    <li><strong>Evaporation</strong> (liquid → gas at the surface): the fastest particles at the surface escape, at any temperature. Because the fastest particles leave, evaporation cools the liquid left behind.</li>
+    <li><strong>Boiling</strong> (liquid → gas throughout): at the boiling point, particles throughout the liquid can escape, forming bubbles of gas inside it.</li>
+    <li><strong>Condensation</strong> (gas → liquid): slow gas particles stick together when they meet, forming droplets.</li>
+    <li><strong>Sublimation</strong> (solid → gas) and <strong>deposition</strong> (gas → solid) skip the liquid state entirely.</li>
+  </ul>
+  <p>
+    These are <strong>physical changes</strong>: the particles themselves are not changed, and no new substance is made.
+    Melting ice and freezing water are the same water molecules, just arranged differently.
+  </p>
+
+  <h2 id="energy">Energy during a change of state</h2>
+  <p>
+    Heat a pure solid and its temperature rises until it starts to melt. Then something surprising happens: the
+    temperature stays almost constant until all of it has melted. The energy supplied is not making the particles faster;
+    it is being used to <strong>overcome the attractions</strong> between them. This energy is called
+    <strong>latent heat</strong>. The same happens during boiling, which needs much more energy because the particles must
+    be separated completely. Water needs about 334 joules to melt each gram of ice, but about 2,260 joules to boil each
+    gram of water. When a gas condenses or a liquid freezes, the same energy is released again.
+  </p>
+  <p>
+    The two energy bars in the simulator show this: the red bar is the motion energy (temperature), and the green bar is
+    the energy stored by pulling particles apart. Watch the green bar jump during melting and especially during boiling.
+  </p>
+
+  <h2 id="phase-diagram">Pressure and phase diagrams</h2>
+  <p>
+    State depends on <strong>pressure</strong> as well as temperature. Higher pressure pushes particles together, so it
+    favours the denser states. A <strong>phase diagram</strong> maps which state a substance is in at every temperature
+    and pressure. The lines mark the conditions where two states can exist together. At the <strong>triple point</strong>
+    all three coexist; below that pressure, a solid cannot melt, and it sublimes instead. For water the triple point is
+    0.01 °C at about 0.6% of normal air pressure, so ice normally melts. For carbon dioxide it is −56.6 °C at about 5
+    times normal air pressure, so dry ice sublimes on a kitchen table. This is also why water boils at only about 70 °C
+    on top of Mount Everest, where the air pressure is about a third of that at sea level.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Kinetic energy</dt>
+    <dd>Energy of motion. The average kinetic energy of the particles sets the temperature.</dd>
+    <dt>Melting point</dt>
+    <dd>The temperature at which a solid turns into a liquid (and a liquid freezes) at a given pressure.</dd>
+    <dt>Boiling point</dt>
+    <dd>The temperature at which a liquid boils throughout at a given pressure.</dd>
+    <dt>Latent heat</dt>
+    <dd>Energy taken in or given out during a change of state without a change in temperature.</dd>
+    <dt>Triple point</dt>
+    <dd>The single temperature and pressure at which solid, liquid and gas can coexist.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Sweating:</strong> evaporation of sweat removes the fastest water molecules and cools your skin.</li>
+    <li><strong>Refrigerators</strong> pump a fluid that evaporates inside (absorbing heat) and condenses outside (releasing it).</li>
+    <li><strong>Pressure cookers</strong> raise the boiling point of water above 100 °C so food cooks faster.</li>
+    <li><strong>Freeze-drying</strong> foods and medicines removes ice by sublimation at low pressure.</li>
+    <li><strong>Metal casting:</strong> metals are melted, poured into moulds and frozen into shape.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Particles in a solid don’t move.”</strong> They vibrate constantly; they just stay in place.</li>
+    <li><strong>“Particles expand when heated.”</strong> The particles stay the same size; the spaces between them change.</li>
+    <li><strong>“Evaporation only happens at the boiling point.”</strong> It happens at any temperature, more slowly when cold.</li>
+    <li><strong>“The bubbles in boiling water are air.”</strong> They are mostly water vapour.</li>
+    <li><strong>“Changing state is a chemical reaction.”</strong> It is a physical change; no new substance forms.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The simulator is a small <strong>molecular dynamics</strong> model: 100 identical round particles in two dimensions,
+    moving by Newton’s laws with a standard Lennard-Jones attraction and repulsion. A thermostat plays the role of the
+    heater, and weak gravity keeps the liquid at the bottom. Temperatures are in model units, chosen so that this model
+    melts at about 35 and boils at about 70; they are not degrees Celsius and do not describe a particular substance.
+    With so few particles, changes of state are spread over a range of temperatures rather than happening at one sharp
+    temperature, boiling does not form proper bubbles, and the temperature does not stay perfectly constant during a
+    change. Sublimation is real but far too slow to see in a model this small, so it is shown on the schematic phase
+    diagram instead. Real molecules have shapes, and some (like water) form hydrogen bonds, which is why ice is less
+    dense than liquid water: something this model cannot show.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>States of matter differ in particle arrangement and motion, not in the particles themselves.</li>
+    <li>Temperature measures the average kinetic energy of the particles, and speeds vary around that average.</li>
+    <li>A change of state happens when particle motion overcomes, or gives in to, the attractions between particles.</li>
+    <li>During melting and boiling, energy goes into separating particles, so the temperature stays nearly constant.</li>
+    <li>Pressure also controls state; below the triple point a solid sublimes instead of melting.</li>
+  </ul>
+</SimulatorLayout>

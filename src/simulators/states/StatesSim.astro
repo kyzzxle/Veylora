@@ -1,0 +1,109 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell
+  id="states-sim"
+  label="A simplified particle model of a simple substance in a container, with a thermometer, energy bars and a schematic phase diagram."
+  hint="Click a particle"
+  badge="Solid"
+  aspect="16 / 10"
+>
+  <div class="ctrl">
+    <span class="ctrl-label" id="som-state-label">Jump to a state</span>
+    <div class="preset-row" role="group" aria-labelledby="som-state-label">
+      <button type="button" class="preset" data-state="solid">Solid</button>
+      <button type="button" class="preset" data-state="liquid">Liquid</button>
+      <button type="button" class="preset" data-state="gas">Gas</button>
+    </div>
+  </div>
+  <SliderControl
+    name="som-temp"
+    label="Temperature (heater setting)"
+    min={5}
+    max={160}
+    step={1}
+    value={15}
+    scale={['Cold', 'Hot']}
+    help="Model units: in this model the solid melts at about 35 and boils at about 70."
+  />
+  <div class="ctrl">
+    <span class="ctrl-label" id="som-proc-label">Watch a change of state</span>
+    <div class="preset-row" role="group" aria-labelledby="som-proc-label">
+      <button type="button" class="preset" data-proc="melt" aria-pressed="false">Melting</button>
+      <button type="button" class="preset" data-proc="freeze" aria-pressed="false">Freezing</button>
+      <button type="button" class="preset" data-proc="evap" aria-pressed="false">Evaporation</button>
+      <button type="button" class="preset" data-proc="boil" aria-pressed="false">Boiling</button>
+      <button type="button" class="preset" data-proc="condense" aria-pressed="false">Condensation</button>
+      <button type="button" class="preset" data-proc="sublime" aria-pressed="false">Sublimation</button>
+    </div>
+  </div>
+  <p class="som-note" data-note aria-live="polite"></p>
+  <ChoiceControl
+    name="som-colour"
+    label="Colour particles by"
+    value="speed"
+    options={[
+      { value: 'speed', label: 'Speed' },
+      { value: 'arrangement', label: 'Arrangement' },
+    ]}
+  />
+  <ToggleControl name="som-bonds" label="Show attractions between close particles" checked />
+  <SliderControl name="som-speed" label="Simulation speed" min={1} max={6} step={1} value={3} />
+  <div data-key="speed">
+    <SimKey
+      items={[
+        { label: 'Slow particle', color: 'hsl(225, 80%, 52%)' },
+        { label: 'Medium', color: 'hsl(115, 80%, 54%)' },
+        { label: 'Fast particle', color: 'hsl(5, 80%, 56%)' },
+        { label: 'Attraction between close particles', color: 'text-faint', shape: 'line' },
+      ]}
+    />
+  </div>
+  <div data-key="arrangement" hidden>
+    <SimKey
+      items={[
+        { label: 'Solid-like: held in a fixed place', color: 'sim-water' },
+        { label: 'Liquid-like: touching but moving', color: 'accent' },
+        { label: 'Gas-like: separate and free', color: 'warning' },
+        { label: 'Attraction between close particles', color: 'text-faint', shape: 'line' },
+      ]}
+    />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="state" label="State of the substance" key />
+    <Readout name="temp" label="Temperature" />
+    <Readout name="speed" label="Average particle speed" />
+    <Readout name="space" label="Average gap to nearest particle" />
+    <Readout name="touch" label="Close neighbours per particle" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="som-graph" title="Particles in each arrangement over time" desc="Percentage of particles that are solid-like, liquid-like and gas-like over the last 120 model time units." />
+</SimShell>
+
+<style>
+  .som-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#states-sim) {
+    --stage-aspect-mobile: 16 / 25;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initStates } from './states';
+  mountSim('#states-sim', initStates);
+</script>

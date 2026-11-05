@@ -237,6 +237,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['chemistry/balancing-equations', 'chemistry/acids-and-bases', 'biology/photosynthesis', 'ecology/climate-change'],
       },
+      {
+        slug: 'states-of-matter',
+        title: 'States of Matter and Particle Motion',
+        summary: 'Heat and cool a particle model and watch it melt, freeze, evaporate, boil and condense.',
+        keywords: ['states of matter', 'solid', 'liquid', 'gas', 'melting', 'freezing', 'evaporation', 'boiling', 'condensation', 'sublimation', 'deposition', 'particle model', 'kinetic theory', 'latent heat', 'phase diagram'],
+        level: 'Beginner',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['earth-science/water-cycle', 'chemistry/reaction-rates', 'botany/transpiration', 'chemistry/chemical-bonding'],
+      },
     ],
   },
   {

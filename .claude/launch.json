@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--", "--port", "4321"],
       "port": 4321
+    },
+    {
+      "name": "veylora-preview",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["astro", "preview", "--port", "4330"],
+      "port": 4330
     }
   ]
 }
