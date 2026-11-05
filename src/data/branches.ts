@@ -260,6 +260,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['anatomy-physiology/heart-circulation', 'biology/osmosis', 'anatomy-physiology/digestive-system', 'earth-science/water-cycle'],
       },
+      {
+        slug: 'reproductive-system',
+        title: 'Human Reproductive System',
+        summary: 'Explore the female and male reproductive systems, the menstrual cycle hormones and the first days after fertilisation.',
+        keywords: ['reproduction', 'ovary', 'testis', 'menstrual cycle', 'hormones', 'fertilisation', 'embryo', 'gamete'],
+        level: 'Intermediate',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['biology/dna-replication', 'biology/cell-structure', 'anatomy-physiology/urinary-system', 'biology/natural-selection'],
+      },
     ],
   },
   {

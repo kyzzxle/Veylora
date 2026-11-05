@@ -1,0 +1,54 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="reproduction-sim" label="Schematic diagrams of the female and male reproductive systems, a menstrual cycle chart, and early embryo development." hint={false} badge="Female anatomy" aspect="16 / 9">
+  <ChoiceControl
+    name="rp-view"
+    label="View"
+    value="female"
+    options={[
+      { value: 'female', label: 'Female system' },
+      { value: 'male', label: 'Male system' },
+      { value: 'cycle', label: 'Menstrual cycle' },
+      { value: 'fert', label: 'Fertilisation' },
+    ]}
+  />
+  <p class="rp-note" data-note aria-live="polite"></p>
+  <div data-only="cycle">
+    <SliderControl name="rp-day" label="Day of the cycle" min={1} max={28} step={0.5} value={14} help="Press Start to play through the cycle." />
+    <ToggleControl name="rp-preg" label="A fertilised egg implants (pregnancy)" />
+  </div>
+  <div data-only="fert">
+    <SliderControl name="rp-fday" label="Days after fertilisation" min={0} max={10} step={0.1} value={0} help="Press Start to watch the first ten days." />
+  </div>
+  <ToggleControl name="rp-labels" label="Show labels" checked />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .rp-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initReproduction } from './reproduction';
+  mountSim('#reproduction-sim', initReproduction);
+</script>

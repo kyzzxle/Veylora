@@ -1,0 +1,156 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import ReproductionSim from '../../simulators/reproduction/ReproductionSim.astro';
+import { reproductionQuiz } from '../../data/quizzes/reproduction';
+
+const toc = [
+  { id: 'overview', label: 'What the reproductive system does' },
+  { id: 'female', label: 'Female reproductive anatomy' },
+  { id: 'male', label: 'Male reproductive anatomy' },
+  { id: 'gametes', label: 'Gamete production' },
+  { id: 'hormones', label: 'Reproductive hormones' },
+  { id: 'cycle', label: 'The menstrual cycle' },
+  { id: 'fertilisation', label: 'Fertilisation and early development' },
+  { id: 'relevance', label: 'Health and medicine' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Chapter 27: The Reproductive System. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/27-introduction' },
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Section 28.2: Embryonic Development. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/28-2-embryonic-development' },
+  { text: 'Moore, K. L., Persaud, T. V. N., & Torchia, M. G. (2019). The Developing Human: Clinically Oriented Embryology (11th ed.). Elsevier.' },
+  { text: 'Reed, B. G., & Carr, B. R. (2018). The Normal Menstrual Cycle and the Control of Ovulation. In Endotext. MDText.com.', url: 'https://www.ncbi.nlm.nih.gov/books/NBK279054/' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="reproductive-system"
+  description="Interactive human reproductive system simulator: explore labelled diagrams of the female and male systems, follow sperm and egg transport, step through the menstrual cycle hormones and watch early embryo development."
+  toc={toc}
+  quiz={reproductionQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Reproduction is how every living thing passes on its genes. In humans, two specialised systems produce sex cells
+      (gametes), and a carefully timed set of hormones prepares the body for a possible pregnancy. Explore the anatomy,
+      step through the monthly cycle, and follow the first ten days after fertilisation.
+    </p>
+  </Fragment>
+
+  <ReproductionSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>view</strong>. In the anatomy views, <strong>click any structure</strong> to learn its function, and compare the magnified egg and sperm cells.</li>
+      <li>In <strong>Menstrual cycle</strong>, press <strong>Start</strong> or drag the <strong>day</strong> slider and watch the hormones, the ovary and the uterine lining change together.</li>
+      <li>Turn on <strong>A fertilised egg implants</strong> to see how hCG and progesterone keep the lining and stop menstruation.</li>
+      <li>In <strong>Fertilisation</strong>, press <strong>Start</strong> to follow the early embryo from fertilisation in the tube to implantation in the uterus.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="overview">What the reproductive system does</h2>
+  <p>
+    The reproductive systems produce <strong>gametes</strong> (eggs and sperm), make <strong>sex hormones</strong> that
+    control development and fertility, and, in females, support a developing baby. Unlike other body systems, they are
+    not needed for an individual to survive, but they are essential for the species. They become fully active at
+    <strong>puberty</strong>, when rising hormone levels cause the body to mature.
+  </p>
+
+  <h2 id="female">Female reproductive anatomy</h2>
+  <ul>
+    <li><strong>Ovaries:</strong> two almond-sized glands that store immature eggs and release one, usually each month. They also make oestrogen and progesterone.</li>
+    <li><strong>Fallopian tubes:</strong> carry the egg from the ovary to the uterus; fertilisation usually happens here.</li>
+    <li><strong>Uterus:</strong> a muscular organ with a lining (the endometrium) where an embryo can implant and grow.</li>
+    <li><strong>Cervix:</strong> the neck of the uterus, opening into the vagina.</li>
+    <li><strong>Vagina:</strong> a muscular canal from the cervix to the outside of the body, also the birth canal.</li>
+  </ul>
+
+  <h2 id="male">Male reproductive anatomy</h2>
+  <ul>
+    <li><strong>Testes:</strong> make sperm and testosterone. They sit outside the abdomen in the <strong>scrotum</strong>, which keeps them slightly cooler, as sperm production needs.</li>
+    <li><strong>Epididymis:</strong> a long coiled tube where sperm mature and are stored.</li>
+    <li><strong>Vas deferens (sperm ducts):</strong> carry sperm towards the urethra.</li>
+    <li><strong>Seminal vesicles and prostate gland:</strong> add fluids that provide energy and protect sperm, forming semen.</li>
+    <li><strong>Urethra:</strong> carries urine or semen out of the body through the penis.</li>
+  </ul>
+
+  <h2 id="gametes">Gamete production</h2>
+  <p>
+    Gametes are made by <strong>meiosis</strong>, a type of cell division that halves the chromosome number from 46 to 23.
+    Sperm production (<strong>spermatogenesis</strong>) begins at puberty and continues throughout life, producing millions
+    of sperm a day; each takes about 74 days to form. Egg production (<strong>oogenesis</strong>) starts before birth: a
+    baby girl is born with all her immature eggs, and from puberty one usually matures each month until
+    <strong>menopause</strong>. Each gamete is adapted to its job: the sperm has a tail and many mitochondria; the egg is
+    large with a food store.
+  </p>
+
+  <h2 id="hormones">Reproductive hormones</h2>
+  <p>
+    The <strong>hypothalamus</strong> and <strong>pituitary gland</strong> in the brain control reproduction. The pituitary
+    releases <strong>FSH</strong> (follicle-stimulating hormone) and <strong>LH</strong> (luteinising hormone), which act on
+    the ovaries and testes. The ovaries respond by making <strong>oestrogen</strong> and <strong>progesterone</strong>; the
+    testes make <strong>testosterone</strong>. These sex hormones cause the changes of puberty and control the menstrual
+    cycle and sperm production, often through feedback loops.
+  </p>
+
+  <h2 id="cycle">The menstrual cycle</h2>
+  <p>
+    The cycle lasts about 28 days on average, but anywhere from about 21 to 35 days is common. During the
+    <strong>follicular phase</strong>, FSH makes a follicle grow and oestrogen rebuilds the uterine lining. A surge of LH
+    triggers <strong>ovulation</strong>, the release of an egg, around the middle of the cycle. In the
+    <strong>luteal phase</strong>, the empty follicle becomes the <strong>corpus luteum</strong>, which makes progesterone
+    to keep the lining ready. If there is no pregnancy, hormone levels fall and the lining is shed during
+    <strong>menstruation</strong>, a period, which marks day 1 of the next cycle.
+  </p>
+
+  <h2 id="fertilisation">Fertilisation and early development</h2>
+  <p>
+    If a sperm meets the egg in a fallopian tube, enzymes in the sperm’s acrosome help it through the egg’s outer layer.
+    Once one sperm enters, the egg’s coat changes to block others. The nuclei combine to form a <strong>zygote</strong>,
+    which divides repeatedly as it travels to the uterus, becoming a ball of cells (morula) and then a hollow
+    <strong>blastocyst</strong>. About six to ten days after fertilisation it implants in the uterine lining and begins to
+    make <strong>hCG</strong>, the hormone detected by pregnancy tests. Over the following weeks the placenta forms and the
+    embryo’s organs begin to develop.
+  </p>
+
+  <h2 id="relevance">Health and medicine</h2>
+  <p>
+    Understanding the reproductive system underpins fertility treatments such as IVF (in vitro fertilisation),
+    contraception, which works by preventing ovulation, fertilisation or implantation, and screening for conditions such
+    as testicular and cervical cancer. Hormone levels such as FSH and LH are measured to investigate fertility and
+    puberty. Talking to a doctor or nurse is the right step for any personal health question.
+  </p>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> The diagrams are simplified schematics, and the cycle shows an idealised
+      28-day pattern with relative hormone levels; real cycles vary widely between people and from month to month. This
+      simulator is not medical advice and cannot be used to track fertility or plan or prevent pregnancy. See our
+      <a href="/disclaimer/">educational and medical disclaimer</a>.
+    </p>
+  </div>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Gamete</dt>
+    <dd>A sex cell (egg or sperm) containing 23 chromosomes.</dd>
+    <dt>Ovulation</dt>
+    <dd>The release of an egg from an ovary.</dd>
+    <dt>Zygote</dt>
+    <dd>The single cell formed when an egg and sperm fuse.</dd>
+    <dt>Implantation</dt>
+    <dd>The embedding of the early embryo in the uterine lining.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Testes make sperm and testosterone; ovaries release eggs and make oestrogen and progesterone.</li>
+    <li>Gametes are made by meiosis and carry 23 chromosomes.</li>
+    <li>FSH, LH, oestrogen and progesterone coordinate the menstrual cycle, with ovulation around mid-cycle.</li>
+    <li>Fertilisation happens in a fallopian tube; the embryo implants in the uterus about a week later.</li>
+  </ul>
+  <p class="muted">Model note: hormone curves show relative levels for an idealised cycle; units and timings differ between people.</p>
+</SimulatorLayout>
