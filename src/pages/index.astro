@@ -238,8 +238,8 @@ const jsonLd = {
     <div class="container">
       <div class="section-head" data-reveal>
         <p class="eyebrow">Science branches</p>
-        <h2 id="branches-title">Ten branches. Fifty experiments.</h2>
-        <p>From cells to stars, every branch is planned with five simulators, each built around a different way of interacting with the science.</p>
+        <h2 id="branches-title">Ten branches. {stats.topics} experiments.</h2>
+        <p>From cells to stars, every branch has at least five simulators, each built around a different way of interacting with the science.</p>
       </div>
       <div class="grid grid-4">
         {branches.map((b, i) => <BranchCard branch={b} delay={(i % 4) * 70} />)}

@@ -1,0 +1,146 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import KidneySim from '../../simulators/kidney/KidneySim.astro';
+import { kidneyQuiz } from '../../data/quizzes/kidney';
+
+const toc = [
+  { id: 'overview', label: 'The urinary system' },
+  { id: 'kidney', label: 'Inside the kidney' },
+  { id: 'nephron', label: 'The nephron, step by step' },
+  { id: 'water', label: 'Water balance and ADH' },
+  { id: 'regulation', label: 'Salt, acid and blood pressure' },
+  { id: 'relevance', label: 'Kidneys and health' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Chapter 25: The Urinary System. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/25-introduction' },
+  { text: 'Hall, J. E., & Hall, M. E. (2020). Guyton and Hall Textbook of Medical Physiology (14th ed.), Chapters 26–30. Elsevier.' },
+  { text: 'Koeppen, B. M., & Stanton, B. A. (2019). Renal Physiology (6th ed.). Elsevier.' },
+  { text: 'National Institute of Diabetes and Digestive and Kidney Diseases. Your Kidneys & How They Work.', url: 'https://www.niddk.nih.gov/health-information/kidney-disease/kidneys-how-they-work' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="urinary-system"
+  description="Interactive kidney and urinary system simulator: watch blood filtered in a nephron, follow water through reabsorption and into the bladder, and change water intake, salt, blood glucose and blood pressure."
+  toc={toc}
+  quiz={kidneyQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every day your kidneys filter about 180 litres of fluid from your blood, more than twice your body weight, and
+      return almost all of it. What is left becomes about 1–2 litres of urine carrying away wastes and excess water and
+      salt. Watch a nephron at work, follow a single water molecule, and see how your kidneys respond when you are thirsty,
+      drink a lot, or have high blood sugar.
+    </p>
+  </Fragment>
+
+  <KidneySim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong>. On the left is the whole urinary system; on the right, one magnified nephron.</li>
+      <li>Watch particles enter the <strong>glomerulus</strong>. Cells and proteins stay in the blood; water, salt, glucose and urea are filtered.</li>
+      <li>Follow the ringed <strong>water molecule</strong> and read where it is. Most filtered water is reabsorbed into the blood.</li>
+      <li>Change <strong>water drunk</strong>, <strong>salt</strong>, <strong>blood glucose</strong> and <strong>blood pressure</strong>, or use the examples, and watch urine volume, concentration, colour and ADH change.</li>
+      <li><strong>Click any structure</strong> to learn about it. Use <strong>Empty the bladder</strong> when it gets full.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="overview">The urinary system</h2>
+  <p>
+    The urinary system has four parts. Two <strong>kidneys</strong>, each about the size of a fist, sit against the back
+    wall of the abdomen just below the ribs. They make urine, which flows down two <strong>ureters</strong> to the
+    <strong>urinary bladder</strong>, a muscular bag that stores it. Urine leaves the body through the
+    <strong>urethra</strong>, controlled by ring-shaped sphincter muscles. The kidneys receive about a fifth of all the
+    blood pumped by the heart through the renal arteries.
+  </p>
+
+  <h2 id="kidney">Inside the kidney</h2>
+  <p>
+    A kidney has an outer <strong>cortex</strong> and an inner <strong>medulla</strong>, and a funnel-shaped
+    <strong>renal pelvis</strong> that collects urine. About a million microscopic <strong>nephrons</strong> do the work.
+    Each nephron starts in the cortex with a <strong>glomerulus</strong>, a knot of capillaries inside a cup called
+    <strong>Bowman’s capsule</strong>, and continues as a long tubule that dips into the medulla and back before
+    draining into a <strong>collecting duct</strong>.
+  </p>
+
+  <h2 id="nephron">The nephron, step by step</h2>
+  <ol>
+    <li><strong>Filtration:</strong> blood pressure forces water and small molecules (salts, glucose, amino acids, urea) out of the glomerulus into Bowman’s capsule. Blood cells and large proteins stay in the blood.</li>
+    <li><strong>Selective reabsorption:</strong> in the <strong>proximal tubule</strong>, all the glucose and amino acids and about two thirds of the water and salt are taken back into the surrounding capillaries, often by active transport.</li>
+    <li><strong>The loop of Henle</strong> builds up a very salty medulla: the descending limb loses water, the ascending limb pumps out salt.</li>
+    <li><strong>Secretion:</strong> in the proximal and distal tubules, some substances such as hydrogen ions, potassium and many drugs are actively moved from the blood into the tubule.</li>
+    <li><strong>The collecting duct</strong> decides the final amount of water in urine, depending on ADH.</li>
+  </ol>
+
+  <h2 id="water">Water balance and ADH</h2>
+  <p>
+    The brain constantly monitors how concentrated the blood is. When you are short of water, the hypothalamus detects
+    it and the pituitary gland releases <strong>antidiuretic hormone (ADH)</strong>. ADH inserts water channels
+    (aquaporins) into the collecting duct, so water flows out into the salty medulla and back into the blood: you produce
+    a small volume of dark, concentrated urine. When you drink a lot, ADH falls, the ducts stay watertight and you produce
+    lots of pale, dilute urine. Human urine can range from about 50 to 1,200 mOsm/kg, but the kidneys must always excrete
+    at least about half a litre a day to remove wastes. This is an example of <strong>homeostasis</strong> by negative
+    feedback.
+  </p>
+
+  <h2 id="regulation">Salt, acid and blood pressure</h2>
+  <p>
+    The kidneys also control the levels of sodium, potassium and calcium in the blood, and its acidity, by adjusting
+    reabsorption and secretion. The hormone <strong>aldosterone</strong> from the adrenal glands increases salt
+    reabsorption. Because water follows salt, the kidneys help control blood volume and therefore blood pressure; they
+    even release a hormone, renin, when pressure falls. They also make erythropoietin, which stimulates red blood cell
+    production, and activate vitamin D.
+  </p>
+
+  <h2 id="relevance">Kidneys and health</h2>
+  <p>
+    Doctors test urine because it reveals what is happening in the blood: glucose in urine can indicate diabetes, protein
+    can indicate damaged filters. The filtration rate (GFR) is used to measure kidney function. When kidneys fail, wastes
+    and fluid build up, and patients may need <strong>dialysis</strong>, where a machine filters the blood, or a
+    <strong>kidney transplant</strong>. A person can live a healthy life with only one working kidney.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Filtrate</dt>
+    <dd>The fluid filtered from the blood into the nephron.</dd>
+    <dt>Reabsorption / secretion</dt>
+    <dd>Moving substances from the tubule back into the blood / from the blood into the tubule.</dd>
+    <dt>Osmoregulation</dt>
+    <dd>Controlling the water and salt balance of the body.</dd>
+    <dt>Urea</dt>
+    <dd>The main nitrogen-containing waste, made in the liver from broken-down proteins.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Kidneys only remove waste.”</strong> They also control water, salt, acid, blood pressure and red blood cell production.</li>
+    <li><strong>“Urine is made in the bladder.”</strong> The bladder only stores it; the kidneys make it.</li>
+    <li><strong>“Drinking more water always means healthier kidneys.”</strong> Healthy kidneys adjust to a wide range of intakes; extreme amounts can be harmful.</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> This simulator uses simplified textbook values and cannot assess kidney
+      function, hydration or blood sugar in a real person. It is not medical advice or clinical guidance. If you have
+      concerns about your health, speak to a qualified healthcare professional. See our <a href="/disclaimer/">educational
+      and medical disclaimer</a>.
+    </p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Kidneys → ureters → bladder → urethra.</li>
+    <li>Nephrons filter blood, then reabsorb what the body needs and secrete extra wastes.</li>
+    <li>Over 99 % of filtered water is reabsorbed; ADH controls how much in the collecting duct.</li>
+    <li>The kidneys maintain homeostasis of water, salts, acidity and blood pressure.</li>
+  </ul>
+  <p class="muted">Model note: whole-body values use simplified textbook relationships. The nephron animation shows the share of each substance reabsorbed in each region; real nephrons have many more transport processes.</p>
+</SimulatorLayout>

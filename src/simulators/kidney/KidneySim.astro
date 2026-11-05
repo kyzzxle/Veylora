@@ -1,0 +1,68 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="kidney-sim" label="The urinary system with kidneys, ureters, bladder and urethra, beside an animated nephron showing filtration and reabsorption." hint={false} badge="Balanced" aspect="5 / 3">
+  <div class="preset-row" role="group" aria-label="Example situations">
+    <button type="button" class="preset" data-kd="2,normal,5,93">Normal day</button>
+    <button type="button" class="preset" data-kd="0.6,normal,5,93">Dehydrated</button>
+    <button type="button" class="preset" data-kd="4.5,normal,5,93">Drank a lot</button>
+    <button type="button" class="preset" data-kd="2,normal,16,93">High blood sugar</button>
+    <button type="button" class="preset" data-kd="2,normal,5,60">Low blood pressure</button>
+  </div>
+  <SliderControl name="kd-water" label="Water drunk" min={0.3} max={6} step={0.1} value={2} help="Including water in food. About 0.5 L a day is also lost through skin, breath and faeces." />
+  <ChoiceControl name="kd-salt" label="Salt in the diet" value="normal" options={[{ value: 'low', label: 'Low' }, { value: 'normal', label: 'Normal' }, { value: 'high', label: 'High' }]} />
+  <SliderControl name="kd-glucose" label="Blood glucose" min={3} max={25} step={0.5} value={5} help="Normal fasting level is about 4–6 mmol/L." />
+  <SliderControl name="kd-bp" label="Blood pressure (mean)" min={40} max={160} step={1} value={93} help="Sets how much blood reaches the kidneys to be filtered." />
+  <ToggleControl name="kd-follow" label="Follow one water molecule (ringed)" checked />
+  <ToggleControl name="kd-labels" label="Show labels" checked />
+  <button type="button" class="btn btn-sm" data-empty>Empty the bladder</button>
+  <p class="kd-note" data-note aria-live="polite"></p>
+  <SimKey
+    items={[
+      { label: 'Water', color: '#5aa9ff' },
+      { label: 'Salt (Na⁺)', color: '#f4f4f4' },
+      { label: 'Glucose', color: '#f2c94c' },
+      { label: 'Urea (waste)', color: '#b07a45' },
+      { label: 'Protein (stays in blood)', color: '#a77bd8' },
+      { label: 'Red blood cell (stays in blood)', color: '#d8433a' },
+      { label: 'Secreted waste (H⁺, drugs)', color: '#4caf50' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="urine" label="Urine produced" key />
+    <Readout name="conc" label="Urine concentration" />
+    <Readout name="gfr" label="Filtration rate (GFR)" />
+    <Readout name="reab" label="Water reabsorbed" />
+    <Readout name="adh" label="ADH level" />
+    <Readout name="glucose" label="Glucose in urine" />
+    <Readout name="bladder" label="Bladder" />
+    <Readout name="track" label="Ringed water molecule" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .kd-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#kidney-sim) {
+    --stage-aspect-mobile: 11 / 20;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initKidney } from './kidney';
+  mountSim('#kidney-sim', initKidney);
+</script>

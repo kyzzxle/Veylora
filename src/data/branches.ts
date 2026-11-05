@@ -249,6 +249,17 @@ export const branches: Branch[] = [
         minutes: 12,
         related: ['anatomy-physiology/heart-circulation', 'biology/osmosis', 'chemistry/reaction-rates', 'chemistry/acids-and-bases'],
       },
+      {
+        slug: 'urinary-system',
+        title: 'Urinary System and Kidney Function',
+        summary: 'Follow blood through a nephron and see how the kidneys filter waste and balance water and salt.',
+        keywords: ['kidney', 'nephron', 'urine', 'bladder', 'filtration', 'ADH', 'homeostasis', 'urinary system'],
+        level: 'Intermediate',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['anatomy-physiology/heart-circulation', 'biology/osmosis', 'anatomy-physiology/digestive-system', 'earth-science/water-cycle'],
+      },
     ],
   },
   {
