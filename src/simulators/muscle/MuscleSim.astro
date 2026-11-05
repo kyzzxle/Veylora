@@ -1,0 +1,136 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import { MUSCLES } from './data';
+
+const regions = [
+  ['head', 'Head and neck'],
+  ['arm', 'Arms and shoulders'],
+  ['trunk', 'Chest, back and abdomen'],
+  ['leg', 'Hips and legs'],
+] as const;
+---
+
+<SimShell
+  id="muscle-sim"
+  label="A 3D figure with clickable skeletal muscles, an animated sarcomere showing actin and myosin, an arm moved by the biceps and triceps, or a comparison of skeletal, cardiac and smooth muscle."
+  hint="Drag to rotate · click a muscle"
+  loadingText="Loading 3D muscles…"
+  badge="Biceps brachii"
+  aspect="16 / 10"
+>
+  <Fragment slot="stage">
+    <div class="sim-3d" data-three></div>
+    <canvas class="sim-canvas" data-canvas role="img" aria-label="Muscle simulator drawing" aria-describedby="muscle-sim-status"></canvas>
+  </Fragment>
+
+  <ChoiceControl
+    name="mu-view"
+    label="View"
+    value="atlas"
+    options={[
+      { value: 'atlas', label: '3D muscles' },
+      { value: 'fibre', label: 'Inside a fibre' },
+      { value: 'lever', label: 'Bones & joints' },
+      { value: 'types', label: 'Muscle types' },
+    ]}
+  />
+  <p class="mu-note" data-note aria-live="polite"></p>
+
+  <div data-only="atlas" class="mu-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="mu-pick">Muscle (or click one)</label>
+      <select id="mu-pick" class="select" data-pick>
+        {
+          regions.map(([r, label]) => (
+            <optgroup label={label}>
+              {Object.entries(MUSCLES)
+                .filter(([, m]) => m.region === r)
+                .map(([id, m]) => (
+                  <option value={id} selected={id === 'biceps'}>
+                    {m.name}
+                  </option>
+                ))}
+            </optgroup>
+          ))
+        }
+      </select>
+    </div>
+    <div class="mu-info" aria-live="polite">
+      <strong data-info-title>Biceps brachii</strong>
+      <p data-info-text></p>
+    </div>
+    <SliderControl name="mu-contract" label="Contract the selected muscle" min={0} max={100} step={5} value={0} help="Start makes it contract and relax repeatedly; moving the slider pauses it." />
+  </div>
+
+  <div data-only="fibre" class="mu-group">
+    <div class="preset-row" role="group" aria-label="Stimulation">
+      <button type="button" class="preset" data-twitch>⚡ Single stimulus</button>
+      <button type="button" class="preset" data-relax>Relax</button>
+    </div>
+    <ToggleControl name="mu-repeat" label="Repeated stimulation (nerve impulses)" />
+    <SliderControl name="mu-freq" label="Stimulation rate" min={1} max={50} step={1} value={20} help="Faster impulses add twitches together (summation) until the force is smooth and maximal (tetanus)." />
+    <SliderControl name="mu-recruit" label="Contraction strength" min={10} max={100} step={10} value={60} help="More force comes from recruiting more motor units. Each fibre contracts fully or not at all." />
+    <ToggleControl name="mu-atp" label="ATP available" checked />
+  </div>
+
+  <div data-only="lever" class="mu-group">
+    <SliderControl name="mu-angle" label="Elbow bend" min={0} max={145} step={1} value={30} help="Start bends and straightens the arm repeatedly; moving the slider pauses it." />
+    <SliderControl name="mu-load" label="Weight in the hand" min={0} max={10} step={1} value={5} />
+    <ToggleControl name="mu-forces" label="Show lever forces" checked />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+  </Fragment>
+
+  <Fragment slot="below">
+    <GraphPanel id="mu-graph" title="Force and calcium over time" desc="Muscle force and calcium level after each stimulus, in milliseconds of real (not slow-motion) time." />
+  </Fragment>
+</SimShell>
+
+<style>
+  .mu-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .mu-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  .mu-info {
+    padding: 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.92rem;
+  }
+  .mu-info p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+  }
+  :global(#muscle-sim) {
+    --stage-aspect-mobile: 3 / 4;
+  }
+  :global(.mu-flat .sim-3d-tools),
+  :global(.mu-flat .sim-3d-activate) {
+    display: none !important;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initMuscle } from './muscle';
+  mountSim('#muscle-sim', initMuscle);
+</script>

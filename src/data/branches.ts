@@ -190,7 +190,7 @@ export const branches: Branch[] = [
     shortName: 'Anatomy',
     tagline: 'The structure and function of the human body.',
     description:
-      'Follow blood through the heart, watch the lungs fill, rotate the skeleton, fire a neuron and track a meal through the digestive tract. Educational models only — not medical advice.',
+      'Follow blood through the heart, watch the lungs fill, rotate the skeleton, fire a neuron, track a meal through the gut, filter blood in the kidneys, follow hormones and the immune response, and see muscles contract. Educational models only — not medical advice.',
     hue: 352,
     icon: 'heart',
     topics: [
@@ -292,6 +292,17 @@ export const branches: Branch[] = [
         status: 'live',
         minutes: 15,
         related: ['anatomy-physiology/endocrine-system', 'anatomy-physiology/heart-circulation', 'anatomy-physiology/urinary-system', 'biology/cell-structure'],
+      },
+      {
+        slug: 'muscular-system',
+        title: 'Muscular System and Muscle Contraction',
+        summary: 'Explore major skeletal muscles in 3D, watch actin and myosin slide inside a sarcomere, move the arm with an antagonistic pair and compare the three muscle types.',
+        keywords: ['muscle', 'muscular', 'contraction', 'sarcomere', 'actin', 'myosin', 'biceps', 'tendon', 'antagonistic', 'skeletal muscle', 'smooth muscle', 'cardiac muscle'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['anatomy-physiology/skeletal-system', 'anatomy-physiology/neuron-firing', 'anatomy-physiology/heart-circulation', 'anatomy-physiology/immune-system'],
       },
     ],
   },

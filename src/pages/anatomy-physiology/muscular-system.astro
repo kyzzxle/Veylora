@@ -1,0 +1,186 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import MuscleSim from '../../simulators/muscle/MuscleSim.astro';
+import { muscleQuiz } from '../../data/quizzes/muscle';
+
+const toc = [
+  { id: 'what', label: 'What muscles do' },
+  { id: 'types', label: 'Three types of muscle' },
+  { id: 'major', label: 'Major skeletal muscles' },
+  { id: 'structure', label: 'From muscle to sarcomere' },
+  { id: 'sliding', label: 'How a fibre contracts' },
+  { id: 'control', label: 'Controlling force' },
+  { id: 'levers', label: 'Muscles, bones and joints' },
+  { id: 'relevance', label: 'Muscles and health' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Betts, J. G., et al. (2022). Anatomy and Physiology 2e, Chapter 10: Muscle Tissue and Chapter 11: The Muscular System. OpenStax.', url: 'https://openstax.org/books/anatomy-and-physiology-2e/pages/10-introduction' },
+  { text: 'Huxley, H. E., & Hanson, J. (1954). Changes in the cross-striations of muscle during contraction and stretch and their structural interpretation. Nature, 173, 973–976.' },
+  { text: 'Huxley, A. F., & Niedergerke, R. (1954). Structural changes in muscle during contraction. Nature, 173, 971–973.' },
+  { text: 'Hall, J. E., & Hall, M. E. (2020). Guyton and Hall Textbook of Medical Physiology (14th ed.), Chapters 6–8. Elsevier.' },
+];
+---
+
+<SimulatorLayout
+  branch="anatomy-physiology"
+  topic="muscular-system"
+  description="Interactive muscular system simulator: explore major skeletal muscles in 3D, watch actin and myosin slide inside a sarcomere, move the arm with the biceps and triceps, and compare skeletal, cardiac and smooth muscle."
+  toc={toc}
+  quiz={muscleQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every movement you make, from blinking to sprinting, is powered by muscles pulling on bones. Explore the major
+      muscles on a 3D figure, zoom inside a muscle fibre to watch the molecular motors that make it contract, and see how
+      muscles, bones and joints work together as levers.
+    </p>
+  </Fragment>
+
+  <MuscleSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li><strong>3D muscles:</strong> drag to rotate, then click a muscle or choose one from the list. Press <strong>Start</strong> or move the <strong>contraction</strong> slider to watch it shorten and move its joint while its antagonist is stretched.</li>
+      <li><strong>Inside a fibre:</strong> press <strong>Single stimulus</strong> to see one twitch. Turn on <strong>repeated stimulation</strong> and raise the rate to see summation and tetanus on the graph. Change the <strong>strength</strong>, press <strong>Relax</strong>, or switch off <strong>ATP</strong>.</li>
+      <li><strong>Bones &amp; joints:</strong> bend the elbow and change the weight. Compare the biceps force with the load.</li>
+      <li><strong>Muscle types:</strong> compare skeletal, cardiac and smooth muscle under the microscope.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What muscles do</h2>
+  <p>
+    Muscle tissue has one special ability: it can <strong>contract</strong>, getting shorter and pulling on whatever it
+    is attached to. The human body has more than 600 skeletal muscles, which make up about 40% of body mass. They move the
+    skeleton, hold your posture, keep joints stable and produce heat.
+  </p>
+
+  <h2 id="types">Three types of muscle</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Skeletal</th><th>Cardiac</th><th>Smooth</th></tr></thead>
+      <tbody>
+        <tr><td>Where</td><td>Attached to bones</td><td>Wall of the heart</td><td>Walls of the gut, blood vessels, bladder, airways, uterus</td></tr>
+        <tr><td>Control</td><td>Voluntary</td><td>Involuntary</td><td>Involuntary</td></tr>
+        <tr><td>Appearance</td><td>Striated; long cells with many nuclei</td><td>Striated; branched cells, one nucleus, intercalated discs</td><td>Not striated; spindle-shaped cells, one nucleus</td></tr>
+        <tr><td>Speed and fatigue</td><td>Fast, powerful, tires quickly</td><td>Rhythmic, does not tire</td><td>Slow, sustained</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    The 3D, fibre and lever views focus on <strong>skeletal muscle</strong>; the last view compares all three.
+  </p>
+
+  <h2 id="major">Major skeletal muscles</h2>
+  <p>
+    Each muscle starts at an <strong>origin</strong> on a bone that stays fairly still and ends at an
+    <strong>insertion</strong> on the bone it moves. The <strong>biceps</strong> bends the elbow and the
+    <strong>triceps</strong> straightens it. The <strong>deltoid</strong> lifts the arm sideways, the
+    <strong>pectoralis major</strong> pulls it across the chest and the <strong>latissimus dorsi</strong> pulls it down
+    and back. In the leg, the <strong>quadriceps</strong> straightens the knee, the <strong>hamstrings</strong> bend it,
+    the <strong>gluteus maximus</strong> straightens the hip and the <strong>gastrocnemius</strong> (calf) lifts the heel.
+    The <strong>rectus abdominis</strong> and <strong>obliques</strong> bend and twist the trunk.
+  </p>
+
+  <h2 id="structure">From muscle to sarcomere</h2>
+  <p>
+    A muscle is made of bundles called <strong>fascicles</strong>, each containing many <strong>muscle fibres</strong>.
+    A fibre is a single, very long cell with many nuclei. Inside it are hundreds of <strong>myofibrils</strong>, rods made
+    of repeating units called <strong>sarcomeres</strong>, each about 2.5 µm long. A sarcomere runs from one
+    <strong>Z-disc</strong> to the next. Thin filaments of <strong>actin</strong> are anchored to the Z-discs, and thick
+    filaments of <strong>myosin</strong> sit in the middle, overlapping them. The regular overlap of dark and light bands
+    is what makes skeletal muscle look striped.
+  </p>
+
+  <h2 id="sliding">How a fibre contracts</h2>
+  <p>
+    When a nerve impulse reaches a fibre, it releases <strong>calcium ions</strong> from stores inside the cell. Calcium
+    binds to troponin, which moves the protein <strong>tropomyosin</strong> away from binding sites on actin. Now the
+    <strong>cross-bridge cycle</strong> can run:
+  </p>
+  <ol>
+    <li>An energised myosin head attaches to actin, forming a cross-bridge.</li>
+    <li>The head tilts in the <strong>power stroke</strong>, pulling the actin filament towards the centre of the sarcomere.</li>
+    <li>A new <strong>ATP</strong> molecule binds and the head lets go.</li>
+    <li>Splitting the ATP re-cocks the head, ready to attach again further along.</li>
+  </ol>
+  <p>
+    Millions of heads repeat this cycle, so actin slides past myosin and every sarcomere shortens. The filaments do not
+    shrink; they overlap more. This is the <strong>sliding filament model</strong>. When nerve impulses stop, calcium is
+    pumped back into its stores (which also uses ATP), tropomyosin covers the binding sites again and the fibre relaxes.
+  </p>
+
+  <h2 id="control">Controlling force</h2>
+  <p>
+    A single fibre contracts fully or not at all. Each motor neuron controls a group of fibres called a <strong>motor
+    unit</strong>, and the nervous system grades force in two ways. It <strong>recruits</strong> more motor units for a
+    bigger effort, and it sends impulses <strong>faster</strong>. One impulse gives a brief <strong>twitch</strong>; if
+    the next arrives before the fibre has relaxed, the twitches add together (<strong>summation</strong>). At high rates
+    they fuse into a smooth, maximal contraction called <strong>tetanus</strong>.
+  </p>
+
+  <h2 id="levers">Muscles, bones and joints</h2>
+  <p>
+    Muscles can only pull, so they are arranged in <strong>antagonistic pairs</strong>: while one contracts, the other
+    relaxes and is stretched. Muscles are joined to bones by <strong>tendons</strong>, and bones are held together at
+    joints by <strong>ligaments</strong>. Together they form levers. The elbow is a <strong>hinge joint</strong> acting as
+    the fulcrum; the biceps pulls on the radius just 4 cm away, while the hand is about 33 cm away. Because moments must
+    balance, the biceps must pull with several times the force of the load. In return, a small shortening of the muscle
+    moves the hand a long way, quickly.
+  </p>
+
+  <h2 id="relevance">Muscles and health</h2>
+  <p>
+    Regular exercise makes muscle fibres thicker and improves their blood supply, while disuse makes them waste away.
+    Muscle <strong>fatigue</strong> happens when fibres cannot keep up with demand during intense activity. After death, ATP runs out, myosin heads cannot detach and the body stiffens: this is
+    <strong>rigor mortis</strong>.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Sarcomere</dt>
+    <dd>The repeating contractile unit of a myofibril, from one Z-disc to the next.</dd>
+    <dt>Cross-bridge</dt>
+    <dd>The link formed when a myosin head binds to actin.</dd>
+    <dt>Motor unit</dt>
+    <dd>One motor neuron and all the muscle fibres it controls.</dd>
+    <dt>Tetanus</dt>
+    <dd>A smooth, sustained contraction caused by rapid repeated stimulation.</dd>
+    <dt>Antagonistic pair</dt>
+    <dd>Two muscles that move a joint in opposite directions.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Muscles push bones.”</strong> Muscles can only pull; movement in the opposite direction needs another muscle.</li>
+    <li><strong>“The filaments shorten when a muscle contracts.”</strong> Actin and myosin keep their length and slide past each other.</li>
+    <li><strong>“Relaxing needs no energy.”</strong> ATP is needed for myosin to let go and to pump calcium away.</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <p>
+      <strong>Educational model only.</strong> This simulator uses simplified shapes and a simple contraction model with
+      illustrative values. It is not a medical or training tool and must not be used to diagnose or treat muscle injuries
+      or conditions, or to plan exercise or rehabilitation. Always seek advice from a qualified healthcare professional.
+      See our <a href="/disclaimer/">educational and medical disclaimer</a>.
+    </p>
+  </div>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>There are three types of muscle: skeletal (voluntary), cardiac and smooth (both involuntary).</li>
+    <li>Muscle → fascicle → fibre → myofibril → sarcomere, built of actin and myosin filaments.</li>
+    <li>Calcium triggers contraction; ATP powers the cross-bridge cycle and relaxation.</li>
+    <li>Force is graded by recruiting motor units and by faster stimulation (summation and tetanus).</li>
+    <li>Muscles pull on bones through tendons and work in antagonistic pairs across joints that act as levers.</li>
+  </ul>
+  <p class="muted">
+    Model note: the 3D figure is built from simple shapes and shows muscle positions approximately. Fibre timings are
+    based on a fast-twitch human fibre and shown five times slower than real time. Lever forces use typical adult
+    forearm distances and ignore other elbow flexors.
+  </p>
+</SimulatorLayout>
