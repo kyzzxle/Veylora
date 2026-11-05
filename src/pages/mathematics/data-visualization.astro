@@ -1,0 +1,146 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import DataVizSim from '../../simulators/dataviz/DataVizSim.astro';
+import { dataVizQuiz } from '../../data/quizzes/dataviz';
+
+const toc = [
+  { id: 'why', label: 'Why we draw charts' },
+  { id: 'types', label: 'Types of data' },
+  { id: 'choosing', label: 'Choosing the right chart' },
+  { id: 'averages', label: 'Averages, spread and outliers' },
+  { id: 'correlation', label: 'Correlation is not causation' },
+  { id: 'misleading', label: 'How charts can mislead' },
+  { id: 'sample', label: 'Sample size and noise' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Illowsky, B., & Dean, S. (2023). Introductory Statistics 2e, Chapter 2: Descriptive Statistics. OpenStax.', url: 'https://openstax.org/books/introductory-statistics-2e/pages/2-introduction' },
+  { text: 'Tufte, E. R. (2001). The Visual Display of Quantitative Information (2nd ed.). Graphics Press.' },
+  { text: 'Huff, D. (1954). How to Lie with Statistics. W. W. Norton.' },
+  { text: 'Cleveland, W. S., & McGill, R. (1984). Graphical perception: theory, experimentation, and application to the development of graphical methods. Journal of the American Statistical Association, 79(387), 531–554.' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="data-visualization"
+  description="Interactive data visualisation lab: draw the same data as bar, line, scatter, histogram or pie charts, add outliers and noise, truncate the axis, and learn which charts reveal or hide patterns."
+  toc={toc}
+  quiz={dataVizQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A good chart can reveal a pattern in seconds; a bad one can hide it or even tell a story that is not true. Take
+      four real-world style datasets, draw them as different kinds of chart, and experiment with the tricks that make
+      charts honest or misleading.
+    </p>
+  </Fragment>
+
+  <DataVizSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>dataset</strong>. The best chart type for it is selected automatically.</li>
+      <li>Switch the <strong>chart type</strong> and read the verdict: why does each chart help or hinder?</li>
+      <li>Add an <strong>outlier</strong> and watch how the mean and median react differently.</li>
+      <li>Turn off <strong>Start the y-axis at zero</strong> and see how much bigger the differences look.</li>
+      <li>Change the <strong>sample size</strong> and <strong>noise</strong>. How reliable is the trend line and correlation with only a few points?</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="why">Why we draw charts</h2>
+  <p>
+    Tables of numbers are precise but hard to read. Our eyes are very good at comparing lengths and positions and at
+    spotting trends, clusters and unusual points. A well-chosen chart turns data into a picture that answers a question at
+    a glance. Scientists, doctors, journalists and governments rely on charts to make decisions, which is why it matters
+    that they are drawn honestly.
+  </p>
+
+  <h2 id="types">Types of data</h2>
+  <ul>
+    <li><strong>Categorical:</strong> named groups, such as favourite fruit or blood group.</li>
+    <li><strong>Numerical (discrete or continuous):</strong> counts or measurements, such as test scores or height.</li>
+    <li><strong>Paired data:</strong> two measurements for each item, such as temperature and sales on the same day.</li>
+    <li><strong>Time series:</strong> measurements taken one after another, such as monthly rainfall.</li>
+  </ul>
+
+  <h2 id="choosing">Choosing the right chart</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Chart</th><th>Best for</th></tr></thead>
+      <tbody>
+        <tr><td>Bar chart</td><td>Comparing categories or totals</td></tr>
+        <tr><td>Line graph</td><td>Change over time</td></tr>
+        <tr><td>Scatter graph</td><td>The relationship between two numerical variables</td></tr>
+        <tr><td>Histogram</td><td>The distribution of one numerical variable</td></tr>
+        <tr><td>Pie chart</td><td>Parts of a whole, with only a few categories</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Research on how people read charts shows we judge positions and lengths far more accurately than angles or areas,
+    which is why bar charts are usually clearer than pie charts.
+  </p>
+
+  <h2 id="averages">Averages, spread and outliers</h2>
+  <p>
+    The <strong>mean</strong> adds up all values and divides by how many there are; the <strong>median</strong> is the
+    middle value when they are sorted. An <strong>outlier</strong>, a value far from the rest, can drag the mean a long
+    way while barely moving the median. That is why house prices and incomes are usually reported as medians. The
+    <strong>range</strong> (largest minus smallest) gives a quick sense of spread.
+  </p>
+
+  <h2 id="correlation">Correlation is not causation</h2>
+  <p>
+    The <strong>correlation coefficient</strong> r measures how closely paired data follow a straight line, from −1
+    (perfect negative) through 0 (none) to +1 (perfect positive). A strong correlation does not prove that one thing
+    causes the other. Ice-cream sales correlate with shark attacks because hot weather increases both: a
+    <strong>confounding variable</strong>. To show cause and effect, scientists use controlled experiments.
+  </p>
+
+  <h2 id="misleading">How charts can mislead</h2>
+  <ul>
+    <li><strong>Truncated axes:</strong> starting the y-axis above zero makes small differences look huge.</li>
+    <li><strong>Wrong chart type:</strong> joining unrelated points with lines suggests a trend that is not there.</li>
+    <li><strong>Cherry-picking:</strong> showing only the time period that supports a claim.</li>
+    <li><strong>Hidden sample size:</strong> a dramatic pattern from five people may be pure chance.</li>
+    <li><strong>3D effects and pie charts</strong> distort how big slices and bars appear.</li>
+  </ul>
+
+  <h2 id="sample">Sample size and noise</h2>
+  <p>
+    Real data always contains random variation, or <strong>noise</strong>. With a small sample, noise can create or hide
+    patterns by chance; with a larger sample, the true pattern stands out. Try 5 points and then 200 in the simulator and
+    watch how much more stable the trend line and correlation become.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Outlier</dt>
+    <dd>A value much larger or smaller than the rest of the data.</dd>
+    <dt>Trend line (line of best fit)</dt>
+    <dd>A straight line that best summarises the relationship in a scatter graph.</dd>
+    <dt>Distribution</dt>
+    <dd>How values are spread out: where they cluster and how far they range.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“A strong correlation proves cause.”</strong> A third factor may be responsible, or it may be chance.</li>
+    <li><strong>“The mean is always the best average.”</strong> With outliers or skewed data, the median is often more representative.</li>
+    <li><strong>“Any chart will do.”</strong> The wrong chart can hide the pattern or invent one.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Match the chart to the data: bars for categories, lines for time, scatter for relationships, histograms for distributions.</li>
+    <li>Outliers pull the mean much more than the median.</li>
+    <li>Correlation measures association, not cause.</li>
+    <li>Check axes and sample sizes before trusting a chart.</li>
+  </ul>
+  <p class="muted">Model note: the datasets are generated from fixed random seeds with realistic patterns, so every visitor sees the same data for the same settings.</p>
+</SimulatorLayout>

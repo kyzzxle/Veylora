@@ -1,0 +1,133 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import AdaptationsSim from '../../simulators/adaptations/AdaptationsSim.astro';
+import { adaptationsQuiz } from '../../data/quizzes/adaptations';
+
+const toc = [
+  { id: 'what', label: 'What is an adaptation?' },
+  { id: 'kinds', label: 'Structural, behavioural and physiological' },
+  { id: 'heat', label: 'Staying warm and keeping cool' },
+  { id: 'water', label: 'Saving water' },
+  { id: 'food', label: 'Getting food' },
+  { id: 'predators', label: 'Avoiding predators' },
+  { id: 'evolution', label: 'How adaptations arise' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Schmidt-Nielsen, K. (1997). Animal Physiology: Adaptation and Environment (5th ed.). Cambridge University Press.' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 19.3: Adaptive Evolution. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/19-3-adaptive-evolution' },
+  { text: 'Mayr, E. (1956). Geographical character gradients and climatic adaptation. Evolution, 10(1), 105–108.' },
+  { text: 'Allen, J. A. (1877). The influence of physical conditions in the genesis of species. Radical Review, 1, 108–140.' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="animal-adaptations"
+  description="Interactive animal adaptations experiment: design an animal’s fur, size, ears, coat colour, diet and behaviour, then test how well it survives in the Arctic, desert, forest or grassland."
+  toc={toc}
+  quiz={adaptationsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Why does an Arctic fox look so different from a desert fox? Every animal’s body and behaviour are tuned to where it
+      lives. Design your own animal, choose its fur, size, ears, coat colour, diet and habits, then drop it into a habitat
+      and see whether it can keep warm or cool, find water and food, and hide from predators.
+    </p>
+  </Fragment>
+
+  <AdaptationsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>habitat</strong>. You can also adjust its temperature, food supply and number of predators.</li>
+      <li>Design <strong>your animal</strong>: fur, size, ears, coat colour, diet and behaviour.</li>
+      <li>Read the four bars and the <strong>survival</strong> figure. Faded animals in the scene are those that would not survive the year.</li>
+      <li>Follow the advice to fix the biggest problem, or press <strong>Show a well-adapted animal</strong> for one solution.</li>
+      <li>Try moving a well-adapted animal to a different habitat. What goes wrong?</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is an adaptation?</h2>
+  <p>
+    An <strong>adaptation</strong> is an inherited characteristic that helps an organism survive and reproduce in its
+    environment. Adaptations are not changes an individual makes because it needs to; they are features passed on in
+    genes that became common over many generations because individuals that had them left more offspring.
+  </p>
+
+  <h2 id="kinds">Structural, behavioural and physiological</h2>
+  <ul>
+    <li><strong>Structural</strong> adaptations are body features: thick fur, sharp claws, camouflage colours, webbed feet.</li>
+    <li><strong>Behavioural</strong> adaptations are actions: hibernating, migrating, hunting in packs, being active at night.</li>
+    <li><strong>Physiological</strong> adaptations are processes inside the body: producing very concentrated urine to save water, or antifreeze proteins in polar fish.</li>
+  </ul>
+
+  <h2 id="heat">Staying warm and keeping cool</h2>
+  <p>
+    Mammals and birds keep a steady body temperature, so they must balance heat made against heat lost. In the cold,
+    thick fur or feathers and layers of fat (blubber) insulate the body. Large, compact bodies lose heat more slowly because
+    they have less surface area for their volume (<strong>Bergmann’s rule</strong>), and small ears, tails and limbs lose
+    less heat (<strong>Allen’s rule</strong>). In the heat the reverse helps: thin fur, slim bodies and big ears that work
+    like radiators, as in the fennec fox and African elephant.
+  </p>
+
+  <h2 id="water">Saving water</h2>
+  <p>
+    Desert animals survive with little or no drinking water. Many are small and spend the hot day in cool, humid burrows,
+    coming out at night. Kangaroo rats make extremely concentrated urine and get almost all their water from their food.
+    Camels can lose a quarter of their body water and refill quickly, and let their body temperature rise during the day
+    instead of sweating.
+  </p>
+
+  <h2 id="food">Getting food</h2>
+  <p>
+    Teeth, beaks, claws and digestive systems match an animal’s diet: sharp teeth for meat, broad grinding teeth for
+    plants, long sticky tongues for insects. Where food disappears in winter, animals may <strong>hibernate</strong>
+    (dormice, bears), <strong>migrate</strong> (many birds) or store food (squirrels).
+  </p>
+
+  <h2 id="predators">Avoiding predators</h2>
+  <p>
+    <strong>Camouflage</strong> makes animals hard to spot against their background: snowy white in the Arctic, sandy in
+    the desert, dappled browns in the forest. Some animals change colour with the seasons, such as the Arctic hare. Others
+    rely on speed, size, armour, living in groups, warning colours or being active when predators are not.
+  </p>
+
+  <h2 id="evolution">How adaptations arise</h2>
+  <p>
+    Individuals in a population vary. Those whose features suit the environment are more likely to survive and pass on
+    their genes, so over many generations helpful features become common: this is <strong>natural selection</strong>.
+    Adaptations are always a compromise and only help in a particular environment, which is why rapid change such as
+    climate warming or new predators can leave well-adapted species struggling.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Camouflage</dt>
+    <dd>Colours or patterns that help an animal blend into its surroundings.</dd>
+    <dt>Nocturnal</dt>
+    <dd>Active at night and resting during the day.</dd>
+    <dt>Surface area to volume ratio</dt>
+    <dd>How much outside surface an animal has compared with its body volume; it controls how fast heat is lost.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Animals adapt because they want or need to.”</strong> Individuals cannot change their genes; populations change over generations.</li>
+    <li><strong>“There is one perfect animal.”</strong> A feature that helps in one place can be a handicap in another.</li>
+    <li><strong>“Adaptations are always physical.”</strong> Behaviour and body chemistry matter just as much.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Adaptations are inherited features that help survival and reproduction in a particular environment.</li>
+    <li>They can be structural, behavioural or physiological.</li>
+    <li>Body size, fur and ear size control heat balance; camouflage, diet and behaviour solve other challenges.</li>
+    <li>Natural selection makes useful adaptations common over many generations.</li>
+  </ul>
+  <p class="muted">Model note: survival scores are simplified rules based on real patterns (Bergmann’s and Allen’s rules, camouflage, water balance), not measurements of real species.</p>
+</SimulatorLayout>

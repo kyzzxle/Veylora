@@ -1,0 +1,139 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import BondingSim from '../../simulators/bonding/BondingSim.astro';
+import { bondingQuiz } from '../../data/quizzes/bonding';
+
+const toc = [
+  { id: 'why', label: 'Why atoms bond' },
+  { id: 'covalent', label: 'Covalent bonds' },
+  { id: 'ionic', label: 'Ionic bonds' },
+  { id: 'electronegativity', label: 'Electronegativity and polarity' },
+  { id: 'shapes', label: 'Molecular shapes (VSEPR)' },
+  { id: 'structures', label: 'Structure and properties' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Chapter 7: Chemical Bonding and Molecular Geometry. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/7-introduction' },
+  { text: 'Pauling, L. (1960). The Nature of the Chemical Bond (3rd ed.). Cornell University Press.' },
+  { text: 'Gillespie, R. J. (2008). Fifty years of the VSEPR model. Coordination Chemistry Reviews, 252(12–14), 1315–1327.' },
+  { text: 'Haynes, W. M. (Ed.). CRC Handbook of Chemistry and Physics. CRC Press (melting and boiling points).' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="chemical-bonding"
+  description="Interactive 3D chemical bonding explorer: compare covalent molecules, ionic lattices and giant structures, see lone pairs, partial charges, molecular shapes and how bonding explains properties."
+  toc={toc}
+  quiz={bondingQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Everything around you is held together by chemical bonds: atoms sharing electrons, giving them away, or pulling on
+      them unevenly. Rotate 3D models of molecules and crystals, see where the electrons are, and discover why water is
+      bent, why salt melts at 801 °C and why diamond is so hard.
+    </p>
+  </Fragment>
+
+  <BondingSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>substance</strong>. <strong>Drag</strong> to rotate it and scroll or pinch to zoom (tap first on touch screens).</li>
+      <li>Count the sticks between atoms: one stick for a single bond, two for a double bond, three for a triple bond.</li>
+      <li>Turn on <strong>lone pairs</strong> (yellow lobes) and see how they affect the shape. Compare water, ammonia and methane.</li>
+      <li>Read the <strong>δ+ and δ−</strong> labels and the electronegativity readout to see how evenly electrons are shared.</li>
+      <li>Compare the simple molecules with <strong>sodium chloride</strong>, <strong>magnesium oxide</strong> and <strong>diamond</strong>, including their melting points. <strong>Click any atom</strong> for details.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="why">Why atoms bond</h2>
+  <p>
+    Atoms are most stable when their outer electron shell is full: usually eight electrons (an <strong>octet</strong>), or
+    two for hydrogen. The noble gases already have full shells, which is why they barely react. Other atoms reach a full
+    shell by <strong>sharing</strong> electrons (covalent bonding) or by <strong>transferring</strong> them (ionic bonding).
+    Bonding lowers the energy of the atoms, so energy is released when bonds form.
+  </p>
+
+  <h2 id="covalent">Covalent bonds</h2>
+  <p>
+    A <strong>covalent bond</strong> is a pair of electrons shared between two atoms, usually non-metals. Both nuclei
+    attract the shared pair, holding the atoms together. Atoms can share one, two or three pairs, forming
+    <strong>single</strong>, <strong>double</strong> or <strong>triple bonds</strong>; more shared pairs make shorter,
+    stronger bonds. Outer electron pairs that are not shared are called <strong>lone pairs</strong>.
+  </p>
+
+  <h2 id="ionic">Ionic bonds</h2>
+  <p>
+    When a metal reacts with a non-metal, the metal atom usually <strong>transfers</strong> its outer electrons to the
+    non-metal. The metal becomes a positive ion (such as Na⁺ or Mg²⁺) and the non-metal a negative ion (Cl⁻ or O²⁻). These
+    oppositely charged ions attract strongly in every direction, building a <strong>giant ionic lattice</strong>. There
+    are no separate molecules: the formula NaCl just gives the ratio of ions.
+  </p>
+
+  <h2 id="electronegativity">Electronegativity and polarity</h2>
+  <p>
+    <strong>Electronegativity</strong> measures how strongly an atom attracts shared electrons. On Linus Pauling’s scale,
+    fluorine is highest (3.98) and the alkali metals lowest. The difference between two atoms predicts the bond type:
+  </p>
+  <ul>
+    <li><strong>Less than about 0.4:</strong> non-polar covalent (electrons shared evenly), as in H₂ or C–H bonds.</li>
+    <li><strong>About 0.4 to 1.8:</strong> polar covalent: the more electronegative atom gets a partial negative charge (δ−), as in O–H.</li>
+    <li><strong>More than about 1.8:</strong> ionic: the electron is effectively transferred, as in NaCl.</li>
+  </ul>
+  <p>
+    These cut-offs are a guide; bonding is really a spectrum. Whether a whole molecule is polar also depends on its
+    shape: the polar bonds in CO₂ cancel because the molecule is straight.
+  </p>
+
+  <h2 id="shapes">Molecular shapes (VSEPR)</h2>
+  <p>
+    Electron pairs around a central atom repel each other and spread out as far as possible. This is
+    <strong>valence shell electron pair repulsion</strong> (VSEPR) theory. Four pairs point to the corners of a
+    tetrahedron (109.5°), as in methane. Lone pairs repel more strongly than bonding pairs, squeezing the bond angles:
+    107° in ammonia (one lone pair) and 104.5° in water (two lone pairs). Two pairs or double bonds on opposite sides give a
+    linear molecule, like CO₂.
+  </p>
+
+  <h2 id="structures">Structure and properties</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Structure</th><th>Example</th><th>Melting point</th><th>Conducts electricity?</th></tr></thead>
+      <tbody>
+        <tr><td>Simple molecular</td><td>Methane, water</td><td>Low (weak forces between molecules)</td><td>No</td></tr>
+        <tr><td>Giant ionic</td><td>Sodium chloride</td><td>High</td><td>Only when melted or dissolved</td></tr>
+        <tr><td>Giant covalent</td><td>Diamond</td><td>Very high</td><td>No (graphite is an exception)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Ion</dt>
+    <dd>An atom or group of atoms that has lost or gained electrons, giving it a charge.</dd>
+    <dt>Lone pair</dt>
+    <dd>A pair of outer-shell electrons not involved in bonding.</dd>
+    <dt>Dipole</dt>
+    <dd>A separation of charge, with a slightly positive end and a slightly negative end.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Boiling water breaks the O–H bonds.”</strong> It only overcomes the forces between molecules; the molecules stay intact.</li>
+    <li><strong>“Salt is made of NaCl molecules.”</strong> It is a continuous lattice of ions.</li>
+    <li><strong>“Ionic and covalent are completely separate.”</strong> Bonds range smoothly from equal sharing to complete transfer.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Covalent bonds share electron pairs; ionic bonds transfer electrons to form oppositely charged ions.</li>
+    <li>Electronegativity differences predict whether a bond is non-polar, polar or ionic.</li>
+    <li>Repulsion between electron pairs, especially lone pairs, sets a molecule’s shape.</li>
+    <li>Structure explains properties: small molecules melt easily; giant lattices and networks do not.</li>
+  </ul>
+  <p class="muted">Model note: atoms are drawn as spheres and bonds as sticks; real electrons form fuzzy clouds. Lone-pair lobes are shown approximately. Only a small piece of each giant structure is drawn.</p>
+</SimulatorLayout>

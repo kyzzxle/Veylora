@@ -47,7 +47,7 @@ Adding a new topic: add or update its entry in `branches.ts`, write its simulati
 - [x] Stage 2
 - [x] Stage 3 — see docs/SIMULATOR_GUIDE.md
 - [x] Stage 4 — 18 live simulators across all 10 branches
-- [ ] Stage 5
+- [x] Stage 5 — all 50 simulators live (10 branches × 5)
 - [ ] Stage 6
 
 ## Stage 4 progress
@@ -84,4 +84,4 @@ Remaining 32 topics, built in batches of four (each batch is committed and pushe
 - [x] Batch 5: solar system, stellar life cycle, black holes, 3D geometry
 - [x] Batch 6: plate tectonics, rock cycle, weather, water cycle
 - [x] Batch 7: carbon cycle, biodiversity, pollution, food webs
-- [ ] Batch 8: animal adaptations, animal locomotion, chemical bonding, data visualization
+- [x] Batch 8: animal adaptations, animal locomotion, chemical bonding, data visualization

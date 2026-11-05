@@ -1,0 +1,128 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import LocomotionSim from '../../simulators/locomotion/LocomotionSim.astro';
+import { locomotionQuiz } from '../../data/quizzes/locomotion';
+
+const toc = [
+  { id: 'forces', label: 'Forces and movement' },
+  { id: 'flying', label: 'Flying' },
+  { id: 'swimming', label: 'Swimming' },
+  { id: 'walking', label: 'Walking and running' },
+  { id: 'scaling', label: 'Size matters' },
+  { id: 'formulas', label: 'The formulas' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Alexander, R. McN. (2003). Principles of Animal Locomotion. Princeton University Press.' },
+  { text: 'Alexander, R. McN. (1984). The gaits of bipedal and quadrupedal animals. International Journal of Robotics Research, 3(2), 49–59.' },
+  { text: 'Bainbridge, R. (1958). The speed of swimming of fish as related to size and to the frequency and amplitude of the tail beat. Journal of Experimental Biology, 35, 109–133.' },
+  { text: 'Tennekes, H. (2009). The Simple Science of Flight: From Insects to Jumbo Jets (revised ed.). MIT Press.' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="animal-locomotion"
+  description="Interactive animal locomotion simulator: explore the lift, weight, thrust and drag on a flying bird, the thrust and drag on a swimming fish, and how leg length sets when animals switch from walking to running."
+  toc={toc}
+  quiz={locomotionQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A sparrow, a tuna and a cheetah solve the same problem, getting from one place to another, in completely different
+      ways. Yet all of them obey the same laws of physics. Adjust a bird’s wings, a fish’s tail and an animal’s legs, and
+      see the forces that let animals fly, swim, walk and run.
+    </p>
+  </Fragment>
+
+  <LocomotionSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose <strong>Flying</strong>, <strong>Swimming</strong> or <strong>Walking &amp; running</strong>. Arrows show the forces, drawn to scale.</li>
+      <li><strong>Flying:</strong> change the wing tilt until lift equals weight for level flight. Try a heavier bird or slower speed, and tilt past 15° to see a stall.</li>
+      <li><strong>Swimming:</strong> change the tail beat rate and body shape and compare speed, drag and power. Remove the swim bladder.</li>
+      <li><strong>Walking:</strong> speed up and watch the gait change from walking to running to galloping. Compare a mouse, a human, a horse and a cheetah.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="forces">Forces and movement</h2>
+  <p>
+    To move, an animal must push on something, the ground, the water or the air, and that thing pushes back
+    (<strong>Newton’s third law</strong>). At the same time it has to support its weight and overcome
+    <strong>drag</strong>, the resistance of the fluid it moves through. When the forces balance, the animal moves at a
+    steady speed; when they do not, it speeds up, slows down, climbs or sinks (<strong>Newton’s first and second laws</strong>).
+  </p>
+
+  <h2 id="flying">Flying</h2>
+  <p>
+    A bird’s wing is curved and tilted slightly upwards (the <strong>angle of attack</strong>). As it moves forward it
+    deflects air downwards, and the air pushes the wing up: <strong>lift</strong>. Lift grows with the square of the
+    speed and with the wing area, so slow birds need big wings. Flapping produces <strong>thrust</strong> to overcome
+    drag. Tilt the wing too far and the airflow can no longer follow the upper surface; lift collapses in a
+    <strong>stall</strong>. Birds use stalls to land, and soaring birds such as albatrosses have long, narrow wings that
+    make a lot of lift for very little drag.
+  </p>
+
+  <h2 id="swimming">Swimming</h2>
+  <p>
+    Water is about 800 times denser than air. This makes it easy to stay afloat but costly to push through, so fast
+    swimmers such as tuna, dolphins and penguins have smooth, <strong>streamlined</strong> bodies tapering at both ends.
+    Most fish swim by sweeping the tail from side to side, pushing water backwards; a fish typically moves forward about
+    0.6–0.8 of its body length with each tail beat. Bony fish have a gas-filled <strong>swim bladder</strong> that makes
+    them neutrally buoyant; sharks lack one and must keep swimming, using oily livers and wing-like fins for lift.
+  </p>
+
+  <h2 id="walking">Walking and running</h2>
+  <p>
+    When you walk, each leg acts like an upside-down pendulum: the body vaults over a stiff leg, swapping kinetic and
+    potential energy. This only works up to a certain speed. Animals of all sizes, from mice to elephants, switch to
+    running at about the same <strong>Froude number</strong>, around 0.5. Running uses springy tendons, which store and
+    return energy like a pogo stick, and four-legged animals change to a trot and then a gallop at higher speeds.
+  </p>
+
+  <h2 id="scaling">Size matters</h2>
+  <p>
+    Small animals have huge strength for their size, can fall from great heights unharmed and can walk up walls, but
+    drag and stickiness matter more to them. Large animals must support weight that grows faster than their bone and
+    muscle strength, so elephants have pillar-like legs and cannot jump. Insects can hover easily; birds above about
+    15 kg cannot take off by flapping alone.
+  </p>
+
+  <h2 id="formulas">The formulas</h2>
+  <p><code class="formula">Lift = ½ ρ v² S C_L · Drag = ½ ρ v² C_d A · Froude number Fr = v² ÷ (g × leg length)</code></p>
+  <p>
+    ρ is the density of air or water, v the speed, S the wing area, A the frontal area, and C_L and C_d coefficients that
+    depend on shape and angle. The simulator uses these with typical values for birds, fish and legged animals.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Lift / thrust / drag</dt>
+    <dd>Upward force from the wings / forward force from flapping, swimming or pushing / resistance from the air or water.</dd>
+    <dt>Streamlined</dt>
+    <dd>Smoothly shaped to reduce drag.</dd>
+    <dt>Gait</dt>
+    <dd>A pattern of leg movement: walking, trotting, galloping.</dd>
+  </dl>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Birds flap to push themselves up.”</strong> Flapping mainly provides thrust; wings moving through air make most of the lift.</li>
+    <li><strong>“Fish swim by pushing against the riverbed.”</strong> They push on the water itself.</li>
+    <li><strong>“Running is just fast walking.”</strong> It is a different mechanism, with a bouncing, springy body instead of a vaulting pendulum.</li>
+  </ul>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>All locomotion relies on pushing back on the surroundings (Newton’s third law).</li>
+    <li>Flight needs lift equal to weight and thrust equal to drag.</li>
+    <li>Swimming is dominated by drag, so streamlining is vital.</li>
+    <li>Animals switch from walking to running at a Froude number of about 0.5, whatever their size.</li>
+  </ul>
+  <p class="muted">Model note: simplified formulas with typical coefficients. Real flight involves flapping wing motion, and real gaits vary between species.</p>
+</SimulatorLayout>

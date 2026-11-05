@@ -1,0 +1,98 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="locomotion-sim" label="An animal flying, swimming or walking, with arrows showing the forces on it." hint={false} badge="Flying" aspect="25 / 13">
+  <ChoiceControl
+    name="lc-mode"
+    label="How the animal moves"
+    value="fly"
+    options={[
+      { value: 'fly', label: 'Flying' },
+      { value: 'swim', label: 'Swimming' },
+      { value: 'walk', label: 'Walking & running' },
+    ]}
+  />
+  <p class="lc-note" data-note aria-live="polite"></p>
+
+  <div data-mode="fly" class="lc-group">
+    <div class="preset-row" role="group" aria-label="Example birds">
+      <button type="button" class="preset" data-preset='{"mass":0.03,"wing":0.01,"speed":9,"aoa":6}'>Sparrow</button>
+      <button type="button" class="preset" data-preset='{"mass":0.4,"wing":0.07,"speed":12,"aoa":6}'>Pigeon</button>
+      <button type="button" class="preset" data-preset='{"mass":8,"wing":0.6,"speed":15,"aoa":9.5}'>Albatross</button>
+    </div>
+    <SliderControl name="lc-mass" label="Body mass" min={0.02} max={10} step={0.01} value={0.4} />
+    <SliderControl name="lc-wing" label="Wing area" min={0.005} max={0.8} step={0.005} value={0.07} />
+    <SliderControl name="lc-speed" label="Air speed" min={3} max={25} step={0.5} value={12} />
+    <SliderControl name="lc-aoa" label="Angle of attack (wing tilt)" min={0} max={20} step={0.5} value={6} help="Tilting the wing up gives more lift, until it stalls at about 15°." />
+  </div>
+
+  <div data-mode="swim" class="lc-group">
+    <SliderControl name="lc-length" label="Fish length" min={0.05} max={1.5} step={0.05} value={0.4} />
+    <SliderControl name="lc-beats" label="Tail beats" min={0.5} max={10} step={0.5} value={3} />
+    <ChoiceControl
+      name="lc-shape"
+      label="Body shape"
+      value="streamlined"
+      options={[
+        { value: 'streamlined', label: 'Streamlined' },
+        { value: 'average', label: 'Average' },
+        { value: 'boxy', label: 'Boxy' },
+      ]}
+    />
+    <ToggleControl name="lc-bladder" label="Swim bladder (gas-filled float)" checked />
+  </div>
+
+  <div data-mode="walk" class="lc-group">
+    <div class="preset-row" role="group" aria-label="Example animals">
+      <button type="button" class="preset" data-preset='{"leg":0.05,"walkSpeed":0.3}'>Mouse</button>
+      <button type="button" class="preset" data-preset='{"leg":0.9,"walkSpeed":1.4}'>Human</button>
+      <button type="button" class="preset" data-preset='{"leg":1,"walkSpeed":4.5}'>Horse trotting</button>
+      <button type="button" class="preset" data-preset='{"leg":0.8,"walkSpeed":25}'>Cheetah sprint</button>
+    </div>
+    <SliderControl name="lc-leg" label="Leg length (hip height)" min={0.03} max={1.8} step={0.01} value={0.9} />
+    <SliderControl name="lc-walkspeed" label="Speed" min={0.1} max={30} step={0.1} value={1.4} />
+  </div>
+
+  <SimKey
+    items={[
+      { label: 'Lift', color: '#2e9d5b', shape: 'line' },
+      { label: 'Weight', color: '#c0392b', shape: 'line' },
+      { label: 'Thrust', color: '#2a6fdb', shape: 'line' },
+      { label: 'Drag', color: '#8e6bd8', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="Result" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .lc-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .lc-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initLocomotion } from './locomotion';
+  mountSim('#locomotion-sim', initLocomotion);
+</script>

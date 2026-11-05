@@ -1,0 +1,69 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="dataviz-sim" label="A chart of the chosen dataset, drawn as the chosen chart type." playable={false} hint={false} badge="Good chart" aspect="16 / 9">
+  <ChoiceControl
+    name="dv-data"
+    label="Dataset"
+    value="pair"
+    options={[
+      { value: 'pair', label: 'Ice cream vs temperature' },
+      { value: 'time', label: 'Monthly rainfall' },
+      { value: 'values', label: 'Test scores' },
+      { value: 'categories', label: 'Favourite fruit' },
+    ]}
+  />
+  <ChoiceControl
+    name="dv-chart"
+    label="Chart type"
+    value="scatter"
+    options={[
+      { value: 'bar', label: 'Bar' },
+      { value: 'line', label: 'Line' },
+      { value: 'scatter', label: 'Scatter' },
+      { value: 'histogram', label: 'Histogram' },
+      { value: 'pie', label: 'Pie' },
+    ]}
+  />
+  <p class="dv-verdict" data-verdict aria-live="polite"></p>
+  <SliderControl name="dv-n" label="Sample size" min={5} max={200} step={1} value={30} help="How many days, students or people are in the data (not used for monthly rainfall)." />
+  <SliderControl name="dv-noise" label="Randomness (noise)" min={0} max={2.5} step={0.1} value={1} />
+  <div data-hist-only><SliderControl name="dv-bins" label="Histogram bins" min={3} max={30} step={1} value={10} /></div>
+  <ToggleControl name="dv-outlier" label="Add an unusual value (outlier)" />
+  <ToggleControl name="dv-zero" label="Start the y-axis at zero" checked />
+  <div data-pair-only><ToggleControl name="dv-trend" label="Show the trend line" checked /></div>
+
+  <Fragment slot="readouts">
+    <Readout name="verdict" label="This chart" key />
+    <Readout name="n" label="Number of values" />
+    <Readout name="centre" label="Average" />
+    <Readout name="range" label="Range" />
+    <Readout name="r" label="Correlation" />
+    <Readout name="axis" label="Y-axis" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .dv-verdict {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    border-left: 4px solid var(--danger);
+  }
+  .dv-verdict[data-good='true'] {
+    border-left-color: var(--success);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initDataViz } from './dataviz';
+  mountSim('#dataviz-sim', initDataViz);
+</script>

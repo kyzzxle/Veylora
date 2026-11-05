@@ -1,0 +1,84 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="adaptations-sim" label="A habitat scene with a group of animals you design, and bars showing how well they cope." hint={false} badge="Arctic tundra" aspect="16 / 9">
+  <h3 class="ad-h">1. The habitat</h3>
+  <ChoiceControl
+    name="ad-hab"
+    label="Habitat"
+    value="arctic"
+    options={[
+      { value: 'arctic', label: 'Arctic' },
+      { value: 'desert', label: 'Desert' },
+      { value: 'forest', label: 'Forest' },
+      { value: 'grassland', label: 'Grassland' },
+    ]}
+  />
+  <SliderControl name="ad-temp" label="Temperature" min={-40} max={50} step={1} value={-20} />
+  <SliderControl name="ad-food" label="Food supply" min={0.3} max={1.3} step={0.05} value={1} />
+  <SliderControl name="ad-pred" label="Predators" min={0} max={1} step={0.05} value={0.6} />
+
+  <h3 class="ad-h">2. Your animal</h3>
+  <ChoiceControl name="ad-fur" label="Fur" value="medium" options={[{ value: 'thin', label: 'Thin' }, { value: 'medium', label: 'Medium' }, { value: 'thick', label: 'Thick' }]} />
+  <ChoiceControl name="ad-size" label="Body size" value="medium" options={[{ value: 'small', label: 'Small' }, { value: 'medium', label: 'Medium' }, { value: 'large', label: 'Large' }]} />
+  <ChoiceControl name="ad-ears" label="Ears" value="large" options={[{ value: 'small', label: 'Small' }, { value: 'large', label: 'Large' }]} />
+  <ChoiceControl
+    name="ad-coat"
+    label="Coat colour"
+    value="brown"
+    options={[
+      { value: 'white', label: 'White' },
+      { value: 'sandy', label: 'Sandy' },
+      { value: 'brown', label: 'Brown' },
+      { value: 'golden', label: 'Golden' },
+    ]}
+  />
+  <ChoiceControl
+    name="ad-diet"
+    label="Diet"
+    value="seeds"
+    options={[
+      { value: 'seeds', label: 'Seeds' },
+      { value: 'insects', label: 'Insects' },
+      { value: 'leaves', label: 'Leaves' },
+      { value: 'meat', label: 'Meat' },
+      { value: 'fish', label: 'Fish' },
+    ]}
+  />
+  <ToggleControl name="ad-night" label="Active at night (nocturnal)" />
+  <ToggleControl name="ad-hib" label="Hibernates in winter" />
+  <button type="button" class="btn btn-sm" data-best>Show a well-adapted animal</button>
+  <p class="ad-advice" data-advice aria-live="polite"></p>
+
+  <Fragment slot="readouts">
+    <Readout name="survival" label="Survival" key />
+    <Readout name="comfort" label="Temperature" />
+    <Readout name="diet" label="Food" />
+    <Readout name="example" label="Real animals here" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .ad-h {
+    margin: 6px 0 0;
+    font-size: 0.95rem;
+  }
+  .ad-advice {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initAdaptations } from './adaptations';
+  mountSim('#adaptations-sim', initAdaptations);
+</script>

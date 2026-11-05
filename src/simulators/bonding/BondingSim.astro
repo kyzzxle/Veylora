@@ -1,0 +1,62 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { ELEMENTS, SUBSTANCES } from './data';
+---
+
+<SimShell id="bonding-sim" label="A 3D model of a molecule or crystal." playable={false} loadingText="Loading 3D molecules…" hint="Drag to rotate · click an atom" aspect="4 / 3" badge="Covalent">
+  <div slot="stage" class="sim-3d" data-three></div>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="cb-substance">Substance</label>
+    <select id="cb-substance" class="select" data-substance>
+      <optgroup label="Simple molecules (covalent)">
+        {['h2', 'cl2', 'o2', 'n2', 'hcl', 'h2o', 'nh3', 'ch4', 'co2', 'c2h4'].map((id) => <option value={id} selected={id === 'h2o'}>{SUBSTANCES[id].name} ({SUBSTANCES[id].formula})</option>)}
+      </optgroup>
+      <optgroup label="Giant structures">
+        {['nacl', 'mgo', 'diamond'].map((id) => <option value={id}>{SUBSTANCES[id].name} ({SUBSTANCES[id].formula})</option>)}
+      </optgroup>
+    </select>
+  </div>
+  <p class="cb-about" data-about aria-live="polite"></p>
+  <ChoiceControl name="cb-view" label="Model" value="stick" options={[{ value: 'stick', label: 'Ball and stick' }, { value: 'fill', label: 'Space-filling' }]} />
+  <ToggleControl name="cb-lone" label="Show lone pairs" checked />
+  <ToggleControl name="cb-charges" label="Show charges (δ+ / δ− and ions)" checked />
+  <ToggleControl name="cb-labels" label="Show element symbols" checked />
+  <ToggleControl name="cb-spin" label="Slowly rotate" />
+  <SimKey
+    items={[
+      ...(['H', 'C', 'N', 'O', 'Cl', 'Na', 'Mg'] as const).map((e) => ({ label: `${ELEMENTS[e].name} (${e})`, color: ELEMENTS[e].colour })),
+      { label: 'Lone pair of electrons', color: '#ffd166' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="name" label="Substance" key />
+    <Readout name="type" label="Bond type" />
+    <Readout name="en" label="Electronegativity" />
+    <Readout name="bonds" label="Bonds" />
+    <Readout name="shape" label="Shape" />
+    <Readout name="polar" label="Polarity" />
+    <Readout name="mp" label="Melting / boiling point" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .cb-about {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initBonding } from './bonding';
+  mountSim('#bonding-sim', initBonding);
+</script>
