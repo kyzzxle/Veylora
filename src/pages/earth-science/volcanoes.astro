@@ -1,0 +1,219 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import VolcanoSim from '../../simulators/volcano/VolcanoSim.astro';
+import { volcanoesQuiz } from '../../data/quizzes/volcanoes';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'magma', label: 'Magma and lava' },
+  { id: 'structure', label: 'Inside a volcano' },
+  { id: 'types', label: 'Shield volcanoes and stratovolcanoes' },
+  { id: 'viscosity', label: 'What makes magma runny or sticky' },
+  { id: 'gas', label: 'Gas: the driver of explosions' },
+  { id: 'styles', label: 'Eruption styles' },
+  { id: 'hazards', label: 'Volcanic hazards' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'U.S. Geological Survey. Volcano Hazards Program: volcano types, eruption styles and hazards.', url: 'https://www.usgs.gov/programs/VHP' },
+  { text: 'Cashman, K. V., & Sparks, R. S. J. (2013). How volcanoes work: A 25 year perspective. Geological Society of America Bulletin, 125(5–6), 664–690.', url: 'https://doi.org/10.1130/B30720.1' },
+  { text: 'Gonnermann, H. M., & Manga, M. (2007). The fluid mechanics inside a volcano. Annual Review of Fluid Mechanics, 39, 321–356.', url: 'https://doi.org/10.1146/annurev.fluid.39.050905.110207' },
+  { text: 'Mastin, L. G., et al. (2009). A multidisciplinary effort to assign realistic source parameters to models of volcanic ash-cloud transport and dispersion during eruptions. Journal of Volcanology and Geothermal Research, 186, 10–21.', url: 'https://doi.org/10.1016/j.jvolgeores.2009.01.008' },
+  { text: 'Malin, M. C., & Sheridan, M. F. (1982). Computer-assisted mapping of pyroclastic surges. Science, 217, 637–640.', url: 'https://doi.org/10.1126/science.217.4560.637' },
+  { text: 'Newhall, C. G., & Self, S. (1982). The volcanic explosivity index (VEI). Journal of Geophysical Research, 87(C2), 1231–1238.', url: 'https://doi.org/10.1029/JC087iC02p01231' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="volcanoes"
+  description="Interactive volcano simulator: explore a 3D cutaway stratovolcano and shield volcano, change magma silica, temperature, crystals and gas to see effusive or explosive eruptions, and map lava flows, pyroclastic currents, lahars and ash fall."
+  toc={toc}
+  quiz={volcanoesQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Some volcanoes ooze rivers of glowing lava that you can walk beside; others blast ash into the stratosphere in
+      minutes. The difference lies deep inside, in how sticky the magma is and how much gas it carries. Cut open a volcano
+      in 3D, change the magma and watch the eruption change, then see how lava, ash and mudflows spread across a landscape.
+    </p>
+  </Fragment>
+
+  <VolcanoSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>3D volcano</strong>, compare a stratovolcano with a shield volcano. Rotate and zoom, tap any part, switch the cutaway on and off, and press <strong>Erupt</strong>.</li>
+      <li>In <strong>Magma and eruptions</strong>, start from the basalt, andesite or rhyolite preset, press <strong>Start</strong>, then change silica, temperature, crystals, gas, supply and chamber depth. Watch the bubbles in the conduit, the eruption and your dot on the chart.</li>
+      <li>In <strong>Hazards</strong>, press <strong>Start</strong> to run the clock, drag your location around the map, change the wind, switch the rain and the ridge on and off, and see which hazards reach you and when.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Describe the main parts of a volcano and how they differ between shield volcanoes and stratovolcanoes.</li>
+    <li>Explain how silica, temperature and crystals control magma viscosity.</li>
+    <li>Explain why dissolved gas, together with viscosity and ascent rate, decides whether an eruption is effusive or explosive.</li>
+    <li>Compare lava flows, ash fall, pyroclastic density currents and lahars.</li>
+  </ul>
+
+  <h2 id="magma">Magma and lava</h2>
+  <p>
+    <strong>Magma</strong> is molten or partly molten rock below the surface, usually carrying crystals and dissolved
+    gases. Once it erupts onto the surface it is called <strong>lava</strong>. Magma forms where the mantle or crust
+    partly melts, mostly at plate boundaries and hotspots, as explored in the
+    <a href="/earth-science/plate-tectonics">Plate Tectonics simulator</a>. Because it is less dense than the rocks around
+    it, magma rises and may collect in a <strong>magma chamber</strong> a few kilometres down.
+  </p>
+
+  <h2 id="structure">Inside a volcano</h2>
+  <ul>
+    <li><strong>Magma chamber</strong>: a reservoir of magma, often a mush of crystals and melt rather than a big empty cave.</li>
+    <li><strong>Conduit</strong>: the pipe magma rises through to the main vent.</li>
+    <li><strong>Crater</strong>: the bowl around the summit vent. A much larger collapse after a huge eruption forms a caldera.</li>
+    <li><strong>Side vents and dikes</strong>: cracks that let magma erupt from the flanks, often building small cones.</li>
+    <li><strong>Layers</strong>: each eruption adds lava flows or tephra (ash and fragments), building the cone.</li>
+  </ul>
+
+  <h2 id="types">Shield volcanoes and stratovolcanoes</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Shield volcano</th><th>Stratovolcano</th></tr></thead>
+      <tbody>
+        <tr><td>Broad, gentle slopes</td><td>Steep, cone-shaped</td></tr>
+        <tr><td>Built of thin, runny basalt lava flows</td><td>Alternating lava flows and explosive deposits</td></tr>
+        <tr><td>Mostly effusive eruptions</td><td>Often explosive eruptions</td></tr>
+        <tr><td>Mauna Loa, Kīlauea</td><td>Mount Fuji, Mount St. Helens, Mayon</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Many other forms exist, including cinder cones, lava domes and calderas, and a single volcano can change its behaviour over time.</p>
+
+  <h2 id="viscosity">What makes magma runny or sticky</h2>
+  <p>
+    <strong>Viscosity</strong> is a fluid’s resistance to flow. Magma viscosity spans more than ten orders of magnitude,
+    from about 10² Pa·s for hot basalt (like warm syrup) to over 10¹⁰ Pa·s for cool rhyolite. Three factors matter most:
+  </p>
+  <ul>
+    <li><strong>Silica</strong>: silicate chains link up into networks, so more silica means stickier magma.</li>
+    <li><strong>Temperature</strong>: hotter magma flows more easily. Basalt erupts at about 1,100–1,200 °C, rhyolite at about 700–900 °C.</li>
+    <li><strong>Crystals and bubbles</strong>: suspended crystals make magma stiffer, like adding sand to honey.</li>
+  </ul>
+  <p>Dissolved water also lowers viscosity. The simulator uses a simplified, illustrative relationship rather than a calibrated viscosity model.</p>
+
+  <h2 id="gas">Gas: the driver of explosions</h2>
+  <p>
+    Magma holds water, carbon dioxide and other gases dissolved under pressure, the way fizzy drinks hold CO₂. As magma
+    rises, the pressure drops, the gas comes out of solution as bubbles, and the bubbles expand. What happens next depends
+    on whether the gas can escape:
+  </p>
+  <ul>
+    <li>In <strong>runny magma</strong>, bubbles can rise and merge, so gas escapes gently or in bursts: <strong>effusive</strong> eruptions and lava fountains.</li>
+    <li>In <strong>viscous magma</strong> that rises quickly, bubbles are trapped. When they fill roughly three-quarters of the volume, the magma shatters (<strong>fragmentation</strong>) into ash and gas that blast out: <strong>explosive</strong> eruptions.</li>
+    <li>Viscous magma that rises very slowly can lose its gas through connected bubbles and squeeze out as a <strong>lava dome</strong>.</li>
+  </ul>
+  <p>Eruption style therefore depends on composition, temperature, gas content, crystals and how fast magma rises, not on any one variable.</p>
+
+  <h2 id="styles">Eruption styles</h2>
+  <ul>
+    <li><strong>Hawaiian</strong>: lava fountains and long lava flows from runny basalt.</li>
+    <li><strong>Strombolian</strong>: regular bursts of gas throwing out glowing blobs.</li>
+    <li><strong>Vulcanian</strong>: short, violent explosions of viscous magma.</li>
+    <li><strong>Plinian</strong>: sustained columns 20–40 km high, named after Pliny the Younger, who described the eruption of Vesuvius in 79 CE.</li>
+  </ul>
+  <p>
+    The height of an eruption column grows with the eruption rate. A widely used empirical fit is H ≈ 2.0 × Q<sup>0.241</sup>
+    km, where Q is the volume of magma erupted per second in m³/s (Mastin et al., 2009). The Volcanic Explosivity Index (VEI)
+    ranks eruptions from 0 to 8 by the volume of material ejected.
+  </p>
+
+  <h2 id="hazards">Volcanic hazards</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Hazard</th><th>What it is and how it moves</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Lava flows</strong></td><td>Molten rock following valleys, usually slowly enough to walk away from, destroying everything in its path</td></tr>
+        <tr><td><strong>Ash fall</strong></td><td>Rock fragments carried downwind, collapsing roofs and grounding aircraft hundreds of kilometres away</td></tr>
+        <tr><td><strong>Pyroclastic density currents</strong></td><td>Hot avalanches of gas, ash and rock, often faster than 100 km/h; the deadliest hazard</td></tr>
+        <tr><td><strong>Lahars</strong></td><td>Volcanic mudflows of water and debris rushing down river valleys, even long after an eruption</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Terrain shapes every hazard. In the simulator, lava runs downhill along valleys; pyroclastic currents are modelled with
+    an “energy cone”, reaching any ground lower than a line sloping down from above the summit, so ridges can block them;
+    lahars follow river channels; and ash spreads downwind.
+  </p>
+  <p><strong>Important:</strong> these are educational visualisations, not real-time forecasts or evacuation tools. Always follow official warnings from local authorities and volcano observatories.</p>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li>About 800 million people live within 100 km of an active volcano.</li>
+    <li>Volcano observatories watch earthquakes, ground swelling and gas output to warn of eruptions.</li>
+    <li>Hazard maps guide land use, evacuation routes and lahar warning systems.</li>
+    <li>Volcanic ash clouds are tracked to keep aircraft safe; large eruptions can cool the global climate for a year or two.</li>
+    <li>Volcanic soils are fertile, and geothermal heat provides clean energy.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>The 1991 eruption of Mount Pinatubo sent a column about 35 km high and cooled global temperatures by about 0.5 °C.</li>
+    <li>In 1985, lahars from Nevado del Ruiz in Colombia buried the town of Armero, killing more than 20,000 people.</li>
+    <li>Kīlauea’s 2018 eruption poured out about a cubic kilometre of lava and destroyed over 700 homes.</li>
+    <li>Mauna Loa is the largest active volcano on Earth by volume.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Lava is the biggest danger.”</strong> Pyroclastic currents, lahars and ash usually cause far more deaths and damage.</li>
+    <li><strong>“All volcanoes look and behave the same.”</strong> Shield volcanoes and stratovolcanoes differ in shape, magma and eruption style.</li>
+    <li><strong>“Magma chambers are giant underground lakes of liquid.”</strong> Many are mostly crystal mush with pockets of melt.</li>
+    <li><strong>“Explosiveness depends only on gas.”</strong> Viscosity, temperature, crystals and ascent rate all matter.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The 3D models are generic. The viscosity relationship is simplified and illustrative. Water solubility uses the
+    square-root law S ≈ 0.42·√P wt% (P in MPa), which suits rhyolite better than basalt, and gas expansion assumes an ideal
+    gas at magma temperature. Gas escape is judged by comparing the rise speed of 10 cm coalesced bubbles (Stokes’ law) with the
+    magma’s ascent speed in an assumed conduit, plus a fixed slow-ascent threshold for outgassing; fragmentation is taken
+    at a gas fraction of 0.75. Chamber pressure simply builds to 20 MPa before each eruption. The hazard map uses an
+    invented landscape: lava follows the steepest path downhill for up to 9 km, pyroclastic currents use an energy cone
+    (H/L = 0.35) from 300 m above the summit, lahars follow the steepest path from four valley heads, and ash thickness falls off exponentially
+    downwind. Real hazard assessment uses detailed terrain, eruption scenarios and expert judgement.
+  </p>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Magma</dt>
+    <dd>Molten or partly molten rock beneath the surface.</dd>
+    <dt>Lava</dt>
+    <dd>Magma that has erupted onto the surface.</dd>
+    <dt>Viscosity</dt>
+    <dd>A fluid’s resistance to flow.</dd>
+    <dt>Fragmentation</dt>
+    <dd>The shattering of bubbly magma into gas and ash fragments in an explosive eruption.</dd>
+    <dt>Effusive eruption</dt>
+    <dd>An eruption in which lava flows out rather than being blasted out.</dd>
+    <dt>Pyroclastic density current</dt>
+    <dd>A fast, hot, ground-hugging flow of gas and volcanic fragments.</dd>
+    <dt>Lahar</dt>
+    <dd>A volcanic mudflow of water, ash and debris.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Magma is underground; lava is magma at the surface.</li>
+    <li>Silica, temperature and crystals control viscosity: basalt is runny, rhyolite is sticky.</li>
+    <li>Dissolved gas expands as magma rises; trapped gas in viscous magma makes eruptions explosive.</li>
+    <li>Shield volcanoes are built by runny lava; stratovolcanoes by alternating lava and explosive deposits.</li>
+    <li>Lava, ash, pyroclastic currents and lahars move differently and are all shaped by the landscape.</li>
+  </ul>
+</SimulatorLayout>

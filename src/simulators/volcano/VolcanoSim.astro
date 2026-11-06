@@ -1,0 +1,137 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="volcano-sim" label="A volcano laboratory: a 3D cutaway volcano, magma rising in a conduit, eruption styles and a hazard map." hint={false} badge="Stratovolcano">
+  <Fragment slot="stage">
+    <canvas class="sim-canvas" data-canvas role="img" aria-label="Volcano simulator" aria-describedby="volcano-sim-status"></canvas>
+    <div class="sim-3d" data-three></div>
+  </Fragment>
+
+  <ChoiceControl
+    name="vo-view"
+    label="Explore"
+    value="3d"
+    options={[
+      { value: '3d', label: '3D volcano' },
+      { value: 'magma', label: 'Magma and eruptions' },
+      { value: 'hazards', label: 'Hazards' },
+    ]}
+    help="Look inside a volcano, change the magma, then see which hazards reach a town."
+  />
+  <p class="vo-note" data-note aria-live="polite"></p>
+
+  <div data-only="3d" class="vo-group">
+    <ChoiceControl
+      name="vo-type"
+      label="Volcano"
+      value="strato"
+      options={[
+        { value: 'strato', label: 'Stratovolcano' },
+        { value: 'shield', label: 'Shield volcano' },
+      ]}
+    />
+    <ToggleControl name="vo-cut" label="Cutaway view" checked />
+    <ToggleControl name="vo-labels" label="Show labels" />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-erupt>Erupt</button>
+    </div>
+    <p class="ctrl-help">Drag to rotate, use + and − to zoom. Turn the cutaway off to see the outside.</p>
+  </div>
+
+  <div data-only="magma" class="vo-group" hidden>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-mp="basalt">Basalt</button>
+      <button type="button" class="btn btn-sm" data-mp="andesite">Andesite</button>
+      <button type="button" class="btn btn-sm" data-mp="rhyolite">Rhyolite</button>
+    </div>
+    <SliderControl name="vo-sio2" label="Silica (SiO₂)" min={45} max={76} step={1} value={62} />
+    <SliderControl name="vo-temp" label="Temperature" min={700} max={1250} step={10} value={950} />
+    <SliderControl name="vo-cryst" label="Crystal content" min={0} max={50} step={1} value={20} />
+    <SliderControl name="vo-gas" label="Dissolved gas (water)" min={0.2} max={6} step={0.1} value={4.5} />
+    <SliderControl name="vo-rate" label="Magma supply (eruption rate)" min={0} max={5} step={0.1} value={3.5} />
+    <SliderControl name="vo-depth" label="Chamber depth" min={2} max={10} step={0.5} value={6} help="Deeper chambers hold magma at higher pressure, so more gas stays dissolved." />
+  </div>
+
+  <div data-only="hazards" class="vo-group" hidden>
+    <ToggleControl name="vo-h-lava" label="Lava flows" checked />
+    <ToggleControl name="vo-h-pdc" label="Pyroclastic density currents" checked />
+    <ToggleControl name="vo-h-lahar" label="Lahars" checked />
+    <ToggleControl name="vo-h-ash" label="Ash fall" checked />
+    <SliderControl name="vo-winddir" label="Wind blowing" min={0} max={315} step={45} value={90} />
+    <SliderControl name="vo-wind" label="Wind speed" min={5} max={40} step={1} value={15} />
+    <ToggleControl name="vo-rain" label="Heavy rain" checked />
+    <ToggleControl name="vo-ridge" label="Add a ridge east of the volcano" />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-replay>Replay from the start</button>
+    </div>
+  </div>
+
+  <SimKey
+    items={[
+      { label: 'Magma / lava', color: '#f76707', shape: 'dot' },
+      { label: 'Ash and pyroclastic currents', color: '#868e96', shape: 'dot' },
+      { label: 'Lahar', color: '#8d6e63', shape: 'dot' },
+      { label: 'Gas bubbles', color: '#1c7ed6', shape: 'ring' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .vo-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .vo-group[hidden] {
+    display: none;
+  }
+  .vo-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#volcano-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#volcano-sim[data-vo-view='3d'] .sim-canvas) {
+    visibility: hidden;
+  }
+  :global(#volcano-sim[data-vo-view='2d'] .sim-3d),
+  :global(#volcano-sim[data-vo-view='2d'] .sim-3d-tools),
+  :global(#volcano-sim[data-vo-view='2d'] .sim-3d-activate) {
+    display: none !important;
+  }
+  :global(#volcano-sim .vo-no3d) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initVolcano } from './volcano';
+  mountSim('#volcano-sim', initVolcano);
+</script>

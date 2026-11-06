@@ -980,6 +980,17 @@ export const branches: Branch[] = [
         minutes: 20,
         related: ['earth-science/plate-tectonics', 'earth-science/earth-layers', 'physics/wave-interference', 'earth-science/rock-cycle'],
       },
+      {
+        slug: 'volcanoes',
+        title: 'Volcanoes and Volcanic Eruptions',
+        summary: 'Cut open a 3D volcano, change magma silica, temperature and gas to switch between effusive and explosive eruptions, and map lava, ash, pyroclastic flows and lahars.',
+        keywords: ['volcano', 'volcanic eruption', 'magma', 'lava', 'viscosity', 'silica', 'gas', 'explosive eruption', 'effusive eruption', 'stratovolcano', 'shield volcano', 'plinian', 'pyroclastic flow', 'lahar', 'ash fall', 'magma chamber'],
+        level: 'Intermediate',
+        kind: '3D',
+        status: 'live',
+        minutes: 20,
+        related: ['earth-science/plate-tectonics', 'earth-science/rock-cycle', 'earth-science/earthquakes', 'earth-science/earth-layers'],
+      },
     ],
   },
   {
