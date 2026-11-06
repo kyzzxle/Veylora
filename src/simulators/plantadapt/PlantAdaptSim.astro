@@ -1,0 +1,102 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { HABITATS, ORDER, SPECIES } from './data';
+---
+
+<SimShell id="plantadapt-sim" label="Two plants growing side by side in a chosen habitat, with their stress factors and adaptations." showTime={false} hint={false} badge="Hot desert · day 0">
+  <button slot="toolbar" type="button" class="btn btn-sm" data-step>Step 1 day</button>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-close hidden>Close inspect view</button>
+
+  <p class="pa-note" data-note aria-live="polite"></p>
+
+  <div class="pa-section">
+    <h3>Habitat</h3>
+    <div class="ctrl">
+      <label class="ctrl-label" for="pa-habitat">Start from</label>
+      <select id="pa-habitat" class="select" data-habitat>
+        {Object.entries(HABITATS).map(([id, h]) => <option value={id} selected={id === 'desert'}>{h.name}</option>)}
+      </select>
+    </div>
+    <SliderControl name="pa-temp" label="Temperature" min={-10} max={50} step={1} value={38} />
+    <SliderControl name="pa-water" label="Water availability" min={0} max={100} step={1} value={8} scale={['Very dry', 'Standing water']} />
+    <SliderControl name="pa-salt" label="Soil salinity" min={0} max={45} step={1} value={2} help="Sea water is about 35 g/L." />
+    <SliderControl name="pa-light" label="Light" min={5} max={100} step={1} value={100} help="% of full sunlight." />
+    <SliderControl name="pa-nut" label="Soil nutrients" min={0} max={100} step={1} value={30} help="Mainly nitrogen and phosphorus." />
+    <ToggleControl name="pa-insects" label="Insects present (prey)" checked />
+  </div>
+
+  <div class="pa-section">
+    <h3>Plants</h3>
+    <div class="ctrl">
+      <label class="ctrl-label" for="pa-plotA">Plot A (blue)</label>
+      <select id="pa-plotA" class="select" data-plot="A">
+        <option value="">Empty</option>
+        {ORDER.map((id) => <option value={id} selected={id === 'cactus'}>{SPECIES[id].name} ({SPECIES[id].group})</option>)}
+      </select>
+    </div>
+    <div class="ctrl">
+      <label class="ctrl-label" for="pa-plotB">Plot B (orange)</label>
+      <select id="pa-plotB" class="select" data-plot="B">
+        <option value="">Empty</option>
+        {ORDER.map((id) => <option value={id} selected={id === 'sunflower'}>{SPECIES[id].name} ({SPECIES[id].group})</option>)}
+      </select>
+    </div>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-native>Put this habitat’s native plant in A</button>
+      <button type="button" class="btn btn-sm btn-primary" data-inspect="A">Inspect A</button>
+      <button type="button" class="btn btn-sm btn-primary" data-inspect="B">Inspect B</button>
+    </div>
+  </div>
+
+  <SimKey
+    items={[
+      { label: 'Plot A', color: '#3b82f6', shape: 'square' },
+      { label: 'Plot B', color: '#f08c00', shape: 'square' },
+      { label: 'Most limiting factor', color: 'danger', shape: 'ring' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="sA" label="Plot A" key />
+    <Readout name="lA" label="A is limited by" />
+    <Readout name="sB" label="Plot B" />
+    <Readout name="lB" label="B is limited by" />
+    <Readout name="day" label="Day" />
+    <Readout name="caught" label="Insects caught" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="pa-graph" title="Plant health over time" desc="The health of the plants in plots A and B, in percent, day by day." compare saveLabel="Save plot A’s run" />
+</SimShell>
+
+<style>
+  .pa-section {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .pa-section h3 {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .pa-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#plantadapt-sim) {
+    --stage-aspect-mobile: 680 / 1150;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initPlantAdapt } from './plantadapt';
+  mountSim('#plantadapt-sim', initPlantAdapt);
+</script>

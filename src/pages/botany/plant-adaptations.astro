@@ -1,0 +1,185 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import PlantAdaptSim from '../../simulators/plantadapt/PlantAdaptSim.astro';
+import { plantAdaptationsQuiz } from '../../data/quizzes/plant-adaptations';
+
+const toc = [
+  { id: 'what', label: 'What is an adaptation?' },
+  { id: 'kinds', label: 'Structural, physiological and behavioural' },
+  { id: 'xerophytes', label: 'Xerophytes: life in dry places' },
+  { id: 'hydrophytes', label: 'Hydrophytes: life in water' },
+  { id: 'halophytes', label: 'Halophytes: life with salt' },
+  { id: 'nutrients', label: 'Poor soils: carnivores and epiphytes' },
+  { id: 'cold', label: 'Seasons and cold' },
+  { id: 'compare', label: 'Comparing the strategies' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Sections 30.1–30.5: Plant Form and Physiology. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/30-introduction' },
+  { text: 'Taiz, L., Zeiger, E., Møller, I. M., & Murphy, A. (2015). Plant Physiology and Development (6th ed.), chapters on water balance, abiotic stress and mineral nutrition. Sinauer Associates.' },
+  { text: 'Lambers, H., & Oliveira, R. S. (2019). Plant Physiological Ecology (3rd ed.). Springer.' },
+  { text: 'Ellison, A. M., & Adamec, L. (Eds.). (2018). Carnivorous Plants: Physiology, Ecology, and Evolution. Oxford University Press.' },
+  { text: 'Tomlinson, P. B. (2016). The Botany of Mangroves (2nd ed.). Cambridge University Press.' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="plant-adaptations"
+  description="Interactive plant adaptations lab: grow cacti, water lilies, mangroves, Venus flytraps, bromeliads, oaks and sunflowers side by side, change temperature, water, salinity, light and nutrients, and inspect the adaptations that let each one survive."
+  toc={toc}
+  quiz={plantAdaptationsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A cactus can go months without rain. A water lily lives with its roots buried in airless mud. A mangrove drinks sea
+      water, and a Venus flytrap eats insects. Plants cannot walk away from a harsh place, so their bodies and chemistry are
+      shaped to suit it. Grow two plants side by side, change the conditions, and find out which adaptations keep each one
+      alive.
+    </p>
+  </Fragment>
+
+  <PlantAdaptSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>habitat</strong> to set the conditions, or adjust the temperature, water, salinity, light and nutrients yourself.</li>
+      <li><strong>Drag a plant</strong> from the tray into plot A or B (or use the menus). The simulation runs a day every half second; use <strong>Step 1 day</strong> to go one day at a time.</li>
+      <li>Compare the two plants’ <strong>stress factors</strong>. The red outline marks the factor limiting each plant, and the graph records their health.</li>
+      <li>Press <strong>Inspect</strong> (or tap a plant) to explore its adaptations, then tap each numbered point.</li>
+      <li>Try the classic tests: a cactus and a sunflower in the desert; a water lily in a dried-out pond; a flytrap with and without insects; an oak below 5 °C. You can also drag the fly onto a flytrap.</li>
+      <li><strong>Reset</strong> returns to the desert with a cactus and a sunflower.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is an adaptation?</h2>
+  <p>
+    An <strong>adaptation</strong> is an inherited feature that helps an organism survive and reproduce in its environment.
+    Adaptations arise through natural selection over many generations: individuals whose features suit the conditions leave
+    more offspring. Because plants are rooted in one place, they must cope with whatever the place offers: drought or flood,
+    salt, shade, frost or poor soil.
+  </p>
+
+  <h2 id="kinds">Structural, physiological and behavioural</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Kind</th><th>Plant examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Structural</strong>: physical features of the body</td><td>Spines, thick cuticles, air spaces, prop roots, trap leaves</td></tr>
+        <tr><td><strong>Physiological</strong>: internal chemical or life processes</td><td>CAM photosynthesis, salt exclusion, leaf fall, digestive enzymes</td></tr>
+        <tr><td><strong>Behavioural</strong>: actions in response to the environment</td><td>Rare in plants; growth responses (tropisms) and a flytrap snapping shut are sometimes described this way</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Most plant adaptations are structural or physiological. Unlike animals, plants respond mainly by growing differently or changing their chemistry.</p>
+
+  <h2 id="xerophytes">Xerophytes: life in dry places</h2>
+  <p>
+    <strong>Xerophytes</strong> are adapted to dry environments such as deserts. Their adaptations either
+    <strong>conserve water</strong> or <strong>get more of it</strong>. Cacti have leaves reduced to spines, a
+    <strong>thick waxy cuticle</strong>, pleated stems with <strong>water-storage tissue</strong>, and wide, shallow roots
+    that catch brief rain. Many use <strong>CAM photosynthesis</strong>, opening their stomata at night and keeping them
+    closed in the heat of the day. Other xerophytes have rolled leaves, hairy leaves or sunken stomata, which trap a layer
+    of moist air, or very deep roots. Not all desert plants work the same way: some, like desert annuals, avoid drought by
+    surviving as seeds and growing only after rain.
+  </p>
+
+  <h2 id="hydrophytes">Hydrophytes: life in water</h2>
+  <p>
+    <strong>Hydrophytes</strong> live in or on water. Water is plentiful, but oxygen is not: waterlogged mud contains very
+    little. Water lilies have <strong>air spaces (aerenchyma)</strong> that carry oxygen down to their roots and help the
+    leaves float, <strong>stomata on the upper surface</strong> of the floating leaves, and <strong>flexible stalks</strong>
+    with little strengthening tissue, because the water supports them. Their roots and water-transporting tissue are
+    reduced. Fully submerged plants, such as pondweeds, have thin, finely divided leaves that absorb gases straight from the
+    water.
+  </p>
+
+  <h2 id="halophytes">Halophytes: life with salt</h2>
+  <p>
+    Salty soil makes it hard for roots to take in water by osmosis, and salt is toxic inside cells.
+    <strong>Halophytes</strong> tolerate it. Red mangroves <strong>exclude most salt at their roots</strong>; other mangroves
+    excrete salt through glands on their leaves or store it in leaves that are later shed. Mangroves also cope with
+    tidal flooding: prop roots brace them in soft mud, and pores (lenticels) on aerial roots, or upright breathing roots
+    called pneumatophores, take in air for roots buried in oxygen-poor mud.
+  </p>
+
+  <h2 id="nutrients">Poor soils: carnivores and epiphytes</h2>
+  <p>
+    <strong>Carnivorous plants</strong> such as the Venus flytrap, pitcher plants and sundews live in sunny, wet, acidic bogs
+    whose soil holds little nitrogen or phosphorus. They still make their food by <strong>photosynthesis</strong>; captured
+    insects are digested by enzymes to supply <strong>extra nitrogen and phosphorus</strong>. A flytrap only closes if a
+    trigger hair is touched twice within about 20 seconds, which avoids wasting a trap on a raindrop.
+  </p>
+  <p>
+    <strong>Epiphytes</strong> grow on other plants without feeding on them, unlike parasites. In the dim rainforest
+    understorey, perching on a branch reaches more light. Tank bromeliads collect rainwater in a cup of overlapping leaves
+    and absorb water and nutrients through scales on the leaves, while orchids absorb water with spongy roots.
+  </p>
+
+  <h2 id="cold">Seasons and cold</h2>
+  <p>
+    Temperate trees such as oaks face freezing winters, when water in the soil is locked up as ice. Deciduous trees
+    <strong>drop their leaves</strong> in autumn, recovering nutrients first, and survive the winter
+    <strong>dormant</strong>, with next year’s leaves protected in scaly buds. Evergreen conifers instead have narrow,
+    waxy needles that lose little water.
+  </p>
+
+  <h2 id="compare">Comparing the strategies</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Group</th><th>Main challenge</th><th>Key adaptations</th></tr></thead>
+      <tbody>
+        <tr><td>Xerophytes</td><td>Too little water</td><td>Spines, waxy cuticle, water storage, CAM, wide or deep roots</td></tr>
+        <tr><td>Hydrophytes</td><td>Too little oxygen for roots</td><td>Aerenchyma, upper-surface stomata, flexible stems</td></tr>
+        <tr><td>Halophytes</td><td>Salt</td><td>Salt exclusion or excretion, succulent or waxy leaves</td></tr>
+        <tr><td>Carnivorous plants</td><td>Few nutrients</td><td>Traps, digestive glands, trigger hairs</td></tr>
+        <tr><td>Epiphytes</td><td>No soil, low light below</td><td>Perching habit, water tanks, absorbing scales or roots</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    An adaptation is only useful in the right place. The sunflower, with large leaves and open stomata, outgrows a cactus in
+    moist, fertile soil but dies within days in the desert; a cactus rots in waterlogged soil.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Agriculture</strong>: breeders develop drought- and salt-tolerant crops for dry or salty farmland, using genes from wild relatives.</li>
+    <li><strong>Coastal protection</strong>: mangrove forests absorb wave energy and are replanted to protect shores from storms.</li>
+    <li><strong>Gardening</strong>: xeriscaping uses drought-adapted plants to save water in dry regions.</li>
+    <li><strong>Conservation</strong>: bog plants like the Venus flytrap, which grows wild only in a small area of the Carolinas, are threatened when wetlands are drained or fertilised.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Carnivorous plants get their food from insects.”</strong> They photosynthesise; prey provides mineral nutrients.</li>
+    <li><strong>“Epiphytes are parasites.”</strong> They only use the host for support.</li>
+    <li><strong>“Plants adapt during their lifetime when conditions change.”</strong> Adaptations are inherited and evolve over generations; an individual can only adjust within limits (for example, closing its stomata).</li>
+    <li><strong>“All desert plants are cacti.”</strong> Different desert plants use different strategies, from deep roots to short life cycles.</li>
+    <li><strong>“Water plants have no need for oxygen.”</strong> Their roots need oxygen too; air channels supply it.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    Each plant’s tolerances are illustrative values based on its known biology, not measurements. The model tracks six
+    stress factors on a 0–100% scale and assumes the most severe one limits health, a simplification of how stresses really
+    combine; a shortage of nutrients is treated as stunting growth (it never drops below 35%) rather than killing quickly. Health is not the same as fitness: real survival also depends on reproduction, competition, pests, the plant’s
+    age and how long a stress lasts. Water is modelled as a simple store that fills and empties, the soil is uniform, and
+    each habitat is represented by a single set of average conditions. The fly is decorative except that switching insects
+    on gives carnivorous plants their extra nutrients.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Plant adaptations are mainly structural or physiological, and are inherited.</li>
+    <li>Xerophytes conserve and store water; hydrophytes supply their roots with oxygen; halophytes cope with salt.</li>
+    <li>Carnivorous plants photosynthesise and catch prey for nitrogen and phosphorus; epiphytes perch on other plants without harming them.</li>
+    <li>Deciduous trees survive cold winters by shedding their leaves and becoming dormant.</li>
+    <li>An adaptation suits a particular environment; the same plant can thrive in one habitat and fail in another.</li>
+  </ul>
+</SimulatorLayout>

@@ -725,6 +725,17 @@ export const branches: Branch[] = [
         minutes: 12,
         related: ['botany/seed-germination', 'botany/plant-anatomy', 'biology/photosynthesis', 'anatomy-physiology/neuron-firing'],
       },
+      {
+        slug: 'plant-adaptations',
+        title: 'Plant Adaptations and Environmental Survival',
+        summary: 'Grow cacti, water lilies, mangroves, flytraps and more side by side, change the conditions and see which adaptations keep each plant alive.',
+        keywords: ['plant adaptations', 'xerophyte', 'hydrophyte', 'halophyte', 'epiphyte', 'carnivorous plant', 'cactus', 'mangrove', 'water lily', 'venus flytrap', 'bromeliad', 'CAM', 'aerenchyma', 'drought', 'salinity'],
+        level: 'Beginner',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['botany/transpiration', 'botany/plant-anatomy', 'zoology/animal-adaptations', 'biology/natural-selection'],
+      },
     ],
   },
   {
