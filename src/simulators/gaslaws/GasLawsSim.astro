@@ -1,0 +1,99 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell
+  id="gaslaws-sim"
+  label="A sealed cylinder of gas with a piston, a heater, a pressure gauge and a thermometer."
+  hint="Click any part to inspect it"
+  badge="Explore"
+  aspect="16 / 10"
+>
+  <ChoiceControl
+    name="gl-mode"
+    label="Investigate"
+    value="explore"
+    help="Boyle: pressure and volume. Charles: volume and temperature. P–T: pressure and temperature."
+    options={[
+      { value: 'explore', label: 'Explore' },
+      { value: 'boyle', label: 'Boyle' },
+      { value: 'charles', label: 'Charles' },
+      { value: 'gaylussac', label: 'P⁠–⁠T' },
+    ]}
+  />
+  <p class="gl-note" data-note aria-live="polite"></p>
+  <SliderControl name="gl-v" label="Volume" min={1} max={5} step={0.1} value={2.5} scale={['1 L', '5 L']}>
+    <span class="lock-tag" data-lock="gl-v" hidden>Held constant in this investigation</span>
+  </SliderControl>
+  <SliderControl name="gl-t" label="Temperature (heater)" min={100} max={600} step={10} value={300} scale={['100 K', '600 K']}>
+    <span class="lock-tag" data-lock="gl-t" hidden>Held constant in this investigation</span>
+  </SliderControl>
+  <SliderControl name="gl-n" label="Amount of gas" min={0.05} max={0.4} step={0.01} value={0.2} scale={['0.05 mol', '0.40 mol']} help="Pump gas in or let it out through a valve.">
+    <span class="lock-tag" data-lock="gl-n" hidden>Held constant in this investigation</span>
+  </SliderControl>
+  <div class="preset-row" data-record hidden>
+    <button type="button" class="btn btn-sm btn-primary" data-record-btn>Record point</button>
+    <button type="button" class="btn btn-sm btn-ghost" data-clear-btn>Clear points</button>
+  </div>
+  <SimKey
+    items={[
+      { label: 'Gas particle (colour = speed: blue slow, red fast)', color: 'hsl(115, 80%, 54%)' },
+      { label: 'Collision with a wall', color: 'danger', shape: 'square' },
+      { label: 'Collision with the piston', color: 'warning', shape: 'square' },
+      { label: 'Gauge mark: pressure predicted by PV = nRT', color: 'accent', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="p" label="Pressure" key />
+    <Readout name="pi" label="Predicted by PV = nRT" />
+    <Readout name="v" label="Volume" />
+    <Readout name="t" label="Gas temperature" />
+    <Readout name="n" label="Amount of gas" />
+    <Readout name="speed" label="Average speed of N₂ molecules at this temperature" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="gl-graph" title="Pressure over time" desc="Measured pressure and the value predicted by PV = nRT over the last 60 seconds." />
+</SimShell>
+
+<style>
+  .gl-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  .lock-tag {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--warning-soft);
+    color: var(--warning);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .lock-tag[hidden] {
+    display: none;
+  }
+  :global(#gaslaws-sim input[type='range']:disabled) {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  :global(#gaslaws-sim) {
+    --stage-aspect-mobile: 17 / 25;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initGasLaws } from './gaslaws';
+  mountSim('#gaslaws-sim', initGasLaws);
+</script>

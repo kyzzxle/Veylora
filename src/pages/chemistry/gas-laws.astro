@@ -1,0 +1,164 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import GasLawsSim from '../../simulators/gaslaws/GasLawsSim.astro';
+import { gasLawsQuiz } from '../../data/quizzes/gaslaws';
+
+const toc = [
+  { id: 'pressure', label: 'What is gas pressure?' },
+  { id: 'kelvin', label: 'Temperature in kelvin' },
+  { id: 'boyle', label: 'Boyle’s law' },
+  { id: 'charles', label: 'Charles’s law' },
+  { id: 'pt', label: 'The pressure–temperature law' },
+  { id: 'ideal', label: 'The ideal gas law' },
+  { id: 'terms', label: 'Key terms and formulas' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 9.2: Relating Pressure, Volume, Amount, and Temperature: The Ideal Gas Law. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/9-2-relating-pressure-volume-amount-and-temperature-the-ideal-gas-law' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 9.5: The Kinetic-Molecular Theory. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/9-5-the-kinetic-molecular-theory' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 9.6: Non-Ideal Gas Behavior. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/9-6-non-ideal-gas-behavior' },
+  { text: 'NIST (2019). CODATA value: molar gas constant R = 8.314 462 618 J mol⁻¹ K⁻¹.', url: 'https://physics.nist.gov/cgi-bin/cuu/Value?r' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="gas-laws"
+  description="Interactive gas laws simulator: change the volume, temperature and amount of gas in a sealed cylinder, measure pressure from particle collisions, and discover Boyle’s, Charles’s and the pressure–temperature law."
+  toc={toc}
+  quiz={gasLawsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Why does a bicycle pump get harder to push, a balloon shrink in the freezer, and a car tyre gain pressure on a hot
+      day? A gas is billions of particles racing around and crashing into the walls. Squeeze it, heat it or pump more in,
+      measure the pressure from the collisions, and uncover the simple laws that every gas follows.
+    </p>
+  </Fragment>
+
+  <GasLawsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong>. Particles race around the cylinder; each flash on a wall is a collision. The <strong>gauge</strong> adds up their pushes to measure the pressure.</li>
+      <li>In <strong>Explore</strong>, change the <strong>volume</strong>, <strong>temperature</strong> or <strong>amount of gas</strong> and watch the gauge and the graph.</li>
+      <li>Choose <strong>Boyle</strong> (pressure and volume), <strong>Charles</strong> (volume and temperature) or <strong>P–T</strong> (pressure and temperature). Sliders for the quantities held constant are locked and marked.</li>
+      <li>Change the free variable, wait a few seconds for the gauge to settle, and press <strong>Record point</strong>. Collect several points and compare them with the dashed prediction on the graph.</li>
+      <li>Click the gauge, thermometer, piston, heater or particles for explanations. <strong>Reset</strong> restores the starting conditions.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="pressure">What is gas pressure?</h2>
+  <p>
+    The <strong>kinetic theory of gases</strong> pictures a gas as tiny particles moving quickly in straight lines,
+    bouncing off each other and the walls. Every time a particle bounces off a wall, it gives the wall a small push.
+    <strong>Pressure</strong> is the total force of all those pushes on each square metre of wall:
+  </p>
+  <code class="formula">pressure = force ÷ area   (1 Pa = 1 N/m²)</code>
+  <p>
+    Pressure rises if the particles hit the walls <strong>more often</strong> or <strong>harder</strong>. Every gas law
+    comes from those two ideas. Normal air pressure at sea level is about 101 kPa.
+  </p>
+
+  <h2 id="kelvin">Temperature in kelvin</h2>
+  <p>
+    Temperature measures the average kinetic energy of the particles, and the gas laws only work if it is measured from
+    <strong>absolute zero</strong>, the temperature at which particle motion would be at its minimum. The kelvin scale does
+    this: 0 K = −273.15 °C, and a change of 1 K equals a change of 1 °C.
+  </p>
+  <code class="formula">T (K) = T (°C) + 273.15</code>
+
+  <h2 id="boyle">Boyle’s law</h2>
+  <p>
+    At constant temperature and amount of gas, <strong>pressure is inversely proportional to volume</strong>. Halve the
+    volume and the particles have half as far to travel between collisions, so each part of the wall is hit twice as
+    often: the pressure doubles. A pressure–volume graph is a curve, and P × V stays the same.
+  </p>
+  <code class="formula">P₁V₁ = P₂V₂   (T and n constant)</code>
+
+  <h2 id="charles">Charles’s law</h2>
+  <p>
+    At constant pressure and amount of gas, <strong>volume is proportional to the kelvin temperature</strong>. Heating
+    makes the particles faster, so they push harder on a free piston; it rises until the pressure inside again matches the
+    pressure outside. Plotted against kelvin temperature, the volume is a straight line through the origin.
+  </p>
+  <code class="formula">V₁ ÷ T₁ = V₂ ÷ T₂   (P and n constant)</code>
+
+  <h2 id="pt">The pressure–temperature law</h2>
+  <p>
+    At constant volume and amount of gas, <strong>pressure is proportional to the kelvin temperature</strong>. This is
+    often called Gay-Lussac’s law (or Amontons’s law). In a rigid container, faster particles hit the walls both more
+    often and harder. Extending the straight line on the graph backwards to zero pressure points to absolute zero, which
+    is how scientists first estimated it.
+  </p>
+  <code class="formula">P₁ ÷ T₁ = P₂ ÷ T₂   (V and n constant)</code>
+
+  <h2 id="ideal">The ideal gas law</h2>
+  <p>
+    Adding more gas also raises the pressure (or the volume): more particles mean more collisions. This is
+    <strong>Avogadro’s law</strong>: at the same temperature and pressure, equal volumes of gas contain equal numbers of
+    particles. All four relationships combine into one equation:
+  </p>
+  <code class="formula">PV = nRT</code>
+  <p>
+    P is pressure in pascals, V is volume in m³, n is the amount in moles, T is temperature in kelvin and R is the gas
+    constant, 8.314 J/(mol·K). For example, 0.20 mol at 300 K in 2.5 L gives P = 0.20 × 8.314 × 300 ÷ 0.0025 ≈ 200 kPa,
+    which is the simulator’s starting state.
+  </p>
+
+  <h2 id="terms">Key terms and formulas</h2>
+  <dl>
+    <dt>Pressure (P)</dt>
+    <dd>Force per unit area, measured in pascals (Pa) or kilopascals (kPa).</dd>
+    <dt>Absolute zero</dt>
+    <dd>0 K, −273.15 °C: the lowest possible temperature.</dd>
+    <dt>Ideal gas</dt>
+    <dd>A model gas whose particles take up no space and do not attract each other. Real gases behave almost ideally at ordinary temperatures and pressures.</dd>
+    <dt>Combined gas law</dt>
+    <dd>P₁V₁ ÷ T₁ = P₂V₂ ÷ T₂ for a fixed amount of gas.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Breathing:</strong> your diaphragm enlarges your chest, lowering the air pressure in your lungs so that air flows in (Boyle’s law).</li>
+    <li><strong>Hot-air balloons:</strong> heated air expands, so the air inside is less dense than the cooler air outside (Charles’s law).</li>
+    <li><strong>Tyres</strong> are checked when cold, because driving warms them and raises their pressure.</li>
+    <li><strong>Aerosol cans</strong> carry warnings not to heat them: in a rigid can the pressure rises with temperature.</li>
+    <li><strong>Divers</strong> must breathe out while rising, because the air in their lungs expands as the water pressure falls.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Heated gas particles get bigger.”</strong> They move faster; the gas takes up more space only because they push the walls further apart.</li>
+    <li><strong>“Doubling the Celsius temperature doubles the pressure.”</strong> Only kelvin temperatures are proportional.</li>
+    <li><strong>“Pressure comes from the gas’s weight.”</strong> It comes from collisions, and pushes equally in every direction.</li>
+    <li><strong>“Gas particles stop at 0 °C.”</strong> At 0 °C (273 K), air molecules average about 450 m/s.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The simulator is two-dimensional and uses an <strong>ideal gas</strong>: each dot represents about 6 × 10²⁰ molecules
+    (0.001 mol), the dots take up no space, do not attract each other and, as in the simplest kinetic theory, bounce only
+    off the walls and not off each other. The bottom and side walls exchange heat with the gas; the piston is insulated.
+    The gauge really is measured from the simulated collisions, averaged over three seconds, and then converted to
+    kilopascals with a fixed calibration factor so that it can be compared with PV = nRT. Because there are only a few
+    hundred dots, measured values fluctuate by a few percent, just as real measurements have random error. The
+    molecular speed readout is the real average speed of nitrogen molecules at the gas temperature; the dots on screen
+    move far more slowly so that you can follow them. Real gases deviate from PV = nRT at high pressures, when the
+    particles’ own size matters, and at low temperatures, when their attractions matter and they eventually condense.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Gas pressure is caused by particles colliding with the walls of their container.</li>
+    <li>Boyle’s law: at constant T and n, P × V is constant.</li>
+    <li>Charles’s law: at constant P and n, V ÷ T is constant (T in kelvin).</li>
+    <li>Pressure–temperature law: at constant V and n, P ÷ T is constant (T in kelvin).</li>
+    <li>All of them combine into the ideal gas law, PV = nRT.</li>
+  </ul>
+</SimulatorLayout>
