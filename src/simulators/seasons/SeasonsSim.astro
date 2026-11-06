@@ -1,0 +1,84 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell
+  id="seasons-sim"
+  label="Earth orbiting the Sun with its tilted axis, Earth seen side-on with day and night, and the angle of noon sunlight in each hemisphere."
+  hint={false}
+  badge="21 June"
+  aspect="16 / 10"
+>
+  <SliderControl name="sea-day" label="Date" min={0} max={364} step={1} value={171}>
+    <PresetButtons
+      for="sea-day"
+      label="Equinoxes and solstices"
+      presets={[
+        { label: 'Mar equinox', value: 78 },
+        { label: 'Jun solstice', value: 171 },
+        { label: 'Sep equinox', value: 264 },
+        { label: 'Dec solstice', value: 354 },
+      ]}
+    />
+  </SliderControl>
+  <SliderControl name="sea-lat" label="Latitude to compare" min={0} max={90} step={1} value={50} help="The same distance north and south of the equator. 50° is roughly London or Calgary in the north, the Falkland Islands in the south." />
+  <SliderControl name="sea-tilt" label="Axial tilt" min={0} max={60} step={0.1} value={23.44} help="Earth’s real tilt is 23.44°. Try 0° to see what happens.">
+    <PresetButtons
+      for="sea-tilt"
+      label="Tilt presets"
+      presets={[
+        { label: 'Real (23.4°)', value: 23.44 },
+        { label: 'No tilt', value: 0 },
+      ]}
+    />
+  </SliderControl>
+  <p class="sea-note" data-note aria-live="polite"></p>
+  <SliderControl name="sea-speed" label="Time speed (when playing)" min={5} max={60} step={5} value={20} />
+
+  <Fragment slot="readouts">
+    <Readout name="date" label="Date and season" key />
+    <Readout name="decl" label="Sun overhead at noon at" />
+    <Readout name="hn" label="Noon Sun height (north / south)" />
+    <Readout name="dl" label="Day length (north / south)" />
+    <Readout name="ins" label="Daily sunlight, top of atmosphere (north / south)" />
+    <Readout name="dist" label="Earth–Sun distance" />
+  </Fragment>
+
+  <div slot="below">
+    <ChoiceControl
+      name="sea-graph-q"
+      label="Graph"
+      value="day"
+      options={[
+        { value: 'day', label: 'Day length' },
+        { value: 'sun', label: 'Daily sunlight' },
+      ]}
+    />
+    <GraphPanel id="sea-graph" title="Day length through the year" desc="Day length (or daily sunlight) through the year at the chosen latitude in the northern and southern hemispheres, with the current date marked." />
+  </div>
+</SimShell>
+
+<style>
+  .sea-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#seasons-sim) {
+    --stage-aspect-mobile: 4 / 7;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initSeasons } from './seasons';
+  mountSim('#seasons-sim', initSeasons);
+</script>

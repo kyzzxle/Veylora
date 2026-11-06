@@ -1,0 +1,150 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import SeasonsSim from '../../simulators/seasons/SeasonsSim.astro';
+import { seasonsQuiz } from '../../data/quizzes/seasons';
+
+const toc = [
+  { id: 'tilt', label: 'A tilted planet' },
+  { id: 'angle', label: 'Sunlight angle' },
+  { id: 'day-length', label: 'Day length' },
+  { id: 'hemispheres', label: 'Opposite seasons' },
+  { id: 'distance', label: 'What about distance?' },
+  { id: 'markers', label: 'Solstices and equinoxes' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'applications', label: 'Real-world connections' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 4.2: The Seasons. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/4-2-the-seasons' },
+  { text: 'NASA Space Place. What Causes the Seasons?', url: 'https://spaceplace.nasa.gov/seasons/' },
+  { text: 'Meeus, J. (1998). Astronomical Algorithms (2nd ed.). Willmann-Bell. (Solar declination and day length.)' },
+  { text: 'Kopp, G., & Lean, J. L. (2011). A new, lower value of total solar irradiance: Evidence and climate significance. Geophysical Research Letters, 38, L01706.' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="seasons"
+  description="Interactive seasons simulator: move Earth around the Sun, change the axial tilt, and compare noon Sun height, day length and sunlight in the Northern and Southern Hemispheres."
+  toc={toc}
+  quiz={seasonsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Many people think summer happens when Earth is closest to the Sun. But Earth is actually closest in early January,
+      the middle of winter in the north. The real cause is a tilt of just 23.4°. Move Earth around its orbit, compare the
+      two hemispheres and see what happens if Earth were not tilted at all.
+    </p>
+  </Fragment>
+
+  <SeasonsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Drag Earth around its orbit, use the <strong>Date</strong> slider, or press a <strong>solstice</strong> or <strong>equinox</strong> button. Press <strong>Start</strong> to run through the year.</li>
+      <li>Watch the <strong>side-on Earth</strong>: the yellow part of each latitude line is in daylight, so it shows how long the day is there.</li>
+      <li>Compare the <strong>noon sunlight</strong> panels for the Northern and Southern Hemispheres: the beam angle, the size of the lit patch and the energy received.</li>
+      <li>Change the <strong>latitude</strong>, and set the <strong>tilt</strong> to 0° to see what happens to the seasons.</li>
+      <li>Switch the graph between <strong>day length</strong> and <strong>daily sunlight</strong>. Click any part of the picture for an explanation. <strong>Reset</strong> returns to the June solstice.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="tilt">A tilted planet</h2>
+  <p>
+    Earth spins on an axis that is tilted <strong>23.4°</strong> from upright compared with its orbit. As Earth travels
+    around the Sun, the axis keeps pointing the same way in space, towards the North Star, Polaris. So for half of the
+    year the Northern Hemisphere leans towards the Sun, and for the other half it leans away. The tilt changes two
+    things that control how much solar energy a place receives: the <strong>angle of sunlight</strong> and the
+    <strong>length of the day</strong>.
+  </p>
+
+  <h2 id="angle">Sunlight angle</h2>
+  <p>
+    When the Sun is high, its rays strike the ground steeply and their energy is concentrated on a small area. When the
+    Sun is low, the same beam is spread over a much larger area, and it also passes through more atmosphere. At 50°N the
+    noon Sun is about 63° high in late June but only about 17° high in late December, so a square metre of ground gets
+    far less energy in winter.
+  </p>
+
+  <h2 id="day-length">Day length</h2>
+  <p>
+    As Earth spins, each place travels around a circle of latitude. Because of the tilt, more than half of that circle is
+    in daylight in summer and less than half in winter. At 50°N the day lasts about 16 hours at the June solstice and
+    about 8 hours at the December solstice. Inside the Arctic and Antarctic Circles (66.6°) there are days when the Sun
+    never sets (midnight sun) or never rises (polar night). At the equator the day is about 12 hours all year. Longer days
+    mean more hours of heating and fewer hours of cooling.
+  </p>
+
+  <h2 id="hemispheres">Opposite seasons</h2>
+  <p>
+    When the north leans towards the Sun, the south leans away. So when it is summer in Canada, Europe and China, it is
+    winter in Australia, Argentina and South Africa, and Christmas comes in midsummer in the Southern Hemisphere.
+  </p>
+
+  <h2 id="distance">What about distance?</h2>
+  <p>
+    Earth’s orbit is very nearly a circle. Earth is about <strong>147 million km</strong> from the Sun in early January and
+    about <strong>152 million km</strong> in early July, a difference of only about 3%. That changes the sunlight reaching
+    Earth by about 7% across the year, much less than the effect of the tilt, and it works the wrong way to explain
+    northern seasons: Earth is closest during northern winter. It does make southern summers receive slightly more
+    sunlight than northern summers, but the Southern Hemisphere’s large oceans soften the difference.
+  </p>
+
+  <h2 id="markers">Solstices and equinoxes</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Date (approximately)</th><th>Event</th><th>Sun overhead at noon</th></tr></thead>
+      <tbody>
+        <tr><td>20 March</td><td>March equinox</td><td>Equator</td></tr>
+        <tr><td>21 June</td><td>June solstice</td><td>Tropic of Cancer, 23.4°N</td></tr>
+        <tr><td>22 September</td><td>September equinox</td><td>Equator</td></tr>
+        <tr><td>21 December</td><td>December solstice</td><td>Tropic of Capricorn, 23.4°S</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="formulas">Formulas</h2>
+  <p>The latitude where the Sun is overhead at noon, called the Sun’s declination δ, varies through the year:</p>
+  <code class="formula">δ = arcsin( sin 23.4° × sin λ )</code>
+  <p>where λ is Earth’s position in its orbit measured from the March equinox. For a place at latitude φ:</p>
+  <code class="formula">noon Sun height = 90° − |φ − δ|</code>
+  <code class="formula">day length = 2 × arccos( −tan φ × tan δ ) ÷ 15° per hour</code>
+
+  <h2 id="applications">Real-world connections</h2>
+  <ul>
+    <li><strong>Farming and nature:</strong> growing seasons, bird migration and animal breeding follow the seasons.</li>
+    <li><strong>Solar panels</strong> are angled to face the Sun as squarely as possible, steeper in winter.</li>
+    <li><strong>Seasonal lag:</strong> the warmest weeks come a month or more after the June solstice, because oceans and land take time to warm.</li>
+    <li><strong>Other planets:</strong> Mars is tilted about 25° and has seasons like ours; Uranus is tilted about 98°, so each pole has decades of continuous daylight.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Summer is when Earth is closest to the Sun.”</strong> Earth is closest in January.</li>
+    <li><strong>“The tilted hemisphere is closer to the Sun, so it is hotter.”</strong> The tilt changes the distance by only a few thousand kilometres out of 150 million. It is the angle and day length that matter.</li>
+    <li><strong>“Earth’s axis wobbles back and forth every year.”</strong> It points the same way all year; Earth’s position around the Sun changes.</li>
+    <li><strong>“The Sun is directly overhead at noon everywhere.”</strong> It can only be overhead between the two tropics.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The noon Sun height and day length use standard formulas for the centre of the Sun, ignoring the bending of light by
+    the atmosphere and the size of the Sun’s disc, which make real days a few minutes longer. The sunlight values are the
+    daily average arriving at the top of the atmosphere; clouds, air and the ground reduce what actually reaches the
+    surface, and they are not air temperatures. Earth’s orbital speed is treated as constant, so the dates of the
+    equinoxes and solstices can be off by a day or two. The orbit view is tilted and not to scale.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Seasons are caused by Earth’s 23.4° axial tilt, not by its distance from the Sun.</li>
+    <li>The tilt changes the angle of sunlight and the length of the day.</li>
+    <li>The Northern and Southern Hemispheres have opposite seasons.</li>
+    <li>At the equinoxes, day and night are about equal everywhere; at the solstices, one hemisphere has its longest day and the other its shortest.</li>
+    <li>Without a tilt, there would be no seasons.</li>
+  </ul>
+</SimulatorLayout>

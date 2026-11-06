@@ -492,6 +492,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['astronomy/moon-phases', 'astronomy/orbits-gravity', 'astronomy/solar-system', 'physics/wave-interference'],
       },
+      {
+        slug: 'seasons',
+        title: 'Seasons and Earth’s Axial Tilt',
+        summary: 'Move Earth around the Sun and compare sunlight angle and day length in the two hemispheres.',
+        keywords: ['seasons', 'axial tilt', 'solstice', 'equinox', 'day length', 'sun angle', 'hemisphere', 'summer', 'winter', 'insolation', 'polar night', 'midnight sun'],
+        level: 'Beginner',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['astronomy/solar-system', 'earth-science/weather', 'ecology/climate-change', 'astronomy/orbits-gravity'],
+      },
     ],
   },
   {
