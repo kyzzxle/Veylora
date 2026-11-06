@@ -1,0 +1,147 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import TransitSim from '../../simulators/transit/TransitSim.astro';
+import { transitQuiz } from '../../data/quizzes/transit';
+
+const toc = [
+  { id: 'exoplanets', label: 'Planets around other stars' },
+  { id: 'transit', label: 'How a transit works' },
+  { id: 'depth', label: 'Transit depth and planet size' },
+  { id: 'timing', label: 'Timing: period and duration' },
+  { id: 'alignment', label: 'Why most planets never transit' },
+  { id: 'noise', label: 'Finding tiny dips' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'applications', label: 'Discoveries and missions' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 21.4: Planets beyond the Solar System: Search and Discovery. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/21-4-planets-beyond-the-solar-system-search-and-discovery' },
+  { text: 'NASA Exoplanet Archive (Caltech/IPAC): confirmed planets and discovery methods.', url: 'https://exoplanetarchive.ipac.caltech.edu/' },
+  { text: 'Winn, J. N. (2010). Transits and Occultations. In S. Seager (Ed.), Exoplanets (pp. 55–77). University of Arizona Press. arXiv:1001.2010.', url: 'https://arxiv.org/abs/1001.2010' },
+  { text: 'Borucki, W. J., et al. (2010). Kepler Planet-Detection Mission: Introduction and First Results. Science, 327(5968), 977–980.' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="exoplanet-transits"
+  description="Interactive exoplanet transit simulator: change planet size, orbital distance and inclination, watch the star's light dip, and see why only well-aligned orbits produce transits."
+  toc={toc}
+  quiz={transitQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Most planets around other stars have never been seen directly. Astronomers know they are there because, once every
+      orbit, each one passes in front of its star and blocks a tiny fraction of its light. Build your own star and planet,
+      send the planet across, and see how a dip of a fraction of a percent reveals a whole new world.
+    </p>
+  </Fragment>
+
+  <TransitSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Press <strong>Start</strong> and watch the planet cross the star in the telescope view, while the light curve below it dips. Time slows down automatically during each transit.</li>
+      <li>Try the <strong>example planets</strong>, then change the <strong>planet radius</strong>, its <strong>distance</strong> from the star (which sets the period) and the <strong>star</strong>. Compare the depth, duration and period readouts.</li>
+      <li>Lower the <strong>inclination</strong> a little at a time. Watch the planet’s path move off the star in the telescope view and the side view, until the dip disappears.</li>
+      <li>Add <strong>measurement noise</strong> and see which planets are still detectable. The graph below shows the dips repeating over three orbits.</li>
+      <li>Click any view for an explanation. <strong>Reset</strong> restores the starting planet.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="exoplanets">Planets around other stars</h2>
+  <p>
+    An <strong>exoplanet</strong> is a planet that orbits a star other than the Sun. Thousands have now been confirmed,
+    and most of them were found with the <strong>transit method</strong>. Exoplanets are extremely hard to see directly:
+    they are tiny, faint and lost in the glare of their stars. Instead, astronomers look for their effects on the star.
+  </p>
+
+  <h2 id="transit">How a transit works</h2>
+  <p>
+    If a planet’s orbit is lined up so that it passes between its star and us, it blocks a small part of the star’s disc
+    once every orbit. A telescope cannot see this happening, but it can measure the star’s total brightness very
+    precisely. A graph of brightness against time is a <strong>light curve</strong>, and a transit appears as a small,
+    repeating dip. To confirm a planet, astronomers look for at least three evenly spaced dips with the same depth and
+    duration, and rule out other causes such as a pair of stars eclipsing each other.
+  </p>
+
+  <h2 id="depth">Transit depth and planet size</h2>
+  <p>
+    The fraction of light blocked is roughly the planet’s disc area divided by the star’s:
+    <strong>depth ≈ (planet radius ÷ star radius)²</strong>. Jupiter crossing the Sun would dim it by about 1%; Earth by
+    only about 0.008%, or 84 parts per million. So if the star’s size is known, the depth gives the planet’s size. The same
+    planet produces a deeper dip around a smaller star, which is why red dwarfs are good places to look for Earth-sized
+    planets.
+  </p>
+
+  <h2 id="timing">Timing: period and duration</h2>
+  <p>
+    The time between dips is the planet’s <strong>orbital period</strong>. Using Kepler’s third law and the star’s mass,
+    the period gives the size of the orbit, which tells astronomers how much heat the planet receives. The
+    <strong>duration</strong> of each transit depends on how fast the planet moves and how much of the star it crosses:
+    close-in “hot Jupiters” transit for a few hours every few days, while an Earth twin would transit for about 13 hours
+    once a year.
+  </p>
+
+  <h2 id="alignment">Why most planets never transit</h2>
+  <p>
+    Orbits are tilted at random relative to our line of sight. A transit only happens if the orbit is almost exactly
+    <strong>edge-on</strong>, so that the planet passes within about one star radius of the star’s centre as seen from
+    Earth. The chance of this is roughly the star’s radius divided by the orbit’s radius: about 10% for a hot Jupiter but
+    only about 0.5% for an Earth twin and 0.1% for a Jupiter twin. For every planet we catch transiting, many more are
+    there but unseen. Survey telescopes therefore watch tens or hundreds of thousands of stars at once.
+  </p>
+
+  <h2 id="noise">Finding tiny dips</h2>
+  <p>
+    Every measurement has some random scatter, or <strong>noise</strong>. From the ground, Earth’s shimmering atmosphere
+    adds a lot of it, so small dips are hidden. Space telescopes avoid the atmosphere and can measure brightness to tens of
+    parts per million. Combining many transits beats the noise down further, which is how planets as small as Earth have
+    been found.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">depth ≈ (R_planet ÷ R_star)²</code>
+  <code class="formula">P² = a³ ÷ M   (P in years, a in AU, M in solar masses)</code>
+  <code class="formula">transit possible if a × cos i &lt; R_star + R_planet</code>
+  <code class="formula">chance of a transit ≈ R_star ÷ a</code>
+
+  <h2 id="applications">Discoveries and missions</h2>
+  <ul>
+    <li><strong>HD 209458 b</strong> was the first exoplanet seen to transit, in 1999.</li>
+    <li><strong>Kepler</strong> (2009–2018) stared at about 150,000 stars and found thousands of planets, showing that small planets are common.</li>
+    <li><strong>TESS</strong> (launched 2018) surveys almost the whole sky, focusing on bright, nearby stars.</li>
+    <li><strong>TRAPPIST-1</strong>, a small, cool star, has seven Earth-sized transiting planets.</li>
+    <li><strong>Atmospheres:</strong> during a transit, starlight filters through the planet’s atmosphere; telescopes such as JWST read the gases in it from the light’s spectrum.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Astronomers see the planet as a black dot.”</strong> They measure only the star’s total light.</li>
+    <li><strong>“A big dip means a heavy planet.”</strong> The depth measures size, not mass.</li>
+    <li><strong>“If no transit is seen, there is no planet.”</strong> Most planets’ orbits are simply not lined up with us.</li>
+    <li><strong>“The planet blocks all the light while it crosses.”</strong> Even Jupiter blocks only about 1%.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    Orbits are circular, and only one planet orbits each star. The star’s brightness profile uses a simple limb-darkening
+    law with a fixed value, and the dip is calculated by sampling the planet’s disc at 400 points. The three star types
+    and the two noise levels are illustrative round numbers, not specific stars or instruments. Real light curves also
+    include starspots, flares, the faint light reflected or emitted by the planet, and dips from eclipsing binary stars
+    that must be ruled out. Time is speeded up between transits and slowed down during them.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>A transit is a small, repeating dip in a star’s light as a planet passes in front of it.</li>
+    <li>Depth ≈ (planet radius ÷ star radius)², so the dip reveals the planet’s size.</li>
+    <li>The time between dips gives the orbital period; Kepler’s third law then gives the orbit’s size.</li>
+    <li>Only orbits that are almost edge-on to us produce transits, so most planets are missed.</li>
+    <li>Tiny dips need very precise, low-noise measurements, usually from space.</li>
+  </ul>
+</SimulatorLayout>

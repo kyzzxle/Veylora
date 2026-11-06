@@ -514,6 +514,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['astronomy/moon-phases', 'astronomy/orbits-gravity', 'astronomy/eclipses', 'physics/newtons-laws'],
       },
+      {
+        slug: 'exoplanet-transits',
+        title: 'Exoplanets and the Transit Method',
+        summary: 'Send a planet across its star, measure the dip in starlight and find out which orbits we can detect.',
+        keywords: ['exoplanet', 'transit', 'light curve', 'transit depth', 'inclination', 'kepler', 'tess', 'planet radius', 'orbital period', 'kepler’s third law', 'limb darkening'],
+        level: 'Intermediate',
+        kind: 'Graph',
+        status: 'live',
+        minutes: 15,
+        related: ['astronomy/orbits-gravity', 'astronomy/stellar-life-cycle', 'astronomy/solar-system', 'astronomy/eclipses'],
+      },
     ],
   },
   {

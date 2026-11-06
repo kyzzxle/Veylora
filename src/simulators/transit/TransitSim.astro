@@ -1,0 +1,85 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell
+  id="transit-sim"
+  label="A planet orbiting a star, seen through a telescope, with the star's measured brightness and top and side views of the orbit."
+  hint={false}
+  badge="Waiting for transit"
+  aspect="16 / 10"
+>
+  <div class="ctrl">
+    <span class="ctrl-label" id="tr-presets-label">Example planets</span>
+    <div class="preset-row" role="group" aria-labelledby="tr-presets-label">
+      <button type="button" class="preset" data-planet="hotjup" aria-pressed="false">Hot Jupiter</button>
+      <button type="button" class="preset" data-planet="earth" aria-pressed="false">Earth twin</button>
+      <button type="button" class="preset" data-planet="reddwarf" aria-pressed="false">Red-dwarf planet</button>
+      <button type="button" class="preset" data-planet="jupiter" aria-pressed="false">Jupiter twin</button>
+    </div>
+  </div>
+  <ChoiceControl
+    name="tr-star"
+    label="Star"
+    value="sun"
+    options={[
+      { value: 'sun', label: 'Sun-like' },
+      { value: 'red', label: 'Red dwarf' },
+      { value: 'hot', label: 'Larger' },
+    ]}
+    help="Radius 1, 0.3 or 1.6 times the Sun’s; mass 1, 0.3 or 1.5 times."
+  />
+  <SliderControl name="tr-rp" label="Planet radius" min={0.5} max={20} step={0.1} value={11} help="Earth = 1, Neptune ≈ 3.9, Jupiter ≈ 11.2." />
+  <SliderControl name="tr-a" label="Distance from the star" min={-1.7} max={0.72} step={0.01} value={-1.3} help="Sets the orbital period through Kepler’s third law. 1 AU = Earth’s distance from the Sun." />
+  <SliderControl name="tr-inc" label="Orbital inclination" min={80} max={90} step={0.05} value={90} help="90° = the orbit is exactly edge-on to us." />
+  <p class="tr-note" data-note aria-live="polite"></p>
+  <ChoiceControl
+    name="tr-noise"
+    label="Measurement noise"
+    value="none"
+    options={[
+      { value: 'none', label: 'None' },
+      { value: 'space', label: 'Space telescope' },
+      { value: 'ground', label: 'Ground telescope' },
+    ]}
+    help="Typical scatter per measurement: about 100 ppm from space, about 2,000 ppm from the ground (illustrative)."
+  />
+  <SliderControl name="tr-speed" label="Animation speed" min={1} max={5} step={1} value={1} />
+  <p class="ctrl-help" data-slow hidden>Time is slowed down while the planet crosses the star.</p>
+
+  <Fragment slot="readouts">
+    <Readout name="vis" label="Seen from Earth?" key />
+    <Readout name="depth" label="Transit depth" />
+    <Readout name="dur" label="Transit duration" />
+    <Readout name="per" label="Orbital period" />
+    <Readout name="b" label="Closest approach to the star’s centre" />
+    <Readout name="prob" label="Chance a random orbit transits" />
+    <Readout name="size" label="Planet size" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="tr-graph" title="Brightness over three orbits" desc="The star's measured brightness over three orbital periods, showing a repeating dip at each transit." />
+</SimShell>
+
+<style>
+  .tr-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#transit-sim) {
+    --stage-aspect-mobile: 34 / 53;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initTransit } from './transit';
+  mountSim('#transit-sim', initTransit);
+</script>
