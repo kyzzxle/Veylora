@@ -1,0 +1,204 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import DefenseSim from '../../simulators/defense/DefenseSim.astro';
+import { plantDefenseQuiz } from '../../data/quizzes/plant-defense';
+
+const toc = [
+  { id: 'threats', label: 'A plant cannot run away' },
+  { id: 'physical', label: 'Physical defenses' },
+  { id: 'chemical', label: 'Chemical defenses' },
+  { id: 'innate', label: 'Innate immunity in plants' },
+  { id: 'pti', label: 'PAMPs, PRRs and PTI' },
+  { id: 'eti', label: 'Effectors, R proteins and ETI' },
+  { id: 'hr-sar', label: 'Hypersensitive response and SAR' },
+  { id: 'herbivores', label: 'Defense against insects' },
+  { id: 'compare', label: 'Pathogens vs herbivores' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 30.6: Plant Sensory Systems and Responses (plant defense mechanisms). OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/30-6-plant-sensory-systems-and-responses' },
+  { text: 'Jones, J. D. G., & Dangl, J. L. (2006). The plant immune system. Nature, 444, 323–329.', url: 'https://doi.org/10.1038/nature05286' },
+  { text: 'Melotto, M., Underwood, W., Koczan, J., Nomura, K., & He, S. Y. (2006). Plant stomata function in innate immunity against bacterial invasion. Cell, 126(5), 969–980.', url: 'https://doi.org/10.1016/j.cell.2006.06.054' },
+  { text: 'Durrant, W. E., & Dong, X. (2004). Systemic acquired resistance. Annual Review of Phytopathology, 42, 185–209.', url: 'https://doi.org/10.1146/annurev.phyto.42.040803.140421' },
+  { text: 'Howe, G. A., & Jander, G. (2008). Plant immunity to insect herbivores. Annual Review of Plant Biology, 59, 41–66.', url: 'https://doi.org/10.1146/annurev.arplant.59.032607.092825' },
+  { text: 'Taiz, L., Zeiger, E., Møller, I. M., & Murphy, A. (2015). Plant Physiology and Development (6th ed.), Chapter 23: Biotic Interactions. Sinauer Associates.' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="plant-defense"
+  description="Interactive plant defense simulator: inspect thorns, spines, trichomes and bark on a 3D plant, infect a leaf with bacteria or fungi to see PTI, ETI, the hypersensitive response and SAR, and watch jasmonate-induced defenses against caterpillars and aphids."
+  toc={toc}
+  quiz={plantDefenseQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A plant is surrounded by things that want to eat it, from deer and caterpillars to bacteria and fungi, and it cannot
+      run away or hide. Instead it relies on armour, poisons and a surprisingly clever immune system. Inspect a plant’s
+      physical defenses in 3D, infect a leaf and follow its immune response, and set caterpillars loose to see a plant fight
+      back.
+    </p>
+  </Fragment>
+
+  <DefenseSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>3D plant</strong>, rotate the plant and tap a structure, or choose one from the list to zoom in on it.</li>
+      <li>In <strong>Pathogen attack</strong>, drag bacteria or fungal spores onto the leaf, or press <strong>Inoculate the leaf</strong>. Watch whether bacteria find the stoma, and follow the immune steps on the right.</li>
+      <li>Switch <strong>effectors</strong> off and on, then give the plant a matching <strong>R gene</strong> to trigger the hypersensitive response. Use <strong>Infect a new leaf</strong> to test systemic acquired resistance.</li>
+      <li>In <strong>Insect attack</strong>, drag a caterpillar or aphids onto the plant. Turn <strong>jasmonate signalling</strong> or <strong>trichomes</strong> off to compare.</li>
+      <li>Change the <strong>threat intensity</strong> and <strong>plant defense response</strong>. <strong>Step</strong> advances half a second; <strong>Reset</strong> restores everything.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="threats">A plant cannot run away</h2>
+  <p>
+    Plant defenses fall into two broad kinds. <strong>Physical defenses</strong> are structures that block or deter
+    attackers: the waxy cuticle, cell walls, bark, thorns, spines and hairs. <strong>Chemical defenses</strong> are
+    substances that poison, repel or slow attackers, or kill microbes. Some defenses are always present (constitutive);
+    others are switched on only after an attack (induced), which saves resources when there is no threat.
+  </p>
+
+  <h2 id="physical">Physical defenses</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Structure</th><th>What it is and what it stops</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Cuticle and epidermis</strong></td><td>A waxy layer over tightly packed cells with thick walls; most microbes cannot cross it</td></tr>
+        <tr><td><strong>Bark (cork)</strong></td><td>Dead cells with waterproof suberin in their walls; seals stems against microbes and insects</td></tr>
+        <tr><td><strong>Trichomes</strong></td><td>Leaf hairs that hinder small insects; glandular ones release sticky or toxic chemicals</td></tr>
+        <tr><td><strong>Thorns</strong></td><td>Modified side shoots with sharp tips (hawthorn); deter large animals</td></tr>
+        <tr><td><strong>Spines</strong></td><td>Modified leaves (cactus); deter large animals</td></tr>
+        <tr><td><strong>Prickles</strong></td><td>Sharp outgrowths of the epidermis (rose); deter large animals</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Mechanical defenses such as thorns, spines and prickles work mainly against large grazing animals. Small insects can
+    often walk straight past them, which is why plants also need chemical defenses.
+  </p>
+
+  <h2 id="chemical">Chemical defenses</h2>
+  <p>
+    Plants make thousands of <strong>secondary metabolites</strong> that are not needed for basic growth but protect them.
+    Alkaloids such as nicotine and caffeine are toxic to many insects; tannins make leaves hard to digest; mustard and
+    cabbage plants store harmless glucosinolates that turn into pungent, toxic compounds when a leaf is chewed.
+    <strong>Antimicrobial compounds</strong>, including phytoalexins made only after infection, kill or slow microbes.
+    Damaged leaves can also make <strong>proteinase inhibitors</strong>, which stop insects digesting the protein they
+    eat.
+  </p>
+
+  <h2 id="innate">Innate immunity in plants</h2>
+  <p>
+    Plants have no <strong>adaptive immune system</strong> like vertebrates: no antibodies, no circulating white blood
+    cells and no immune memory built by specialised cells. Instead, every plant cell carries an <strong>innate immune
+    system</strong> encoded in its genes. Each cell can detect danger and defend itself, and chemical signals then
+    coordinate the response across the whole plant.
+  </p>
+
+  <h2 id="pti">PAMPs, PRRs and PTI</h2>
+  <p>
+    Microbes carry molecules that are essential to them and shared by whole groups, called
+    <strong>pathogen-associated molecular patterns (PAMPs)</strong>, such as bacterial flagellin and fungal chitin.
+    <strong>Pattern recognition receptors (PRRs)</strong> on the surface of plant cells detect them and trigger
+    <strong>pattern-triggered immunity (PTI)</strong>:
+  </p>
+  <ul>
+    <li><strong>Stomata close</strong> within an hour or so, shutting a main entry route for bacteria.</li>
+    <li>A burst of <strong>reactive oxygen species</strong> damages microbes and acts as a signal.</li>
+    <li><strong>Callose</strong> is deposited to reinforce cell walls, forming plugs (papillae) under fungal penetration attempts.</li>
+    <li>Cells make <strong>antimicrobial compounds</strong> and defense proteins.</li>
+  </ul>
+  <p>PTI stops most microbes that land on a plant, which is why most plants are resistant to most pathogens.</p>
+
+  <h2 id="eti">Effectors, R proteins and ETI</h2>
+  <p>
+    Pathogens that are adapted to a particular plant inject <strong>effector</strong> proteins into its cells. Effectors
+    block PTI; one bacterial toxin, coronatine, even reopens closed stomata. Plants fight back with
+    <strong>resistance (R) proteins</strong>, mostly inside the cell, that recognise specific effectors (or their effects).
+    This triggers <strong>effector-triggered immunity (ETI)</strong>, a faster and stronger version of PTI. Whether a plant
+    variety resists a pathogen strain often depends on whether it has an R gene matching one of that strain’s effectors,
+    the “gene-for-gene” relationship.
+  </p>
+
+  <h2 id="hr-sar">Hypersensitive response and SAR</h2>
+  <p>
+    ETI often ends in the <strong>hypersensitive response (HR)</strong>: cells around the infection site kill themselves,
+    leaving a small brown spot. This works best against pathogens that need living cells to feed on. The infected leaf also
+    makes <strong>salicylic acid</strong>, and mobile signals spread through the plant. Distant leaves build up defense
+    proteins and become <strong>primed</strong> to respond faster. This <strong>systemic acquired resistance (SAR)</strong>
+    protects against a broad range of pathogens for weeks.
+  </p>
+
+  <h2 id="herbivores">Defense against insects</h2>
+  <p>
+    When a caterpillar chews a leaf, the wounding and chemicals in its saliva trigger the <strong>jasmonic acid
+    (jasmonate)</strong> pathway. The damaged leaf starts making toxins and proteinase inhibitors, and signals travel
+    through the vascular system so that undamaged leaves do the same: a <strong>systemic wound response</strong>. Damaged
+    plants also release <strong>volatile</strong> chemicals that attract predators and parasitic wasps, which lay their
+    eggs in caterpillars. This is an indirect defense, recruiting the herbivore’s enemies. Sap-sucking aphids cause little
+    wounding, so they trigger a weaker jasmonate response and are often stopped by sticky glandular hairs instead.
+  </p>
+
+  <h2 id="compare">Pathogens vs herbivores</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Against pathogens</th><th>Against insect herbivores</th></tr></thead>
+      <tbody>
+        <tr><td>Detected by PRRs (PAMPs) and R proteins (effectors)</td><td>Detected through wounding and chemicals in insect saliva</td></tr>
+        <tr><td>Mainly salicylic acid signalling (for pathogens that need living cells)</td><td>Mainly jasmonic acid signalling</td></tr>
+        <tr><td>Stomatal closure, callose, antimicrobials, hypersensitive cell death</td><td>Toxins, proteinase inhibitors, trichomes, volatiles that attract predators</td></tr>
+        <tr><td>Systemic acquired resistance</td><td>Systemic wound response</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Pathogens differ too: bacteria enter through stomata and wounds, many fungi break through the cuticle, and viruses
+    need a wound or an insect vector. Pathogens that kill cells and feed on dead tissue are resisted mainly through
+    jasmonate-related defenses, so the hypersensitive response does not help against them.
+  </p>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Crop breeding</strong>: breeders move R genes into crops, for example to protect wheat against rust fungi; pathogens can evolve new effectors to escape them.</li>
+    <li><strong>Plant protection</strong>: some sprays switch on SAR without killing the pathogen directly.</li>
+    <li><strong>Pest control</strong>: crops with more trichomes or toxins, and the encouragement of parasitic wasps, reduce insecticide use.</li>
+    <li><strong>Medicines and stimulants</strong>: many drugs and flavours, from morphine to caffeine and mustard, are plant defense chemicals.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Plants have no immune system.”</strong> They have an innate immune system in every cell, but no adaptive immune system with antibodies.</li>
+    <li><strong>“Thorns, spines and prickles are the same.”</strong> They grow from a shoot, a leaf and the epidermis respectively.</li>
+    <li><strong>“All pathogens trigger the same response.”</strong> Entry routes, PAMPs, effectors and the best defense differ between bacteria, fungi and viruses.</li>
+    <li><strong>“The hypersensitive response means the plant is losing.”</strong> Sacrificing a few cells stops the pathogen spreading.</li>
+    <li><strong>“Plant defenses are always switched on.”</strong> Many are induced only when an attack is detected.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The leaf section is a cartoon with one stoma, and microbes, cells and hormone levels are tracked with simple rules.
+    PTI, ETI, salicylic acid and jasmonate are each a single number from 0 to 100%, rather than networks of hundreds of
+    genes. Real infections take hours to days, not seconds. In the model, pathogens only reach a plant cell’s surface,
+    effectors simply reduce PTI to a quarter, and ETI always leads to the hypersensitive response when the R gene matches.
+    Real fungi can also enter through stomata, and some pathogens produce several effectors that interact with several R
+    proteins. The insect model leaves out the many other signals, such as ethylene and salicylic acid, that tune herbivore
+    defense.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Physical defenses (cuticle, bark, thorns, spines, prickles, trichomes) block or deter attackers; chemical defenses poison, repel or kill them.</li>
+    <li>Plants have innate immunity in every cell, but no adaptive immune system.</li>
+    <li>PRRs detect PAMPs and trigger PTI; adapted pathogens suppress PTI with effectors; R proteins detect effectors and trigger ETI.</li>
+    <li>The hypersensitive response sacrifices infected cells, and salicylic acid leads to systemic acquired resistance.</li>
+    <li>Insect damage triggers jasmonate signalling, toxins in distant leaves and volatiles that attract the insects’ enemies.</li>
+  </ul>
+</SimulatorLayout>

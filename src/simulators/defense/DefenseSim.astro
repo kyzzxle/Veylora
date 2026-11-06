@@ -1,0 +1,169 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { PARTS, PART_ORDER } from './data';
+---
+
+<SimShell id="defense-sim" label="A plant defense laboratory: a 3D plant with physical defenses, a leaf under pathogen attack, and a plant attacked by insects." hint={false} badge="Explored 0/7">
+  <Fragment slot="stage">
+    <canvas class="sim-canvas" data-canvas role="img" aria-label="Plant defense simulator" aria-describedby="defense-sim-status"></canvas>
+    <div class="sim-3d" data-three></div>
+  </Fragment>
+  <Fragment slot="toolbar">
+    <button type="button" class="btn btn-sm" data-step>Step</button>
+  </Fragment>
+
+  <ChoiceControl
+    name="df-view"
+    label="Explore"
+    value="3d"
+    options={[
+      { value: '3d', label: '3D plant' },
+      { value: 'pathogen', label: 'Pathogen attack' },
+      { value: 'insect', label: 'Insect attack' },
+    ]}
+    help="Inspect physical defenses, infect a leaf with microbes, or let insects feed on a plant."
+  />
+  <p class="df-note" data-note aria-live="polite"></p>
+
+  <div data-only="3d" class="df-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="defense-sim-pick">Zoom to a structure</label>
+      <select id="defense-sim-pick" class="select" data-pick>
+        <option value="">— Whole plant —</option>
+        {PART_ORDER.map((p) => <option value={p}>{PARTS[p].name}</option>)}
+      </select>
+    </div>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-whole>Show the whole plant</button>
+    </div>
+    <ToggleControl name="df-labels" label="Show all labels" />
+    <p class="ctrl-help">Start spins the plant. Keyboard: focus the 3D view with Tab, then use the arrow keys to rotate and + / − to zoom.</p>
+  </div>
+
+  <div data-only="2d" class="df-group" hidden>
+    <SliderControl name="df-threat" label="Threat intensity" min={1} max={10} step={1} value={4} help="How many microbes or insects arrive at once." />
+    <SliderControl name="df-defense" label="Plant defense response" min={0} max={200} step={10} value={100} scale={['None', 'Twice normal']} />
+  </div>
+
+  <div data-only="pathogen" class="df-group" hidden>
+    <ChoiceControl
+      name="df-pathogen"
+      label="Pathogen"
+      value="bacteria"
+      options={[
+        { value: 'bacteria', label: 'Bacterium' },
+        { value: 'fungus', label: 'Fungus' },
+      ]}
+    />
+    <ToggleControl name="df-effectors" label="Pathogen injects effectors (adapted strain)" checked />
+    <ToggleControl name="df-rgene" label="Plant has a matching R gene" />
+    <ToggleControl name="df-wound" label="Wounded leaf" />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-inoculate>Inoculate the leaf</button>
+      <button type="button" class="btn btn-sm" data-reinfect>Infect a new leaf</button>
+    </div>
+    <p class="ctrl-help">“Infect a new leaf” keeps any systemic acquired resistance the plant has built up.</p>
+  </div>
+
+  <div data-only="insect" class="df-group" hidden>
+    <ChoiceControl
+      name="df-herb"
+      label="Herbivore"
+      value="caterpillar"
+      options={[
+        { value: 'caterpillar', label: 'Caterpillar (chews)' },
+        { value: 'aphid', label: 'Aphid (sucks sap)' },
+      ]}
+    />
+    <ToggleControl name="df-ja" label="Jasmonate signalling (induced defenses)" checked />
+    <ToggleControl name="df-trich" label="Hairy leaves (trichomes)" checked />
+    <ToggleControl name="df-signals" label="Show signals and volatiles" checked />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-addherb>Add herbivores</button>
+      <button type="button" class="btn btn-sm" data-clearplant>New plant</button>
+    </div>
+  </div>
+
+  <div data-only="pathogen" hidden>
+    <SimKey
+      items={[
+        { label: 'Bacteria', color: '#c92a2a', shape: 'dot' },
+        { label: 'Fungal spore and hypha', color: '#495057', shape: 'dot' },
+        { label: 'Cuticle (wax)', color: '#ffe066', shape: 'square' },
+        { label: 'Callose papilla', color: '#74c0fc', shape: 'dot' },
+        { label: 'Antimicrobials and salicylic acid', color: '#e64980', shape: 'dot' },
+        { label: 'Cell killed in the hypersensitive response', color: '#5c3d2e', shape: 'square' },
+      ]}
+    />
+  </div>
+  <div data-only="insect" hidden>
+    <SimKey
+      items={[
+        { label: 'Jasmonate signal', color: '#f08c00', shape: 'dot' },
+        { label: 'Defensive compounds (toxins)', color: '#9775fa', shape: 'dot' },
+        { label: 'Volatiles', color: '#ced4da', shape: 'dot' },
+        { label: 'Parasitic wasp', color: '#212529', shape: 'dot' },
+      ]}
+    />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .df-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .df-group[hidden],
+  [data-only][hidden] {
+    display: none;
+  }
+  .df-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#defense-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#defense-sim[data-df-view='3d'] .sim-canvas) {
+    visibility: hidden;
+  }
+  :global(#defense-sim[data-df-view='2d'] .sim-3d),
+  :global(#defense-sim[data-df-view='2d'] .sim-3d-tools),
+  :global(#defense-sim[data-df-view='2d'] .sim-3d-activate) {
+    display: none !important;
+  }
+  :global(#defense-sim .df-no3d) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initDefense } from './defense';
+  mountSim('#defense-sim', initDefense);
+</script>
