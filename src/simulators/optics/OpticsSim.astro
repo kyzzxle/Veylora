@@ -1,0 +1,136 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="optics-sim" label="An optics lab with a laser, mirrors, glass and lenses showing reflection, refraction and image formation." hint={false} badge="Reflection">
+  <ChoiceControl
+    name="op-view"
+    label="Explore"
+    value="lab"
+    options={[
+      { value: 'lab', label: 'Ray lab' },
+      { value: 'snell', label: 'Snell’s law' },
+      { value: 'lens', label: 'Lenses' },
+    ]}
+  />
+  <p class="op-note" data-note aria-live="polite"></p>
+
+  <div data-only="lab" class="op-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="op-labsel">Rotate</label>
+      <select id="op-labsel" class="select" data-labsel>
+        <option value="laser">Laser</option>
+        <option value="m1" selected>Mirror 1</option>
+        <option value="m2">Mirror 2</option>
+        <option value="glass">Glass</option>
+      </select>
+    </div>
+    <SliderControl name="op-rot" label="Angle" min={-180} max={180} step={1} value={122} help="Or drag the blue handle on the object. Drag the object itself to move it." />
+    <ChoiceControl
+      name="op-shape"
+      label="Glass"
+      value="block"
+      options={[
+        { value: 'none', label: 'None' },
+        { value: 'block', label: 'Block' },
+        { value: 'prism', label: 'Prism' },
+      ]}
+    />
+    <div data-only="glass" class="op-group">
+      <SliderControl name="op-ng" label="Refractive index of the glass" min={1} max={2.5} step={0.01} value={1.5} />
+    </div>
+    <ToggleControl name="op-two" label="Second mirror" checked />
+    <ToggleControl name="op-normals" label="Normals and angles" checked />
+    <ToggleControl name="op-partial" label="Partial reflections at the glass" checked />
+  </div>
+
+  <div data-only="snell" class="op-group" hidden>
+    <SliderControl name="op-th" label="Angle of incidence θ₁" min={0} max={89} step={1} value={40} help="Or drag the laser around the circle." />
+    <SliderControl name="op-n1" label="Top medium n₁" min={1} max={2.5} step={0.01} value={1} />
+    <div class="preset-row" role="group" aria-label="Top medium">
+      <button type="button" class="preset" data-n1="1">Air</button>
+      <button type="button" class="preset" data-n1="1.33">Water</button>
+      <button type="button" class="preset" data-n1="1.5">Glass</button>
+      <button type="button" class="preset" data-n1="2.42">Diamond</button>
+    </div>
+    <SliderControl name="op-n2" label="Bottom medium n₂" min={1} max={2.5} step={0.01} value={1.5} />
+    <div class="preset-row" role="group" aria-label="Bottom medium">
+      <button type="button" class="preset" data-n2="1">Air</button>
+      <button type="button" class="preset" data-n2="1.33">Water</button>
+      <button type="button" class="preset" data-n2="1.5">Glass</button>
+      <button type="button" class="preset" data-n2="2.42">Diamond</button>
+    </div>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-swap>Swap the media</button>
+    </div>
+  </div>
+
+  <div data-only="lens" class="op-group" hidden>
+    <ChoiceControl
+      name="op-kind"
+      label="Lens"
+      value="convex"
+      options={[
+        { value: 'convex', label: 'Converging (convex)' },
+        { value: 'concave', label: 'Diverging (concave)' },
+      ]}
+    />
+    <SliderControl name="op-f" label="Focal length (size)" min={5} max={30} step={1} value={15} help="Or drag the focal point F′." />
+    <SliderControl name="op-do" label="Object distance dₒ" min={3} max={75} step={1} value={35} help="Or drag the object.">
+      <PresetButtons for="op-do" label="Object distance presets" presets={[{ label: '45 cm', value: 45 }, { label: '30 cm (2F)', value: 30 }, { label: '20 cm', value: 20 }, { label: '8 cm', value: 8 }]} />
+    </SliderControl>
+    <SliderControl name="op-ho" label="Object height" min={2} max={15} step={1} value={8} />
+    <ToggleControl name="op-beam" label="Show a parallel beam instead of an object" />
+  </div>
+
+  <SimKey
+    items={[
+      { label: 'Light ray', color: '#ff2d2d', shape: 'line' },
+      { label: 'Normal', color: 'sim-text', shape: 'line' },
+      { label: 'Angle of incidence', color: 'warning', shape: 'line' },
+      { label: 'Reflected / refracted angle', color: 'success', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .op-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .op-group[hidden] {
+    display: none;
+  }
+  .op-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#optics-sim) {
+    --stage-aspect-mobile: 680 / 700;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initOptics } from './optics';
+  mountSim('#optics-sim', initOptics);
+</script>

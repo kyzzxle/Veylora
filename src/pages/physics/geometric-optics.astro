@@ -1,0 +1,182 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import OpticsSim from '../../simulators/optics/OpticsSim.astro';
+import { opticsQuiz } from '../../data/quizzes/optics';
+
+const toc = [
+  { id: 'rays', label: 'Light as rays' },
+  { id: 'reflection', label: 'Reflection' },
+  { id: 'refraction', label: 'Refraction and refractive index' },
+  { id: 'snell', label: 'Snell’s law' },
+  { id: 'tir', label: 'Total internal reflection' },
+  { id: 'lenses', label: 'Lenses and focal length' },
+  { id: 'images', label: 'Forming images' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model assumes' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Moebs, W., & Sanny, J. (2016). University Physics Volume 3, Chapter 1: The Nature of Light (reflection, refraction, total internal reflection). OpenStax.', url: 'https://openstax.org/books/university-physics-volume-3/pages/1-introduction' },
+  { text: 'Ling, S. J., Moebs, W., & Sanny, J. (2016). University Physics Volume 3, Section 2.4: Thin Lenses. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-3/pages/2-4-thin-lenses' },
+  { text: 'Hecht, E. (2017). Optics (5th ed.), Chapters 4–5: The Propagation of Light; Geometrical Optics. Pearson.' },
+  { text: 'Pedrotti, F. L., Pedrotti, L. M., & Pedrotti, L. S. (2017). Introduction to Optics (3rd ed.). Cambridge University Press.' },
+  { text: 'Urone, P. P., & Hinrichs, R. (2020). College Physics 2e, Chapter 25: Geometric Optics. OpenStax.', url: 'https://openstax.org/books/college-physics-2e/pages/25-introduction-to-geometric-optics' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="geometric-optics"
+  description="Interactive geometric optics simulator: aim a laser at mirrors, glass blocks and prisms, test the law of reflection and Snell’s law, find the critical angle for total internal reflection, and form real and virtual images with converging and diverging lenses."
+  toc={toc}
+  quiz={opticsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A straw looks bent in a glass of water. A diamond sparkles. A magnifying glass makes print bigger, and a camera lens
+      makes a tiny upside-down picture of the world. All of this follows from two simple rules for how light bounces and
+      bends. Aim a laser at mirrors and glass, measure the angles, and build images with lenses.
+    </p>
+  </Fragment>
+
+  <OpticsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Ray lab</strong>, drag the laser, the mirrors and the glass to move them, and drag their <strong>blue handles</strong> (or use the Angle slider) to rotate them. The first surface the beam meets is labelled with its angles.</li>
+      <li>Switch the glass between a block and a prism, change its refractive index, and look for total internal reflection inside it.</li>
+      <li>In <strong>Snell’s law</strong>, drag the laser around the circle and choose the two media. Put the denser medium on top (or press <strong>Swap the media</strong>) and increase the angle past the critical angle.</li>
+      <li>In <strong>Lenses</strong>, drag the object, the lens (⇔ handle) or the focal point F′. Try object distances beyond 2F, between F and 2F, and inside F, for both lens types. Turn on the parallel beam to see a lens converge or diverge light.</li>
+      <li>Tap any part of the picture for an explanation. <strong>Reset</strong> restores every setting.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="rays">Light as rays</h2>
+  <p>
+    Light is a wave, but when it meets objects much larger than its wavelength (less than a thousandth of a millimetre) we
+    can treat it as travelling in straight lines called <strong>rays</strong>. This is <strong>geometric optics</strong>.
+    Angles are always measured from the <strong>normal</strong>: an imaginary line at right angles to the surface at the
+    point where the ray hits it.
+  </p>
+
+  <h2 id="reflection">Reflection</h2>
+  <p>
+    When light bounces off a smooth surface, the <strong>law of reflection</strong> holds: the <strong>angle of reflection
+    equals the angle of incidence</strong> (θr = θi), and the incident ray, reflected ray and normal lie in the same plane.
+    Because both angles change when the mirror tilts, turning a mirror by an angle δ swings the reflected beam through 2δ.
+    Rough surfaces scatter light in many directions (diffuse reflection), which is why paper is not a mirror, even though
+    each tiny patch obeys the same law.
+  </p>
+
+  <h2 id="refraction">Refraction and refractive index</h2>
+  <p>
+    Light travels more slowly in glass, water or diamond than in a vacuum. The <strong>refractive index</strong>
+    <strong>n = c / v</strong> compares the two speeds, where c = 3.00 × 10⁸ m/s. When light crosses a boundary at an angle
+    its speed changes, so it changes direction: <strong>refraction</strong>. Entering a medium with a higher n, it bends
+    towards the normal; entering a lower n, it bends away. Some light is also reflected at every boundary: about 4% for air
+    and glass at normal incidence.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Material</th><th>Refractive index n</th><th>Critical angle (to air)</th></tr></thead>
+      <tbody>
+        <tr><td>Air</td><td>1.00</td><td>—</td></tr>
+        <tr><td>Water</td><td>1.33</td><td>48.8°</td></tr>
+        <tr><td>Glass (typical)</td><td>1.50</td><td>41.8°</td></tr>
+        <tr><td>Diamond</td><td>2.42</td><td>24.4°</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="snell">Snell’s law</h2>
+  <p>The amount of bending is given by Snell’s law:</p>
+  <p><strong>n₁ sin θ₁ = n₂ sin θ₂</strong></p>
+  <p>
+    n₁ and θ₁ belong to the medium the light comes from, n₂ and θ₂ to the medium it enters, and both angles are measured
+    from the normal. Light hitting the boundary straight on (θ₁ = 0) does not bend at all.
+  </p>
+
+  <h2 id="tir">Total internal reflection</h2>
+  <p>
+    Going from a higher to a lower refractive index, the refracted ray bends away from the normal. At the
+    <strong>critical angle</strong> θc it skims along the surface (θ₂ = 90°), so <strong>sin θc = n₂ / n₁</strong>.
+    Beyond that angle Snell’s law has no solution and no light gets through: all of it is reflected. This
+    <strong>total internal reflection</strong> can only happen inside the denser medium. It traps light in optical fibres
+    and makes diamonds, with their tiny critical angle, sparkle.
+  </p>
+
+  <h2 id="lenses">Lenses and focal length</h2>
+  <p>
+    A lens refracts light at two curved surfaces. A <strong>converging (convex)</strong> lens, thicker in the middle, bends
+    parallel rays together to a <strong>focal point</strong> F′. A <strong>diverging (concave)</strong> lens, thinner in the
+    middle, spreads them out as if they came from a focal point on the near side. The distance from the lens to F is the
+    <strong>focal length f</strong>, positive for a converging lens and negative for a diverging one. The power of a lens
+    P = 1/f (f in metres) is measured in dioptres, the unit on spectacle prescriptions.
+  </p>
+
+  <h2 id="images">Forming images</h2>
+  <p>Three easy rays locate the image of the top of an object:</p>
+  <ul>
+    <li>a ray parallel to the axis leaves through F′ (or as if from F, for a diverging lens);</li>
+    <li>a ray through the centre of the lens carries straight on;</li>
+    <li>a ray through F (or heading towards F′, for a diverging lens) leaves parallel to the axis.</li>
+  </ul>
+  <p>The <strong>thin-lens equation</strong> gives the same answer:</p>
+  <p><strong>1/f = 1/dₒ + 1/dᵢ, &nbsp; m = −dᵢ/dₒ = hᵢ/hₒ</strong></p>
+  <p>
+    dₒ is the object distance, dᵢ the image distance (positive for a real image on the far side, negative for a virtual image
+    on the same side as the object) and m the magnification (negative means inverted). A <strong>real image</strong> is where
+    light actually meets; it can be caught on a screen. A <strong>virtual image</strong> is where rays only seem to come
+    from.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Object (converging lens)</th><th>Image</th><th>Used in</th></tr></thead>
+      <tbody>
+        <tr><td>Beyond 2F</td><td>Real, inverted, smaller</td><td>Camera, eye</td></tr>
+        <tr><td>Between F and 2F</td><td>Real, inverted, larger</td><td>Projector</td></tr>
+        <tr><td>Inside F</td><td>Virtual, upright, larger</td><td>Magnifying glass</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Periscopes and car mirrors</strong> use the law of reflection; retro-reflectors on bikes send light straight back with two or three mirrors at right angles.</li>
+    <li><strong>Optical fibres</strong> carry internet data as light trapped by total internal reflection, and endoscopes let doctors see inside the body.</li>
+    <li><strong>Glasses and contact lenses</strong> correct long sight (converging) and short sight (diverging).</li>
+    <li><strong>Cameras, microscopes and telescopes</strong> combine lenses to form magnified real or virtual images.</li>
+    <li><strong>Prisms</strong> bend different colours by slightly different amounts, splitting white light into a spectrum.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Angles are measured from the surface.”</strong> They are measured from the normal.</li>
+    <li><strong>“Light bends because it hits the surface.”</strong> It bends because its speed changes; a ray hitting straight on does not bend.</li>
+    <li><strong>“Total internal reflection can happen going into glass.”</strong> Only when light tries to leave the denser medium.</li>
+    <li><strong>“Covering half a lens cuts off half the image.”</strong> Every part of the lens forms the whole image; it just becomes dimmer.</li>
+    <li><strong>“Virtual images are not real, so you cannot see them.”</strong> You see them every time you look in a mirror.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model assumes</h2>
+  <p>
+    Light is treated as rays of a single colour, so a prism does not split it into a spectrum here. The mirrors are flat and
+    perfectly reflecting on both faces. Refractive indices are constant, and the fraction reflected at the glass is
+    calculated with the Fresnel equations for unpolarised light; very faint reflections are not drawn. The lens view uses
+    the thin-lens, paraxial model: each ray bends once, at the centre line of the lens, using u′ = u − y/f, which is exact
+    only for rays close to the axis. Real lenses have thickness and aberrations, so wide rays do not focus perfectly. Objects
+    and images are measured in centimetres along the axis.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Angles are measured from the normal; at a mirror, the angle of reflection equals the angle of incidence.</li>
+    <li>Refractive index n = c/v; light bends towards the normal when it enters a higher n.</li>
+    <li>Snell’s law: n₁ sin θ₁ = n₂ sin θ₂.</li>
+    <li>Total internal reflection needs n₁ &gt; n₂ and an angle above θc, where sin θc = n₂/n₁.</li>
+    <li>Thin lenses obey 1/f = 1/dₒ + 1/dᵢ with magnification m = −dᵢ/dₒ; real images are inverted, virtual ones upright.</li>
+  </ul>
+</SimulatorLayout>
