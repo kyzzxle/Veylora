@@ -1,0 +1,167 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import LifeCycleSim from '../../simulators/lifecycle/LifeCycleSim.astro';
+import { lifeCycleQuiz } from '../../data/quizzes/lifecycle';
+
+const toc = [
+  { id: 'why', label: 'Why reproduction matters' },
+  { id: 'sexual-asexual', label: 'Sexual and asexual reproduction' },
+  { id: 'fertilisation', label: 'Fertilisation and early development' },
+  { id: 'metamorphosis', label: 'Metamorphosis in insects' },
+  { id: 'frog', label: 'The frog’s double life' },
+  { id: 'chicken', label: 'Birds and the shelled egg' },
+  { id: 'birth', label: 'Eggs or live birth?' },
+  { id: 'strategies', label: 'Many young or few?' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Sections 43.1–43.2: Reproduction Methods; Fertilization. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/43-1-reproduction-methods' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 43.6: Fertilization and Early Embryonic Development. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/43-6-fertilization-and-early-embryonic-development' },
+  { text: 'Gilbert, S. F., & Barresi, M. J. F. (2016). Developmental Biology (11th ed.). Sinauer Associates.' },
+  { text: 'Gullan, P. J., & Cranston, P. S. (2014). The Insects: An Outline of Entomology (5th ed.). Wiley-Blackwell.' },
+  { text: 'Maynard Smith, J. (1978). The Evolution of Sex. Cambridge University Press.' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="life-cycles"
+  description="Interactive animal life cycles simulator: step through the life cycles of a butterfly, grasshopper, frog and chicken, watch fertilisation and early development, and compare sexual and asexual reproduction and egg-laying with live birth."
+  toc={toc}
+  quiz={lifeCycleQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A caterpillar that dissolves itself and re-emerges with wings. A tadpole that swaps gills for lungs. A chick that grows
+      inside a shell from a single cell in just three weeks. Animals have found astonishingly different ways to make the
+      next generation. Step through their life cycles, watch an embryo take shape, and test why so many animals bother with
+      two parents.
+    </p>
+  </Fragment>
+
+  <LifeCycleSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Life cycles</strong>, choose an animal and use <strong>Next stage</strong>, <strong>Back</strong>, the stage buttons or a click on the circle to move through its life cycle. Press <strong>Start</strong> to play it automatically.</li>
+      <li>Read what changes at each stage, and compare the butterfly (complete metamorphosis) with the grasshopper (incomplete). The chart shows how many eggs survive to each stage.</li>
+      <li>In <strong>Embryo</strong>, step from fertilisation to the first organs, and compare a frog (external fertilisation) with a chicken (internal).</li>
+      <li>In <strong>Strategies</strong>, press <strong>Start</strong> to grow an asexual and a sexual population, then press <strong>Disease outbreak</strong>. Compare where embryos develop in egg-laying and live-bearing animals.</li>
+      <li>Click any stage, cell or panel for an explanation. <strong>Reset</strong> returns to the butterfly egg.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="why">Why reproduction matters</h2>
+  <p>
+    Every animal eventually dies, so a species survives only if its members reproduce. Reproduction passes genes to the
+    next generation and keeps the population going. A <strong>life cycle</strong> is the series of stages an animal passes
+    through from a fertilised egg (or a bud) to an adult that can reproduce itself.
+  </p>
+
+  <h2 id="sexual-asexual">Sexual and asexual reproduction</h2>
+  <p>
+    In <strong>asexual reproduction</strong> one parent produces offspring genetically identical to itself. Hydra grow
+    buds that break off; flatworms split in two; some sea stars regrow a whole body from a lost arm; and in
+    <strong>parthenogenesis</strong> females produce young from unfertilised eggs, as aphids do all summer and some lizards
+    always do. Asexual reproduction is fast and needs no mate. In <strong>sexual reproduction</strong>, two parents each
+    contribute a gamete (sperm or egg), and their genes are mixed, so every offspring is different. Half the population
+    (the males) does not give birth, which is costly, but the variety helps populations survive diseases and changing
+    environments. Many animals, like aphids, switch between the two.
+  </p>
+
+  <h2 id="fertilisation">Fertilisation and early development</h2>
+  <p>
+    <strong>Fertilisation</strong> is the fusion of a sperm and an egg. Each gamete carries one set of chromosomes, made
+    by meiosis, so the fertilised egg, the <strong>zygote</strong>, has two sets. Many aquatic animals, such as frogs and
+    most fish, use <strong>external fertilisation</strong>, releasing eggs and sperm into the water. Land animals mostly use
+    <strong>internal fertilisation</strong>, which protects the gametes from drying out. The zygote then divides rapidly
+    (<strong>cleavage</strong>) into a ball of cells, which becomes hollow (the <strong>blastula</strong>). During
+    <strong>gastrulation</strong> cells move inwards to form three germ layers, ectoderm, mesoderm and endoderm, which give
+    rise to all the tissues and organs.
+  </p>
+
+  <h2 id="metamorphosis">Metamorphosis in insects</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>Stages</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Complete</strong></td><td>Egg → larva → pupa → adult</td><td>Butterflies, beetles, flies, bees</td></tr>
+        <tr><td><strong>Incomplete</strong></td><td>Egg → nymph → adult</td><td>Grasshoppers, dragonflies, cockroaches</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Insects have a hard exoskeleton that cannot stretch, so they grow by <strong>moulting</strong>. In complete
+    metamorphosis the larva is a feeding stage that looks nothing like the adult; inside the <strong>pupa</strong>, its body
+    is largely broken down and rebuilt. Larvae and adults often eat different food, so they do not compete. Most insect
+    species develop this way. In incomplete metamorphosis, <strong>nymphs</strong> resemble small adults and change
+    gradually.
+  </p>
+
+  <h2 id="frog">The frog’s double life</h2>
+  <p>
+    Frogs lay jelly-coated eggs in water, fertilised externally. The <strong>tadpole</strong> lives like a fish, with gills
+    and a tail, and mostly eats algae. During <strong>metamorphosis</strong>, controlled by thyroid hormones, it grows legs,
+    develops lungs, absorbs its tail, and its gut changes for a diet of insects. The adult lives on land but must return to
+    water to breed. The name amphibian means “double life”.
+  </p>
+
+  <h2 id="chicken">Birds and the shelled egg</h2>
+  <p>
+    Reptiles, birds and mammals have an <strong>amniotic egg</strong>: membranes enclose the embryo in fluid, store waste
+    and exchange gases. In birds and most reptiles, a shell protects the egg and a yolk feeds the embryo, so eggs can be
+    laid on dry land. A chicken embryo develops in 21 days and hatches as a small version of the adult: this is
+    <strong>direct development</strong>, with no larva.
+  </p>
+
+  <h2 id="birth">Eggs or live birth?</h2>
+  <ul>
+    <li><strong>Oviparous</strong> animals lay eggs that develop outside the mother: most insects, fish, amphibians, reptiles, all birds, and the egg-laying mammals (platypus and echidnas).</li>
+    <li><strong>Ovoviviparous</strong> animals keep eggs inside the body until they hatch, so the young are born live, but are fed mainly by yolk: some sharks, many vipers and garter snakes.</li>
+    <li><strong>Viviparous</strong> animals nourish the embryo inside the mother, in most mammals through a <strong>placenta</strong>: most mammals, and some sharks, lizards and fish.</li>
+  </ul>
+  <p>
+    Biologists now often describe these as points on a range, because many species fall between the categories. In
+    seahorses it is even the male that carries the developing young.
+  </p>
+
+  <h2 id="strategies">Many young or few?</h2>
+  <p>
+    A frog may lay 2,000 eggs and give no care; a wild hen lays a handful and guards her chicks; an elephant has one calf
+    every few years and raises it for years. Producing many cheap offspring and producing a few well-protected ones are both
+    successful strategies. Because most young die, a population stays stable when, on average, each pair leaves about two
+    offspring that survive to breed.
+  </p>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“A pupa is resting.”</strong> It is the stage of greatest change.</li>
+    <li><strong>“All insects have a caterpillar stage.”</strong> Only insects with complete metamorphosis have larvae; grasshoppers have nymphs.</li>
+    <li><strong>“Every egg a hen lays could become a chick.”</strong> Only fertilised eggs that are incubated develop.</li>
+    <li><strong>“Asexual reproduction only happens in plants and bacteria.”</strong> Many animals reproduce asexually.</li>
+    <li><strong>“All mammals give birth to live young.”</strong> The platypus and echidnas lay eggs.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The drawings are simplified and not to scale, and each animal represents a large group. Durations are typical ranges for
+    one example species and depend on temperature and food. The survival numbers are illustrative orders of magnitude, not
+    measurements. The development steps are generalised: frogs and chickens differ in how their eggs divide, because of
+    their very different amounts of yolk. The population model uses two genes with three variants each, equal numbers of
+    young per female, a fixed space limit, and a disease that targets the most common type; real populations, mutation
+    rates and diseases are far more complex.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Reproduction keeps species going; life cycles describe the stages from egg to breeding adult.</li>
+    <li>Asexual reproduction is fast but makes identical offspring; sexual reproduction makes varied offspring.</li>
+    <li>Fertilisation joins two haploid gametes into a diploid zygote, which divides and forms germ layers and organs.</li>
+    <li>Complete metamorphosis has a pupa; incomplete metamorphosis has nymphs; frogs change from aquatic tadpoles to land-living adults.</li>
+    <li>Animals may lay eggs (oviparous), keep eggs inside until they hatch (ovoviviparous) or nourish embryos inside the mother (viviparous).</li>
+  </ul>
+</SimulatorLayout>

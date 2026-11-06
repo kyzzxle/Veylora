@@ -625,6 +625,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['zoology/circulatory-systems', 'anatomy-physiology/respiratory-system', 'biology/osmosis', 'biology/cellular-respiration'],
       },
+      {
+        slug: 'life-cycles',
+        title: 'Animal Reproduction and Life Cycles',
+        summary: 'Step through the life cycles of a butterfly, grasshopper, frog and chicken, and compare ways animals reproduce.',
+        keywords: ['life cycle', 'metamorphosis', 'complete metamorphosis', 'incomplete metamorphosis', 'larva', 'pupa', 'nymph', 'tadpole', 'fertilisation', 'fertilization', 'embryo', 'sexual reproduction', 'asexual reproduction', 'oviparous', 'viviparous', 'ovoviviparous'],
+        level: 'Beginner',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['biology/meiosis', 'biology/mendelian-genetics', 'anatomy-physiology/reproductive-system', 'zoology/animal-classification'],
+      },
     ],
   },
   {

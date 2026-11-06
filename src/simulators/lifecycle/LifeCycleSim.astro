@@ -1,0 +1,119 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell
+  id="lifecycle-sim"
+  label="Animal life cycles, fertilisation and early development, and a comparison of reproduction strategies."
+  hint={false}
+  badge="Butterfly: Egg"
+  aspect="16 / 10"
+>
+  <ChoiceControl
+    name="lc-view"
+    label="Explore"
+    value="cycle"
+    options={[
+      { value: 'cycle', label: 'Life cycles' },
+      { value: 'dev', label: 'Embryo' },
+      { value: 'repro', label: 'Strategies' },
+    ]}
+    help="Life cycles, fertilisation and early development, or reproduction strategies."
+  />
+  <p class="lc-note" data-note aria-live="polite"></p>
+
+  <div data-only="steps" class="lc-group">
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-prev>← Back</button>
+      <button type="button" class="btn btn-sm btn-primary" data-next>Next stage →</button>
+    </div>
+    <p class="ctrl-help">Or press Start to play through the stages automatically.</p>
+  </div>
+
+  <div data-only="cycle" class="lc-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="lc-species">Animal</label>
+      <select id="lc-species" class="select" data-species>
+        <option value="butterfly" selected>Butterfly (complete metamorphosis)</option>
+        <option value="grasshopper">Grasshopper (incomplete metamorphosis)</option>
+        <option value="frog">Frog (amphibian metamorphosis)</option>
+        <option value="chicken">Chicken (direct development)</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <span class="ctrl-label" id="lc-stages-label">Go to a stage</span>
+      <div class="preset-row" role="group" aria-labelledby="lc-stages-label" data-stages></div>
+    </div>
+  </div>
+
+  <div data-only="dev" class="lc-group" hidden>
+    <ChoiceControl
+      name="lc-fert"
+      label="Example"
+      value="ext"
+      options={[
+        { value: 'ext', label: 'Frog (external)' },
+        { value: 'int', label: 'Chicken (internal)' },
+      ]}
+    />
+    <div class="ctrl">
+      <span class="ctrl-label" id="lc-dev-label">Go to a step</span>
+      <div class="preset-row" role="group" aria-labelledby="lc-dev-label" data-devsteps></div>
+    </div>
+  </div>
+
+  <div data-only="repro" class="lc-group" hidden>
+    <p class="ctrl-help">Press Start to run generations. Circles are females, squares males; colours are genetic types.</p>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-outbreak>Disease outbreak</button>
+      <button type="button" class="btn btn-sm" data-repop>Start new populations</button>
+    </div>
+    <ChoiceControl
+      name="lc-birth"
+      label="Where the embryo develops"
+      value="ovi"
+      options={[
+        { value: 'ovi', label: 'Oviparous' },
+        { value: 'ovovivi', label: 'Ovoviviparous' },
+        { value: 'vivi', label: 'Viviparous' },
+      ]}
+      help="Egg-laying; eggs kept inside until they hatch; or live birth with the mother feeding the embryo."
+    />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .lc-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .lc-group[hidden] {
+    display: none;
+  }
+  .lc-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 7em;
+  }
+  :global(#lifecycle-sim) {
+    --stage-aspect-mobile: 680 / 1090;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initLifeCycle } from './lifecycle';
+  mountSim('#lifecycle-sim', initLifeCycle);
+</script>
