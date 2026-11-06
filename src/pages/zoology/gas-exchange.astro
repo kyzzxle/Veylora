@@ -1,0 +1,162 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import GasExchangeSim from '../../simulators/gasexchange/GasExchangeSim.astro';
+import { gasExchangeQuiz } from '../../data/quizzes/gasexchange';
+
+const toc = [
+  { id: 'why', label: 'Why animals need gas exchange' },
+  { id: 'diffusion', label: 'Diffusion and Fick’s law' },
+  { id: 'water-air', label: 'Water versus air' },
+  { id: 'gills', label: 'Fish gills and countercurrent flow' },
+  { id: 'tracheae', label: 'Insect tracheae' },
+  { id: 'lungs', label: 'Mammal lungs' },
+  { id: 'other', label: 'Other solutions' },
+  { id: 'applications', label: 'Real-world connections' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 39.1: Systems of Gas Exchange. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/39-1-systems-of-gas-exchange' },
+  { text: 'Schmidt-Nielsen, K. (1997). Animal Physiology: Adaptation and Environment (5th ed.). Cambridge University Press.' },
+  { text: 'Hughes, G. M. (1966). The dimensions of fish gills in relation to their function. Journal of Experimental Biology, 45, 177–195.' },
+  { text: 'Weibel, E. R. (1984). The Pathway for Oxygen: Structure and Function in the Mammalian Respiratory System. Harvard University Press.' },
+  { text: 'Harrison, J. F., Kaiser, A., & VandenBrooks, J. M. (2010). Atmospheric oxygen level and the evolution of insect body size. Proceedings of the Royal Society B, 277, 1937–1946.' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="gas-exchange"
+  description="Interactive gas exchange simulator: compare fish gills with countercurrent flow, insect tracheae and mammal lungs, change oxygen availability, surface area and barrier thickness, and watch diffusion follow Fick's law."
+  toc={toc}
+  quiz={gasExchangeQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A trout, a grasshopper and a horse all need a steady supply of oxygen, but they get it in completely different ways:
+      through feathery gills bathed in water, through a maze of air tubes, or through spongy lungs. Change the oxygen supply,
+      the size of the exchange surface and the thickness of the barrier, and see how each design keeps its owner alive.
+    </p>
+  </Fragment>
+
+  <GasExchangeSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose an <strong>animal</strong> and press <strong>Start</strong>. Watch water or air flow through its respiratory organ, and click each structure to learn what it does.</li>
+      <li>In the <strong>close-up</strong>, red dots are oxygen and grey dots carbon dioxide. Watch more molecules cross one way than the other: diffusion down a gradient.</li>
+      <li>Change the <strong>oxygen available</strong>, the <strong>surface area</strong> and the <strong>barrier thickness</strong>, then switch on <strong>Active</strong> (or <strong>Flying</strong>) and compare the oxygen uptake.</li>
+      <li>For the fish, switch between <strong>countercurrent</strong> and <strong>parallel</strong> flow and compare the graph below. For the insect, increase the <strong>body size</strong>.</li>
+      <li>The <strong>Fick’s law</strong> panel summarises the factors. <strong>Reset</strong> returns to the fish at rest.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="why">Why animals need gas exchange</h2>
+  <p>
+    Animal cells release energy from food by aerobic respiration, which uses oxygen and produces carbon dioxide.
+    <strong>Gas exchange</strong> is the process of taking in oxygen from the surroundings and getting rid of carbon dioxide.
+    In very small animals, gases diffuse directly through the body surface. Larger animals have a smaller surface area
+    compared with their volume, so they need specialised <strong>respiratory surfaces</strong>, and usually a way of moving
+    water or air over them (ventilation) and a circulatory system to carry gases to and from the cells.
+  </p>
+
+  <h2 id="diffusion">Diffusion and Fick’s law</h2>
+  <p>
+    Gases cross respiratory surfaces by <strong>diffusion</strong>: molecules move randomly, and more of them move from where
+    they are concentrated to where they are scarce. The difference in concentration, or for gases in
+    <strong>partial pressure</strong>, is the <strong>gradient</strong>. <strong>Fick’s law</strong> says the rate of diffusion
+    is proportional to the surface area and the gradient, and inversely proportional to the thickness of the barrier:
+  </p>
+  <code class="formula">rate of diffusion ∝ surface area × difference in partial pressure ÷ thickness</code>
+  <p>
+    So efficient respiratory surfaces are <strong>large</strong>, <strong>thin</strong> and <strong>moist</strong> (gases must
+    dissolve before they can cross cells), and breathing and blood flow keep the gradient <strong>steep</strong> by constantly
+    bringing fresh water or air and carrying the oxygen-loaded blood away.
+  </p>
+
+  <h2 id="water-air">Water versus air</h2>
+  <p>
+    A litre of air contains about 210 mL of oxygen. A litre of water contains only about 5–10 mL, and less when it is warm
+    or salty. Oxygen also diffuses about ten thousand times more slowly in water, and water is about 800 times denser than
+    air and much more viscous, so pumping it over a respiratory surface takes far more energy. Breathing air is easier, but
+    has a different problem: moist respiratory surfaces lose water by evaporation, so air-breathers keep them inside the
+    body.
+  </p>
+
+  <h2 id="gills">Fish gills and countercurrent flow</h2>
+  <p>
+    A bony fish has four gill arches on each side, each carrying two rows of <strong>filaments</strong> covered in thin plates
+    called <strong>lamellae</strong>, giving a huge surface area. The fish pumps water in through its mouth and out under its
+    gill cover (operculum), so water flows over the gills in one direction. In each lamella, blood flows in the
+    <strong>opposite direction</strong> to the water. This <strong>countercurrent exchange</strong> means blood always meets
+    water containing a little more oxygen than itself, so a gradient exists all the way along, and fish can remove about
+    80% of the oxygen from the water. If both flowed the same way, their oxygen levels would quickly even out and exchange
+    would stop. Gills collapse and stick together out of water, which is why most fish suffocate in air.
+  </p>
+
+  <h2 id="tracheae">Insect tracheae</h2>
+  <p>
+    Insects have no lungs and their blood carries little oxygen. Instead, air enters through <strong>spiracles</strong>,
+    small openings along the body that can be closed by valves to save water. These lead into <strong>tracheae</strong>,
+    air-filled tubes reinforced with spiral rings of cuticle, which branch into microscopic <strong>tracheoles</strong> ending
+    right next to the cells. Oxygen diffuses along the tubes; active insects also pump air by squeezing their abdomen. This
+    system works brilliantly over short distances, and is one reason insects are small. About 300 million years ago, when
+    the air held more oxygen, giant dragonfly relatives had wingspans of around 70 cm.
+  </p>
+
+  <h2 id="lungs">Mammal lungs</h2>
+  <p>
+    Air enters through the nose and mouth, passes down the <strong>trachea</strong> and into two <strong>bronchi</strong>,
+    which branch repeatedly into bronchioles ending in hundreds of millions of tiny air sacs, the <strong>alveoli</strong>.
+    Their total surface is about 70 m² in an adult human, and the barrier between air and blood is only about half a
+    micrometre thick. Breathing is driven by the <strong>diaphragm</strong> and rib muscles, which enlarge the chest so air
+    flows in. Air flows in and out the same way (tidal breathing), so some stale air always remains, and the air in the
+    alveoli contains less oxygen than outside air.
+  </p>
+
+  <h2 id="other">Other solutions</h2>
+  <ul>
+    <li><strong>Birds</strong> have air sacs that push air through their lungs in one direction, so the lungs are always ventilated with fresh air.</li>
+    <li><strong>Frogs and earthworms</strong> exchange gases through their moist skin.</li>
+    <li><strong>Tadpoles</strong> use gills, then switch to lungs and skin as adult frogs.</li>
+    <li><strong>Lungfish</strong> have both gills and lungs and can gulp air when water is low in oxygen.</li>
+  </ul>
+
+  <h2 id="applications">Real-world connections</h2>
+  <ul>
+    <li><strong>Fish kills:</strong> in hot summers, warm, still water holds less oxygen, and fish can suffocate.</li>
+    <li><strong>High altitude:</strong> thinner air means a smaller gradient, so climbers breathe harder and their bodies make more red blood cells.</li>
+    <li><strong>Lung diseases</strong> such as emphysema (less surface area) and pulmonary fibrosis (thicker barrier) reduce gas exchange, especially during exercise.</li>
+    <li><strong>Aquaculture</strong> farms aerate their ponds to keep oxygen levels high.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Fish breathe water.”</strong> They extract the oxygen dissolved in water; they do not use the oxygen atoms in water molecules.</li>
+    <li><strong>“Breathing and respiration are the same.”</strong> Breathing moves air or water; respiration releases energy in cells.</li>
+    <li><strong>“We breathe out only carbon dioxide.”</strong> Exhaled air still contains about 16% oxygen.</li>
+    <li><strong>“All animals have lungs.”</strong> Gills, tracheae and skin are just as successful in their own environments.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The exchange calculations use Fick’s law and a standard oxygen-haemoglobin curve, but the units, flows and transit times
+    are illustrative, not measurements of a real trout, grasshopper or human. The fish model treats one lamella as a pair of
+    opposing streams; the lung model treats alveolar air as perfectly mixed; the insect model reduces the tracheal system to
+    a single diffusion path, with pumping shortening it during flight. The close-up shows a small number of molecules
+    wandering randomly; real numbers are astronomically larger. Carbon dioxide is shown only qualitatively, and the
+    drawings are schematic and not to scale.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Oxygen and carbon dioxide cross respiratory surfaces by diffusion down partial-pressure gradients.</li>
+    <li>Fick’s law: a large, thin, moist surface and a steep gradient give fast exchange.</li>
+    <li>Fish gills use countercurrent flow to extract most of the scarce oxygen in water.</li>
+    <li>Insects deliver air directly to their cells through tracheae, which limits their size.</li>
+    <li>Mammal lungs have a huge alveolar surface with a very thin barrier, ventilated by tidal breathing.</li>
+  </ul>
+</SimulatorLayout>

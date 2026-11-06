@@ -1,0 +1,87 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell
+  id="gasexchange-sim"
+  label="An animal's respiratory system with water or air flowing through it, a close-up of oxygen and carbon dioxide diffusing across the exchange surface, and a Fick's law comparison."
+  hint={false}
+  badge="Resting"
+  aspect="16 / 10"
+>
+  <ChoiceControl
+    name="gx-animal"
+    label="Animal"
+    value="fish"
+    help="Fish breathe with gills, insects with air tubes (tracheae), mammals with lungs."
+    options={[
+      { value: 'fish', label: 'Fish' },
+      { value: 'insect', label: 'Insect' },
+      { value: 'mammal', label: 'Mammal' },
+    ]}
+  />
+  <p class="gx-note" data-note aria-live="polite"></p>
+  <div data-only="fish">
+    <ChoiceControl
+      name="gx-flow"
+      label="Water and blood flow in the gills"
+      value="counter"
+      options={[
+        { value: 'counter', label: 'Countercurrent (real)' },
+        { value: 'parallel', label: 'Parallel (compare)' },
+      ]}
+    />
+  </div>
+  <SliderControl name="gx-avail" label="Oxygen available" min={10} max={160} step={5} value={100} help="Lower: warm or polluted water, or high altitude. Higher: oxygen-rich air, like the air of 300 million years ago." />
+  <SliderControl name="gx-area" label="Exchange surface area" min={25} max={150} step={5} value={100} />
+  <div data-only="barrier">
+    <SliderControl name="gx-thick" label="Barrier thickness" min={1} max={5} step={0.1} value={1} help="Thicker: for example, gills damaged by pollution or lungs scarred by disease." />
+  </div>
+  <div data-only="insect" hidden>
+    <SliderControl name="gx-len" label="Body size (length of the air tubes)" min={1} max={6} step={0.1} value={1} />
+  </div>
+  <label class="toggle"><input type="checkbox" data-ctrl="gx-active" /> <span data-active-label>Active (exercise: faster blood flow)</span></label>
+  <SimKey
+    items={[
+      { label: 'Oxygen (O₂) molecule', color: '#e03131' },
+      { label: 'Carbon dioxide (CO₂) molecule', color: '#868e96' },
+      { label: 'Water', color: 'sim-water' },
+      { label: 'Exchange barrier', color: 'text-muted', shape: 'square' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="uptake" label="Oxygen taken up" key />
+    <Readout name="out" label="Blood leaving the exchange surface" />
+    <Readout name="extra" label="Exchange details" />
+    <Readout name="medium" label="Oxygen in the water or air" />
+    <Readout name="surface" label="Exchange surface" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="gx-graph" title="Oxygen partial pressure along the exchange surface" desc="Partial pressure of oxygen in the water or air and in the blood along the exchange surface, or along the insect's air tubes." />
+</SimShell>
+
+<style>
+  .gx-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#gasexchange-sim) {
+    --stage-aspect-mobile: 680 / 1072;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initGasExchange } from './gasexchange';
+  mountSim('#gasexchange-sim', initGasExchange);
+</script>
