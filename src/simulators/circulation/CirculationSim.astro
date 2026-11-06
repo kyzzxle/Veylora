@@ -1,0 +1,83 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell
+  id="circulation-sim"
+  label="A schematic animal circulatory system with the heart, blood vessels, gas exchange organ and body organs, with blood flowing around it."
+  hint={false}
+  badge="At rest"
+  aspect="16 / 10"
+>
+  <ChoiceControl
+    name="cs-animal"
+    label="Animal"
+    value="mammal"
+    options={[
+      { value: 'insect', label: 'Insect' },
+      { value: 'fish', label: 'Fish' },
+      { value: 'frog', label: 'Frog' },
+      { value: 'mammal', label: 'Mammal' },
+    ]}
+  />
+  <p class="cs-note" data-note aria-live="polite"></p>
+  <button type="button" class="btn btn-sm" data-follow aria-pressed="false">Follow one blood cell</button>
+  <SliderControl name="cs-act" label="Activity level" min={0} max={100} step={1} value={0} help="More activity: a faster heartbeat, and the tissues take more oxygen from the blood." />
+  <ChoiceControl
+    name="cs-vessel"
+    label="Inspect a blood vessel"
+    value="artery"
+    options={[
+      { value: 'artery', label: 'Artery' },
+      { value: 'capillary', label: 'Capillary' },
+      { value: 'vein', label: 'Vein' },
+    ]}
+  />
+  <div data-only="insect" hidden>
+    <ToggleControl name="cs-tracheae" label="Show the air tubes (tracheae)" checked />
+  </div>
+  <SimKey
+    items={[
+      { label: 'Oxygen-rich blood (colour code)', color: '#e03131' },
+      { label: 'Oxygen-poor blood (colour code; really dark red)', color: '#3b5bdb' },
+      { label: 'Insect hemolymph', color: '#b8c95a' },
+      { label: 'Capillary bed (dashed)', color: 'text-faint', shape: 'line' },
+      { label: 'Gas exchange organ', color: 'accent', shape: 'square' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="type" label="Circulation" key />
+    <Readout name="chambers" label="Heart chambers" />
+    <Readout name="passes" label="Passes through the heart" />
+    <Readout name="hr" label="Heart rate (approximate)" />
+    <Readout name="o2out" label="Oxygen in blood going to the body" />
+    <Readout name="o2back" label="Oxygen in blood returning" />
+    <Readout name="supports" label="Supports activity" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .cs-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#circulation-sim) {
+    --stage-aspect-mobile: 17 / 23.5;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initCirculation } from './circulation';
+  mountSim('#circulation-sim', initCirculation);
+</script>

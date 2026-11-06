@@ -603,6 +603,17 @@ export const branches: Branch[] = [
         minutes: 12,
         related: ['physics/newtons-laws', 'physics/projectile-motion', 'zoology/animal-adaptations', 'physics/pendulum'],
       },
+      {
+        slug: 'circulatory-systems',
+        title: 'Animal Circulatory Systems',
+        summary: 'Compare open and closed circulation and single and double circuits in an insect, fish, frog and mammal.',
+        keywords: ['circulatory system', 'open circulation', 'closed circulation', 'double circulation', 'single circulation', 'heart chambers', 'artery', 'vein', 'capillary', 'hemolymph', 'blood', 'fish heart', 'frog heart'],
+        level: 'Intermediate',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['anatomy-physiology/heart-circulation', 'zoology/animal-classification', 'zoology/animal-adaptations', 'biology/cellular-respiration'],
+      },
     ],
   },
   {

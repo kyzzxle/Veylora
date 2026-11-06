@@ -1,0 +1,171 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import CirculationSim from '../../simulators/circulation/CirculationSim.astro';
+import { circulationQuiz } from '../../data/quizzes/circulation';
+
+const toc = [
+  { id: 'why', label: 'Why animals need a circulatory system' },
+  { id: 'parts', label: 'Hearts, vessels and blood' },
+  { id: 'open-closed', label: 'Open and closed systems' },
+  { id: 'single-double', label: 'Single and double circulation' },
+  { id: 'examples', label: 'Comparing animals' },
+  { id: 'activity', label: 'Circulation and activity' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world examples' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 40.1: Overview of the Circulatory System. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/40-1-overview-of-the-circulatory-system' },
+  { text: 'Hill, R. W., Wyse, G. A., & Anderson, M. (2016). Animal Physiology (4th ed.). Sinauer Associates.' },
+  { text: 'Schmidt-Nielsen, K. (1997). Animal Physiology: Adaptation and Environment (5th ed.). Cambridge University Press.' },
+  { text: 'Hillyer, J. F., & Pass, G. (2020). The insect circulatory system: structure, function, and evolution. Annual Review of Entomology, 65, 121–143.' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="circulatory-systems"
+  description="Interactive animal circulatory systems simulator: compare the open circulation of an insect with the closed circulation of a fish, frog and mammal, follow a blood cell, and see how single and double circulation support activity."
+  toc={toc}
+  quiz={circulationQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A tiny flatworm can rely on substances simply diffusing through its body. A large, active animal cannot: diffusion is
+      far too slow over more than a millimetre or so. Animals solve this with a circulatory system, but not all in the same
+      way. Compare the very different hearts and vessels of an insect, a fish, a frog and a mammal, and follow the blood
+      on its journey.
+    </p>
+  </Fragment>
+
+  <CirculationSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose an <strong>animal</strong> and press <strong>Start</strong>. Blood flows around the schematic circuit; its colour shows how much oxygen it carries.</li>
+      <li>Press <strong>Follow one blood cell</strong> and read the note as the highlighted cell passes each heart chamber, artery, capillary bed and vein.</li>
+      <li>Raise the <strong>activity level</strong>. Watch the heart rate and the oxygen in the returning blood change in the readouts.</li>
+      <li>Use <strong>Inspect a blood vessel</strong> to compare an artery, a capillary and a vein, and compare the animals in the pressure chart.</li>
+      <li>Click any organ, chamber or vessel for an explanation. <strong>Reset</strong> returns to the mammal at rest.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="why">Why animals need a circulatory system</h2>
+  <p>
+    Every cell needs a supply of oxygen and nutrients, and its carbon dioxide and other wastes must be removed. In very
+    small or very flat animals, such as flatworms and jellyfish, these substances can diffuse directly between the cells
+    and the surroundings. Diffusion is fast over tiny distances but extremely slow over larger ones. In bigger animals, a
+    <strong>circulatory system</strong> moves a fluid around the body by bulk flow, carrying oxygen, nutrients, hormones,
+    wastes, heat and immune cells, and keeping conditions around the cells stable.
+  </p>
+
+  <h2 id="parts">Hearts, vessels and blood</h2>
+  <p>
+    A circulatory system has three parts: a <strong>pump</strong> (the heart), a <strong>fluid</strong> (blood or
+    hemolymph) and, in most animals, <strong>vessels</strong>. In closed systems there are three kinds of vessel.
+    <strong>Arteries</strong> carry blood away from the heart; their thick, muscular, elastic walls cope with high pressure.
+    <strong>Capillaries</strong> have walls only one cell thick, so substances can diffuse between the blood and the cells.
+    <strong>Veins</strong> return blood to the heart at low pressure and have valves to stop it flowing backwards.
+  </p>
+
+  <h2 id="open-closed">Open and closed systems</h2>
+  <p>
+    In an <strong>open circulatory system</strong>, found in insects and other arthropods and in most molluscs such as
+    snails and clams, the heart pumps fluid called <strong>hemolymph</strong> into open spaces, the
+    <strong>hemocoel</strong>, where it bathes the organs directly before returning to the heart through openings called
+    ostia. Pressure is low and flow is slow. Insects get away with this because their oxygen arrives separately, through
+    air tubes called <strong>tracheae</strong>. In a <strong>closed circulatory system</strong>, found in vertebrates,
+    earthworms, and octopuses and squid, blood stays inside vessels. This allows higher pressure, faster flow, and
+    control over how much blood each organ receives.
+  </p>
+
+  <h2 id="single-double">Single and double circulation</h2>
+  <p>
+    In <strong>single circulation</strong>, found in fish, blood passes through the heart once per circuit:
+    heart → gills → body → heart. Blood loses much of its pressure in the narrow gill capillaries, so it reaches the body
+    rather slowly. In <strong>double circulation</strong>, found in amphibians, reptiles, birds and mammals, blood passes
+    through the heart twice: once in the <strong>pulmonary circuit</strong> to the lungs and once in the
+    <strong>systemic circuit</strong> to the body. After collecting oxygen, the blood returns to the heart to be pumped out
+    again at high pressure.
+  </p>
+
+  <h2 id="examples">Comparing animals</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Animal</th><th>Circulation</th><th>Heart</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Insect</strong></td><td>Open</td><td>Tube-like dorsal vessel</td></tr>
+        <tr><td><strong>Fish</strong></td><td>Closed, single</td><td>2 chambers in a row</td></tr>
+        <tr><td><strong>Frog</strong></td><td>Closed, double</td><td>3 chambers</td></tr>
+        <tr><td><strong>Mammal</strong></td><td>Closed, double</td><td>4 chambers</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    An insect’s oxygen is delivered by its tracheae, not its hemolymph. A fish heart holds only oxygen-poor blood. A
+    frog’s two atria share one ventricle, so a little mixing happens, and its skin also exchanges gases. A mammal’s two
+    circuits are completely separate. Most reptiles have a three-chambered heart with a partial wall in the ventricle; crocodiles, like birds and mammals,
+    have four chambers. Birds and mammals evolved their four-chambered hearts independently.
+  </p>
+
+  <h2 id="activity">Circulation and activity</h2>
+  <p>
+    Animals with high metabolic rates, especially warm-blooded birds and mammals, need a lot of oxygen delivered quickly.
+    During exercise the heart beats faster and pumps more blood, and active muscles extract more oxygen from it. In a
+    resting human, blood returns to the heart still about 75% saturated with oxygen; during hard exercise it can return
+    with less than a third. Fully separated, high-pressure circulation makes this possible.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Atrium / ventricle</dt>
+    <dd>Atria receive blood returning to the heart; ventricles are the muscular chambers that pump it out.</dd>
+    <dt>Hemolymph</dt>
+    <dd>The circulating fluid of animals with open systems, such as insects.</dd>
+    <dt>Hemocoel</dt>
+    <dd>The body cavity through which hemolymph flows in an open system.</dd>
+    <dt>Pulmonary and systemic circuits</dt>
+    <dd>The routes from the heart to the lungs and back, and to the rest of the body and back.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world examples</h2>
+  <ul>
+    <li><strong>Hummingbirds</strong> can have heart rates above 1,000 beats per minute while hovering.</li>
+    <li><strong>Giraffes</strong> have unusually high blood pressure to pump blood up their long necks to the brain.</li>
+    <li><strong>Octopuses</strong> have three hearts: two pump blood through the gills and one to the rest of the body.</li>
+    <li><strong>Crabs and lobsters</strong> have blue hemolymph: its oxygen-carrying protein, hemocyanin, contains copper rather than iron.</li>
+    <li><strong>Diving seals</strong> slow their hearts dramatically and send blood mainly to the brain and heart to save oxygen.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“All animals have a heart like ours.”</strong> Hearts range from a simple tube to four chambers, and some animals have none at all.</li>
+    <li><strong>“Oxygen-poor blood is blue.”</strong> It is dark red; blue is just a diagram colour code.</li>
+    <li><strong>“Arteries always carry oxygen-rich blood.”</strong> Arteries carry blood away from the heart; the pulmonary artery and a fish’s ventral aorta carry oxygen-poor blood.</li>
+    <li><strong>“An open system is badly designed.”</strong> It suits insects well, because their oxygen arrives by tracheae.</li>
+    <li><strong>“A three-chambered heart mixes the blood completely.”</strong> Frog and reptile hearts keep the streams largely separate.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The diagrams are schematic circuits, not anatomical drawings: real hearts and vessels branch to every organ, and
+    blood flows in parallel through many capillary beds. Each animal stands for a large group: real species differ in
+    heart rate, pressure and blood oxygen, so the values shown are approximate or illustrative. The frog’s skin
+    circulation is merged with its lungs, and the mixing in its ventricle is simplified. Red and blue are a colour code
+    for oxygen level. The insect’s hemolymph flow is a simple drift; real insects have extra pumps and partitions that
+    steer it, and their heartbeat can even reverse direction.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Circulatory systems carry oxygen, nutrients, hormones and wastes, and help keep internal conditions stable.</li>
+    <li>Open systems (insects, most molluscs) bathe organs in hemolymph; closed systems keep blood in vessels.</li>
+    <li>Fish have single circulation; amphibians, reptiles, birds and mammals have double circulation.</li>
+    <li>Hearts range from tubes to four chambers; complete separation supports high activity and warm-bloodedness.</li>
+    <li>Arteries, capillaries and veins have different structures that suit their jobs.</li>
+  </ul>
+</SimulatorLayout>
