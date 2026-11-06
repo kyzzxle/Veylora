@@ -503,6 +503,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['astronomy/solar-system', 'earth-science/weather', 'ecology/climate-change', 'astronomy/orbits-gravity'],
       },
+      {
+        slug: 'tides',
+        title: 'Tides and the Earth–Moon–Sun System',
+        summary: 'Move the Moon around Earth and see how the Moon and Sun raise tides, from spring tides to neap tides.',
+        keywords: ['tides', 'tidal force', 'spring tide', 'neap tide', 'high tide', 'low tide', 'tidal bulge', 'moon', 'sun', 'gravity', 'tidal range'],
+        level: 'Intermediate',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['astronomy/moon-phases', 'astronomy/orbits-gravity', 'astronomy/eclipses', 'physics/newtons-laws'],
+      },
     ],
   },
   {

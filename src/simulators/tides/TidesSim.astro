@@ -1,0 +1,96 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell
+  id="tides-sim"
+  label="Earth seen from above with exaggerated ocean tidal bulges raised by the Moon and the Sun, and a tide gauge for a town on the equator."
+  hint="Drag the Moon around its orbit"
+  badge="Spring tide"
+  aspect="16 / 10"
+>
+  <SliderControl name="td-moon" label="Moon’s position" min={0} max={359} step={1} value={0} help="Angle from the Sun as seen from Earth.">
+    <PresetButtons
+      for="td-moon"
+      label="Moon phase presets"
+      presets={[
+        { label: 'New', value: 0 },
+        { label: 'First quarter', value: 90 },
+        { label: 'Full', value: 180 },
+        { label: 'Third quarter', value: 270 },
+      ]}
+    />
+  </SliderControl>
+  <SliderControl name="td-hour" label="Time of day at the town" min={0} max={23.75} step={0.25} value={12} help="Earth’s spin carries the town (red dot) through the bulges." />
+  <p class="td-note" data-note aria-live="polite"></p>
+  <ChoiceControl
+    name="td-show"
+    label="Tides raised by"
+    value="both"
+    options={[
+      { value: 'both', label: 'Moon + Sun' },
+      { value: 'moon', label: 'Moon only' },
+      { value: 'sun', label: 'Sun only' },
+    ]}
+  />
+  <ChoiceControl
+    name="td-dist"
+    label="Moon’s distance"
+    value="mean"
+    options={[
+      { value: 'near', label: 'Near' },
+      { value: 'mean', label: 'Average' },
+      { value: 'far', label: 'Far' },
+    ]}
+    help="363,300 km, 384,400 km or 405,500 km."
+  />
+  <ToggleControl name="td-forces" label="Show tidal force arrows" checked />
+  <SliderControl name="td-speed" label="Time speed (when playing)" min={1} max={24} step={1} value={2} />
+  <SimKey
+    items={[
+      { label: 'Ocean (combined tide, exaggerated)', color: 'sim-water' },
+      { label: 'Moon’s bulge on its own', color: 'text-muted', shape: 'line' },
+      { label: 'Sun’s bulge on its own', color: 'warning', shape: 'line' },
+      { label: 'Tidal force', color: 'accent-2', shape: 'line' },
+      { label: 'The town', color: 'danger' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="align" label="Alignment" key />
+    <Readout name="phase" label="Moon phase" />
+    <Readout name="range" label="Tidal range (idealized)" />
+    <Readout name="ratio" label="Sun’s tidal effect" />
+    <Readout name="level" label="Water level at the town" />
+    <Readout name="time" label="Time at the town" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="td-graph" title="Water level at the town over the next 30 days" desc="Idealized equilibrium tide at a town on the equator for the next 30 days: two high tides a day, with the range growing at spring tides and shrinking at neap tides." />
+</SimShell>
+
+<style>
+  .td-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#tides-sim) {
+    --stage-aspect-mobile: 3 / 5;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initTides } from './tides';
+  mountSim('#tides-sim', initTides);
+</script>

@@ -1,0 +1,150 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import TidesSim from '../../simulators/tides/TidesSim.astro';
+import { tidesQuiz } from '../../data/quizzes/tides';
+
+const toc = [
+  { id: 'what', label: 'What are tides?' },
+  { id: 'force', label: 'The tidal force' },
+  { id: 'two', label: 'Two bulges, two tides' },
+  { id: 'sun', label: 'The Sun’s part' },
+  { id: 'spring-neap', label: 'Spring and neap tides' },
+  { id: 'real', label: 'Real tides on real coasts' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 4.6: Ocean Tides and the Moon. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/4-6-ocean-tides-and-the-moon' },
+  { text: 'NOAA National Ocean Service. Tides and Water Levels: What Causes Tides?', url: 'https://oceanservice.noaa.gov/education/tutorial_tides/' },
+  { text: 'Pugh, D., & Woodworth, P. (2014). Sea-Level Science: Understanding Tides, Surges, Tsunamis and Mean Sea-Level Changes. Cambridge University Press.' },
+  { text: 'Williams, J. G., & Boggs, D. H. (2016). Secular tidal changes in lunar orbit and Earth rotation. Celestial Mechanics and Dynamical Astronomy, 126, 89–129.' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="tides"
+  description="Interactive tides simulator: move the Moon around Earth, compare the Moon’s and Sun’s tidal bulges, and see how their alignment produces spring and neap tides."
+  toc={toc}
+  quiz={tidesQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Twice a day the sea creeps up the beach and slips away again, a little later each day. Some weeks the tides are huge,
+      other weeks gentle. Move the Moon around Earth, switch the Sun’s pull on and off, and watch how two distant bodies
+      shape the rise and fall of the oceans.
+    </p>
+  </Fragment>
+
+  <TidesSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Drag the <strong>Moon</strong> or use the presets. Compare <strong>New</strong> and <strong>Full</strong> (spring tides) with <strong>First</strong> and <strong>Third quarter</strong> (neap tides).</li>
+      <li>Watch the blue ocean shape: its two bulges are enormously exaggerated. The dashed outlines show the Moon’s and the Sun’s bulges on their own; purple arrows show the tidal force.</li>
+      <li>Change the <strong>time of day</strong>, or press <strong>Start</strong>, to carry the red town around through the bulges. Follow its <strong>harbour</strong> gauge and the 30-day graph below.</li>
+      <li>Choose <strong>Moon only</strong> or <strong>Sun only</strong> to compare their effects, and switch the Moon’s <strong>distance</strong>.</li>
+      <li>Click the Moon, the town, the ocean or the gauge for explanations. <strong>Reset</strong> restores the starting view.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What are tides?</h2>
+  <p>
+    Tides are the regular rise and fall of the sea. At most coasts there are two high tides and two low tides about every
+    24 hours 50 minutes, and the difference between high and low water, the <strong>tidal range</strong>, grows and
+    shrinks over about two weeks. Both patterns are controlled by the Moon and the Sun.
+  </p>
+
+  <h2 id="force">The tidal force</h2>
+  <p>
+    Gravity weakens with distance. The side of Earth facing the Moon is about 12,700 km closer to the Moon than the far
+    side, so the Moon pulls it slightly harder than it pulls Earth’s centre, and pulls the far side slightly less. What
+    matters for the oceans is this <strong>difference</strong> in pull, called the <strong>tidal force</strong>. Compared
+    with Earth’s centre, water on the near side is pulled towards the Moon, water on the far side is left behind, and
+    water at the sides is squeezed slightly inwards. The arrows in the simulator show this pattern.
+  </p>
+
+  <h2 id="two">Two bulges, two tides</h2>
+  <p>
+    The tidal force stretches the oceans into two <strong>bulges</strong>: one facing the Moon and one on the opposite
+    side. As Earth spins, a coast is carried through both bulges and both low regions between them, giving two high and
+    two low tides. Because the Moon moves along its orbit while Earth turns, Earth needs about 24 hours 50 minutes to face
+    the Moon again, so high tides come roughly 12 hours 25 minutes apart and about 50 minutes later each day.
+  </p>
+
+  <h2 id="sun">The Sun’s part</h2>
+  <p>
+    The Sun raises tides in the same way. Its overall pull on Earth is about 180 times stronger than the Moon’s, yet its
+    tidal effect is <strong>less than half</strong> as large. Tidal force depends on how much the pull changes across
+    Earth, which falls off with the <strong>cube</strong> of distance. The Sun is about 390 times farther away than the
+    Moon, and 390³ is about 59 million, which outweighs its 27-million-times greater mass. The result: the Sun’s tidal
+    effect is about 46% of the Moon’s.
+  </p>
+
+  <h2 id="spring-neap">Spring and neap tides</h2>
+  <p>
+    At new moon and full moon, the Sun, Earth and Moon are in line, and the two sets of bulges add together:
+    <strong>spring tides</strong>, with higher high tides and lower low tides. At the first and third quarter moons, the
+    Sun and Moon pull at right angles; the Sun’s bulges partly fill in the Moon’s low tides, giving <strong>neap
+    tides</strong> with the smallest range. The cycle repeats about every 14.8 days. When a spring tide happens while the
+    Moon is near its closest point, tides are especially large; these are sometimes called king tides.
+  </p>
+
+  <h2 id="real">Real tides on real coasts</h2>
+  <p>
+    The bulges in the simulator are the <strong>equilibrium tide</strong>: the shape the ocean would take if it could
+    respond instantly on a planet completely covered by water. Real oceans are interrupted by continents and have varying
+    depths, so the tide travels around each ocean basin as enormous slow waves, which can be amplified or cancelled.
+    The Bay of Fundy in Canada has ranges of over 15 m, while parts of the Mediterranean have only a few tens of
+    centimetres. Some places get one tide a day, and many get two unequal tides, because the Moon and Sun are often north
+    or south of the equator. Accurate local predictions use decades of measurements at each harbour.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">tidal effect ∝ M ÷ d³</code>
+  <code class="formula">tidal range ≈ 2 √(A_moon² + A_sun² + 2 A_moon A_sun cos 2ψ)</code>
+  <p>
+    Here M is the mass of the Moon or Sun, d its distance, A the height of each body’s equilibrium tide (about 27 cm for
+    the Moon and 12 cm for the Sun on the equator) and ψ the angle between the Moon and the Sun as seen from Earth.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Shipping and fishing</strong> rely on tide tables to enter shallow harbours safely.</li>
+    <li><strong>Tidal power stations</strong>, such as La Rance in France and Sihwa Lake in South Korea, turn tidal currents into electricity.</li>
+    <li><strong>Coastal ecosystems:</strong> rock pools, mudflats and salt marshes are shaped by the daily rhythm of the tides.</li>
+    <li><strong>A slowing Earth:</strong> tidal friction lengthens the day by about 2 milliseconds per century and pushes the Moon away by about 3.8 cm per year.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The Moon only pulls water on the side facing it.”</strong> There is a bulge on the far side too.</li>
+    <li><strong>“The Sun is too far away to affect tides.”</strong> It contributes almost half as much as the Moon.</li>
+    <li><strong>“Spring tides happen in spring.”</strong> They happen twice every month.</li>
+    <li><strong>“High tide is when the Moon is overhead.”</strong> Local geography often delays high tide by hours.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The simulator uses the equilibrium tide for an Earth covered by ocean, with real masses and distances for the Moon
+    and Sun. The town is on the equator and the Moon and Sun are assumed to lie in the plane of the equator, so its two
+    daily tides are equal. It ignores the oceans’ response time, continents, depth, the slight lead of the bulges caused
+    by Earth’s rotation and friction, weather and the Moon’s elliptical orbit (except through the distance setting). The
+    drawing is not to scale, and the water heights are exaggerated millions of times. It is a model for understanding
+    tides, not a prediction of the tides at any real place.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Tides are caused by the difference in the Moon’s and Sun’s gravitational pull across Earth.</li>
+    <li>Two bulges, facing towards and away from the Moon, give most coasts two high tides about every 24 h 50 min.</li>
+    <li>The Sun’s tidal effect is about 46% of the Moon’s, because tidal force falls off with distance cubed.</li>
+    <li>Spring tides (largest range) occur at new and full moon; neap tides (smallest range) at the quarter moons.</li>
+    <li>Real local tides also depend strongly on coastlines and ocean basins.</li>
+  </ul>
+</SimulatorLayout>
