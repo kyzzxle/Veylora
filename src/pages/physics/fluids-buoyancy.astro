@@ -1,0 +1,168 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import FluidsSim from '../../simulators/fluids/FluidsSim.astro';
+import { fluidsQuiz } from '../../data/quizzes/fluids';
+
+const toc = [
+  { id: 'fluids', label: 'What is a fluid?' },
+  { id: 'density', label: 'Density' },
+  { id: 'pressure', label: 'Pressure in a fluid' },
+  { id: 'gauge', label: 'Gauge and absolute pressure' },
+  { id: 'buoyancy', label: 'Where buoyancy comes from' },
+  { id: 'archimedes', label: 'Archimedes’ principle' },
+  { id: 'float-sink', label: 'Float, sink or hover?' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model assumes' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Sections 14.1–14.4: Fluids, Density, Pressure, Pascal’s Principle and Archimedes’ Principle. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/14-1-fluids-density-and-pressure' },
+  { text: 'Urone, P. P., & Hinrichs, R. (2020). College Physics 2e, Chapter 11: Fluid Statics. OpenStax.', url: 'https://openstax.org/books/college-physics-2e/pages/11-introduction-to-fluid-statics' },
+  { text: 'Halliday, D., Resnick, R., & Walker, J. (2018). Fundamentals of Physics (11th ed.), Chapter 14: Fluids. Wiley.' },
+  { text: 'White, F. M. (2016). Fluid Mechanics (8th ed.), Chapter 2: Pressure Distribution in a Fluid. McGraw-Hill.' },
+  { text: 'Lide, D. R. (Ed.). CRC Handbook of Chemistry and Physics: densities of common liquids and solids. CRC Press.' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="fluids-buoyancy"
+  description="Interactive buoyancy and fluid pressure simulator: drop objects into a tank, change the fluid and the objects’ density, measure pressure with depth, and see Archimedes’ principle and why things float, sink or hover."
+  toc={toc}
+  quiz={fluidsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A steel ship weighing thousands of tonnes floats, while a small pebble sinks. Your ears hurt at the bottom of a swimming
+      pool. A submarine can hover in mid-water. All of these come from one idea: pressure in a fluid grows with depth. Drop
+      objects into the tank, change the fluid, and measure the pressure for yourself.
+    </p>
+  </Fragment>
+
+  <FluidsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Drag the <strong>objects</strong> A, B and C in and out of the tank, or onto the shelf. Tap one to select it.</li>
+      <li>Change the selected object’s <strong>shape</strong>, <strong>volume</strong>, <strong>density</strong> or <strong>mass</strong>, or pick a material. Press <strong>Match the fluid</strong> to make it neutrally buoyant.</li>
+      <li>Change the <strong>fluid</strong> with the slider or the presets, and the fluid level. Watch objects rise or sink.</li>
+      <li>Drag the yellow <strong>pressure probe</strong> to different depths. Switch between gauge and absolute pressure, and save fluids on the graph to compare them.</li>
+      <li>Turn on <strong>Hold the selected object</strong> and drag it deeper: the Archimedes panel shows the displaced fluid and the force panel shows the hand force needed.</li>
+      <li>Tap anything in the picture for an explanation. <strong>Reset</strong> restores every setting.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="fluids">What is a fluid?</h2>
+  <p>
+    A <strong>fluid</strong> is a substance that flows: liquids and gases. Its particles can move past each other, so a
+    fluid takes the shape of its container. In this simulator the fluid is at rest, so we can use <strong>hydrostatics</strong>,
+    the physics of fluids that are not moving.
+  </p>
+
+  <h2 id="density">Density</h2>
+  <p>
+    <strong>Density ρ = m / V</strong> (mass per unit volume) tells you how tightly mass is packed. It is measured in
+    kg/m³. Fresh water has a density of about 1000 kg/m³ (1 kg per litre), sea water about 1025 kg/m³, vegetable oil about
+    920 kg/m³ and honey about 1420 kg/m³. For an object made of several materials, or with air inside, what matters is its
+    <strong>average density</strong>: its total mass divided by its total volume.
+  </p>
+
+  <h2 id="pressure">Pressure in a fluid</h2>
+  <p>
+    <strong>Pressure</strong> is force per unit area, p = F / A, measured in pascals (1 Pa = 1 N/m²). A fluid at rest
+    pushes on every surface it touches, at right angles to that surface. The deeper you go, the more fluid lies above you,
+    so the pressure rises:
+  </p>
+  <p><strong>p = p₀ + ρ g h</strong></p>
+  <p>
+    Here p₀ is the pressure at the surface (the atmosphere, about 101.3 kPa), ρ is the fluid’s density, g ≈ 9.81 m/s² and h
+    is the depth below the surface. Pressure depends only on depth and density, not on the shape or width of the container,
+    and at a given depth it pushes equally in all directions.
+  </p>
+
+  <h2 id="gauge">Gauge and absolute pressure</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>Formula</th><th>At 0.5 m in water</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Absolute</strong></td><td>p = p₀ + ρgh</td><td>≈ 106.2 kPa</td></tr>
+        <tr><td><strong>Gauge</strong></td><td>p_g = ρgh</td><td>≈ 4.9 kPa</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Absolute pressure is measured from a perfect vacuum. Gauge pressure is the extra pressure above the atmosphere, which is
+    what a tyre gauge reads. Because the atmosphere pushes equally on all sides of a submerged object and on both sides of
+    the tank walls, its effect cancels, so the arrows in the simulator show gauge pressure.
+  </p>
+
+  <h2 id="buoyancy">Where buoyancy comes from</h2>
+  <p>
+    The bottom of a submerged object is deeper than its top, so the fluid pushes harder on the bottom than on the top. The
+    sideways pushes cancel out. What is left is a net upward force: the <strong>buoyant force</strong>, sometimes called
+    upthrust. You can see this in the pressure arrows on the objects: longer at the bottom, shorter at the top.
+  </p>
+
+  <h2 id="archimedes">Archimedes’ principle</h2>
+  <p>
+    Adding up all those pushes gives a remarkably simple result, first described by Archimedes over 2,200 years ago: the
+    buoyant force equals the <strong>weight of the fluid displaced</strong> by the object.
+  </p>
+  <p><strong>B = ρ<sub>fluid</sub> g V<sub>displaced</sub></strong></p>
+  <p>
+    V<sub>displaced</sub> is the volume of the part of the object below the surface. A fully submerged 1 L object in water
+    displaces 1 L of water, weighing 9.81 N, so B = 9.81 N, whether it is a cube, a sphere or a cylinder, and whether it is
+    made of cork or of steel. The displaced fluid also raises the fluid level in the tank.
+  </p>
+
+  <h2 id="float-sink">Float, sink or hover?</h2>
+  <ul>
+    <li><strong>ρ_object &lt; ρ_fluid: it floats.</strong> It rises until it displaces its own weight of fluid. The fraction below the surface is ρ_object ÷ ρ_fluid.</li>
+    <li><strong>ρ_object &gt; ρ_fluid: it sinks.</strong> Even fully submerged, B &lt; W. On the bottom it feels lighter: its apparent weight is W − B.</li>
+    <li><strong>ρ_object = ρ_fluid: it is neutrally buoyant</strong> and stays at whatever depth it is placed.</li>
+  </ul>
+  <p>
+    A steel ship floats because its hull encloses a large volume of air, so its <em>average</em> density is less than water’s.
+    The same object can float in one fluid and sink in another: an egg sinks in fresh water but floats in very salty water.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Ships and boats</strong> float by displacing their own weight of water; the waterline (Plimsoll) marks show how low they may safely ride.</li>
+    <li><strong>Submarines and fish</strong> change their average density with ballast tanks or a swim bladder to rise, sink or hover.</li>
+    <li><strong>Hot-air balloons</strong> float in the “fluid” of the atmosphere, because hot air is less dense than the cold air around it.</li>
+    <li><strong>Dams</strong> are thicker at the bottom, where the water pressure is greatest; <strong>divers</strong> must equalise the pressure in their ears as they descend.</li>
+    <li><strong>Hydrometers</strong> measure the density of liquids, such as the sugar content of juice or the charge of a battery, by how deep they float.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Heavy things sink and light things float.”</strong> What matters is density compared with the fluid, not weight.</li>
+    <li><strong>“The buoyant force always equals the object’s weight.”</strong> Only for a floating object; a sinking object has B &lt; W.</li>
+    <li><strong>“Deeper objects feel more buoyant force.”</strong> Once fully submerged, B is the same at any depth, because the displaced volume does not change.</li>
+    <li><strong>“Pressure in a fluid only pushes down.”</strong> It pushes in all directions, at right angles to every surface.</li>
+    <li><strong>“Shape decides whether something floats.”</strong> Shape matters only because it changes how much water the object can displace (like a hollow hull).</li>
+  </ul>
+
+  <h2 id="model-limits">What the model assumes</h2>
+  <p>
+    The fluid is at rest and incompressible, with the same density everywhere, so the simple hydrostatic law p = p₀ + ρgh
+    applies; g = 9.81 m/s² and the atmosphere is 101.3 kPa. The objects are solid and uniform, move only up and down, and do
+    not tip, so a cube stays upright. While settling they feel a simple drag that only affects how they move, not where they
+    come to rest. Surface tension and the motion of the fluid itself are ignored. Objects in the tank are kept from
+    overlapping by moving them sideways. The tank is 60 cm wide and 30 cm from front to back, which sets how much the level
+    rises.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Pressure in a fluid at rest grows with depth: p = p₀ + ρgh; gauge pressure leaves out the atmosphere.</li>
+    <li>The extra push on an object’s lower surface produces the buoyant force.</li>
+    <li>Archimedes’ principle: B equals the weight of the fluid displaced, B = ρ_fluid g V_displaced.</li>
+    <li>Objects float, sink or hover depending on their average density compared with the fluid’s.</li>
+    <li>A floating object has ρ_object/ρ_fluid of its volume below the surface.</li>
+  </ul>
+</SimulatorLayout>

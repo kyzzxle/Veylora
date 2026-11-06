@@ -1,0 +1,154 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="fluids-sim" label="A tank of fluid with floating and sinking objects, a pressure probe, and the forces on each object." hint={false} badge="Fresh water">
+  <p class="fl-note" data-note aria-live="polite"></p>
+
+  <div class="fl-section">
+    <h3>Fluid</h3>
+    <SliderControl name="fl-rhof" label="Fluid density" min={600} max={1600} step={5} value={1000} />
+    <div class="preset-row" role="group" aria-label="Fluid presets">
+      <button type="button" class="preset" data-fluid="petrol">Petrol</button>
+      <button type="button" class="preset" data-fluid="oil">Oil</button>
+      <button type="button" class="preset" data-fluid="water">Water</button>
+      <button type="button" class="preset" data-fluid="sea">Sea water</button>
+      <button type="button" class="preset" data-fluid="glycerine">Glycerine</button>
+      <button type="button" class="preset" data-fluid="honey">Honey</button>
+    </div>
+    <SliderControl name="fl-level" label="Fluid level (before objects)" min={0.2} max={0.42} step={0.01} value={0.34} />
+  </div>
+
+  <div class="fl-section">
+    <h3>Objects</h3>
+    <ChoiceControl
+      name="fl-sel"
+      label="Selected object"
+      value="A"
+      options={[
+        { value: 'A', label: 'A' },
+        { value: 'B', label: 'B' },
+        { value: 'C', label: 'C' },
+      ]}
+      help="Or tap an object. Drag objects into the tank, or out onto the shelf."
+    />
+    <ChoiceControl
+      name="fl-shape"
+      label="Shape"
+      value="cube"
+      options={[
+        { value: 'cube', label: 'Cube' },
+        { value: 'sphere', label: 'Sphere' },
+        { value: 'cylinder', label: 'Cylinder' },
+      ]}
+    />
+    <SliderControl name="fl-vol" label="Volume" min={0.5} max={3} step={0.1} value={1} />
+    <SliderControl name="fl-rho" label="Density" min={100} max={3000} step={10} value={500} />
+    <SliderControl name="fl-mass" label="Mass" min={0.05} max={9} step={0.05} value={0.5} help="Changing the mass keeps the volume and changes the density." />
+    <div class="preset-row" role="group" aria-label="Materials">
+      <button type="button" class="preset" data-mat="cork">Cork</button>
+      <button type="button" class="preset" data-mat="wood">Wood</button>
+      <button type="button" class="preset" data-mat="ice">Ice</button>
+      <button type="button" class="preset" data-mat="plastic">PVC</button>
+      <button type="button" class="preset" data-mat="aluminium">Aluminium</button>
+      <button type="button" class="preset" data-mat="neutral">Match the fluid</button>
+    </div>
+    <ToggleControl name="fl-hold" label="Hold the selected object in place" />
+    <div data-only="hold" class="fl-section" hidden>
+      <SliderControl name="fl-height" label="Held object: height above the floor" min={0} max={0.5} step={0.01} value={0.1} help="Or drag it up and down." />
+    </div>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-shelf>Put it back on the shelf</button>
+    </div>
+  </div>
+
+  <details class="fl-more">
+    <summary>Pressure and display options</summary>
+    <div class="fl-section fl-more-body">
+      <ChoiceControl
+        name="fl-pmode"
+        label="Probe and graph show"
+        value="gauge"
+        options={[
+          { value: 'gauge', label: 'Gauge pressure' },
+          { value: 'absolute', label: 'Absolute pressure' },
+        ]}
+        help="Gauge pressure leaves out the 101.3 kPa of the atmosphere."
+      />
+      <ToggleControl name="fl-wall" label="Pressure arrows on the tank walls" checked />
+      <ToggleControl name="fl-faces" label="Pressure arrows on the objects" checked />
+      <ToggleControl name="fl-shade" label="Shade the fluid darker with depth" checked />
+    </div>
+  </details>
+
+  <SimKey
+    items={[
+      { label: 'Pressure push and buoyant force B', color: 'accent', shape: 'line' },
+      { label: 'Weight W', color: 'danger', shape: 'line' },
+      { label: 'Hand holding the object', color: 'warning', shape: 'line' },
+      { label: 'Pressure probe (drag it)', color: 'warning', shape: 'ring' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="pg" label="Gauge pressure at the probe" key />
+    <Readout name="pa" label="Absolute pressure at the probe" />
+    <Readout name="vd" label="Displaced volume (selected)" />
+    <Readout name="bf" label="Buoyant force (selected)" />
+    <Readout name="wt" label="Weight (selected)" />
+    <Readout name="st" label="State" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="fl-graph" title="Pressure against depth" desc="Pressure in kilopascals against depth below the surface for the chosen fluid." compare saveLabel="Save this fluid" />
+</SimShell>
+
+<style>
+  .fl-section {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .fl-section[hidden] {
+    display: none;
+  }
+  .fl-section h3 {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .fl-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  .fl-more {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+  }
+  .fl-more summary {
+    cursor: pointer;
+    font-weight: 650;
+    font-size: 0.92rem;
+  }
+  .fl-more-body {
+    margin-top: 10px;
+    gap: 10px;
+  }
+  :global(#fluids-sim) {
+    --stage-aspect-mobile: 680 / 1150;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initFluids } from './fluids';
+  mountSim('#fluids-sim', initFluids);
+</script>

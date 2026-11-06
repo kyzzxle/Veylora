@@ -825,6 +825,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['physics/newtons-laws', 'physics/rotational-motion', 'mathematics/vector-addition', 'physics/projectile-motion'],
       },
+      {
+        slug: 'fluids-buoyancy',
+        title: 'Fluid Mechanics, Pressure and Buoyancy',
+        summary: 'Drop objects into a tank, change the fluid, and measure pressure with depth to see why things float, sink or hover.',
+        keywords: ['buoyancy', 'buoyant force', 'archimedes principle', 'fluid pressure', 'hydrostatic pressure', 'density', 'float', 'sink', 'displacement', 'gauge pressure', 'absolute pressure', 'neutral buoyancy', 'upthrust'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['physics/momentum-collisions', 'chemistry/states-of-matter', 'chemistry/gas-laws', 'physics/newtons-laws'],
+      },
     ],
   },
   {
