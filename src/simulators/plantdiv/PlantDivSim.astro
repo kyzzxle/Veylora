@@ -1,0 +1,103 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="plantdiv-sim" label="The main groups of land plants on an evolutionary tree, their life cycles, and how they reproduce on land." hint={false} badge="0 of 12 sorted">
+  <ChoiceControl
+    name="pd-view"
+    label="Explore"
+    value="groups"
+    options={[
+      { value: 'groups', label: 'Plant groups' },
+      { value: 'cycle', label: 'Life cycles' },
+      { value: 'water', label: 'Water' },
+    ]}
+    help="Sort plants into groups, follow their life cycles, or test why some need water to reproduce."
+  />
+  <p class="pd-note" data-note aria-live="polite"></p>
+
+  <div data-only="groups" class="pd-group">
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-shuffle>Start the sort again</button>
+      <button type="button" class="btn btn-sm" data-solve>Show the answer</button>
+    </div>
+  </div>
+
+  <div data-only="cycle" class="pd-group" hidden>
+    <ChoiceControl
+      name="pd-cycle"
+      label="Plant"
+      value="moss"
+      options={[
+        { value: 'moss', label: 'Moss' },
+        { value: 'fern', label: 'Fern' },
+        { value: 'pine', label: 'Pine' },
+        { value: 'flower', label: 'Flower' },
+      ]}
+    />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-prev>← Back</button>
+      <button type="button" class="btn btn-sm btn-primary" data-next>Next stage →</button>
+    </div>
+    <p class="ctrl-help">Or press Start to play the cycle, or tap a numbered stage.</p>
+  </div>
+
+  <div data-only="water" class="pd-group" hidden>
+    <SliderControl name="pd-water" label="Water on the ground" min={0} max={100} step={1} value={60} scale={['Dry', 'Puddles']} />
+    <SliderControl name="pd-wind" label="Wind" min={0} max={100} step={1} value={50} />
+    <ToggleControl name="pd-insects" label="Pollinating insects" checked />
+    <ToggleControl name="pd-sun" label="Sun dries the ground" />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-rain>Rain shower</button>
+    </div>
+  </div>
+
+  <SimKey
+    items={[
+      { label: 'Haploid (n): gametophyte, spores, gametes', color: '#4dabf7', shape: 'dot' },
+      { label: 'Diploid (2n): sporophyte, zygote', color: '#f08c00', shape: 'dot' },
+      { label: 'Key innovation', color: 'warning', shape: 'square' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .pd-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .pd-group[hidden] {
+    display: none;
+  }
+  .pd-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#plantdiv-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initPlantDiv } from './plantdiv';
+  mountSim('#plantdiv-sim', initPlantDiv);
+</script>

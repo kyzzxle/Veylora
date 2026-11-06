@@ -1,0 +1,175 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import PlantDivSim from '../../simulators/plantdiv/PlantDivSim.astro';
+import { plantDiversityQuiz } from '../../data/quizzes/plant-diversity';
+
+const toc = [
+  { id: 'land', label: 'Plants move onto land' },
+  { id: 'groups', label: 'The four main groups' },
+  { id: 'bryophytes', label: 'Bryophytes' },
+  { id: 'ferns', label: 'Ferns and their allies' },
+  { id: 'gymnosperms', label: 'Gymnosperms' },
+  { id: 'angiosperms', label: 'Angiosperms' },
+  { id: 'alternation', label: 'Alternation of generations' },
+  { id: 'trends', label: 'Trends in plant evolution' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapters 25–26: Seedless Plants; Seed Plants. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/25-introduction' },
+  { text: 'Raven, P. H., Evert, R. F., & Eichhorn, S. E. (2013). Biology of Plants (8th ed.). W. H. Freeman.' },
+  { text: 'Kenrick, P., & Crane, P. R. (1997). The origin and early evolution of plants on land. Nature, 389, 33–39.', url: 'https://doi.org/10.1038/37918' },
+  { text: 'Christenhusz, M. J. M., & Byng, J. W. (2016). The number of known plant species in the world and its annual increase. Phytotaxa, 261(3), 201–217.', url: 'https://doi.org/10.11646/phytotaxa.261.3.1' },
+  { text: 'Morris, J. L., et al. (2018). The timescale of early land plant evolution. Proceedings of the National Academy of Sciences, 115(10), E2274–E2283.', url: 'https://doi.org/10.1073/pnas.1719588115' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="plant-diversity"
+  description="Interactive plant diversity simulator: sort mosses, ferns, conifers and flowering plants on an evolutionary tree, step through alternation of generations in each group, and test why mosses and ferns need water to reproduce."
+  toc={toc}
+  quiz={plantDiversityQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A carpet of moss, a giant tree fern, a pine forest and a field of flowers look very different, but they share one long
+      family history. Over almost half a billion years, plants invented new ways to carry water, protect their young and
+      reproduce without getting wet. Sort plants into their groups, step through their surprising double life cycles, and see
+      why mosses and ferns still need water to reproduce.
+    </p>
+  </Fragment>
+
+  <PlantDivSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Plant groups</strong>, drag each of the 12 specimens onto its group on the tree. Tap a group or a yellow innovation for an explanation. Wrong guesses give a clue.</li>
+      <li>In <strong>Life cycles</strong>, choose a moss, fern, pine or flowering plant and step through its stages with <strong>Next stage</strong>, or press <strong>Start</strong>. Blue stages are haploid (n) and orange stages diploid (2n).</li>
+      <li>Compare which generation is dominant in each plant, and where meiosis and fertilisation happen.</li>
+      <li>In <strong>Water</strong>, lower the water on the ground, change the wind, remove the insects, or let the sun dry the ground, and see which plants can still be fertilised.</li>
+      <li><strong>Reset</strong> shuffles the specimens and restores every setting.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="land">Plants move onto land</h2>
+  <p>
+    Land plants evolved from green algae and first appear in the fossil record about 470 million years ago. Life on land
+    offered bright light and plenty of carbon dioxide, but brought new problems: drying out, holding the body up without
+    the support of water, and getting sperm to eggs. Early land plants had a waxy <strong>cuticle</strong>, spores with
+    tough walls, and protected their embryos inside the parent plant. That last feature is why land plants are also called
+    embryophytes.
+  </p>
+
+  <h2 id="groups">The four main groups</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Group</th><th>Key features</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Bryophytes</strong></td><td>No vascular tissue; spores; gametophyte dominant</td><td>Mosses, liverworts, hornworts</td></tr>
+        <tr><td><strong>Ferns and allies</strong></td><td>Vascular tissue; spores; sporophyte dominant</td><td>Ferns, horsetails, clubmosses</td></tr>
+        <tr><td><strong>Gymnosperms</strong></td><td>Seeds on cone scales; pollen</td><td>Pines, spruces, cycads, ginkgo</td></tr>
+        <tr><td><strong>Angiosperms</strong></td><td>Flowers; seeds inside fruits</td><td>Grasses, oaks, roses, orchids</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="bryophytes">Bryophytes</h2>
+  <p>
+    Mosses, liverworts and hornworts (about 20,000 species) have no lignified <strong>vascular tissue</strong>. Water moves
+    from cell to cell or over the surface, so they stay small, usually only a few centimetres tall. Root-like
+    <strong>rhizoids</strong> anchor them but are not true roots. The green plant is the haploid
+    <strong>gametophyte</strong>. Its sperm swim through rain or dew to the eggs, and the resulting sporophyte, a stalk
+    and capsule, grows on top of the gametophyte and depends on it.
+  </p>
+
+  <h2 id="ferns">Ferns and their allies</h2>
+  <p>
+    About 430 million years ago, plants evolved <strong>vascular tissue</strong>: xylem with walls strengthened by
+    <strong>lignin</strong>, and phloem. Plants could now carry water from true roots to leaves held high in the air, and
+    the first forests grew. Ferns, horsetails and clubmosses (about 13,000 species) still reproduce with
+    <strong>spores</strong>. The fern plant is the diploid sporophyte; brown <strong>sori</strong> under the fronds release
+    spores, which grow into a tiny, independent gametophyte, the <strong>prothallus</strong>. Its sperm, too, must swim.
+  </p>
+
+  <h2 id="gymnosperms">Gymnosperms</h2>
+  <p>
+    Seed plants appeared about 360 million years ago. Their male gametophytes are packed into <strong>pollen</strong>
+    grains carried by the wind, so fertilisation no longer needs a film of water. A <strong>seed</strong> contains an
+    embryo, a food store and a protective coat. In gymnosperms (“naked seeds”; about 1,100 species, including pines,
+    spruces, cycads and ginkgo), the seeds sit on the surface of cone scales rather than inside a fruit. Conifers dominate
+    cold northern forests and include the tallest and oldest living trees.
+  </p>
+
+  <h2 id="angiosperms">Angiosperms</h2>
+  <p>
+    Flowering plants appeared about 140 million years ago and now make up roughly 90% of land plant species, around
+    300,000 in all. Their <strong>ovules are enclosed in an ovary</strong>, which develops into a <strong>fruit</strong>
+    that protects and spreads the seeds. <strong>Flowers</strong> attract insects, birds and bats that carry pollen
+    accurately from flower to flower. Grasses and most broad-leaved trees, such as oaks, are flowering plants with small,
+    wind-pollinated flowers. How pollination and double fertilisation work is explored in the Plant Reproduction topic.
+  </p>
+
+  <h2 id="alternation">Alternation of generations</h2>
+  <p>
+    Every land plant’s life cycle alternates between two multicellular generations:
+  </p>
+  <ul>
+    <li>The <strong>gametophyte</strong> is haploid (n). It makes gametes (sperm and eggs) by <strong>mitosis</strong>.</li>
+    <li>Two gametes fuse at <strong>fertilisation</strong> to make a diploid (2n) zygote, which grows into the <strong>sporophyte</strong>.</li>
+    <li>The sporophyte makes haploid <strong>spores</strong> by <strong>meiosis</strong>, and each spore grows into a new gametophyte.</li>
+  </ul>
+  <p>
+    The balance between the generations shifted during evolution. In mosses the gametophyte is the main plant. In ferns
+    the sporophyte is the main plant but the gametophyte still lives independently. In seed plants the gametophytes are
+    reduced to a few cells hidden inside pollen grains and ovules, protected by the sporophyte.
+  </p>
+
+  <h2 id="trends">Trends in plant evolution</h2>
+  <ul>
+    <li>From small plants without vascular tissue to tall plants with lignified xylem.</li>
+    <li>From a dominant gametophyte to a dominant sporophyte.</li>
+    <li>From swimming sperm to pollen, freeing reproduction from water.</li>
+    <li>From single-celled spores to seeds, and then to seeds protected inside fruits.</li>
+  </ul>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Food</strong>: almost all crops, including wheat, rice and maize (all grasses), are flowering plants.</li>
+    <li><strong>Timber and paper</strong>: much of it comes from conifers.</li>
+    <li><strong>Coal</strong>: formed from the remains of giant clubmoss and horsetail forests of the Carboniferous period, around 300 million years ago.</li>
+    <li><strong>Peat bogs</strong>: built by sphagnum moss, they store a huge amount of carbon.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Clubmosses, Spanish moss and reindeer moss are mosses.”</strong> They are a vascular plant, a flowering plant and a lichen.</li>
+    <li><strong>“Trees are not flowering plants.”</strong> Oaks, maples and most broad-leaved trees flower; conifers do not.</li>
+    <li><strong>“Spores and seeds are the same.”</strong> A spore is a single cell; a seed contains a multicellular embryo with food and a coat.</li>
+    <li><strong>“Pollen is sperm.”</strong> A pollen grain is a tiny male gametophyte that produces sperm cells.</li>
+    <li><strong>“Ferns have seeds on their leaves.”</strong> The brown dots are sori, which release spores.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The tree shows only four broad groups and a few key innovations; real plant relationships are more detailed, and
+    flowering plants and gymnosperms evolved from extinct seed-plant ancestors not shown here. Dates are approximate first
+    appearances in the fossil record and species counts are rounded estimates. The life cycles are summarised in five or
+    six stages, and drawings are not to scale. In the water experiment the threshold for a “continuous water film” is
+    arbitrary, the flower is assumed to be insect-pollinated, and the pine is pollinated only by wind. Some gymnosperms
+    (cycads and ginkgo) actually still have swimming sperm, released inside the ovule.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Land plants evolved from algae about 470 million years ago and split into four main groups.</li>
+    <li>Vascular tissue let plants grow tall; seeds and pollen freed them from water; flowers and fruits brought animal partners.</li>
+    <li>All land plants alternate between a haploid gametophyte and a diploid sporophyte.</li>
+    <li>The gametophyte is dominant in mosses; the sporophyte is dominant in ferns and seed plants.</li>
+    <li>Mosses and ferns need water for their swimming sperm; seed plants use pollen.</li>
+  </ul>
+</SimulatorLayout>

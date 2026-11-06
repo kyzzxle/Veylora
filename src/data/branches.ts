@@ -736,6 +736,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['botany/transpiration', 'botany/plant-anatomy', 'zoology/animal-adaptations', 'biology/natural-selection'],
       },
+      {
+        slug: 'plant-diversity',
+        title: 'Plant Diversity and Life Cycles',
+        summary: 'Sort mosses, ferns, conifers and flowering plants on an evolutionary tree, step through their life cycles and see why some need water to reproduce.',
+        keywords: ['plant diversity', 'plant classification', 'bryophyte', 'moss', 'fern', 'gymnosperm', 'angiosperm', 'conifer', 'flowering plant', 'alternation of generations', 'gametophyte', 'sporophyte', 'spores', 'seeds', 'vascular plants', 'plant evolution'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['botany/plant-adaptations', 'zoology/animal-classification', 'biology/meiosis', 'botany/plant-anatomy'],
+      },
     ],
   },
   {
