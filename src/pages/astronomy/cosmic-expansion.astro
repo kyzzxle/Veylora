@@ -1,0 +1,153 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import ExpansionSim from '../../simulators/expansion/ExpansionSim.astro';
+import { expansionQuiz } from '../../data/quizzes/expansion';
+
+const toc = [
+  { id: 'spectra', label: 'Reading the light of galaxies' },
+  { id: 'redshift', label: 'What redshift means' },
+  { id: 'expansion', label: 'Expanding space' },
+  { id: 'stretching', label: 'Stretching during the journey' },
+  { id: 'hubble', label: 'Hubble’s law' },
+  { id: 'not-motion', label: 'Expansion is not ordinary motion' },
+  { id: 'formulas', label: 'Formulas' },
+  { id: 'applications', label: 'What redshift has revealed' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 26.5: The Expanding Universe; Section 29.1: The Age of the Universe. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/26-5-the-expanding-universe' },
+  { text: 'Hubble, E. (1929). A relation between distance and radial velocity among extra-galactic nebulae. Proceedings of the National Academy of Sciences, 15(3), 168–173.' },
+  { text: 'Davis, T. M., & Lineweaver, C. H. (2004). Expanding Confusion: common misconceptions of cosmological horizons and the superluminal expansion of the Universe. Publications of the Astronomical Society of Australia, 21(1), 97–109.', url: 'https://arxiv.org/abs/astro-ph/0310808' },
+  { text: 'Planck Collaboration (2020). Planck 2018 results. VI. Cosmological parameters. Astronomy & Astrophysics, 641, A6.' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="cosmic-expansion"
+  description="Interactive cosmic expansion simulator: follow light from distant galaxies across expanding space, watch its wavelength stretch, compare emitted and observed spectra, and contrast expansion with ordinary motion."
+  toc={toc}
+  quiz={expansionQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Almost every distant galaxy’s light arrives stretched towards the red, and the farther the galaxy, the bigger the
+      stretch. This discovery revealed that the universe is expanding. Pick a galaxy, release its light, and watch the light
+      cross billions of years of growing space, its waves getting longer all the way.
+    </p>
+  </Fragment>
+
+  <ExpansionSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose how far away the galaxy is today, using the slider or a preset. The readouts show the redshift, how long the light travelled and when it left.</li>
+      <li>Press <strong>Start</strong>, or drag <strong>Light’s journey</strong>, to watch the light travel. The grid marks fixed places in space: watch it, and the light wave, stretch together.</li>
+      <li>Follow a hydrogen <strong>spectral line</strong> in the spectrum at the bottom as it slides from the visible into the infrared.</li>
+      <li>Switch to <strong>Motion through space</strong> to compare with a galaxy flying away through ordinary space: its light is stretched once, at the start, and then stays the same.</li>
+      <li>Click the galaxies, the wave, the space or the spectrum for explanations. The graph below compares redshift and distance.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="spectra">Reading the light of galaxies</h2>
+  <p>
+    When starlight is spread into a <strong>spectrum</strong>, it shows sharp lines at wavelengths set by the atoms that
+    produced them. Hydrogen, for example, always emits its H-alpha line at 656.3 nm. Because these patterns are like
+    fingerprints, astronomers can recognise them in the light of a distant galaxy, and measure exactly how far the whole
+    pattern has shifted.
+  </p>
+
+  <h2 id="redshift">What redshift means</h2>
+  <p>
+    In the light of almost every distant galaxy, every line appears at a longer wavelength than in the laboratory: it is
+    shifted towards the red end of the spectrum, a <strong>redshift</strong>. Redshift is written z, where
+    <strong>1 + z = observed wavelength ÷ emitted wavelength</strong>. Every line in the spectrum is multiplied by the
+    same factor. For large redshifts, visible lines move right out of the visible range into the infrared, and ultraviolet
+    lines move into the visible.
+  </p>
+
+  <h2 id="expansion">Expanding space</h2>
+  <p>
+    In the 1920s, Georges Lemaître and Edwin Hubble found that the farther away a galaxy is, the larger its redshift. The
+    explanation is that the <strong>universe is expanding</strong>. The distances between widely separated galaxies grow
+    over time, not because the galaxies are flying through space away from a central point, but because space itself is
+    stretching, everywhere at once. A common picture is raisins in a rising loaf: every raisin moves away from every
+    other, and none of them is at the centre. Galaxies, stars, planets and atoms are held together by gravity and other
+    forces, so they do not expand.
+  </p>
+
+  <h2 id="stretching">Stretching during the journey</h2>
+  <p>
+    Light from a distant galaxy takes millions or billions of years to reach us. While it travels, the space it crosses
+    keeps expanding, and its waves are stretched along with it. When it finally arrives, its wavelength has grown by
+    exactly the same factor as the universe:
+    <strong>1 + z = (size of the universe now) ÷ (size when the light left)</strong>. Light that left when the universe was
+    half its present size arrives with z = 1, its wavelengths doubled. More distant galaxies show bigger redshifts because
+    their light has been travelling longer while the universe expanded more.
+  </p>
+
+  <h2 id="hubble">Hubble’s law</h2>
+  <p>
+    For nearby galaxies, the rate at which a galaxy recedes is proportional to its distance:
+    <strong>v = H₀ × d</strong>. The <strong>Hubble constant</strong>, H₀, is about 70 km/s per megaparsec: a galaxy 3.26
+    million light-years farther away recedes about 70 km/s faster. At large distances the relationship curves, because
+    the expansion rate has changed over cosmic history: it slowed while matter dominated and has been speeding up for the
+    last few billion years because of dark energy. The graph below the simulator shows this curve.
+  </p>
+
+  <h2 id="not-motion">Expansion is not ordinary motion</h2>
+  <p>
+    A galaxy moving through space would also show a redshift, because of the <strong>Doppler effect</strong>. But that
+    shift is fixed at the moment the light is emitted. Cosmological redshift builds up continuously during the light’s
+    whole journey. The difference matters: very distant galaxies are now receding at more than the speed of light. This
+    does not break relativity, which limits how fast things move <em>through</em> space, not how fast the space between
+    distant objects can grow.
+  </p>
+
+  <h2 id="formulas">Formulas</h2>
+  <code class="formula">1 + z = λ_observed ÷ λ_emitted = a(now) ÷ a(then)</code>
+  <code class="formula">recession rate v = H₀ × d   (Hubble–Lemaître law)</code>
+  <code class="formula">for small z only: z ≈ v ÷ c</code>
+  <p>Here a is the scale factor, the size of the universe relative to today (a = 1 now).</p>
+
+  <h2 id="applications">What redshift has revealed</h2>
+  <ul>
+    <li><strong>The Big Bang:</strong> running the expansion backwards shows the universe was once hot and dense, about 13.8 billion years ago.</li>
+    <li><strong>The cosmic microwave background:</strong> light released about 380,000 years after the Big Bang has been stretched about 1,100 times, from visible and infrared light into microwaves.</li>
+    <li><strong>Dark energy:</strong> in 1998, distant exploding stars revealed that the expansion is speeding up.</li>
+    <li><strong>The earliest galaxies:</strong> JWST observes in infrared because the light of the most distant galaxies, at redshifts above 10, has been stretched out of the visible.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The Big Bang was an explosion at a point in space.”</strong> It happened everywhere; there is no centre.</li>
+    <li><strong>“Everything expands, including us.”</strong> Bound objects such as galaxies and atoms do not.</li>
+    <li><strong>“Redshift is just galaxies speeding through space.”</strong> For distant galaxies it is the stretching of space during the light’s travel.</li>
+    <li><strong>“Nothing can recede faster than light.”</strong> Distant galaxies do, because space between us is expanding.</li>
+    <li><strong>“The galaxy is now as far away as its light travel time suggests.”</strong> It is much farther, because space kept expanding.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The expansion history is a standard flat universe containing matter and dark energy, with H₀ = 70 km/s/Mpc and 30%
+    matter and 70% dark energy, ignoring radiation. It gives an age of about 13.5 billion years, slightly less than the
+    13.8 billion years from detailed measurements, and its distances and times are approximate. Distances are present-day
+    (comoving) distances. The picture is two-dimensional and not to scale: the galaxies are drawn hugely enlarged, and the
+    wave’s on-screen length only shows how much it has been stretched. Real galaxies also have small motions of their
+    own through space, which add a little Doppler shift. The comparison mode uses the special-relativity Doppler formula
+    for a galaxy moving through non-expanding space, chosen to give the same final redshift.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Redshift is the stretching of light to longer wavelengths: 1 + z = λ_observed ÷ λ_emitted.</li>
+    <li>Cosmological redshift happens because space expands while the light travels; 1 + z equals how much the universe has grown since.</li>
+    <li>More distant galaxies have larger redshifts; nearby galaxies follow Hubble’s law, v = H₀ × d.</li>
+    <li>Expansion has no centre and does not stretch bound objects like galaxies or atoms.</li>
+    <li>Expansion is not motion through space, so distant galaxies can recede faster than light.</li>
+  </ul>
+</SimulatorLayout>

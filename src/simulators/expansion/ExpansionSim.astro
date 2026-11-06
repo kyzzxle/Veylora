@@ -1,0 +1,82 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+---
+
+<SimShell
+  id="expansion-sim"
+  label="Light travelling from a distant galaxy to the Milky Way through expanding space, with its wavelength stretching, and the emitted and observed spectra."
+  hint={false}
+  badge="Light just emitted"
+  aspect="16 / 10"
+>
+  <SliderControl name="ex-dist" label="Galaxy’s distance today" min={0.5} max={30} step={0.1} value={10} help="Comoving distance today, in billions of light-years (Gly).">
+    <PresetButtons
+      for="ex-dist"
+      label="Distance presets"
+      presets={[
+        { label: 'Nearby', value: 1 },
+        { label: 'z ≈ 1', value: 10.9 },
+        { label: 'z ≈ 3', value: 21.2 },
+        { label: 'Very early galaxy', value: 30 },
+      ]}
+    />
+  </SliderControl>
+  <SliderControl name="ex-prog" label="Light’s journey" min={0} max={100} step={1} value={0} help="Press Start to play, or drag to any moment of the journey." />
+  <ChoiceControl
+    name="ex-mode"
+    label="Compare"
+    value="expand"
+    options={[
+      { value: 'expand', label: 'Expanding space' },
+      { value: 'doppler', label: 'Motion through space' },
+    ]}
+  />
+  <ChoiceControl
+    name="ex-line"
+    label="Spectral line to follow"
+    value="ha"
+    options={[
+      { value: 'lya', label: 'Lyman-α' },
+      { value: 'hb', label: 'H-β' },
+      { value: 'ha', label: 'H-α' },
+    ]}
+    help="Hydrogen lines at 121.6, 486.1 and 656.3 nm."
+  />
+  <p class="ex-note" data-note aria-live="polite"></p>
+  <SliderControl name="ex-speed" label="Animation speed" min={1} max={4} step={1} value={1} />
+
+  <Fragment slot="readouts">
+    <Readout name="z" label="Redshift when the light arrives" key />
+    <Readout name="travel" label="Light travel time" />
+    <Readout name="then" label="Light left the galaxy" />
+    <Readout name="dist" label="Distance then → today" />
+    <Readout name="rec" label="Galaxy’s recession rate today" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="ex-graph" title="Redshift and distance" desc="Redshift against present-day distance in the expanding-universe model, with the straight-line Hubble's law for comparison and the chosen galaxy marked." />
+</SimShell>
+
+<style>
+  .ex-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#expansion-sim) {
+    --stage-aspect-mobile: 8 / 13;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initExpansion } from './expansion';
+  mountSim('#expansion-sim', initExpansion);
+</script>

@@ -422,7 +422,7 @@ export const branches: Branch[] = [
     shortName: 'Astronomy',
     tagline: 'Planets, stars and the gravity that shapes the universe.',
     description:
-      'Fly through the solar system, line up the Sun, Earth and Moon, design your own orbits, follow a star from birth to death and bend light around a black hole.',
+      'Fly through the solar system, line up the Sun, Earth and Moon, design your own orbits, follow a star from birth to death and bend light around a black hole. Cast eclipse shadows, tilt Earth to make the seasons, raise the tides, hunt for planets around other stars and stretch light across the expanding universe.',
     hue: 222,
     icon: 'planet',
     topics: [
@@ -524,6 +524,17 @@ export const branches: Branch[] = [
         status: 'live',
         minutes: 15,
         related: ['astronomy/orbits-gravity', 'astronomy/stellar-life-cycle', 'astronomy/solar-system', 'astronomy/eclipses'],
+      },
+      {
+        slug: 'cosmic-expansion',
+        title: 'Cosmic Expansion and Redshift',
+        summary: 'Follow light across expanding space and watch its wavelength stretch into the red and infrared.',
+        keywords: ['cosmic expansion', 'redshift', 'hubble', 'hubble’s law', 'expanding universe', 'big bang', 'scale factor', 'doppler', 'galaxies', 'spectrum', 'dark energy', 'cosmology'],
+        level: 'Advanced',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['astronomy/stellar-life-cycle', 'astronomy/black-holes', 'physics/wave-interference', 'astronomy/exoplanet-transits'],
       },
     ],
   },
