@@ -1,0 +1,174 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import RotationSim from '../../simulators/rotation/RotationSim.astro';
+import { rotationQuiz } from '../../data/quizzes/rotation';
+
+const toc = [
+  { id: 'turning', label: 'Turning instead of moving' },
+  { id: 'angles', label: 'Angle, angular velocity and acceleration' },
+  { id: 'torque', label: 'Torque' },
+  { id: 'inertia', label: 'Moment of inertia' },
+  { id: 'second-law', label: 'Newton’s second law for rotation' },
+  { id: 'comparison', label: 'Linear and rotational motion' },
+  { id: 'momentum', label: 'Angular momentum' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model assumes' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Chapter 10: Fixed-Axis Rotation. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/10-introduction' },
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 11.3: Conservation of Angular Momentum. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/11-3-conservation-of-angular-momentum' },
+  { text: 'Urone, P. P., & Hinrichs, R. (2020). College Physics 2e, Chapter 10: Rotational Motion and Angular Momentum. OpenStax.', url: 'https://openstax.org/books/college-physics-2e/pages/10-introduction-to-rotational-motion-and-angular-momentum' },
+  { text: 'Halliday, D., Resnick, R., & Walker, J. (2018). Fundamentals of Physics (11th ed.), Chapters 10–11: Rotation; Rolling, Torque, and Angular Momentum. Wiley.' },
+  { text: 'Hewitt, P. G. (2015). Conceptual Physics (12th ed.), Chapter 8: Rotational Motion. Pearson.' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="rotational-motion"
+  description="Interactive rotational motion simulator: drag a force around a wheel to see how torque depends on force, distance and angle, compare disks, rings and rods, and spin on a stool to see angular momentum conserved."
+  toc={toc}
+  quiz={rotationQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Why is a door easy to open at the handle and almost impossible to open next to the hinges? Why does a figure skater
+      spin faster when she pulls her arms in? Push a wheel at different points and angles, swap a solid disk for a ring, and
+      sit on a spinning stool with dumbbells to discover the rules of turning motion.
+    </p>
+  </Fragment>
+
+  <RotationSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Torque</strong>, press <strong>Start</strong>. The red force turns the wheel; watch ω (blue arrow) grow at the rate α (orange arrow).</li>
+      <li>Drag the <strong>red dot</strong> to move where the force acts, and drag the <strong>tip of the arrow</strong> to change its size and direction. Compare the two small wheels: the same force near the axis and at the rim.</li>
+      <li>Switch between the <strong>disk</strong>, <strong>ring</strong> and <strong>rod</strong>. On the rod, drag a mass in or out, even while it spins.</li>
+      <li>Switch the force off and watch the wheel keep turning. Save runs on the graph to compare their slopes (α).</li>
+      <li>In <strong>Angular momentum</strong>, press <strong>Give a spin</strong>, then drag a hand (or use the slider) to pull the arms in and out. Watch I, ω, L and kinetic energy.</li>
+      <li>Tap any part of the picture for an explanation. <strong>Reset</strong> restores every setting.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="turning">Turning instead of moving</h2>
+  <p>
+    Wheels, doors, fans, planets and figure skaters all <strong>rotate</strong>: every part moves in a circle around an
+    <strong>axis of rotation</strong>. Points far from the axis move faster than points near it, but the whole object turns
+    through the same angle in the same time. So we describe rotation with angles rather than distances.
+  </p>
+
+  <h2 id="angles">Angle, angular velocity and acceleration</h2>
+  <ul>
+    <li><strong>Angular displacement θ</strong> is the angle turned, measured in radians (one full turn = 2π rad ≈ 6.28 rad).</li>
+    <li><strong>Angular velocity ω</strong> is how fast the angle changes: ω = Δθ/Δt, in rad/s. A point at distance r moves at speed v = rω.</li>
+    <li><strong>Angular acceleration α</strong> is how fast ω changes: α = Δω/Δt, in rad/s².</li>
+  </ul>
+  <p>
+    Counterclockwise rotation is usually counted as positive. In three dimensions these quantities point along the axis,
+    using the right-hand rule: curl the fingers of your right hand in the direction of rotation and your thumb points along
+    the axis. In the simulator, ⊙ means “out of the screen” (counterclockwise) and ⊗ means “into the screen” (clockwise).
+  </p>
+
+  <h2 id="torque">Torque</h2>
+  <p>
+    A <strong>torque</strong> is the turning effect of a force. It depends on three things: how big the force is, how far
+    from the axis it acts, and its direction:
+  </p>
+  <p><strong>τ = r F sin φ</strong></p>
+  <p>
+    Here τ (tau) is the torque in newton metres (N·m), r is the distance from the axis to the point where the force acts,
+    F is the force in newtons and φ is the angle between the radius and the force. The quantity r sin φ is the
+    <strong>lever arm</strong> r⊥: the perpendicular distance from the axis to the line along which the force acts. A force
+    at right angles to the radius (φ = 90°) gives the most torque; a force pointing straight through the axis (φ = 0° or
+    180°) gives none.
+  </p>
+
+  <h2 id="inertia">Moment of inertia</h2>
+  <p>
+    The <strong>moment of inertia I</strong> measures how hard it is to change an object’s rotation. It depends on the
+    mass and, even more, on how far that mass is from the axis: I = Σ m r². Doubling the distance of a mass from the axis
+    quadruples its contribution.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Object (axis through the centre)</th><th>Moment of inertia</th></tr></thead>
+      <tbody>
+        <tr><td>Solid disk or cylinder</td><td>I = ½ M R²</td></tr>
+        <tr><td>Thin ring or hoop</td><td>I = M R²</td></tr>
+        <tr><td>Thin rod of length L</td><td>I = (1/12) M L²</td></tr>
+        <tr><td>Point mass at distance d</td><td>I = m d²</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="second-law">Newton’s second law for rotation</h2>
+  <p>
+    A net torque gives an angular acceleration: <strong>τ = I α</strong>, just as F = m a for straight-line motion. With
+    the same torque, a ring (all its mass at the rim) speeds up half as fast as a disk of the same mass and radius. With no
+    torque, a spinning object keeps spinning at a constant ω: Newton’s first law for rotation.
+  </p>
+
+  <h2 id="comparison">Linear and rotational motion</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Linear</th><th>Rotational</th><th>Link</th></tr></thead>
+      <tbody>
+        <tr><td>Displacement x</td><td>Angle θ</td><td>x = r θ</td></tr>
+        <tr><td>Velocity v</td><td>Angular velocity ω</td><td>v = r ω</td></tr>
+        <tr><td>Acceleration a</td><td>Angular acceleration α</td><td>a = r α</td></tr>
+        <tr><td>Mass m; force F</td><td>Moment of inertia I; torque τ</td><td>F = ma ↔ τ = Iα</td></tr>
+        <tr><td>Momentum p = mv</td><td>Angular momentum L = Iω</td><td>Both conserved if isolated</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="momentum">Angular momentum</h2>
+  <p>
+    <strong>Angular momentum L = I ω</strong> (units kg·m²/s) is the rotational partner of momentum. A torque changes it:
+    τ = ΔL/Δt. So when no outside torque acts, <strong>angular momentum is conserved</strong>. A person on a frictionless
+    stool who pulls their arms in reduces I; L cannot change, so ω must increase. With I falling from about 5.0 to 1.4
+    kg·m² in the simulator, the spin rate rises about 3.5 times. The kinetic energy ½Iω² = L²/2I increases at the same time:
+    the extra energy comes from the work the muscles do pulling the masses inwards against their tendency to move outwards.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Spanners, door handles and seesaws</strong> use a long lever arm to make a big torque from a small force.</li>
+    <li><strong>Figure skaters, divers and cats</strong> change their moment of inertia to spin faster or slower in the air.</li>
+    <li><strong>Flywheels</strong> store energy and smooth out engines; a large I resists changes in speed.</li>
+    <li><strong>Gyroscopes and spinning satellites</strong> keep their orientation because angular momentum is conserved.</li>
+    <li><strong>Collapsing stars</strong> spin faster as they shrink; neutron stars can rotate hundreds of times a second.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“A bigger force always means more torque.”</strong> Torque also depends on the distance and the angle; a force through the axis gives none.</li>
+    <li><strong>“Objects with the same mass are equally easy to spin.”</strong> The distribution of the mass matters: a ring is harder to spin up than a disk.</li>
+    <li><strong>“A spinning object needs a torque to keep spinning.”</strong> Only changes in rotation need a torque.</li>
+    <li><strong>“If angular momentum is conserved, so is kinetic energy.”</strong> Pulling the arms in increases the kinetic energy.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model assumes</h2>
+  <p>
+    The objects are rigid and turn about a fixed, frictionless axle, with no air resistance. The force is attached to the
+    object, like a small thruster, so it turns with the wheel and keeps the same angle to the radius; this keeps the torque
+    constant. The ring’s spokes and the rod’s ends are idealised (massless spokes, point masses on the rod). The person on
+    the stool is a simple model: the body and stool together have I = 1.2 kg·m², each arm is a 3 kg uniform rod from the
+    axis, and each dumbbell is a 2 kg point mass. Real bodies are more complicated, but the conservation of angular
+    momentum holds exactly. The wheel is stopped automatically if it spins faster than about 8 turns per second.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Torque τ = r F sin φ: more force, a longer lever arm or a more perpendicular push all give more torque.</li>
+    <li>Moment of inertia depends on how far mass is from the axis: I = Σ m r².</li>
+    <li>τ = I α is Newton’s second law for rotation; with no torque, ω stays constant.</li>
+    <li>Angular momentum L = I ω is conserved when no outside torque acts, so lowering I raises ω.</li>
+    <li>Kinetic energy is not conserved when a spinning body changes shape; work is done.</li>
+  </ul>
+</SimulatorLayout>

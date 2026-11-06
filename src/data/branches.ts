@@ -803,6 +803,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['physics/newtons-laws', 'mathematics/vector-addition', 'physics/projectile-motion', 'physics/pendulum'],
       },
+      {
+        slug: 'rotational-motion',
+        title: 'Rotational Motion, Torque and Angular Momentum',
+        summary: 'Push a wheel at different distances and angles, compare disks, rings and rods, and spin on a stool to see angular momentum conserved.',
+        keywords: ['torque', 'rotational motion', 'angular velocity', 'angular acceleration', 'moment of inertia', 'angular momentum', 'conservation of angular momentum', 'lever arm', 'rotational inertia', 'spinning', 'figure skater'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 20,
+        related: ['physics/newtons-laws', 'physics/inclined-planes', 'mathematics/vector-addition', 'physics/pendulum'],
+      },
     ],
   },
   {

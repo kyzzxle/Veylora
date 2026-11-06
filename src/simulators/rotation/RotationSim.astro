@@ -1,0 +1,136 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell
+  id="rotation-sim"
+  label="A wheel turned by a force, and a person on a spinning stool, showing torque and angular momentum."
+  showTime
+  hint={false}
+  badge="τ = 4.00 N·m ↺"
+>
+  <ChoiceControl
+    name="rt-view"
+    label="Explore"
+    value="torque"
+    options={[
+      { value: 'torque', label: 'Torque' },
+      { value: 'momentum', label: 'Angular momentum' },
+    ]}
+  />
+  <p class="rt-note" data-note aria-live="polite"></p>
+
+  <div data-only="torque" class="rt-group">
+    <ChoiceControl
+      name="rt-obj"
+      label="Object"
+      value="disk"
+      options={[
+        { value: 'disk', label: 'Disk' },
+        { value: 'ring', label: 'Ring' },
+        { value: 'rod', label: 'Rod + masses' },
+      ]}
+      help="Same mass, different distribution, different moment of inertia."
+    />
+    <SliderControl name="rt-mass" label="Mass M" min={1} max={20} step={1} value={10} help="For the rod: the total of the two sliding masses." />
+    <div data-only="rod" class="rt-group" hidden>
+      <SliderControl name="rt-d" label="Masses from the axis d" min={0.05} max={0.45} step={0.05} value={0.35} help="Or drag a mass. Moving them while it spins keeps L = Iω constant." />
+    </div>
+    <SliderControl name="rt-force" label="Force F" min={0} max={20} step={1} value={10} help="Or drag the tip of the red arrow." />
+    <SliderControl name="rt-phi" label="Angle between r and F (φ)" min={-180} max={180} step={5} value={90}>
+      <PresetButtons for="rt-phi" label="Angle presets" presets={[{ label: '90° ↺', value: 90 }, { label: '45°', value: 45 }, { label: '0° (radial)', value: 0 }, { label: '−90° ↻', value: -90 }]} />
+    </SliderControl>
+    <SliderControl name="rt-r" label="Distance from the axis r" min={0} max={0.5} step={0.01} value={0.4} help="Or drag the red dot where the force acts.">
+      <PresetButtons for="rt-r" label="Distance presets" presets={[{ label: 'Near (0.1 m)', value: 0.1 }, { label: 'At the rim (0.5 m)', value: 0.5 }]} />
+    </SliderControl>
+    <ToggleControl name="rt-on" label="Force switched on" checked />
+    <ToggleControl name="rt-extras" label="Show lever arm, ω and α arrows" checked />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-stopwheel>Stop the wheel</button>
+    </div>
+  </div>
+
+  <div data-only="momentum" class="rt-group" hidden>
+    <SliderControl name="rt-arm" label="Hands from the axis r" min={0.2} max={0.8} step={0.05} value={0.75} help="Or drag a hand.">
+      <PresetButtons for="rt-arm" label="Arm presets" presets={[{ label: 'Arms in', value: 0.2 }, { label: 'Arms out', value: 0.8 }]} />
+    </SliderControl>
+    <ToggleControl name="rt-dumb" label="Holding 2 kg dumbbells" checked />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-spin>Give a spin</button>
+      <button type="button" class="btn btn-sm" data-stopstool>Stop</button>
+    </div>
+  </div>
+
+  <SimKey
+    items={[
+      { label: 'Force F', color: 'danger', shape: 'line' },
+      { label: 'Torque τ and lever arm r⊥', color: 'accent-2', shape: 'line' },
+      { label: 'Angular velocity ω', color: 'accent', shape: 'line' },
+      { label: 'Angular acceleration α', color: 'warning', shape: 'line' },
+      { label: 'Angular momentum L', color: 'success', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+
+  <div slot="below" class="sim-table" data-only="torque">
+    <h3>Linear ↔ rotational (live values for the large wheel)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Linear</th><th>Rotational</th><th>Now</th></tr></thead>
+        <tbody>
+          <tr><td>Position x</td><td>Angle θ</td><td data-tv="th">0.0 rad</td></tr>
+          <tr><td>Velocity v</td><td>Angular velocity ω</td><td data-tv="w">0.00 rad/s</td></tr>
+          <tr><td>Acceleration a</td><td>Angular acceleration α</td><td data-tv="a">3.20 rad/s²</td></tr>
+          <tr><td>Mass m</td><td>Moment of inertia I</td><td data-tv="I">1.250 kg·m²</td></tr>
+          <tr><td>Force F</td><td>Torque τ = r F sin φ</td><td data-tv="tau">4.00 N·m</td></tr>
+          <tr><td>F = m a</td><td>τ = I α</td><td>—</td></tr>
+          <tr><td>Momentum p = m v</td><td>Angular momentum L = I ω</td><td data-tv="L">0.00 kg·m²/s</td></tr>
+          <tr><td>KE = ½ m v²</td><td>KE = ½ I ω²</td><td data-tv="ke">0.0 J</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <GraphPanel slot="below" id="rt-graph" title="Angular velocity over time" desc="Angular velocity in radians per second over time; in the angular momentum view also the moment of inertia and the angular momentum." compare saveLabel="Save run & restart" />
+</SimShell>
+
+<style>
+  .rt-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .rt-group[hidden] {
+    display: none;
+  }
+  .rt-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#rotation-sim) {
+    --stage-aspect-mobile: 680 / 1100;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initRotation } from './rotation';
+  mountSim('#rotation-sim', initRotation);
+</script>
