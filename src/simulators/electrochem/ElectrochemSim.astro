@@ -1,0 +1,121 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { CELLS, METALS } from './data';
+const metals = Object.values(METALS);
+---
+
+<SimShell
+  id="electrochem-sim"
+  label="An electrochemical cell with electrodes, electrolyte and an external circuit."
+  hint={false}
+  badge="Open circuit"
+  aspect="16 / 10"
+>
+  <ChoiceControl
+    name="ec-mode"
+    label="Cell type"
+    value="galvanic"
+    help="A galvanic cell makes electricity from a reaction; an electrolytic cell uses electricity to drive one."
+    options={[
+      { value: 'galvanic', label: 'Galvanic' },
+      { value: 'electrolytic', label: 'Electrolytic' },
+    ]}
+  />
+  <p class="ec-note" data-note aria-live="polite"></p>
+
+  <div data-only="galvanic" class="ec-group">
+    <div class="ec-pair">
+      <div class="ctrl">
+        <label class="ctrl-label" for="ec-left">Left electrode</label>
+        <select id="ec-left" class="select" data-left>
+          {metals.map((m) => <option value={m.id} selected={m.id === 'Zn'}>{m.name} ({m.ion})</option>)}
+        </select>
+      </div>
+      <div class="ctrl">
+        <label class="ctrl-label" for="ec-right">Right electrode</label>
+        <select id="ec-right" class="select" data-right>
+          {metals.map((m) => <option value={m.id} selected={m.id === 'Cu'}>{m.name} ({m.ion})</option>)}
+        </select>
+      </div>
+    </div>
+    <SliderControl name="ec-cl" label="Left solution concentration" min={-2} max={0.3} step={0.1} value={0} scale={['0.01 mol/L', '2 mol/L']} />
+    <SliderControl name="ec-cr" label="Right solution concentration" min={-2} max={0.3} step={0.1} value={0} scale={['0.01 mol/L', '2 mol/L']} />
+    <ChoiceControl
+      name="ec-load"
+      label="Connect"
+      value="open"
+      options={[
+        { value: 'open', label: 'Voltmeter only' },
+        { value: 'bulb', label: 'Light bulb' },
+      ]}
+      help="With the bulb, current flows and the cell slowly runs down (1 s = 1 hour)."
+    />
+  </div>
+
+  <div data-only="electrolytic" class="ec-group" hidden>
+    <div class="ctrl">
+      <label class="ctrl-label" for="ec-cell">Electrolysis of</label>
+      <select id="ec-cell" class="select" data-cell>
+        {Object.values(CELLS).map((c) => <option value={c.id} selected={c.id === 'water'}>{c.title}</option>)}
+      </select>
+    </div>
+    <SliderControl name="ec-v" label="Power supply voltage" min={0} max={6} step={0.1} value={4} scale={['0 V', '6 V']} help="1 s = 1 minute." />
+  </div>
+  <button type="button" class="btn btn-sm" data-renew>Fresh electrodes and solutions</button>
+  <SimKey
+    items={[
+      { label: 'Electron in the wire', color: '#f2c94c' },
+      { label: 'Metal ion (positive) in solution', color: 'sim-water' },
+      { label: 'Negative ion in solution', color: 'text-faint' },
+      { label: 'Salt bridge: K⁺ (purple) and NO₃⁻ (grey)', color: 'accent-2' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="ec-graph" title="Cell voltage over time" desc="The cell voltage against time in hours while the bulb is connected." />
+</SimShell>
+
+<style>
+  .ec-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .ec-group[hidden] {
+    display: none;
+  }
+  .ec-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .ec-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#electrochem-sim) {
+    --stage-aspect-mobile: 17 / 23;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initElectrochem } from './electrochem';
+  mountSim('#electrochem-sim', initElectrochem);
+</script>

@@ -178,7 +178,7 @@ export const branches: Branch[] = [
     shortName: 'Chemistry',
     tagline: 'Atoms, bonds and the reactions that rearrange them.',
     description:
-      'Build atoms and molecules, balance equations atom by atom, mix acids and bases and speed reactions up or slow them down.',
+      'Build atoms and molecules, balance equations atom by atom, mix acids and bases and speed reactions up or slow them down. Melt, boil and condense a particle model, squeeze and heat a gas, dissolve salts to saturation, follow electrons through redox reactions and build batteries and electrolysis cells.',
     hue: 268,
     icon: 'flask',
     topics: [
@@ -279,7 +279,18 @@ export const branches: Branch[] = [
         kind: '2D',
         status: 'live',
         minutes: 15,
-        related: ['chemistry/atomic-structure', 'chemistry/chemical-bonding', 'chemistry/balancing-equations', 'biology/cellular-respiration'],
+        related: ['chemistry/electrochemistry', 'chemistry/atomic-structure', 'chemistry/chemical-bonding', 'biology/cellular-respiration'],
+      },
+      {
+        slug: 'electrochemistry',
+        title: 'Electrochemistry: Galvanic Cells and Electrolysis',
+        summary: 'Build a battery from two metals, then use electricity to split water and plate copper.',
+        keywords: ['electrochemistry', 'galvanic cell', 'voltaic cell', 'daniell cell', 'electrolysis', 'anode', 'cathode', 'salt bridge', 'electrode potential', 'cell voltage', 'electroplating', 'battery', 'faraday'],
+        level: 'Advanced',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 20,
+        related: ['chemistry/redox-reactions', 'physics/circuits', 'chemistry/solutions-and-solubility', 'chemistry/atomic-structure'],
       },
     ],
   },

@@ -1,0 +1,189 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import ElectrochemSim from '../../simulators/electrochem/ElectrochemSim.astro';
+import { electrochemQuiz } from '../../data/quizzes/electrochem';
+
+const toc = [
+  { id: 'cells', label: 'Two kinds of electrochemical cell' },
+  { id: 'galvanic', label: 'Inside a galvanic cell' },
+  { id: 'potentials', label: 'Electrode potentials and cell voltage' },
+  { id: 'running-down', label: 'Why batteries run down' },
+  { id: 'electrolysis', label: 'Electrolysis' },
+  { id: 'faraday', label: 'How much product? Faraday’s law' },
+  { id: 'compare', label: 'Galvanic vs electrolytic' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Chapter 17: Electrochemistry (17.2 Galvanic Cells; 17.3 Electrode and Cell Potentials; 17.4 Potential, Free Energy, and Equilibrium; 17.7 Electrolysis). OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/17-introduction' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Appendix L: Standard Electrode (Half-Cell) Potentials. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/l-standard-electrode-half-cell-potentials' },
+  { text: 'Bard, A. J., Parsons, R., & Jordan, J. (1985). Standard Potentials in Aqueous Solution. IUPAC / Marcel Dekker.' },
+  { text: 'Bard, A. J., & Faulkner, L. R. (2001). Electrochemical Methods: Fundamentals and Applications (2nd ed.). Wiley.' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="electrochemistry"
+  description="Interactive electrochemistry simulator: build galvanic cells from six metals, watch electrons and ions move and the voltage fall, then run electrolysis of water, copper chloride and copper refining."
+  toc={toc}
+  quiz={electrochemQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A battery turns a chemical reaction into electricity; electrolysis does the opposite and uses electricity to force a
+      reaction. Both are redox reactions with the oxidation and reduction pulled apart into two electrodes. Build a cell
+      from two metals, light a bulb with it, then switch on a power supply and split water into hydrogen and oxygen.
+    </p>
+  </Fragment>
+
+  <ElectrochemSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Galvanic</strong> mode, choose a metal for each electrode. The simulator works out which one is the <strong>anode</strong> and which the <strong>cathode</strong>, and the voltmeter shows the cell voltage.</li>
+      <li>Switch <strong>Connect</strong> to <strong>Light bulb</strong> and press <strong>Start</strong>. Watch electrons (yellow) flow through the wire, ions move in the salt bridge, the electrodes change mass and the voltage graph slowly fall.</li>
+      <li>Change the <strong>concentrations</strong> to see how they shift the voltage.</li>
+      <li>Switch to <strong>Electrolytic</strong>, choose a solution and change the <strong>power supply voltage</strong>. Below the onset voltage nothing happens; above it, products build up in proportion to the charge passed.</li>
+      <li>Click the electrodes, salt bridge, meter or power supply for explanations. <strong>Fresh electrodes and solutions</strong> starts the current cell again; <strong>Reset</strong> restores everything.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="cells">Two kinds of electrochemical cell</h2>
+  <p>
+    In a redox reaction, electrons pass from a reducing agent to an oxidizing agent. If the two are put in separate
+    containers joined by a wire, the electrons must travel through the wire: an electric current. A
+    <strong>galvanic</strong> (or voltaic) cell uses a reaction that happens by itself to produce electricity. An
+    <strong>electrolytic</strong> cell uses electricity from a power supply to drive a reaction that would not happen by
+    itself. In both, <strong>oxidation happens at the anode and reduction at the cathode</strong>.
+  </p>
+
+  <h2 id="galvanic">Inside a galvanic cell</h2>
+  <p>
+    The classic example is the <strong>Daniell cell</strong>: a zinc electrode in zinc sulfate solution and a copper
+    electrode in copper(II) sulfate solution.
+  </p>
+  <code class="formula">Anode (oxidation): Zn → Zn²⁺ + 2e⁻</code>
+  <code class="formula">Cathode (reduction): Cu²⁺ + 2e⁻ → Cu</code>
+  <p>
+    Zinc atoms leave the anode as ions, and the electrons they leave behind make it the <strong>negative</strong> electrode.
+    The electrons flow through the external circuit to the copper cathode, the <strong>positive</strong> electrode, where
+    copper ions pick them up and are deposited as copper. Inside the cell, the current is carried by ions. The
+    <strong>salt bridge</strong>, a tube of salt solution or gel, lets negative ions drift towards the anode and positive
+    ions towards the cathode, keeping both solutions neutral. Electrons never travel through the solutions.
+  </p>
+
+  <h2 id="potentials">Electrode potentials and cell voltage</h2>
+  <p>
+    Each half-cell has a <strong>standard reduction potential</strong>, E°, measured against a standard hydrogen
+    electrode at 25 °C with 1 mol/L solutions. The more negative E° is, the more easily the metal gives up electrons.
+    The half-cell with the lower potential becomes the anode, and the cell voltage is:
+  </p>
+  <code class="formula">E°cell = E°cathode − E°anode</code>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Half-reaction</th><th>E° (V)</th></tr></thead>
+      <tbody>
+        <tr><td>Mg²⁺ + 2e⁻ → Mg</td><td>−2.37</td></tr>
+        <tr><td>Zn²⁺ + 2e⁻ → Zn</td><td>−0.76</td></tr>
+        <tr><td>Fe²⁺ + 2e⁻ → Fe</td><td>−0.44</td></tr>
+        <tr><td>Pb²⁺ + 2e⁻ → Pb</td><td>−0.13</td></tr>
+        <tr><td>Cu²⁺ + 2e⁻ → Cu</td><td>+0.34</td></tr>
+        <tr><td>Ag⁺ + e⁻ → Ag</td><td>+0.80</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    For zinc and copper, E°cell = 0.34 − (−0.76) = 1.10 V. Metals far apart in the list make bigger voltages. Note that
+    E° does not depend on how many electrons are involved: the silver half-reaction is not doubled when it is balanced.
+  </p>
+
+  <h2 id="running-down">Why batteries run down</h2>
+  <p>
+    The voltage also depends on concentration, through the <strong>Nernst equation</strong>. At 25 °C, for a metal ion of
+    charge n:
+  </p>
+  <code class="formula">E = E° + (0.0257 / n) × ln[Mⁿ⁺]</code>
+  <p>
+    As the cell works, cathode ions are used up and anode ions build up, so the two electrode potentials move closer and
+    the voltage falls. When the reaction reaches equilibrium, the voltage is zero: the battery is flat. The simulator
+    shows this on the voltage graph.
+  </p>
+
+  <h2 id="electrolysis">Electrolysis</h2>
+  <p>
+    In electrolysis, a power supply pushes electrons into the <strong>cathode</strong>, which is now
+    <strong>negative</strong>, and pulls them from the <strong>anode</strong>, which is <strong>positive</strong>. Positive
+    ions move to the cathode and are reduced; negative ions or water molecules are oxidized at the anode. The supply must
+    provide at least the cell’s reversed voltage, plus extra “overpotential” to make the reactions go at a useful
+    rate. Water needs at least 1.23 V to split, but in practice about 1.7 V or more.
+  </p>
+
+  <h2 id="faraday">How much product? Faraday’s law</h2>
+  <p>
+    Every electron passed reduces or oxidizes a fixed amount of substance. One mole of electrons carries 96,485 coulombs,
+    the <strong>Faraday constant</strong> F.
+  </p>
+  <code class="formula">charge Q = current I × time t</code>
+  <code class="formula">moles of product = Q ÷ (z × F)</code>
+  <p>
+    Here z is the number of electrons per particle of product (2 for Cu²⁺ → Cu or for H₂, 4 for O₂). That is why
+    electrolysis of water gives twice the volume of hydrogen as oxygen.
+  </p>
+
+  <h2 id="compare">Galvanic vs electrolytic</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Galvanic cell</th><th>Electrolytic cell</th></tr></thead>
+      <tbody>
+        <tr><td>Energy</td><td>Chemical → electrical</td><td>Electrical → chemical</td></tr>
+        <tr><td>Reaction</td><td>Spontaneous</td><td>Non-spontaneous (driven)</td></tr>
+        <tr><td>Anode</td><td>Oxidation, negative</td><td>Oxidation, positive</td></tr>
+        <tr><td>Cathode</td><td>Reduction, positive</td><td>Reduction, negative</td></tr>
+        <tr><td>Example</td><td>Batteries, fuel cells</td><td>Electroplating, splitting water</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Batteries</strong>, from alkaline cells to the lithium-ion cell in your phone, are galvanic cells; recharging runs them as electrolytic cells.</li>
+    <li><strong>Electroplating</strong> coats objects in chromium, nickel, silver or gold.</li>
+    <li><strong>Copper refining</strong> dissolves impure copper anodes and deposits pure copper on the cathode.</li>
+    <li><strong>Aluminium</strong> is extracted from its molten oxide by electrolysis.</li>
+    <li><strong>Hydrogen</strong> for fuel can be made by electrolysis of water using renewable electricity.</li>
+    <li><strong>Corrosion protection:</strong> blocks of magnesium or zinc are bolted to ships and pipelines, so that they corrode instead of the steel.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The anode is always positive.”</strong> It is negative in a galvanic cell and positive in an electrolytic cell; it is always where oxidation happens.</li>
+    <li><strong>“Electrons flow through the salt bridge or the solution.”</strong> Ions carry the current there; electrons only travel through the wires and electrodes.</li>
+    <li><strong>“A battery stores electricity.”</strong> It stores chemicals that react to produce electricity.</li>
+    <li><strong>“Doubling a half-equation doubles E°.”</strong> Electrode potentials do not depend on the amounts written.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    Standard electrode potentials and the Faraday constant are real values, and the Nernst equation is applied with
+    concentrations in place of activities, which is only approximate at high concentrations. The internal resistance
+    (4 Ω), the bulb (6 Ω), the 100 mL half-cells, the 20 g electrodes and the electrolysis onset voltages are illustrative.
+    Time is speeded up (1 s = 1 hour for the galvanic cell, 1 minute for electrolysis), and the drawn electrode sizes
+    exaggerate mass changes so they can be seen. Real magnesium also reacts slowly with water, chlorine is partly dissolved
+    in the solution, and real cells slow down because of overpotentials and the time ions take to reach the electrodes.
+    The ions and electrons are a handful of symbolic dots, not to scale.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Electrochemical cells separate oxidation (at the anode) from reduction (at the cathode).</li>
+    <li>In a galvanic cell a spontaneous reaction drives electrons from anode to cathode through the external wire.</li>
+    <li>E°cell = E°cathode − E°anode; the voltage falls as the concentrations change.</li>
+    <li>Ions, not electrons, carry the charge through solutions and the salt bridge.</li>
+    <li>Electrolysis uses electricity to drive non-spontaneous reactions, and the amount of product is proportional to the charge passed.</li>
+  </ul>
+</SimulatorLayout>
