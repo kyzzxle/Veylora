@@ -1,0 +1,192 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import NervousSim from '../../simulators/nervous/NervousSim.astro';
+import { nervousQuiz } from '../../data/quizzes/nervous';
+
+const toc = [
+  { id: 'why', label: 'Detecting change' },
+  { id: 'neurons', label: 'Neurons' },
+  { id: 'impulse', label: 'How an impulse works' },
+  { id: 'synapse', label: 'Synapses' },
+  { id: 'cns', label: 'Brain and spinal cord' },
+  { id: 'reflex', label: 'Reflex arcs' },
+  { id: 'receptors', label: 'Receptors and senses' },
+  { id: 'evolution', label: 'Simple and complex nervous systems' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Sections 35.1–35.3: Neurons and Glial Cells; How Neurons Communicate; The Central Nervous System. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/35-1-neurons-and-glial-cells' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 36.1: Sensory Processes. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/36-1-sensory-processes' },
+  { text: 'Purves, D., et al. (Eds.). (2018). Neuroscience (6th ed.). Oxford University Press.' },
+  { text: 'Kandel, E. R., Koester, J. D., Mack, S. H., & Siegelbaum, S. A. (Eds.). (2021). Principles of Neural Science (6th ed.). McGraw Hill.' },
+  { text: 'Brusca, R. C., Moore, W., & Shuster, S. M. (2016). Invertebrates (3rd ed.). Sinauer Associates.' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="nervous-systems"
+  description="Interactive animal nervous system simulator: stimulate a neuron to see threshold and all-or-none impulses, watch a synapse pass a signal, step through a reflex arc, and compare how a hydra, flatworm, earthworm, insect and cat respond to light, sound, touch and movement."
+  toc={toc}
+  quiz={nervousQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A cockroach dashes away before you even see it move. Your hand jerks back from a hot pan before you feel the pain. A
+      hydra, with no brain at all, curls into a ball when touched. All of these responses depend on nerve cells that detect
+      a change, pass on a signal and make muscles act. Stimulate a neuron, follow a reflex step by step, and see how
+      animals with simple and complex nervous systems respond.
+    </p>
+  </Fragment>
+
+  <NervousSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Neuron</strong>, set the stimulus strength and press <strong>Stimulate</strong>. Try values below and above 50%, and watch the voltage graph.</li>
+      <li>Turn on <strong>Hold the stimulus on</strong> and change the strength to see how often impulses fire. Switch the myelin sheath off and on, and block the receptors at the synapse.</li>
+      <li>In <strong>Reflex arc</strong>, use <strong>Next step</strong> or press <strong>Start</strong> to follow a withdrawal reflex or the knee-jerk reflex, and compare the timings.</li>
+      <li>In <strong>Animals</strong>, choose an animal and a stimulus, set its strength and press <strong>Apply stimulus</strong>. Try weak stimuli, and stimuli that the animal cannot detect.</li>
+      <li>Click any part of the drawing for an explanation. <strong>Reset</strong> returns to the starting settings.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="why">Detecting change</h2>
+  <p>
+    Animals survive by reacting to changes around them and inside them: the shadow of a predator, the smell of food, a
+    drop in temperature. A change that an animal can detect is a <strong>stimulus</strong>. Every response follows the same
+    chain: a <strong>receptor</strong> detects the stimulus, the nervous system acts as the <strong>coordinator</strong>,
+    and an <strong>effector</strong>, usually a muscle or a gland, produces the <strong>response</strong>. Nervous systems
+    are fast: they carry signals in milliseconds, where hormones in the blood take seconds to hours.
+  </p>
+
+  <h2 id="neurons">Neurons</h2>
+  <p>
+    The nervous system is built from nerve cells, or <strong>neurons</strong>. A typical neuron has:
+  </p>
+  <ul>
+    <li><strong>Dendrites</strong>, branched extensions that receive signals from receptors or other neurons.</li>
+    <li>A <strong>cell body</strong> with the nucleus, which combines the incoming signals.</li>
+    <li>An <strong>axon</strong>, a long fibre that carries impulses away from the cell body, often wrapped in a fatty <strong>myelin sheath</strong>.</li>
+    <li><strong>Axon terminals</strong>, which pass the signal to the next cell at a synapse.</li>
+  </ul>
+  <p>
+    <strong>Sensory neurons</strong> carry signals from receptors towards the central nervous system;
+    <strong>motor neurons</strong> carry them out to muscles and glands; and <strong>relay neurons</strong>
+    (interneurons) connect neurons to each other. Neurons are supported by other cells called glial cells, which include
+    the cells that make myelin.
+  </p>
+
+  <h2 id="impulse">How an impulse works</h2>
+  <p>
+    At rest, the inside of a neuron is about 70 mV more negative than the outside: the <strong>resting potential</strong>.
+    Pumps in the membrane keep more sodium ions (Na⁺) outside and more potassium ions (K⁺) inside. A stimulus makes a small
+    change in voltage, a <strong>graded potential</strong>, which fades as it spreads. If the voltage at the start of the
+    axon reaches the <strong>threshold</strong>, about −55 mV, channels open and Na⁺ rushes in, making the inside briefly
+    positive (about +30 mV). Then K⁺ flows out and the voltage falls back, briefly dipping below the resting level. This
+    whole event is an <strong>action potential</strong>, and it lasts only about 2 milliseconds.
+  </p>
+  <p>
+    Action potentials are <strong>all-or-none</strong>: either the threshold is reached and a full-sized impulse fires, or
+    nothing is sent. A stronger stimulus does not make bigger impulses; it makes them more frequent. Each impulse triggers
+    the next patch of membrane, so it travels along the axon without fading. Just behind it, the membrane cannot fire again
+    for a moment (the <strong>refractory period</strong>), so the impulse only travels forwards. Myelin insulates the axon,
+    so the impulse jumps from one gap to the next (the nodes of Ranvier). This raises the speed from about 1 m/s to as much
+    as 100 m/s. For a closer look at the ion channels, see
+    <a href="/anatomy-physiology/neuron-firing">Nervous System and Neuron Firing</a>.
+  </p>
+
+  <h2 id="synapse">Synapses</h2>
+  <p>
+    Neurons do not touch. Between the axon terminal of one neuron and the next cell is a tiny gap, about 20 nanometres
+    wide: the <strong>synapse</strong>. When an impulse arrives, small vesicles release a chemical
+    <strong>neurotransmitter</strong> into the gap. It diffuses across and binds to <strong>receptors</strong> on the next
+    neuron, changing its voltage. The neurotransmitter is then broken down or taken back up, so the signal is brief.
+    Synapses make signals travel one way, and they let the nervous system combine, strengthen or block signals; changes at
+    synapses are the basis of learning and memory. Many drugs, toxins and medicines act at synapses, for example by blocking
+    receptors.
+  </p>
+
+  <h2 id="cns">Brain and spinal cord</h2>
+  <p>
+    In vertebrates, the <strong>brain</strong> and <strong>spinal cord</strong> form the central nervous system (CNS).
+    Nerves (bundles of axons) connect it to the rest of the body and form the peripheral nervous system. The brain
+    processes information from the senses, stores memories and controls behaviour. The spinal cord, protected by the
+    vertebrae, carries signals between the brain and the body, and handles many reflexes on its own.
+  </p>
+
+  <h2 id="reflex">Reflex arcs</h2>
+  <p>
+    A <strong>reflex</strong> is a fast, automatic response that does not need conscious thought. The pathway is a
+    <strong>reflex arc</strong>. If you touch something hot, heat receptors in the skin start impulses in a sensory neuron,
+    which passes them to a relay neuron in the spinal cord, which passes them to a motor neuron, which makes the biceps
+    contract and pulls your hand away, in about 50 milliseconds. The signal also travels up to the brain, so you feel the
+    pain, but only afterwards. The knee-jerk reflex is even simpler: the sensory neuron connects straight to the motor
+    neuron, with only one synapse. Reflexes protect the body, and help keep you balanced and upright.
+  </p>
+
+  <h2 id="receptors">Receptors and senses</h2>
+  <p>
+    Receptors are cells or structures that detect a particular kind of change and turn it into nerve impulses.
+    <strong>Photoreceptors</strong> detect light; <strong>mechanoreceptors</strong> detect touch, pressure, vibration,
+    sound and stretch; <strong>chemoreceptors</strong> detect chemicals (taste and smell); and
+    <strong>thermoreceptors</strong> detect temperature. An animal can only respond to stimuli its receptors can detect, and
+    only when the stimulus is strong enough. Many animals sense things humans cannot: bees see ultraviolet light, bats and
+    dolphins hear ultrasound, and sharks detect the weak electric fields of their prey.
+  </p>
+
+  <h2 id="evolution">Simple and complex nervous systems</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Animal</th><th>Nervous system</th><th>Main senses in the model</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Hydra</strong></td><td>Nerve net, no brain</td><td>Touch; light-sensitive cells</td></tr>
+        <tr><td><strong>Planarian</strong></td><td>Head ganglia and two nerve cords</td><td>Eyespots; touch</td></tr>
+        <tr><td><strong>Earthworm</strong></td><td>Small brain and a nerve cord with a ganglion in each segment</td><td>Light-sensitive skin; touch; vibration</td></tr>
+        <tr><td><strong>Insect</strong></td><td>Brain and a ventral nerve cord with ganglia</td><td>Compound eyes; air-movement hairs; touch</td></tr>
+        <tr><td><strong>Cat</strong></td><td>Brain and spinal cord</td><td>Eyes, ears, touch and whiskers, smell</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Sea anemones, jellyfish and hydra have a <strong>nerve net</strong> with no centre, which suits animals that can meet
+    food or danger from any side. Animals that move head-first have their senses and a cluster of neurons at the front, a
+    trend called <strong>cephalisation</strong>. In flatworms this is a pair of ganglia; in earthworms and insects, a brain
+    connected to a nerve cord with a ganglion in each segment, which can run some behaviours locally and very fast. In
+    vertebrates a large brain integrates many senses and allows learning and flexible behaviour. More complex is not
+    “better”: each system suits the animal’s way of life.
+  </p>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Nerve impulses are electricity flowing along a wire.”</strong> An impulse is a wave of changing voltage caused by ions crossing the membrane. It is regenerated at each point and travels far more slowly than current in a wire.</li>
+    <li><strong>“A stronger stimulus makes a bigger impulse.”</strong> Impulses are all-or-none; strength is coded by how often they fire.</li>
+    <li><strong>“The brain controls every reflex.”</strong> Many reflexes are handled by the spinal cord; the brain is informed afterwards.</li>
+    <li><strong>“Animals without a brain cannot respond.”</strong> A hydra’s nerve net detects and responds to touch and light.</li>
+    <li><strong>“Neurons touch each other.”</strong> Most are separated by a synaptic gap that chemicals cross.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The moving glow shows where the membrane voltage is changing. In a real neuron nothing travels along the inside of the
+    axon: ions cross the membrane at each point in turn. Everything is slowed down about a thousand times, and the speeds,
+    sizes and number of ions are not to scale. The voltage is recorded at one point, the stimulus acts on one dendrite, and
+    the refractory period and graded potentials are simplified. Real neurons receive thousands of synapses, some exciting
+    and some inhibiting. The reflex timings are typical approximate values for a person. The animal drawings are schematic,
+    the thresholds are illustrative, and real animals’ responses depend on their state, experience and surroundings.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Responses follow the chain stimulus → receptor → coordinator → effector → response.</li>
+    <li>Neurons receive signals with dendrites, combine them in the cell body and send impulses along the axon.</li>
+    <li>An impulse fires only if the threshold is reached, and is always the same size (all-or-none); myelin makes it faster.</li>
+    <li>At a synapse, neurotransmitter carries the signal across a gap to receptors on the next neuron.</li>
+    <li>Reflex arcs through the spinal cord give fast, automatic responses; the brain is informed afterwards.</li>
+    <li>Nervous systems range from a hydra’s nerve net to the centralised brain and spinal cord of vertebrates.</li>
+  </ul>
+</SimulatorLayout>

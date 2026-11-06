@@ -1,0 +1,118 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell
+  id="nervous-sim"
+  label="A neuron and synapse you can stimulate, a reflex arc step by step, and animals with different nervous systems responding to stimuli."
+  hint={false}
+  badge="Stimulus 60%"
+  aspect="16 / 10"
+>
+  <ChoiceControl
+    name="ns-view"
+    label="Explore"
+    value="neuron"
+    options={[
+      { value: 'neuron', label: 'Neuron' },
+      { value: 'reflex', label: 'Reflex arc' },
+      { value: 'animals', label: 'Animals' },
+    ]}
+    help="A single neuron and synapse, a reflex arc, or animals with simple and complex nervous systems."
+  />
+  <p class="ns-note" data-note aria-live="polite"></p>
+
+  <div data-only="neuron" class="ns-group">
+    <SliderControl name="ns-strength" label="Stimulus strength" min={0} max={100} step={5} value={60} scale={['None', 'Strong']} help="The threshold is reached at about 50%." />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-stimulate>Stimulate</button>
+    </div>
+    <ToggleControl name="ns-hold" label="Hold the stimulus on (repeated impulses)" />
+    <ToggleControl name="ns-myelin" label="Myelin sheath" checked />
+    <ToggleControl name="ns-block" label="Block the receptors at the synapse" />
+    <ToggleControl name="ns-ions" label="Show ion movement (simplified)" />
+  </div>
+
+  <div data-only="reflex" class="ns-group" hidden>
+    <ChoiceControl
+      name="ns-reflex"
+      label="Reflex"
+      value="withdraw"
+      options={[
+        { value: 'withdraw', label: 'Hot object' },
+        { value: 'knee', label: 'Knee tap' },
+      ]}
+      help="A withdrawal reflex (three neurons) or the knee-jerk reflex (two neurons)."
+    />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-prev>← Back</button>
+      <button type="button" class="btn btn-sm btn-primary" data-next>Next step →</button>
+    </div>
+    <p class="ctrl-help">Or press Start to play through the steps automatically.</p>
+  </div>
+
+  <div data-only="animals" class="ns-group" hidden>
+    <div class="ctrl">
+      <label class="ctrl-label" for="ns-animal">Animal</label>
+      <select id="ns-animal" class="select" data-animal>
+        <option value="hydra">Hydra (nerve net)</option>
+        <option value="planarian">Planarian (flatworm)</option>
+        <option value="earthworm" selected>Earthworm</option>
+        <option value="insect">Insect (cockroach)</option>
+        <option value="cat">Cat (vertebrate)</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <label class="ctrl-label" for="ns-stim">Stimulus</label>
+      <select id="ns-stim" class="select" data-stim>
+        <option value="light" selected>Light</option>
+        <option value="sound">Sound or vibration</option>
+        <option value="touch">Touch</option>
+        <option value="motion">Approaching object</option>
+      </select>
+    </div>
+    <SliderControl name="ns-astrength" label="Stimulus strength" min={0} max={100} step={5} value={60} scale={['Weak', 'Strong']} />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-apply>Apply stimulus</button>
+    </div>
+    <ToggleControl name="ns-show" label="Show the nervous system" checked />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .ns-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .ns-group[hidden] {
+    display: none;
+  }
+  .ns-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#nervous-sim) {
+    --stage-aspect-mobile: 680 / 1150;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initNervous } from './nervous';
+  mountSim('#nervous-sim', initNervous);
+</script>

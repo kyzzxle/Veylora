@@ -636,6 +636,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['biology/meiosis', 'biology/mendelian-genetics', 'anatomy-physiology/reproductive-system', 'zoology/animal-classification'],
       },
+      {
+        slug: 'nervous-systems',
+        title: 'Animal Nervous System and Sensory Responses',
+        summary: 'Stimulate a neuron, follow a reflex arc step by step, and see how animals from hydra to cat detect and respond to stimuli.',
+        keywords: ['nervous system', 'neuron', 'nerve impulse', 'action potential', 'synapse', 'neurotransmitter', 'reflex arc', 'reflex', 'receptor', 'stimulus', 'response', 'brain', 'spinal cord', 'nerve net', 'myelin', 'senses'],
+        level: 'Beginner',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['anatomy-physiology/neuron-firing', 'zoology/animal-classification', 'zoology/animal-adaptations', 'zoology/animal-locomotion'],
+      },
     ],
   },
   {
