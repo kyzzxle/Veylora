@@ -1,0 +1,189 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import HormoneSim from '../../simulators/hormones/HormoneSim.astro';
+import { plantHormonesQuiz } from '../../data/quizzes/plant-hormones';
+
+const toc = [
+  { id: 'messengers', label: 'Chemical messengers in plants' },
+  { id: 'five', label: 'The five main hormone groups' },
+  { id: 'apical', label: 'Auxin and apical dominance' },
+  { id: 'gibberellins', label: 'Gibberellins' },
+  { id: 'cytokinins', label: 'Cytokinins' },
+  { id: 'aba', label: 'Abscisic acid and drought' },
+  { id: 'ethylene', label: 'Ethylene and ripening' },
+  { id: 'interactions', label: 'Hormones work together' },
+  { id: 'dose', label: 'Dose, tissue and timing' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 30.6: Plant Sensory Systems and Responses. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/30-6-plant-sensory-systems-and-responses' },
+  { text: 'Taiz, L., Zeiger, E., Møller, I. M., & Murphy, A. (2015). Plant Physiology and Development (6th ed.). Sinauer Associates.' },
+  { text: 'Davies, P. J. (Ed.). (2010). Plant Hormones: Biosynthesis, Signal Transduction, Action! (3rd ed.). Springer.' },
+  { text: 'Thimann, K. V., & Skoog, F. (1933). Studies on the growth hormone of plants. III. The inhibiting action of the growth substance on bud development. Proceedings of the National Academy of Sciences, 19(7), 714–716.', url: 'https://doi.org/10.1073/pnas.19.7.714' },
+  { text: 'Skoog, F., & Miller, C. O. (1957). Chemical regulation of growth and organ formation in plant tissues cultured in vitro. Symposia of the Society for Experimental Biology, 11, 118–130.' },
+  { text: 'Peng, J., et al. (1999). “Green revolution” genes encode mutant gibberellin response modulators. Nature, 400, 256–261.', url: 'https://doi.org/10.1038/22307' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="plant-hormones"
+  description="Interactive plant hormone simulator: change auxin, gibberellin, cytokinin, ABA and ethylene levels, remove the shoot tip, add drought, and watch growth, apical dominance, stomata, ripening and tissue culture respond."
+  toc={toc}
+  quiz={plantHormonesQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Plants have no nervous system, yet a pine knows which way to grow, a bean shuts its stomata in a drought and a banana
+      can ripen its neighbours. Much of this is done by a handful of hormones. Turn each one up or down, cut off a shoot tip,
+      dry out the soil, and watch a plant, its cells and four classic experiments respond.
+    </p>
+  </Fragment>
+
+  <HormoneSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Whole plant</strong>, the plant on the right grows with your hormone levels and the one on the left is untreated. Move a slider or choose a preset, then press <strong>Grow new plants</strong> to compare from the start.</li>
+      <li>Press <strong>Cut off the shoot tip</strong> to remove the main source of auxin, then try again with <strong>Auxin paste on the cut stem</strong> turned on.</li>
+      <li>Turn on <strong>Drought</strong> and tap a leaf to check its stomata. Choose a hormone under <strong>Show hormone movement</strong> to follow it through the plant.</li>
+      <li>In <strong>Cells</strong>, see how hormones change cell division and cell elongation, and drag the line on the auxin chart.</li>
+      <li>In <strong>Lab tests</strong>, watch stomata, ripening fruit, a cereal grain and a tissue culture respond to the same sliders. <strong>Step</strong> moves forward a little at a time; <strong>Reset</strong> restores everything.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="messengers">Chemical messengers in plants</h2>
+  <p>
+    A <strong>plant hormone</strong> (or plant growth regulator) is a chemical made in small amounts in one part of a plant
+    that changes growth or development, either in the same tissue or somewhere else. Unlike animals, plants have no
+    glands: almost any living cell can make hormones, and they travel from cell to cell, in the xylem and phloem, or as a
+    gas through the air. Each hormone has many effects, and the response depends on the tissue, the concentration and the
+    other hormones present.
+  </p>
+
+  <h2 id="five">The five main hormone groups</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Hormone</th><th>Main effects</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Auxin</strong> (made in shoot tips)</td><td>Stem cell elongation, apical dominance, new roots, tropisms</td></tr>
+        <tr><td><strong>Gibberellins</strong> (GA)</td><td>Stem elongation, seed germination, bolting, fruit growth</td></tr>
+        <tr><td><strong>Cytokinins</strong> (made in root tips)</td><td>Cell division, bud and shoot growth, delay leaf ageing</td></tr>
+        <tr><td><strong>Abscisic acid</strong> (ABA)</td><td>Closes stomata in drought, keeps seeds and buds dormant</td></tr>
+        <tr><td><strong>Ethylene</strong> (a gas)</td><td>Fruit ripening, leaf and fruit fall, ageing</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Other signals, such as brassinosteroids, jasmonates, salicylic acid and strigolactones, are also important. Auxin’s
+    role in bending towards light and gravity is explored in the <a href="/botany/tropisms">Tropisms simulator</a>.
+  </p>
+
+  <h2 id="apical">Auxin and apical dominance</h2>
+  <p>
+    The growing <strong>shoot tip</strong> makes auxin, which is pumped cell by cell down the stem (polar transport). As it
+    passes each node it keeps the <strong>side (axillary) buds</strong> dormant. This is <strong>apical dominance</strong>,
+    and it is why many plants grow one main stem. Cut off the tip and the auxin supply stops: the buds below are released
+    and grow into side shoots. In 1933 Kenneth Thimann and Folke Skoog showed that putting auxin on the cut stump keeps
+    the buds dormant, so auxin really does stand in for the missing tip. Cytokinin from the roots works the other way,
+    promoting bud growth: the balance between the two decides which buds grow.
+  </p>
+
+  <h2 id="gibberellins">Gibberellins</h2>
+  <p>
+    Gibberellins make stems grow taller, mainly by making cells <strong>elongate</strong> (and, in some tissues, divide).
+    They were discovered in Japan through the “foolish seedling” disease, in which a fungus that makes gibberellin causes
+    rice to grow tall and weak. Plants that make little gibberellin are dwarfs; Mendel’s short peas had a mutation in a
+    gibberellin-making enzyme, and the “Green Revolution” semi-dwarf wheats respond less to gibberellin, so they put more
+    into grain and less into straw. In a germinating cereal grain, the embryo releases gibberellin, which makes the
+    <strong>aleurone layer</strong> produce amylase to break down stored starch into sugar for the seedling. The
+    <a href="/botany/seed-germination">Seed Germination simulator</a> looks at the conditions a seed needs.
+  </p>
+
+  <h2 id="cytokinins">Cytokinins</h2>
+  <p>
+    Cytokinins, made mainly in root tips and carried up in the xylem, promote <strong>cell division</strong> together
+    with auxin. They encourage buds and shoots to grow and slow the ageing of leaves, keeping them green. In 1957
+    Folke Skoog and Carlos Miller grew tobacco tissue on a jelly containing both hormones: a high auxin-to-cytokinin ratio
+    made the tissue form roots, a low ratio made shoots, and a balance gave an undifferentiated lump called a
+    <strong>callus</strong>. The same idea is used today to clone plants in the laboratory.
+  </p>
+
+  <h2 id="aba">Abscisic acid and drought</h2>
+  <p>
+    When roots sense drying soil, plants make more <strong>abscisic acid</strong> in their roots and leaves. In the leaves,
+    ABA makes the guard cells lose potassium ions and water, so they go limp and the <strong>stomata close</strong>,
+    saving water within minutes. ABA also slows shoot growth during stress, and it keeps seeds and buds
+    <strong>dormant</strong> until conditions are right. Gibberellin and ABA act against each other in seeds: the balance
+    between them decides whether a seed stays dormant or germinates.
+  </p>
+
+  <h2 id="ethylene">Ethylene and ripening</h2>
+  <p>
+    <strong>Ethylene</strong> (C₂H₄) is a simple gas. In fruits such as tomatoes, bananas and apples, ripening is
+    triggered by a burst of ethylene, and ethylene makes the fruit produce even more ethylene. That positive feedback is
+    why one ripe fruit can ripen others nearby, and why “one bad apple spoils the barrel”. Ethylene also promotes leaf and
+    fruit fall (abscission) and ageing, and slows stem elongation. Blocking ethylene, for example with the gas
+    1-methylcyclopropene, keeps fruit fresh for longer in storage.
+  </p>
+
+  <h2 id="interactions">Hormones work together</h2>
+  <ul>
+    <li><strong>Auxin vs cytokinin</strong>: auxin from the tip keeps buds dormant, cytokinin from the roots releases them; their ratio also decides roots or shoots in tissue culture.</li>
+    <li><strong>Gibberellin vs ABA</strong>: gibberellin promotes germination and growth, ABA promotes dormancy and stress responses.</li>
+    <li><strong>Auxin and gibberellin</strong> work together to make stem cells elongate.</li>
+    <li><strong>Auxin triggers ethylene</strong>: very high auxin makes tissues produce ethylene, which then slows elongation.</li>
+  </ul>
+  <p>Growth is regulated by this network of interactions, not by any single hormone acting alone.</p>
+
+  <h2 id="dose">Dose, tissue and timing</h2>
+  <p>
+    Hormones are not on/off switches. The same concentration of auxin that makes a stem grow faster strongly inhibits root
+    elongation, because roots are far more sensitive: their best concentration is roughly a ten-thousandth of the stem’s.
+    The response also depends on the age of the tissue and on the environment: ABA only rises during drought, and
+    ripening needs a fruit that is mature enough to respond to ethylene.
+  </p>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Seedless grapes</strong> are sprayed with gibberellin to make larger, looser bunches.</li>
+    <li><strong>Brewing</strong>: gibberellin speeds up the malting of barley, when starch is turned into sugar.</li>
+    <li><strong>Fruit supply</strong>: bananas are picked green, shipped, then ripened with ethylene; apples are stored with ethylene blockers.</li>
+    <li><strong>Pruning</strong>: pinching out shoot tips makes plants such as basil and fuchsias bushy.</li>
+    <li><strong>Micropropagation</strong>: orchids, bananas and potatoes are cloned in tissue culture using auxin and cytokinin.</li>
+    <li><strong>Crop yields</strong>: semi-dwarf cereals with altered gibberellin responses stand up better and produce more grain.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Each hormone has one job.”</strong> Every hormone affects many processes, and most processes are controlled by several hormones.</li>
+    <li><strong>“More hormone always means more growth.”</strong> Many responses have an optimum; too much auxin inhibits roots and triggers ethylene.</li>
+    <li><strong>“Plant hormones are made in glands.”</strong> Plants have no glands; many tissues make hormones.</li>
+    <li><strong>“Ethylene is a liquid sprayed on fruit.”</strong> Ethylene is a gas that fruit makes itself.</li>
+    <li><strong>“Cutting the tip kills the plant’s growth.”</strong> It removes apical dominance, so side shoots grow instead.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The plant is a generic, two-dimensional herb that grows two days every second, and each hormone is described by one
+    number relative to normal. Responses follow simple saturating or optimum-shaped curves chosen to give realistic
+    directions, not measured values. Real hormones are made, moved, stored and broken down in ways the model ignores, and
+    hormones act through receptors and signalling chains inside cells. Drought is modelled only through ABA, cytokinin and
+    reduced growth. The auxin chart shows the classic textbook curves, and the tissue culture follows the auxin-to-cytokinin
+    rule of Skoog and Miller; real results vary between species.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Five main hormone groups (auxin, gibberellins, cytokinins, ABA and ethylene) coordinate plant growth and development.</li>
+    <li>Auxin from the shoot tip causes apical dominance; cytokinin from the roots counteracts it.</li>
+    <li>Gibberellins lengthen stems and mobilise food stores in seeds; ABA closes stomata and keeps seeds dormant.</li>
+    <li>Ethylene is a gas that ripens fruit through positive feedback and promotes leaf fall.</li>
+    <li>Responses depend on concentration, tissue, developmental stage, environment and the balance with other hormones.</li>
+  </ul>
+</SimulatorLayout>

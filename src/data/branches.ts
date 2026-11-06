@@ -758,6 +758,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['botany/plant-anatomy', 'botany/plant-diversity', 'botany/seed-germination', 'biology/meiosis'],
       },
+      {
+        slug: 'plant-hormones',
+        title: 'Plant Hormones and Growth Regulation',
+        summary: 'Turn auxin, gibberellin, cytokinin, ABA and ethylene up or down, cut off a shoot tip, add drought, and watch growth, stomata, ripening and tissue culture respond.',
+        keywords: ['plant hormones', 'plant growth regulators', 'auxin', 'gibberellin', 'gibberellic acid', 'cytokinin', 'abscisic acid', 'ABA', 'ethylene', 'apical dominance', 'stomata', 'fruit ripening', 'tissue culture', 'cell elongation', 'cell division', 'dormancy', 'drought'],
+        level: 'Advanced',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 20,
+        related: ['botany/tropisms', 'botany/seed-germination', 'botany/transpiration', 'anatomy-physiology/endocrine-system'],
+      },
     ],
   },
   {

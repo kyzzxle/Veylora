@@ -1,0 +1,113 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { HORMONES, HORMONE_ORDER, PRESETS } from './data';
+---
+
+<SimShell id="hormone-sim" label="A plant growing under the control of five plant hormones, with cell-level and laboratory views." hint={false} badge="Day 0">
+  <Fragment slot="toolbar">
+    <button type="button" class="btn btn-sm" data-step>Step</button>
+  </Fragment>
+
+  <ChoiceControl
+    name="ph-view"
+    label="Explore"
+    value="plant"
+    options={[
+      { value: 'plant', label: 'Whole plant' },
+      { value: 'cells', label: 'Cells' },
+      { value: 'tests', label: 'Lab tests' },
+    ]}
+    help="Grow a plant, zoom in to its cells, or run four classic hormone experiments."
+  />
+  <p class="ph-note" data-note aria-live="polite"></p>
+
+  <div class="ph-group">
+    <p class="ctrl-label">Hormone levels (100% = normal, 0% = blocked)</p>
+    {
+      HORMONE_ORDER.map((k) => (
+        <SliderControl name={`ph-${k}`} label={HORMONES[k].name} min={0} max={300} step={10} value={100} />
+      ))
+    }
+    <div class="preset-row ph-presets">
+      {Object.entries(PRESETS).map(([id, p]) => <button type="button" class="btn btn-sm" data-hp={id} aria-pressed="false">{p.label}</button>)}
+    </div>
+    <ToggleControl name="ph-drought" label="Drought (dry soil)" />
+  </div>
+
+  <div data-only="plant" class="ph-group">
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-decap aria-pressed="false">Cut off the shoot tip</button>
+      <button type="button" class="btn btn-sm" data-regrow>Grow new plants</button>
+    </div>
+    <ToggleControl name="ph-paste" label="Auxin paste on the cut stem" />
+    <ToggleControl name="ph-compare" label="Show an untreated plant beside it" checked />
+    <div class="ctrl">
+      <label class="ctrl-label" for="hormone-sim-show">Show hormone movement</label>
+      <select id="hormone-sim-show" class="select" data-show>
+        <option value="all">All five hormones</option>
+        {HORMONE_ORDER.map((k) => <option value={k}>{HORMONES[k].name}</option>)}
+        <option value="none">None</option>
+      </select>
+    </div>
+  </div>
+
+  <div data-only="cells" class="ph-group" hidden>
+    <SliderControl name="ph-conc" label="Auxin on the chart" min={-12} max={-2} step={1} value={-8} help="Or drag the dashed line on the chart." />
+  </div>
+
+  <div data-only="tests" class="ph-group" hidden>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-restart>Restart the experiments</button>
+    </div>
+  </div>
+
+  <SimKey items={HORMONE_ORDER.map((k) => ({ label: HORMONES[k].name, color: HORMONES[k].color, shape: 'dot' as const }))} />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .ph-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .ph-group[hidden] {
+    display: none;
+  }
+  .ph-group .ctrl-label {
+    margin: 0;
+  }
+  .ph-presets .btn[aria-pressed='true'] {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .ph-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#hormone-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initHormones } from './hormones';
+  mountSim('#hormone-sim', initHormones);
+</script>
