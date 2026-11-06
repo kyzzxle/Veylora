@@ -1,0 +1,99 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import Icon from '../../components/Icon.astro';
+---
+
+<SimShell
+  id="incline-sim"
+  label="A block on an inclined plane with friction, its free-body diagram and the force calculation."
+  showTime
+  hint={false}
+  badge="At rest: static friction holds"
+>
+  <button slot="toolbar" type="button" class="btn btn-sm" data-step>Step 0.05 s</button>
+
+  <SliderControl name="ic-angle" label="Incline angle θ" min={0} max={60} step={1} value={20} help="Or drag the blue handle at the top of the slope.">
+    <PresetButtons for="ic-angle" label="Angle presets" presets={[{ label: '10°', value: 10 }, { label: '30°', value: 30 }, { label: '45°', value: 45 }]} />
+  </SliderControl>
+  <SliderControl name="ic-mass" label="Mass m" min={0.5} max={20} step={0.5} value={5} />
+  <SliderControl name="ic-mus" label="Static friction μs" min={0} max={1.2} step={0.05} value={0.5} />
+  <SliderControl name="ic-muk" label="Kinetic friction μk" min={0} max={1.2} step={0.05} value={0.35} help="μk is never larger than μs, so the sliders keep μk ≤ μs." />
+  <div class="ctrl">
+    <span class="ctrl-label" id="ic-surf-label">Surfaces</span>
+    <div class="preset-row" role="group" aria-labelledby="ic-surf-label">
+      <button type="button" class="preset" data-surface="ice">Ice</button>
+      <button type="button" class="preset" data-surface="wood">Wood</button>
+      <button type="button" class="preset" data-surface="rubber">Rubber</button>
+      <button type="button" class="preset" data-surface="none">Frictionless</button>
+    </div>
+  </div>
+  <div class="preset-row">
+    <button type="button" class="btn btn-sm btn-primary" data-release><Icon name="play" size={16} /> Release from start</button>
+    <button type="button" class="btn btn-sm" data-push>Push up the slope</button>
+    <button type="button" class="btn btn-sm" data-critical>Go to the critical angle</button>
+  </div>
+  <ToggleControl name="ic-ghost" label="Compare with a frictionless block" checked />
+  <ToggleControl name="ic-slow" label="Slow motion (¼ speed)" />
+  <details class="ic-more">
+    <summary>Display options</summary>
+    <div class="ic-more-body">
+      <ToggleControl name="ic-vec" label="Force arrows on the block" checked />
+      <ToggleControl name="ic-comp" label="Components of the weight (W∥, W⊥)" checked />
+      <ToggleControl name="ic-meas" label="Angle, critical angle and distances" checked />
+      <ToggleControl name="ic-fbd" label="Free-body diagram" checked />
+    </div>
+  </details>
+  <SimKey
+    items={[
+      { label: 'Weight W', color: 'accent-2', shape: 'line' },
+      { label: 'Normal force N', color: 'accent', shape: 'line' },
+      { label: 'Friction fs or fk', color: 'danger', shape: 'line' },
+      { label: 'Components W∥ and W⊥', color: 'warning', shape: 'line' },
+      { label: 'Frictionless comparison block', color: '#8fa6c8', shape: 'square' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="acc" label="Acceleration (down the slope +)" key />
+    <Readout name="normal" label="Normal force" />
+    <Readout name="fric" label="Friction force" />
+    <Readout name="net" label="Net force along the slope" />
+    <Readout name="vel" label="Velocity (down the slope +)" />
+    <Readout name="state" label="State" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="ic-graph" title="Velocity down the slope over time" desc="The block's velocity along the slope in metres per second over time, with the frictionless block for comparison." compare saveLabel="Save run & restart" />
+</SimShell>
+
+<style>
+  .ic-more {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+  }
+  .ic-more summary {
+    cursor: pointer;
+    font-weight: 650;
+    font-size: 0.92rem;
+  }
+  .ic-more-body {
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  :global(#incline-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initIncline } from './incline';
+  mountSim('#incline-sim', initIncline);
+</script>

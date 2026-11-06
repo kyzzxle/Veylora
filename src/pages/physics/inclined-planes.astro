@@ -1,0 +1,167 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import InclineSim from '../../simulators/incline/InclineSim.astro';
+import { inclineQuiz } from '../../data/quizzes/incline';
+
+const toc = [
+  { id: 'slopes', label: 'Why slopes matter' },
+  { id: 'components', label: 'Splitting the weight' },
+  { id: 'normal', label: 'The normal force' },
+  { id: 'friction', label: 'Static and kinetic friction' },
+  { id: 'slip', label: 'When does it slip?' },
+  { id: 'sliding', label: 'Sliding down and up' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model assumes' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 6.2: Friction. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/6-2-friction' },
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Section 6.1: Solving Problems with Newton’s Laws. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/6-1-solving-problems-with-newtons-laws' },
+  { text: 'Urone, P. P., & Hinrichs, R. (2020). College Physics 2e, Section 5.1: Friction. OpenStax.', url: 'https://openstax.org/books/college-physics-2e/pages/5-1-friction' },
+  { text: 'Halliday, D., Resnick, R., & Walker, J. (2018). Fundamentals of Physics (11th ed.), Chapter 6: Force and Motion II. Wiley.' },
+  { text: 'Persson, B. N. J. (2000). Sliding Friction: Physical Principles and Applications (2nd ed.). Springer.' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="inclined-planes"
+  description="Interactive inclined plane simulator: tilt a slope, drag a block onto it and release it, and watch static friction hold it or kinetic friction slow its slide, with a live free-body diagram, force components and the full calculation."
+  toc={toc}
+  quiz={inclineQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Put a book on a table and slowly lift one end. For a while nothing happens; then, suddenly, the book slides off. What
+      held it, and why did it let go all at once? Tilt the slope, drag the block wherever you like and release it, and watch
+      the forces change as static friction holds on and then gives way.
+    </p>
+  </Fragment>
+
+  <InclineSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Drag the <strong>block</strong> along the slope and let go: it is released from rest and the simulation starts. Or press <strong>Release from start</strong>.</li>
+      <li>Change the angle with the slider or drag the <strong>blue handle</strong> at the top of the slope. Watch the free-body diagram and the friction bar.</li>
+      <li>Change μs and μk, or pick a surface. Press <strong>Go to the critical angle</strong> to tilt the slope to the point where the block just slips.</li>
+      <li>Press <strong>Push up the slope</strong> to give the block a speed of 3 m/s uphill and see friction act downhill.</li>
+      <li>Compare the orange block with the grey frictionless one, use <strong>Step</strong> or slow motion to follow the motion, and save runs on the graph to compare settings.</li>
+      <li>Tap any part of the picture for an explanation. <strong>Reset</strong> restores every setting.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="slopes">Why slopes matter</h2>
+  <p>
+    An <strong>inclined plane</strong> is a flat surface tilted at an angle θ to the horizontal. Ramps, roads, roofs and
+    playground slides are all inclined planes. A slope lets you raise a heavy load with a smaller force, over a longer
+    distance, which is why it is counted as one of the six classic simple machines. Studying a block on a slope is also the
+    best way to practise splitting forces into components.
+  </p>
+
+  <h2 id="components">Splitting the weight</h2>
+  <p>
+    The weight <strong>W = mg</strong> always points straight down. On a slope it is easier to use axes along and
+    perpendicular to the surface, so we split the weight into two <strong>components</strong>:
+  </p>
+  <ul>
+    <li><strong>W∥ = mg sin θ</strong>, along the slope, pulling the block down it.</li>
+    <li><strong>W⊥ = mg cos θ</strong>, perpendicular to the slope, pressing the block into it.</li>
+  </ul>
+  <p>
+    Here m is the mass in kilograms, g ≈ 9.81 m/s² is the gravitational field strength and θ is the angle of the slope. On
+    level ground (θ = 0) W∥ is zero; on a vertical wall (θ = 90°) all of the weight acts along the surface. The two
+    components together have exactly the same effect as the weight: they are not extra forces.
+  </p>
+
+  <h2 id="normal">The normal force</h2>
+  <p>
+    The surface pushes back on the block, at right angles to the surface. This is the <strong>normal force N</strong>
+    (“normal” means perpendicular). The block does not sink into the slope or float off it, so the forces perpendicular to
+    the slope balance: <strong>N = mg cos θ</strong>. On a slope, the normal force is less than the weight, and the steeper
+    the slope, the smaller it becomes.
+  </p>
+
+  <h2 id="friction">Static and kinetic friction</h2>
+  <p>
+    Friction acts along the surface and opposes sliding. It comes from microscopic bumps on the two surfaces catching on
+    each other and from weak bonds between them. There are two kinds:
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Friction</th><th>When it acts</th><th>Size</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Static</strong></td><td>Surfaces not sliding</td><td>Whatever is needed, up to f<sub>s,max</sub> = μs N</td></tr>
+        <tr><td><strong>Kinetic</strong></td><td>Surfaces sliding</td><td>f<sub>k</sub> = μk N, opposing the motion</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    μs and μk are the <strong>coefficients of static and kinetic friction</strong>. They have no units and depend on the
+    two materials in contact: around 0.03–0.1 for ice on ice, around 0.3–0.5 for wood on wood and up to about 1 for rubber
+    on dry concrete. For the same surfaces, μk is usually smaller than μs: it takes more force to start something sliding
+    than to keep it sliding. Static friction is not a fixed value. On a gentle slope it is small, just enough to cancel W∥;
+    it grows as the slope steepens, until it reaches its limit.
+  </p>
+
+  <h2 id="slip">When does it slip?</h2>
+  <p>
+    The block stays still as long as static friction can supply the force needed: mg sin θ ≤ μs mg cos θ. The mass cancels,
+    leaving <strong>tan θ ≤ μs</strong>. The angle at which the block starts to slide is the <strong>critical angle</strong>
+    θc = tan⁻¹(μs). With μs = 0.5, θc ≈ 26.6°, for a 0.5 kg block or a 20 kg one. This gives a neat way to measure μs:
+    tilt the surface until the object just slips and measure the angle.
+  </p>
+
+  <h2 id="sliding">Sliding down and up</h2>
+  <p>
+    Once the block slides, kinetic friction takes over. Taking “down the slope” as positive, Newton’s second law along the
+    slope gives
+  </p>
+  <p><strong>ma = mg sin θ − μk mg cos θ, so a = g (sin θ − μk cos θ)</strong></p>
+  <p>
+    Again the mass cancels, so heavy and light blocks of the same material slide together. On a frictionless slope this
+    becomes a = g sin θ. If the block is pushed <em>up</em> the slope, friction now points down the slope, alongside W∥, so
+    it slows at g (sin θ + μk cos θ). When it stops, static friction takes over again: it either holds the block or, if the
+    slope is steeper than θc, the block starts to slide back down. Because μk is less than μs, a block that has just
+    slipped at the critical angle accelerates rather than creeping.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Roads and ramps</strong>: wheelchair ramps have gentle slopes (about 5°) so little force is needed, and steep roads may need gritting in winter, when μ falls.</li>
+    <li><strong>Avalanches and landslides</strong>: snow or soil stays put until the slope or the loading exceeds what friction can hold, then gives way suddenly.</li>
+    <li><strong>Car brakes and tyres</strong>: anti-lock brakes keep tyres rolling instead of skidding, using static friction, which is larger than kinetic friction.</li>
+    <li><strong>Conveyors and chutes</strong>: engineers choose angles and surfaces so that parcels slide, or stay put, as needed.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The normal force always equals the weight.”</strong> On a slope it is mg cos θ, less than mg.</li>
+    <li><strong>“Static friction is always μs N.”</strong> That is only its maximum; it matches whatever force it is resisting.</li>
+    <li><strong>“Heavier blocks slide down faster.”</strong> With the same surfaces, the acceleration does not depend on mass.</li>
+    <li><strong>“Friction always points up the slope.”</strong> It opposes sliding, so it points down the slope when the block moves up.</li>
+    <li><strong>“The components of the weight are extra forces.”</strong> They replace the weight; they are not added to it.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model assumes</h2>
+  <p>
+    The block is treated as a single point: it slides but cannot tip over or roll. Friction follows the simple
+    (Coulomb) model, in which μs and μk are constants that do not depend on speed or contact area; real friction varies
+    with speed, temperature and surface condition. There is no air resistance, the slope and block are perfectly rigid,
+    and g = 9.81 m/s². The block is released from rest unless you push it, and it stops against a stop at the bottom of the
+    slope. The block drawing grows with mass only to make the change visible. The arrows are drawn to scale relative to
+    the weight.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>On a slope, split the weight into W∥ = mg sin θ (along) and W⊥ = mg cos θ (into the slope).</li>
+    <li>The normal force balances W⊥: N = mg cos θ.</li>
+    <li>Static friction matches the force it resists, up to μs N; kinetic friction is μk N and opposes sliding.</li>
+    <li>A block slips when tan θ &gt; μs; the critical angle θc = tan⁻¹(μs) does not depend on mass.</li>
+    <li>Sliding down, a = g (sin θ − μk cos θ); on a frictionless slope, a = g sin θ.</li>
+  </ul>
+</SimulatorLayout>

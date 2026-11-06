@@ -792,6 +792,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['physics/newtons-laws', 'chemistry/atomic-structure', 'anatomy-physiology/neuron-firing', 'physics/wave-interference'],
       },
+      {
+        slug: 'inclined-planes',
+        title: 'Inclined Planes and Friction',
+        summary: 'Tilt a slope, drag a block onto it and watch static friction hold it or kinetic friction slow its slide.',
+        keywords: ['inclined plane', 'incline', 'slope', 'ramp', 'friction', 'static friction', 'kinetic friction', 'coefficient of friction', 'normal force', 'free-body diagram', 'components of weight', 'critical angle'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['physics/newtons-laws', 'mathematics/vector-addition', 'physics/projectile-motion', 'physics/pendulum'],
+      },
     ],
   },
   {
