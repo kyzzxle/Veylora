@@ -1,0 +1,121 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import Icon from '../../components/Icon.astro';
+---
+
+<SimShell id="collisions-sim" label="Two pucks colliding on an air table, with momentum and kinetic energy before and after." showTime hint={false} badge="Ready to launch">
+  <button slot="toolbar" type="button" class="btn btn-sm" data-replay><Icon name="reset" size={16} /> Replay</button>
+
+  <ChoiceControl
+    name="cl-kind"
+    label="Collision type"
+    value="elastic"
+    options={[
+      { value: 'elastic', label: 'Elastic' },
+      { value: 'inelastic', label: 'Inelastic' },
+      { value: 'sticky', label: 'Sticky' },
+    ]}
+    help="Sticky is perfectly inelastic: the pucks stick together."
+  />
+  <div data-only="inelastic" class="cl-group" hidden>
+    <SliderControl name="cl-e" label="Coefficient of restitution e" min={0} max={1} step={0.05} value={0.5} scale={['0 (no bounce)', '1 (elastic)']} />
+  </div>
+  <p class="cl-note" data-note aria-live="polite"></p>
+  <div class="ctrl">
+    <span class="ctrl-label" id="cl-scn-label">Try a scenario</span>
+    <div class="preset-row" role="group" aria-labelledby="cl-scn-label">
+      <button type="button" class="preset" data-scn="stationary">Hit a still puck</button>
+      <button type="button" class="preset" data-scn="headon">Head-on</button>
+      <button type="button" class="preset" data-scn="heavy">Heavy hits light</button>
+      <button type="button" class="preset" data-scn="glancing">Glancing (2D)</button>
+      <button type="button" class="preset" data-scn="sticky">Stick together</button>
+    </div>
+  </div>
+  <ChoiceControl
+    name="cl-sel"
+    label="Edit puck"
+    value="A"
+    options={[
+      { value: 'A', label: 'Puck A (blue)' },
+      { value: 'B', label: 'Puck B (orange)' },
+    ]}
+  />
+  <SliderControl name="cl-mass" label="Mass" min={0.5} max={5} step={0.5} value={1} />
+  <SliderControl name="cl-speed" label="Speed" min={0} max={4} step={0.1} value={2} help="Or drag the tip of the puck’s velocity arrow." />
+  <SliderControl name="cl-dir" label="Direction (0° = right, 90° = up)" min={-180} max={180} step={5} value={0} />
+  <details class="cl-more">
+    <summary>Display options</summary>
+    <div class="cl-group cl-more-body">
+      <ToggleControl name="cl-vel" label="Velocity arrows" checked />
+      <ToggleControl name="cl-mom" label="Momentum arrows (p = mv)" checked />
+      <ToggleControl name="cl-cm" label="Centre of mass and its path" checked />
+      <ToggleControl name="cl-slow" label="Slow motion (¼ speed)" />
+    </div>
+  </details>
+  <SimKey
+    items={[
+      { label: 'Velocity v', color: 'sim-text', shape: 'line' },
+      { label: 'Momentum p = mv', color: 'accent-2', shape: 'line' },
+      { label: 'Total momentum', color: 'success', shape: 'line' },
+      { label: 'Kinetic energy lost', color: 'danger', shape: 'square' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="pb" label="Total momentum before" key />
+    <Readout name="pa" label="Total momentum after" />
+    <Readout name="kb" label="Kinetic energy before" />
+    <Readout name="ka" label="Kinetic energy after" />
+    <Readout name="lost" label="Kinetic energy lost" />
+    <Readout name="va" label="Speeds now" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="cl-graph" title="Total momentum and kinetic energy over time" desc="The size of the total momentum and the total kinetic energy of the two pucks over time." compare saveLabel="Save run & replay" />
+</SimShell>
+
+<style>
+  .cl-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .cl-group[hidden] {
+    display: none;
+  }
+  .cl-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  .cl-more {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+  }
+  .cl-more summary {
+    cursor: pointer;
+    font-weight: 650;
+    font-size: 0.92rem;
+  }
+  .cl-more-body {
+    margin-top: 10px;
+    gap: 10px;
+  }
+  :global(#collisions-sim) {
+    --stage-aspect-mobile: 680 / 1150;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initCollisions } from './collisions';
+  mountSim('#collisions-sim', initCollisions);
+</script>

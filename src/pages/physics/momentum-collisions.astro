@@ -1,0 +1,152 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import CollisionsSim from '../../simulators/collisions/CollisionsSim.astro';
+import { collisionsQuiz } from '../../data/quizzes/collisions';
+
+const toc = [
+  { id: 'momentum', label: 'What is momentum?' },
+  { id: 'impulse', label: 'Impulse' },
+  { id: 'conservation', label: 'Conservation of momentum' },
+  { id: 'energy', label: 'Kinetic energy in collisions' },
+  { id: 'types', label: 'Elastic, inelastic and sticky' },
+  { id: 'two-d', label: 'Collisions in two dimensions' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model assumes' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Ling, S. J., Sanny, J., & Moebs, W. (2016). University Physics Volume 1, Chapter 9: Linear Momentum and Collisions. OpenStax.', url: 'https://openstax.org/books/university-physics-volume-1/pages/9-introduction' },
+  { text: 'Urone, P. P., & Hinrichs, R. (2020). College Physics 2e, Chapter 8: Linear Momentum and Collisions. OpenStax.', url: 'https://openstax.org/books/college-physics-2e/pages/8-introduction-to-linear-momentum-and-collisions' },
+  { text: 'Halliday, D., Resnick, R., & Walker, J. (2018). Fundamentals of Physics (11th ed.), Chapter 9: Center of Mass and Linear Momentum. Wiley.' },
+  { text: 'Taylor, J. R. (2005). Classical Mechanics, Chapter 3: Momentum and Angular Momentum. University Science Books.' },
+  { text: 'Hewitt, P. G. (2015). Conceptual Physics (12th ed.), Chapter 6: Momentum. Pearson.' },
+];
+---
+
+<SimulatorLayout
+  branch="physics"
+  topic="momentum-collisions"
+  description="Interactive momentum and collisions simulator: aim two pucks on an air table, choose elastic, inelastic or perfectly inelastic collisions, and compare momentum and kinetic energy before and after."
+  toc={toc}
+  quiz={collisionsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A snooker ball stops dead and the ball it hits rolls on. Two cars crumple and slide off together. A tiny bullet sets a
+      heavy block moving. Every collision follows the same rule: the total momentum does not change. Aim two pucks on a
+      frictionless air table, choose how bouncy the collision is, and compare what is conserved and what is not.
+    </p>
+  </Fragment>
+
+  <CollisionsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Drag the <strong>pucks</strong> to place them, and drag the tip of each <strong>velocity arrow</strong> to aim it. Or choose a puck under <strong>Edit puck</strong> and use the sliders.</li>
+      <li>Choose <strong>Elastic</strong>, <strong>Inelastic</strong> (set e) or <strong>Sticky</strong>, then press <strong>Start</strong>.</li>
+      <li>Compare the momentum diagrams and the kinetic energy bars before and after. Watch the green centre of mass glide straight through the collision.</li>
+      <li>Press <strong>Replay</strong> to watch again, or use slow motion. Save runs on the graph to compare collision types.</li>
+      <li>Try the scenarios: a still target, head-on, heavy hits light, a glancing blow and two pucks that stick.</li>
+      <li>Tap any part of the picture for an explanation. <strong>Reset</strong> restores every setting.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="momentum">What is momentum?</h2>
+  <p>
+    <strong>Momentum</strong> is mass in motion: <strong>p = m v</strong>, where m is the mass in kilograms and v the
+    velocity in metres per second. Its unit is kg·m/s. Momentum is a <strong>vector</strong>: it points the same way as the
+    velocity. A slow lorry and a fast tennis ball can have the same momentum; a lorry at speed has a great deal.
+  </p>
+
+  <h2 id="impulse">Impulse</h2>
+  <p>
+    To change an object’s momentum you must push on it for some time. The <strong>impulse</strong> is the force multiplied
+    by the time it acts: <strong>J = F Δt = Δp</strong>, measured in newton seconds (N·s, the same as kg·m/s). The same
+    change in momentum can come from a large force acting briefly or a small force acting for longer.
+  </p>
+
+  <h2 id="conservation">Conservation of momentum</h2>
+  <p>
+    During a collision, A pushes on B and B pushes back on A with an equal and opposite force (Newton’s third law), for
+    exactly the same time. So their impulses are equal and opposite, and whatever momentum B gains, A loses. For an
+    <strong>isolated system</strong>, one with no outside forces, <strong>the total momentum stays the same</strong>:
+  </p>
+  <p><strong>m<sub>A</sub>v<sub>A</sub> + m<sub>B</sub>v<sub>B</sub> = m<sub>A</sub>v<sub>A</sub>′ + m<sub>B</sub>v<sub>B</sub>′</strong></p>
+  <p>
+    The primes mark velocities after the collision. A useful consequence: the <strong>centre of mass</strong> of the system
+    moves at a constant velocity, p<sub>total</sub>/M, straight through the collision.
+  </p>
+
+  <h2 id="energy">Kinetic energy in collisions</h2>
+  <p>
+    Kinetic energy, <strong>KE = ½ m v²</strong>, is not a vector and is <em>not</em> always conserved in collisions. Some
+    of it can become heat, sound and permanent changes of shape. Energy as a whole is still conserved; it just changes form.
+    How bouncy a collision is can be described by the <strong>coefficient of restitution e</strong>: the speed at which the
+    objects separate divided by the speed at which they approached.
+  </p>
+
+  <h2 id="types">Elastic, inelastic and sticky</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Collision</th><th>Momentum</th><th>Kinetic energy</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Elastic</strong> (e = 1)</td><td>Conserved</td><td>Conserved</td></tr>
+        <tr><td><strong>Inelastic</strong> (0 &lt; e &lt; 1)</td><td>Conserved</td><td>Partly lost</td></tr>
+        <tr><td><strong>Perfectly inelastic</strong> (stick)</td><td>Conserved</td><td>Most loss possible</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    In a head-on elastic collision between equal masses, the objects swap velocities: the moving one stops and the target
+    moves off. When a heavy object hits a light one, the heavy one barely slows and the light one shoots off at up to twice
+    the incoming speed. In a perfectly inelastic collision the objects move off together at
+    v′ = (m<sub>A</sub>v<sub>A</sub> + m<sub>B</sub>v<sub>B</sub>)/(m<sub>A</sub> + m<sub>B</sub>).
+  </p>
+
+  <h2 id="two-d">Collisions in two dimensions</h2>
+  <p>
+    Momentum is a vector, so it is conserved separately in each direction: the x-components add up to the same total
+    before and after, and so do the y-components. In the momentum diagram the individual momenta are added tip to tail, and
+    the resultant is identical before and after. Smooth pucks push on each other only along the line joining their centres
+    at the moment of contact. In a glancing elastic collision between equal masses, one of which starts at rest, the two
+    move off at right angles to each other, as snooker players know well.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Vehicle safety</strong>: crumple zones, airbags and seatbelts lengthen the collision time so that the same change in momentum produces a smaller force on the people inside.</li>
+    <li><strong>Sport</strong>: snooker, bowling and football all rely on momentum transfer; following through keeps the impulse acting for longer.</li>
+    <li><strong>Rockets and recoil</strong>: exhaust gases and a gun’s bullet carry momentum one way, so the rocket or gun moves the other.</li>
+    <li><strong>Forensic science</strong>: investigators work backwards from skid marks and final positions to the speeds before a crash.</li>
+    <li><strong>Particle physics</strong>: conservation of momentum reveals invisible particles in collisions at accelerators.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Momentum is lost in a crash.”</strong> Kinetic energy may be lost, but the total momentum of an isolated system is not.</li>
+    <li><strong>“Momentum and kinetic energy are the same thing.”</strong> Momentum is a vector (mv); kinetic energy is a scalar (½mv²).</li>
+    <li><strong>“The bigger object pushes harder.”</strong> The forces on the two objects are always equal and opposite; the lighter one simply changes velocity more.</li>
+    <li><strong>“Objects that stick together have lost their momentum.”</strong> They share it, and keep moving unless their momenta were equal and opposite.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model assumes</h2>
+  <p>
+    The pucks slide without friction or air resistance and do not spin. The table has no walls, so the two pucks form an
+    isolated system; the simulation stops when they leave it. Each collision is treated as instantaneous, with the impulse
+    acting along the line of centres and a constant coefficient of restitution. In the sticky collision the two pucks move
+    off together at the centre-of-mass velocity; real objects that stick after an off-centre hit would also start to
+    rotate. Puck sizes grow with mass only to make the difference visible.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Momentum p = mv is a vector; impulse J = FΔt equals the change in momentum.</li>
+    <li>In an isolated system, total momentum is conserved in every collision.</li>
+    <li>Kinetic energy is conserved only in elastic collisions; inelastic collisions turn some of it into other forms.</li>
+    <li>Objects that stick together move at v′ = (m<sub>A</sub>v<sub>A</sub> + m<sub>B</sub>v<sub>B</sub>)/(m<sub>A</sub> + m<sub>B</sub>).</li>
+    <li>The centre of mass of an isolated system moves at constant velocity, even through a collision.</li>
+  </ul>
+</SimulatorLayout>

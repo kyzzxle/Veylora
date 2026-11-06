@@ -814,6 +814,17 @@ export const branches: Branch[] = [
         minutes: 20,
         related: ['physics/newtons-laws', 'physics/inclined-planes', 'mathematics/vector-addition', 'physics/pendulum'],
       },
+      {
+        slug: 'momentum-collisions',
+        title: 'Momentum and Collisions',
+        summary: 'Aim two pucks on an air table and compare elastic, inelastic and sticky collisions: momentum is always conserved, kinetic energy is not.',
+        keywords: ['momentum', 'collision', 'collisions', 'elastic collision', 'inelastic collision', 'perfectly inelastic', 'conservation of momentum', 'impulse', 'kinetic energy', 'coefficient of restitution', 'centre of mass', 'center of mass'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['physics/newtons-laws', 'physics/rotational-motion', 'mathematics/vector-addition', 'physics/projectile-motion'],
+      },
     ],
   },
   {
