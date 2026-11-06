@@ -969,6 +969,17 @@ export const branches: Branch[] = [
         minutes: 12,
         related: ['earth-science/weather', 'botany/transpiration', 'ecology/climate-change', 'earth-science/rock-cycle'],
       },
+      {
+        slug: 'earthquakes',
+        title: 'Earthquakes and Seismic Waves',
+        summary: 'Make faults slip in 3D, compare P-, S- and surface waves, read seismograms and locate an epicenter from three stations.',
+        keywords: ['earthquake', 'seismic waves', 'p-wave', 's-wave', 'surface wave', 'fault', 'normal fault', 'reverse fault', 'strike-slip', 'epicenter', 'epicentre', 'focus', 'hypocenter', 'magnitude', 'intensity', 'seismogram', 'triangulation', 'elastic rebound'],
+        level: 'Intermediate',
+        kind: '3D',
+        status: 'live',
+        minutes: 20,
+        related: ['earth-science/plate-tectonics', 'earth-science/earth-layers', 'physics/wave-interference', 'earth-science/rock-cycle'],
+      },
     ],
   },
   {

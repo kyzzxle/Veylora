@@ -1,0 +1,202 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import QuakeSim from '../../simulators/quake/QuakeSim.astro';
+import { earthquakesQuiz } from '../../data/quizzes/earthquakes';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'what', label: 'What is an earthquake?' },
+  { id: 'focus', label: 'Focus and epicenter' },
+  { id: 'faults', label: 'Types of fault' },
+  { id: 'waves', label: 'Seismic waves' },
+  { id: 'locate', label: 'Locating an earthquake' },
+  { id: 'magnitude', label: 'Magnitude and intensity' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'U.S. Geological Survey. Earthquake Hazards Program: the science of earthquakes and the earthquake glossary.', url: 'https://www.usgs.gov/programs/earthquake-hazards' },
+  { text: 'Hanks, T. C., & Kanamori, H. (1979). A moment magnitude scale. Journal of Geophysical Research, 84(B5), 2348–2350.', url: 'https://doi.org/10.1029/JB084iB05p02348' },
+  { text: 'Reid, H. F. (1910). The mechanics of the earthquake. In The California Earthquake of April 18, 1906: Report of the State Earthquake Investigation Commission, Vol. 2. Carnegie Institution of Washington.' },
+  { text: 'Stein, S., & Wysession, M. (2003). An Introduction to Seismology, Earthquakes, and Earth Structure. Blackwell Publishing.' },
+  { text: 'Lowrie, W. (2007). Fundamentals of Geophysics (2nd ed.). Cambridge University Press.' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="earthquakes"
+  description="Interactive earthquake simulator: make normal, reverse and strike-slip faults slip in 3D, watch P-, S- and surface waves, read seismograms and locate an epicenter from three stations."
+  toc={toc}
+  quiz={earthquakesQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every year the ground shakes hundreds of thousands of times somewhere on Earth. Most earthquakes are too small to feel,
+      but a few release more energy than any human-made explosion. Load a fault until it breaks, follow the seismic waves it
+      sends out, and use real seismological reasoning to pinpoint where an earthquake happened.
+    </p>
+  </Fragment>
+
+  <QuakeSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Fault model</strong>, choose a fault type and press <strong>Start</strong>. Watch the fence bend as strain builds, then snap when the fault slips. Drag the rotating model to look around it, and drag the hanging wall (or use its slider) to see how the blocks move.</li>
+      <li>Change the <strong>slip</strong>, <strong>rupture length</strong> and <strong>focus depth</strong> and compare the magnitude. Tap the focus, epicenter and stations to inspect them.</li>
+      <li>In <strong>Seismic waves</strong>, compare how particles move in P-, S- and surface waves, add a liquid layer, and move the station to see how arrival times change.</li>
+      <li>In <strong>Locate it</strong>, read the S–P time on each seismogram, set it with the sliders, drag the pin to where the circles meet, and press <strong>Check my pin</strong>.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Explain how elastic strain builds up on a locked fault and is released in an earthquake.</li>
+    <li>Distinguish the focus from the epicenter, and normal, reverse and strike-slip faults.</li>
+    <li>Compare how P-, S- and surface waves move and what they can travel through.</li>
+    <li>Use S–P times from three stations to locate an epicenter.</li>
+    <li>Explain why magnitude and intensity are different measurements.</li>
+  </ul>
+
+  <h2 id="what">What is an earthquake?</h2>
+  <p>
+    The rocks of the crust are constantly pushed and pulled by plate motion. Along a <strong>fault</strong>, friction locks
+    the two sides together, so the rocks bend and store <strong>elastic strain energy</strong>, like a stretched spring.
+    When the stress overcomes the friction, the fault slips suddenly, the rocks spring back into shape and the stored
+    energy is released, partly as seismic waves. This is the <strong>elastic rebound theory</strong>, proposed by Harry
+    Fielding Reid after the 1906 San Francisco earthquake. The movement of the fault and the shaking of the ground are
+    different things: the fault slip may be a few metres, while the waves it sends out shake the ground hundreds of
+    kilometres away. The <a href="/earth-science/plate-tectonics">Plate Tectonics simulator</a> shows where these forces come from.
+  </p>
+
+  <h2 id="focus">Focus and epicenter</h2>
+  <p>
+    The <strong>focus</strong> (or hypocenter) is the point underground where the rupture begins. The
+    <strong>epicenter</strong> is the point on the surface directly above it. On a sloping fault the epicenter is not
+    where the fault reaches the surface: in the simulator, deepen the focus on a normal fault and watch the epicenter move
+    away from the fault trace. Shallow earthquakes (less than about 70 km deep) usually cause the strongest shaking.
+  </p>
+
+  <h2 id="faults">Types of fault</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Fault</th><th>How the blocks move</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Normal</strong></td><td>Tension pulls the crust apart; the hanging wall slides down the sloping fault (East African Rift)</td></tr>
+        <tr><td><strong>Reverse / thrust</strong></td><td>Compression squeezes the crust; the hanging wall is pushed up (Himalayas, Japan)</td></tr>
+        <tr><td><strong>Strike-slip</strong></td><td>Shear: the blocks slide sideways past each other on a near-vertical fault (San Andreas)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    The <strong>hanging wall</strong> is the block above a sloping fault and the <strong>footwall</strong> is the block
+    below it. Real faults often combine vertical and sideways motion.
+  </p>
+
+  <h2 id="waves">Seismic waves</h2>
+  <ul>
+    <li><strong>P-waves</strong> (primary) are compressional: rock is pushed and pulled in the direction the wave travels. They are the fastest (about 6 km/s in the crust) and pass through solids, liquids and gases.</li>
+    <li><strong>S-waves</strong> (secondary) are shear waves: rock moves sideways, across the direction of travel. They are slower (about 3.5 km/s) and cannot pass through liquids, which cannot be sheared.</li>
+    <li><strong>Surface waves</strong> travel along the ground surface. Rayleigh waves roll the ground in ellipses; Love waves shake it side to side. They are the slowest but usually the largest and most damaging.</li>
+  </ul>
+  <p>
+    Because S-waves do not cross the liquid outer core, seismologists could map Earth’s interior, as explored in the
+    <a href="/earth-science/earth-layers">Earth’s Layers simulator</a>.
+  </p>
+
+  <h2 id="locate">Locating an earthquake</h2>
+  <p>
+    A <strong>seismograph</strong> records the ground motion as a <strong>seismogram</strong>. The P-wave always arrives
+    before the S-wave, and the gap between them grows with distance. If both start at the same moment and travel at Vp and
+    Vs, the distance d is:
+  </p>
+  <p><strong>d = Δt × (Vp × Vs) / (Vp − Vs)</strong></p>
+  <p>
+    With Vp = 6.0 km/s and Vs = 3.5 km/s, every second of S–P delay means about 8.4 km of distance. One station only tells
+    you how far away the earthquake was, so it could lie anywhere on a circle. Two circles meet at two points, and a third
+    circle picks out one: this is the epicenter. Real earthquake centres use many stations, travel-time tables that allow
+    for Earth’s layers, and computer models that also find the depth.
+  </p>
+
+  <h2 id="magnitude">Magnitude and intensity</h2>
+  <p>
+    <strong>Magnitude</strong> measures the size of the earthquake itself, so each earthquake has one magnitude.
+    Seismologists now use <strong>moment magnitude</strong> (Mw), based on the seismic moment M₀ = μ × A × D, where μ is the
+    rigidity of the rock (about 3 × 10¹⁰ Pa), A is the area of the fault that slipped and D is the average slip:
+  </p>
+  <p><strong>Mw = ⅔ × (log₁₀ M₀ − 9.1)</strong>, with M₀ in newton-metres.</p>
+  <p>
+    Each step of one in magnitude means about 32 times more energy released. <strong>Intensity</strong> describes the
+    shaking and damage at a particular place, for example on the Modified Mercalli scale (I to XII). It is different
+    everywhere: it depends on the distance from the focus, the depth and the local ground. In the simulator, one
+    earthquake has a single magnitude but shakes the nearest station hardest.
+  </p>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Early warning</strong>: systems in Japan, Mexico and the western USA detect the fast P-waves and send alerts seconds before the damaging S- and surface waves arrive.</li>
+    <li><strong>Building codes</strong> are based on maps of how strongly the ground is likely to shake.</li>
+    <li><strong>Tsunami warnings</strong> start from the location, depth and magnitude of large undersea earthquakes.</li>
+    <li><strong>Treaty monitoring</strong>: the same seismic methods detect underground nuclear tests.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>The largest earthquake ever recorded was the 1960 Valdivia earthquake in Chile, magnitude 9.5.</li>
+    <li>The U.S. Geological Survey locates around 20,000 earthquakes worldwide each year.</li>
+    <li>In 1936 Inge Lehmann used faint P-waves to discover Earth’s solid inner core.</li>
+    <li>Many faults creep or slip in small earthquakes; others stay locked for centuries before a large one.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Magnitude and intensity are the same.”</strong> Magnitude is the size of the earthquake; intensity is the shaking at one place.</li>
+    <li><strong>“The epicenter is where the earthquake happens.”</strong> The rupture starts at the focus, underground; the epicenter is only the point above it.</li>
+    <li><strong>“The ground opens up and swallows people.”</strong> Faults slide; they do not open into chasms.</li>
+    <li><strong>“Earthquakes can be predicted.”</strong> Scientists can estimate the probability of earthquakes in a region, but not the time and place of a particular one.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The fault model is a 40 km block with the slip drawn hundreds of times larger than life. Strain builds steadily and the
+    whole rupture slips at once, whereas real ruptures spread along the fault over seconds to minutes and stress builds
+    unevenly. Wave fronts are drawn as spheres with constant crustal speeds (Vp = 6.0 km/s, Vs = 3.5 km/s); in reality,
+    speeds change with depth and rock type and waves bend and reflect. Station shaking is shown only in proportion to
+    1/distance (geometric spreading), ignoring absorption and local ground conditions. In the map activity the earthquake
+    is assumed to be shallow, so S–P gives the distance to the epicenter. This is an educational model, not a forecasting or
+    hazard tool.
+  </p>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Fault</dt>
+    <dd>A fracture in the crust along which the rocks on either side have moved.</dd>
+    <dt>Elastic rebound</dt>
+    <dd>The sudden release of stored strain when a locked fault slips and the bent rocks spring back.</dd>
+    <dt>Focus (hypocenter)</dt>
+    <dd>The point underground where an earthquake rupture begins.</dd>
+    <dt>Epicenter</dt>
+    <dd>The point on the surface directly above the focus.</dd>
+    <dt>Seismogram</dt>
+    <dd>A record of ground motion over time, made by a seismometer.</dd>
+    <dt>Moment magnitude (Mw)</dt>
+    <dd>A measure of earthquake size based on the fault area, the slip and the rigidity of the rock.</dd>
+    <dt>Intensity</dt>
+    <dd>A measure of the shaking and its effects at a particular place.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Earthquakes release elastic strain stored in rocks when a locked fault suddenly slips.</li>
+    <li>Normal, reverse and strike-slip faults move in response to tension, compression and shear.</li>
+    <li>P-waves arrive first and travel through liquids; S-waves follow and cannot; surface waves arrive last.</li>
+    <li>The S–P time gives the distance to a station; three stations locate the epicenter.</li>
+    <li>Magnitude describes the earthquake; intensity describes the shaking at a place.</li>
+  </ul>
+</SimulatorLayout>

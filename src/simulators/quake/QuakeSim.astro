@@ -1,0 +1,147 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="quake-sim" label="An earthquake laboratory: a 3D fault model, seismic wave motion and seismograms, and a map for locating an epicenter." hint={false} badge="Strain 0%">
+  <Fragment slot="stage">
+    <canvas class="sim-canvas" data-canvas role="img" aria-label="Earthquake simulator" aria-describedby="quake-sim-status"></canvas>
+    <div class="sim-3d" data-three></div>
+  </Fragment>
+
+  <ChoiceControl
+    name="qk-view"
+    label="Explore"
+    value="3d"
+    options={[
+      { value: '3d', label: 'Fault model' },
+      { value: 'waves', label: 'Seismic waves' },
+      { value: 'locate', label: 'Locate it' },
+    ]}
+    help="Make a fault slip, watch how seismic waves move, then use three seismograms to find an epicenter."
+  />
+  <p class="qk-note" data-note aria-live="polite"></p>
+
+  <div data-only="3d" class="qk-group">
+    <ChoiceControl
+      name="qk-fault"
+      label="Fault type"
+      value="normal"
+      options={[
+        { value: 'normal', label: 'Normal' },
+        { value: 'reverse', label: 'Reverse' },
+        { value: 'strike', label: 'Strike-slip' },
+      ]}
+    />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-quake>Trigger the earthquake now</button>
+    </div>
+    <p class="ctrl-help">Start lets tectonic forces build up strain until the rock breaks. Triggering early releases less slip.</p>
+    <SliderControl name="qk-slip" label="Slip when the fault fully breaks" min={0.1} max={5} step={0.1} value={1} />
+    <SliderControl name="qk-length" label="Rupture length" min={2} max={200} step={1} value={20} help="Rupture width is taken as the length, up to 15 km." />
+    <SliderControl name="qk-depth" label="Focus depth" min={2} max={18} step={1} value={10} />
+    <SliderControl name="qk-offset" label="Hanging wall offset (or drag the block)" min={0} max={20} step={0.1} value={0} />
+    <SliderControl name="qk-speed" label="Wave playback speed" min={0.1} max={1} step={0.05} value={0.5} help="1× is real time for this 40 km block." />
+    <ToggleControl name="qk-plane" label="Show the fault plane" checked />
+    <ToggleControl name="qk-labels" label="Show all labels" />
+  </div>
+
+  <div data-only="waves" class="qk-group" hidden>
+    <ChoiceControl
+      name="qk-wave"
+      label="Wave"
+      value="p"
+      options={[
+        { value: 'p', label: 'P-wave' },
+        { value: 's', label: 'S-wave' },
+        { value: 'surface', label: 'Surface wave' },
+      ]}
+    />
+    <ToggleControl name="qk-liquid" label="Add a liquid layer" />
+    <SliderControl name="qk-speed2" label="Animation speed" min={0.1} max={1} step={0.05} value={0.5} />
+    <SliderControl name="qk-dist" label="Station distance from the focus" min={20} max={600} step={10} value={150} />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-replay>Replay the seismogram</button>
+    </div>
+  </div>
+
+  <div data-only="locate" class="qk-group" hidden>
+    <SliderControl name="qk-sp0" label="Station A: S–P time" min={0} max={80} step={0.5} value={10} />
+    <SliderControl name="qk-sp1" label="Station B: S–P time" min={0} max={80} step={0.5} value={10} />
+    <SliderControl name="qk-sp2" label="Station C: S–P time" min={0} max={80} step={0.5} value={10} />
+    <ToggleControl name="qk-marks" label="Mark the P and S arrivals (hint)" />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-check>Check my pin</button>
+      <button type="button" class="btn btn-sm" data-show>Show the answer</button>
+      <button type="button" class="btn btn-sm" data-new>New earthquake</button>
+    </div>
+  </div>
+
+  <SimKey
+    items={[
+      { label: 'P-wave', color: '#f08c00', shape: 'dot' },
+      { label: 'S-wave', color: '#1c7ed6', shape: 'dot' },
+      { label: 'Surface wave', color: '#2f9e44', shape: 'dot' },
+      { label: 'Focus', color: '#e03131', shape: 'dot' },
+      { label: 'Epicenter', color: '#fab005', shape: 'dot' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .qk-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .qk-group[hidden] {
+    display: none;
+  }
+  .qk-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#quake-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#quake-sim[data-qk-view='3d'] .sim-canvas) {
+    visibility: hidden;
+  }
+  :global(#quake-sim[data-qk-view='2d'] .sim-3d),
+  :global(#quake-sim[data-qk-view='2d'] .sim-3d-tools),
+  :global(#quake-sim[data-qk-view='2d'] .sim-3d-activate) {
+    display: none !important;
+  }
+  :global(#quake-sim .qk-no3d) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initQuake } from './quake';
+  mountSim('#quake-sim', initQuake);
+</script>
