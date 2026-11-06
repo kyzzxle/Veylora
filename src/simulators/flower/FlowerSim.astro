@@ -1,0 +1,147 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { PARTS, PART_ORDER } from './data';
+---
+
+<SimShell id="flower-sim" label="A flower in 3D, a pollination experiment, and the steps from pollination to fertilisation, seed and fruit." hint={false} badge="Explored 0/8">
+  <Fragment slot="stage">
+    <canvas class="sim-canvas" data-canvas role="img" aria-label="Flower reproduction simulator" aria-describedby="flower-sim-status"></canvas>
+    <div class="sim-3d" data-three></div>
+  </Fragment>
+
+  <ChoiceControl
+    name="fl-view"
+    label="Explore"
+    value="3d"
+    options={[
+      { value: '3d', label: '3D flower' },
+      { value: 'pollinate', label: 'Pollination' },
+      { value: 'fertilise', label: 'Fertilisation' },
+    ]}
+    help="Explore the parts of a flower, move pollen between flowers, then follow what happens next."
+  />
+  <p class="fl-note" data-note aria-live="polite"></p>
+
+  <div data-only="3d" class="fl-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="flower-sim-pick">Highlight a part</label>
+      <select id="flower-sim-pick" class="select" data-pick>
+        <option value="">— Choose —</option>
+        {PART_ORDER.map((p) => <option value={p}>{PARTS[p].name}</option>)}
+      </select>
+    </div>
+    <ToggleControl name="fl-cut" label="Cut the flower in half" />
+    <ToggleControl name="fl-labels" label="Show all labels" />
+    <p class="ctrl-help">Start spins the flower. Keyboard: focus the 3D view with Tab, then use the arrow keys to rotate and + / − to zoom.</p>
+  </div>
+
+  <div data-only="pollinate" class="fl-group" hidden>
+    <ChoiceControl
+      name="fl-method"
+      label="Pollen carried by"
+      value="hand"
+      options={[
+        { value: 'hand', label: 'Hand' },
+        { value: 'insect', label: 'Bee' },
+        { value: 'wind', label: 'Wind' },
+      ]}
+    />
+    <div data-only-wind hidden>
+      <SliderControl name="fl-wind" label="Wind speed" min={0} max={100} step={1} value={50} scale={['Calm', 'Gale']} />
+    </div>
+    <ToggleControl name="fl-selfinc" label="Self-incompatible plants (reject their own pollen)" checked />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-clear>Remove all pollen</button>
+    </div>
+  </div>
+
+  <div data-only="fertilise" class="fl-group" hidden>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-prev>← Back</button>
+      <button type="button" class="btn btn-sm btn-primary" data-next>Next stage →</button>
+    </div>
+    <p class="ctrl-help">Or press Start to play all seven stages, or tap a numbered stage.</p>
+  </div>
+
+  <div data-key="pollinate" hidden>
+    <SimKey
+      items={[
+        { label: 'Plant 1 pollen', color: '#f2c94c', shape: 'dot' },
+        { label: 'Plant 2 pollen (same species)', color: '#ff922b', shape: 'dot' },
+        { label: 'Pollen of another species', color: '#b197fc', shape: 'dot' },
+        { label: 'Pollen tube', color: '#e0a800', shape: 'line' },
+        { label: 'Fertilised ovule', color: '#c08a4a', shape: 'dot' },
+      ]}
+    />
+  </div>
+  <div data-key="fertilise" hidden>
+    <SimKey
+      items={[
+        { label: 'Haploid (n): sperm, egg, polar nuclei', color: '#4dabf7', shape: 'dot' },
+        { label: 'Diploid (2n): zygote and embryo', color: '#f08c00', shape: 'dot' },
+        { label: 'Triploid (3n): endosperm', color: '#9775fa', shape: 'dot' },
+        { label: 'Pollen tube', color: '#e0a800', shape: 'line' },
+      ]}
+    />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .fl-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .fl-group[hidden],
+  [data-key][hidden] {
+    display: none;
+  }
+  .fl-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#flower-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#flower-sim[data-fl-view='3d'] .sim-canvas) {
+    visibility: hidden;
+  }
+  :global(#flower-sim[data-fl-view='2d'] .sim-3d),
+  :global(#flower-sim[data-fl-view='2d'] .sim-3d-tools),
+  :global(#flower-sim[data-fl-view='2d'] .sim-3d-activate) {
+    display: none !important;
+  }
+  :global(#flower-sim .fl-no3d) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initFlower } from './flower';
+  mountSim('#flower-sim', initFlower);
+</script>

@@ -1,0 +1,196 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import FlowerSim from '../../simulators/flower/FlowerSim.astro';
+import { plantReproductionQuiz } from '../../data/quizzes/plant-reproduction';
+
+const toc = [
+  { id: 'two-steps', label: 'Pollination is not fertilisation' },
+  { id: 'parts', label: 'The reproductive parts' },
+  { id: 'pollen-ovule', label: 'Inside a pollen grain and an ovule' },
+  { id: 'carriers', label: 'Animal and wind pollination' },
+  { id: 'self-cross', label: 'Self- and cross-pollination' },
+  { id: 'tube', label: 'Germination and the pollen tube' },
+  { id: 'double', label: 'Double fertilisation' },
+  { id: 'seed-fruit', label: 'From ovule to seed, ovary to fruit' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 32: Plant Reproduction. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/32-introduction' },
+  { text: 'Raven, P. H., Evert, R. F., & Eichhorn, S. E. (2013). Biology of Plants (8th ed.). W. H. Freeman.' },
+  { text: 'Dresselhaus, T., Sprunck, S., & Wessel, G. M. (2016). Fertilization mechanisms in flowering plants. Current Biology, 26(3), R125–R139.', url: 'https://doi.org/10.1016/j.cub.2015.12.032' },
+  { text: 'Takayama, S., & Isogai, A. (2005). Self-incompatibility in plants. Annual Review of Plant Biology, 56, 467–489.', url: 'https://doi.org/10.1146/annurev.arplant.56.032604.144249' },
+  { text: 'Ollerton, J., Winfree, R., & Tarrant, S. (2011). How many flowering plants are pollinated by animals? Oikos, 120(3), 321–326.', url: 'https://doi.org/10.1111/j.1600-0706.2010.18644.x' },
+  { text: 'Klein, A.-M., et al. (2007). Importance of pollinators in changing landscapes for world crops. Proceedings of the Royal Society B, 274, 303–313.', url: 'https://doi.org/10.1098/rspb.2006.3721' },
+];
+---
+
+<SimulatorLayout
+  branch="botany"
+  topic="plant-reproduction"
+  description="Interactive flower reproduction simulator: explore a 3D flower, carry pollen by hand, bee or wind, compare self- and cross-pollination, and follow pollen tube growth, double fertilisation, and seed and fruit development."
+  toc={toc}
+  quiz={plantReproductionQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every apple, grain of rice and sunflower seed starts when a pollen grain lands on the right flower. But landing is only
+      the beginning: the pollen must grow a tube, deliver two sperm cells, and trigger a double fertilisation that only
+      flowering plants perform. Take a flower apart in 3D, move pollen between plants, and follow the journey all the way to
+      seed and fruit.
+    </p>
+  </Fragment>
+
+  <FlowerSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>3D flower</strong>, drag to rotate and tap a part to learn its job. Turn on <strong>Cut the flower in half</strong> to see the ovules inside the ovary.</li>
+      <li>In <strong>Pollination</strong>, drag pollen from an anther onto a stigma. Compare the same flower, the other plant, and the blue flower of another species. Then let a <strong>bee</strong> or the <strong>wind</strong> do the work.</li>
+      <li>Switch <strong>Self-incompatible plants</strong> off and on to see when self-pollination can and cannot lead to seeds.</li>
+      <li>In <strong>Fertilisation</strong>, press <strong>Start</strong> or <strong>Next stage</strong> to follow one pollen grain through seven stages, with a magnified view of each.</li>
+      <li><strong>Reset</strong> restores every setting.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="two-steps">Pollination is not fertilisation</h2>
+  <p>
+    These two words are often mixed up, but they describe different events, separated by hours or even days.
+    <strong>Pollination</strong> is the transfer of pollen from an anther to a stigma. <strong>Fertilisation</strong> is the
+    fusion of a sperm cell with an egg cell, deep inside an ovule. Between them, the pollen grain must germinate and grow a
+    pollen tube all the way down the style. Pollination can happen without fertilisation, for example when pollen lands on a
+    flower of the wrong species.
+  </p>
+
+  <h2 id="parts">The reproductive parts</h2>
+  <p>
+    A flower’s male parts are the <strong>stamens</strong>: an <strong>anther</strong>, which makes pollen, on a stalk called
+    the <strong>filament</strong>. Its female part is the <strong>carpel</strong> (or pistil): a sticky
+    <strong>stigma</strong> that catches pollen, a <strong>style</strong>, and an <strong>ovary</strong> containing one or more
+    <strong>ovules</strong>. Petals attract pollinators and sepals protect the bud. You can explore these parts, and the
+    tissues of the whole plant, in the <a href="/botany/plant-anatomy">Plant Anatomy simulator</a>.
+  </p>
+
+  <h2 id="pollen-ovule">Inside a pollen grain and an ovule</h2>
+  <p>
+    A pollen grain is not a sperm. It is a tiny <strong>male gametophyte</strong> of two or three cells inside a tough wall:
+    a large <strong>tube cell</strong> and a small <strong>generative cell</strong>, which divides by mitosis to make
+    <strong>two sperm cells</strong>. An ovule contains the <strong>embryo sac</strong>, the female gametophyte. In most
+    flowering plants it has seven cells and eight haploid nuclei:
+  </p>
+  <ul>
+    <li>the <strong>egg cell</strong> and two <strong>synergids</strong> beside it, at the end nearest the opening (the micropyle);</li>
+    <li>a large <strong>central cell</strong> with two <strong>polar nuclei</strong>;</li>
+    <li>three <strong>antipodal cells</strong> at the far end.</li>
+  </ul>
+  <p>The embryo sac is wrapped in protective layers, the <strong>integuments</strong>, which will become the seed coat.</p>
+
+  <h2 id="carriers">Animal and wind pollination</h2>
+  <p>
+    Roughly 88% of flowering plant species rely on animals, mostly insects, but also birds and bats. The rest, including
+    grasses, cereals and many trees such as oak and birch, rely mainly on the wind.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Animal-pollinated flowers</th><th>Wind-pollinated flowers</th></tr></thead>
+      <tbody>
+        <tr><td>Large, coloured, scented petals</td><td>Small, dull flowers, often without petals</td></tr>
+        <tr><td>Nectar as a reward</td><td>No nectar</td></tr>
+        <tr><td>Sticky, spiky pollen in modest amounts</td><td>Huge amounts of light, smooth pollen</td></tr>
+        <tr><td>Anthers and stigma inside the flower</td><td>Dangling anthers and large, feathery stigmas</td></tr>
+        <tr><td>Examples: rose, apple, sage</td><td>Examples: wheat, maize, birch</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Animal pollination is targeted: a bee that sticks to one kind of flower carries pollen to the right species. Wind is
+    cheap but wasteful. In the simulator, only a few percent of wind-blown pollen ever reaches a stigma.
+  </p>
+
+  <h2 id="self-cross">Self- and cross-pollination</h2>
+  <p>
+    In <strong>self-pollination</strong>, pollen reaches a stigma of the same flower or another flower on the same plant. In
+    <strong>cross-pollination</strong>, pollen comes from a different plant of the same species. Cross-pollination mixes the
+    genes of two parents, so the offspring are more varied and better able to cope with disease and change. Self-pollination
+    is reliable when pollinators are scarce, and peas, wheat and tomatoes do it routinely.
+  </p>
+  <p>
+    Many plants, including apples, cherries and many clovers, are <strong>self-incompatible</strong>: the stigma or style
+    recognises the plant’s own pollen and stops its tube from growing. That is why a lone apple tree sets little fruit
+    without a second variety nearby. Other plants prevent selfing by holding the stigma above the anthers, or by ripening
+    anthers and stigma at different times.
+  </p>
+
+  <h2 id="tube">Germination and the pollen tube</h2>
+  <p>
+    On a compatible stigma, the pollen grain absorbs water and <strong>germinates</strong>: the tube cell grows a
+    <strong>pollen tube</strong> that pushes down between the cells of the style. The tube is guided by chemical signals
+    from the synergids and carries the two sperm cells at its tip. Flowering-plant sperm cannot swim, so unlike mosses and
+    ferns they need no water. The tube enters the ovule through the micropyle, grows into a synergid and bursts, releasing
+    both sperm. Each ovule needs its own pollen tube, so a seed-packed fruit such as a tomato needs many grains of pollen.
+  </p>
+
+  <h2 id="double">Double fertilisation</h2>
+  <p>Both sperm cells fuse with something, which is why the process is called <strong>double fertilisation</strong>:</p>
+  <ul>
+    <li><strong>Sperm 1 + egg cell</strong> (n + n) → a diploid <strong>zygote</strong> (2n), which becomes the embryo.</li>
+    <li><strong>Sperm 2 + central cell</strong> with its two polar nuclei (n + n + n) → a triploid <strong>primary endosperm nucleus</strong> (3n), which develops into the food store.</li>
+  </ul>
+  <p>
+    Double fertilisation is found in flowering plants. It means the plant invests in a food store only when an egg has
+    actually been fertilised.
+  </p>
+
+  <h2 id="seed-fruit">From ovule to seed, ovary to fruit</h2>
+  <ul>
+    <li>The zygote divides by mitosis into an <strong>embryo</strong> with a root (radicle), a shoot and one or two seed leaves (cotyledons).</li>
+    <li>The endosperm nucleus divides to make <strong>endosperm</strong>. In cereals it remains as the bulk of the grain (and of white flour); in beans and peas the cotyledons absorb it.</li>
+    <li>The integuments harden into the <strong>seed coat</strong>. The whole <strong>ovule becomes the seed</strong>.</li>
+    <li>The <strong>ovary wall becomes the fruit</strong>, which protects the seeds and helps disperse them. Petals, stamens, style and stigma wither.</li>
+  </ul>
+  <p>
+    Botanically, a pea pod, a tomato, a cucumber and a cherry are all fruits. What happens when a seed starts to grow is
+    explored in the <a href="/botany/seed-germination">Seed Germination simulator</a>.
+  </p>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li><strong>Food</strong>: about three-quarters of the world’s leading food crops benefit from animal pollination, including apples, almonds, coffee and cocoa. Cereals such as wheat, rice and maize are wind-pollinated or self-pollinated.</li>
+    <li><strong>Orchards</strong>: growers plant compatible varieties side by side and bring in honeybee hives at flowering time.</li>
+    <li><strong>Plant breeding</strong>: breeders remove the anthers from a flower and dust its stigma by hand to make a chosen cross.</li>
+    <li><strong>Hay fever</strong> is caused mainly by wind-blown pollen of grasses and trees, which is released in vast amounts.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Pollination and fertilisation are the same thing.”</strong> Pollination moves pollen to a stigma; fertilisation is the fusion of gametes inside the ovule.</li>
+    <li><strong>“A pollen grain is a sperm.”</strong> It is a tiny male gametophyte that produces two sperm cells.</li>
+    <li><strong>“The sperm swims down the style.”</strong> The pollen tube grows and carries the sperm to the ovule.</li>
+    <li><strong>“Fertilisation is a single fusion.”</strong> In flowering plants there are two: one forms the zygote and one forms the endosperm.</li>
+    <li><strong>“The ovary becomes the seed.”</strong> Each ovule becomes a seed; the ovary becomes the fruit.</li>
+    <li><strong>“Any pollen will do.”</strong> Pollen of another species, or a self-incompatible plant’s own pollen, does not lead to fertilisation.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The flowers are generic, with four ovules in the pollination experiment and three in the long section, and nothing is
+    drawn to scale. Real pollen tubes take from under an hour to several days to reach an ovule. In the experiment,
+    pollen of another species never germinates; in reality some foreign pollen does germinate and is stopped later. The bee
+    and wind follow simple rules, and the two plants are either fully self-incompatible or fully self-compatible. Embryo
+    sacs in some species differ from the seven-celled pattern shown, and some fruits (such as strawberries) also grow from
+    parts of the flower other than the ovary.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Pollination is pollen transfer to a stigma; fertilisation is the fusion of sperm and egg in the ovule.</li>
+    <li>Flowers are pollinated by animals or by wind, and their structure matches the carrier.</li>
+    <li>Cross-pollination increases variation; self-incompatibility prevents self-fertilisation.</li>
+    <li>A pollen tube delivers two sperm: one fertilises the egg (2n zygote), the other the central cell (3n endosperm).</li>
+    <li>The ovule becomes the seed and the ovary becomes the fruit.</li>
+  </ul>
+</SimulatorLayout>

@@ -747,6 +747,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['botany/plant-adaptations', 'zoology/animal-classification', 'biology/meiosis', 'botany/plant-anatomy'],
       },
+      {
+        slug: 'plant-reproduction',
+        title: 'Plant Reproduction: Pollination and Fertilisation',
+        summary: 'Take apart a 3D flower, carry pollen by hand, bee or wind, compare self- and cross-pollination, and follow the pollen tube to double fertilisation, seed and fruit.',
+        keywords: ['plant reproduction', 'pollination', 'fertilisation', 'fertilization', 'double fertilisation', 'double fertilization', 'flower parts', 'stamen', 'anther', 'carpel', 'pistil', 'stigma', 'ovary', 'ovule', 'pollen tube', 'self-pollination', 'cross-pollination', 'wind pollination', 'insect pollination', 'endosperm', 'seed', 'fruit'],
+        level: 'Intermediate',
+        kind: '3D',
+        status: 'live',
+        minutes: 15,
+        related: ['botany/plant-anatomy', 'botany/plant-diversity', 'botany/seed-germination', 'biology/meiosis'],
+      },
     ],
   },
   {
