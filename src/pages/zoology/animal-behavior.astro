@@ -1,0 +1,170 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import BehaviorSim from '../../simulators/behavior/BehaviorSim.astro';
+import { behaviorQuiz } from '../../data/quizzes/behavior';
+
+const toc = [
+  { id: 'why', label: 'Why behaviour matters' },
+  { id: 'instinct-learning', label: 'Instinct and learning' },
+  { id: 'types', label: 'Kinds of learning' },
+  { id: 'foraging', label: 'Foraging and predator avoidance' },
+  { id: 'communication', label: 'Communication and territories' },
+  { id: 'migration', label: 'Migration and seasonal cues' },
+  { id: 'rhythms', label: 'Daily rhythms' },
+  { id: 'clock', label: 'The biological clock' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 45.7: Behavioral Biology: Proximate and Ultimate Causes of Behavior. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/45-7-behavioral-biology-proximate-and-ultimate-causes-of-behavior' },
+  { text: 'Alcock, J., & Rubenstein, D. R. (2019). Animal Behavior (11th ed.). Oxford University Press.' },
+  { text: 'Tinbergen, N. (1951). The Study of Instinct. Oxford University Press.' },
+  { text: 'Foster, R. G., & Kreitzman, L. (2004). Rhythms of Life: The Biological Clocks that Control the Daily Lives of Every Living Thing. Profile Books.' },
+  { text: 'Gwinner, E. (1996). Circadian and circannual programmes in avian migration. Journal of Experimental Biology, 199, 39–48.', url: 'https://doi.org/10.1242/jeb.199.1.39' },
+];
+---
+
+<SimulatorLayout
+  branch="zoology"
+  topic="animal-behavior"
+  description="Interactive animal behaviour simulator: change temperature, day length, food and predators to watch songbirds forage, hide, defend territories and migrate; compare diurnal, nocturnal and crepuscular rhythms; and test instinct, habituation and trial-and-error learning."
+  toc={toc}
+  quiz={behaviorQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Why does a warbler fly thousands of kilometres south while the weather is still warm? Why does a mouse wake at dusk
+      even in a dark room? Why does a goose keep rolling an egg that is no longer there? Change the conditions in a meadow and
+      watch a flock respond, follow the daily rhythms of animals active by day, by night or at twilight, and run three classic
+      experiments on instinct and learning.
+    </p>
+  </Fragment>
+
+  <BehaviorSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Habitat</strong>, change the temperature, daylight hours and food. Watch what the birds do and how the time budget changes. Try 16 hours of daylight, then 10.</li>
+      <li>Turn on the <strong>predator</strong>. Watch the alarm call and the birds hiding, then switch alarm calls off and compare.</li>
+      <li>In <strong>Rhythms</strong>, choose diurnal, nocturnal or crepuscular. Turn on constant darkness and watch the actogram, then shift the light by 6 hours to see jet lag.</li>
+      <li>In <strong>Learning</strong>, place an object near the goose’s nest and remove it mid-roll; tap the snail again and again; and offer caterpillars to the young bird.</li>
+      <li>Click anything in the picture for an explanation. <strong>Reset</strong> restores the starting settings.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="why">Why behaviour matters</h2>
+  <p>
+    <strong>Behaviour</strong> is everything an animal does in response to its surroundings and its internal state: finding
+    food, avoiding predators, finding a mate, caring for young, resting. Behaviour helps an animal survive and reproduce, so
+    it is shaped by natural selection just like body structures. Biologists ask both <em>how</em> a behaviour works (the
+    stimuli, nerves and hormones involved) and <em>why</em> it evolved (how it helps the animal leave offspring).
+  </p>
+
+  <h2 id="instinct-learning">Instinct and learning</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>What it is</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Innate (instinct)</strong></td><td>Inherited; performed correctly the first time; similar in all members of a species</td><td>Egg-rolling in geese, a spider spinning a web, a newborn mammal suckling</td></tr>
+        <tr><td><strong>Learned</strong></td><td>Changed by experience during the animal’s life</td><td>Avoiding bad-tasting prey, a dog coming when called, birdsong dialects</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    An instinct is often triggered by a simple <strong>sign stimulus</strong>, such as an egg-shaped object near the nest.
+    A <strong>fixed action pattern</strong>, once started, runs to completion even if the stimulus disappears. Instincts
+    are useful when there is no time or chance to learn: a newly hatched turtle must head for the sea at once. Learning lets
+    an animal adjust to its own particular surroundings. Most behaviour combines both: songbirds inherit a template for
+    their song but must hear adults to learn it properly.
+  </p>
+
+  <h2 id="types">Kinds of learning</h2>
+  <ul>
+    <li><strong>Habituation</strong>: learning to ignore a repeated, harmless stimulus, like birds that stop fleeing from a scarecrow.</li>
+    <li><strong>Imprinting</strong>: rapid learning in a short sensitive period early in life. Goslings follow the first moving object they see, usually their mother.</li>
+    <li><strong>Classical conditioning</strong>: linking a neutral stimulus with a reward or punishment, as in Pavlov’s dogs that salivated at a bell.</li>
+    <li><strong>Trial and error</strong> (operant conditioning): learning from the results of one’s own actions, like a bird that avoids striped caterpillars after tasting one.</li>
+    <li><strong>Insight and social learning</strong>: solving new problems, or learning by watching others, as young chimpanzees learn to crack nuts with stones.</li>
+  </ul>
+
+  <h2 id="foraging">Foraging and predator avoidance</h2>
+  <p>
+    <strong>Foraging</strong> is searching for and handling food. An animal must gain more energy than it spends, so cold
+    weather, which costs energy, and scarce food both make animals spend more of their time feeding. Every moment spent
+    feeding in the open is a risk, so animals balance food against safety: they stay near cover, feed in groups where many
+    eyes watch for danger, freeze, flee to shelter or use camouflage. Being active at a time of day when predators are not
+    is another way to stay safe.
+  </p>
+
+  <h2 id="communication">Communication and territories</h2>
+  <p>
+    Animals communicate with sounds, scents, colours, postures and even dances. A bird’s <strong>alarm call</strong> warns
+    the whole flock of a predator; honeybees dance to tell others where food is; wolves howl and scent-mark. Many animals
+    defend a <strong>territory</strong>, an area with food or nest sites. In spring, male songbirds sing from high perches to
+    advertise their territory to rivals and to attract females, and chase out intruders. Displays and song usually settle
+    disputes without dangerous fights.
+  </p>
+
+  <h2 id="migration">Migration and seasonal cues</h2>
+  <p>
+    <strong>Migration</strong> is a regular, often seasonal, journey between places. Warblers and swallows fly from Europe to
+    Africa for the winter, caribou follow fresh grazing, and salmon return from the sea to the river where they hatched.
+    Animals need a reliable calendar to time these journeys. Temperature changes from day to day, but <strong>day length
+    (photoperiod)</strong> changes in exactly the same way every year, so many animals use it to time migration, breeding,
+    moulting and preparing for winter. Migrating animals find their way using the Sun, the stars, the Earth’s magnetic
+    field and landmarks.
+  </p>
+
+  <h2 id="rhythms">Daily rhythms</h2>
+  <p>
+    Most animals divide the day into active and resting periods. <strong>Diurnal</strong> animals, such as squirrels, most
+    songbirds and humans, are active by day and rely mainly on vision. <strong>Nocturnal</strong> animals, such as mice,
+    owls, bats and hedgehogs, are active at night, avoiding many predators and, in deserts, the heat. They often have large
+    eyes or rely on hearing and smell. <strong>Crepuscular</strong> animals, such as rabbits and deer, are most active at
+    dawn and dusk.
+  </p>
+
+  <h2 id="clock">The biological clock</h2>
+  <p>
+    These daily rhythms are not just reactions to light and darkness. An animal kept in constant darkness still sleeps and
+    wakes in a regular cycle, so it must have an internal <strong>circadian clock</strong> (from Latin <em>circa diem</em>,
+    “about a day”). The clock is not exactly 24 hours long, so in constant darkness the rhythm slowly drifts: it
+    <strong>free-runs</strong>. In nature, light at dawn and dusk resets the clock every day, keeping it in step with the
+    24-hour day; this is <strong>entrainment</strong>. If the light schedule suddenly shifts, as when you fly across time
+    zones, the clock can move only an hour or so a day, so it takes several days to adjust: jet lag. In mammals the master
+    clock sits in a small part of the brain that receives signals directly from the eyes.
+  </p>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Birds migrate because it gets cold.”</strong> Many leave while it is still warm, triggered by shortening days and their internal annual clock; food shortage is the deeper reason.</li>
+    <li><strong>“Instinct and learning are completely separate.”</strong> Most behaviours involve both.</li>
+    <li><strong>“Nocturnal animals are active at night because they cannot see in daylight.”</strong> Their rhythm is set by an internal clock and has evolved to suit their way of life.</li>
+    <li><strong>“Animals behave for the good of the species.”</strong> Behaviour evolves because it helps individuals, and their relatives, survive and reproduce.</li>
+    <li><strong>“Habituation is just tiredness.”</strong> A habituated animal still responds fully to a different stimulus.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    This is a simplified, rule-based model. Each bird follows a short list of rules in order of priority, and the
+    thresholds (for example, migrating when days are shorter than 10.5 hours, or breeding when they are longer than 13 hours
+    and above 5 °C) are illustrative, not measured. Real birds also respond to hormones, their body condition, their
+    internal yearly clock and each other in far more complex ways. A whole day passes in under a minute, nights pass
+    faster than days, and the hawk’s success rate is arbitrary. In the rhythm view, the activity patterns, clock periods and
+    how quickly the clock resets are typical illustrative values. The learning experiments show the overall pattern of real
+    results, not data from a particular study.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Behaviour helps animals survive and reproduce, and it evolves by natural selection.</li>
+    <li>Instincts are inherited and need no practice; learned behaviour changes with experience.</li>
+    <li>Habituation, imprinting, conditioning, trial and error and insight are kinds of learning.</li>
+    <li>Animals balance foraging against predator risk, communicate with calls and displays, and defend territories.</li>
+    <li>Day length is a reliable seasonal cue for migration and breeding.</li>
+    <li>Diurnal, nocturnal and crepuscular rhythms are driven by an internal circadian clock that daylight resets each day.</li>
+  </ul>
+</SimulatorLayout>

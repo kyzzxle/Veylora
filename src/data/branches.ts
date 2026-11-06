@@ -544,7 +544,7 @@ export const branches: Branch[] = [
     shortName: 'Zoology',
     tagline: 'The diversity, behaviour and survival of animals.',
     description:
-      'Sort animals into groups, compare animal and plant cells, test adaptations against changing environments, rebalance a food web and study how animals move.',
+      'Sort animals into groups, compare animal and plant cells, test adaptations, rebalance a food web, study how animals move, and explore circulation, breathing, life cycles, nervous systems and behaviour.',
     hue: 32,
     icon: 'paw',
     topics: [
@@ -646,6 +646,17 @@ export const branches: Branch[] = [
         status: 'live',
         minutes: 15,
         related: ['anatomy-physiology/neuron-firing', 'zoology/animal-classification', 'zoology/animal-adaptations', 'zoology/animal-locomotion'],
+      },
+      {
+        slug: 'animal-behavior',
+        title: 'Animal Behavior and Biological Rhythms',
+        summary: 'Change temperature, day length, food and predators to see how a flock behaves, and explore daily rhythms, instinct and learning.',
+        keywords: ['animal behavior', 'animal behaviour', 'instinct', 'learned behavior', 'habituation', 'migration', 'territory', 'communication', 'foraging', 'predator avoidance', 'circadian rhythm', 'biological clock', 'diurnal', 'nocturnal', 'crepuscular', 'photoperiod'],
+        level: 'Beginner',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['zoology/nervous-systems', 'zoology/animal-adaptations', 'zoology/food-webs', 'astronomy/seasons'],
       },
     ],
   },

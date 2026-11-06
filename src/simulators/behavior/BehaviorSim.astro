@@ -1,0 +1,134 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell
+  id="behavior-sim"
+  label="A songbird habitat with adjustable conditions, daily activity rhythms, and experiments on instinct and learning."
+  hint={false}
+  badge="07:00 · breeding season"
+  aspect="16 / 10"
+>
+  <ChoiceControl
+    name="bh-view"
+    label="Explore"
+    value="habitat"
+    options={[
+      { value: 'habitat', label: 'Habitat' },
+      { value: 'rhythms', label: 'Rhythms' },
+      { value: 'learning', label: 'Learning' },
+    ]}
+    help="Behaviour in a changing habitat, daily activity rhythms, or instinct and learning."
+  />
+  <p class="bh-note" data-note aria-live="polite"></p>
+
+  <div data-only="habitat" class="bh-group">
+    <SliderControl name="bh-temp" label="Temperature" min={-10} max={35} step={1} value={18} scale={['−10 °C', '35 °C']} />
+    <SliderControl name="bh-day" label="Daylight hours" min={8} max={16} step={0.5} value={14} scale={['Winter', 'Summer']} help="Day length tells animals the season." />
+    <SliderControl name="bh-food" label="Food availability" min={0} max={100} step={5} value={60} scale={['None', 'Plenty']} />
+    <ToggleControl name="bh-predator" label="Predator (hawk) present" />
+    <ToggleControl name="bh-alarm" label="Birds give alarm calls" checked />
+    <ToggleControl name="bh-terr" label="Show territories" checked />
+  </div>
+
+  <div data-only="rhythms" class="bh-group" hidden>
+    <ChoiceControl
+      name="bh-rhythm"
+      label="Activity pattern"
+      value="nocturnal"
+      options={[
+        { value: 'diurnal', label: 'Diurnal' },
+        { value: 'nocturnal', label: 'Nocturnal' },
+        { value: 'crepuscular', label: 'Crepuscular' },
+      ]}
+      help="A squirrel (day), a mouse (night) or a rabbit (dawn and dusk)."
+    />
+    <SliderControl name="bh-rday" label="Daylight hours" min={8} max={16} step={1} value={12} />
+    <ToggleControl name="bh-dd" label="Constant darkness (no light cue)" />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-jetlag>Shift the light by 6 hours</button>
+      <button type="button" class="btn btn-sm" data-clear>Clear record</button>
+    </div>
+  </div>
+
+  <div data-only="learning" class="bh-group" hidden>
+    <ChoiceControl
+      name="bh-exp"
+      label="Experiment"
+      value="instinct"
+      options={[
+        { value: 'instinct', label: 'Instinct' },
+        { value: 'habituation', label: 'Habituation' },
+        { value: 'trial', label: 'Trial & error' },
+      ]}
+    />
+    <div data-only="instinct" class="bh-group">
+      <ChoiceControl
+        name="bh-obj"
+        label="Object"
+        value="egg"
+        options={[
+          { value: 'egg', label: 'Egg' },
+          { value: 'ball', label: 'Ball' },
+        ]}
+      />
+      <div class="preset-row">
+        <button type="button" class="btn btn-sm btn-primary" data-place>Place object outside the nest</button>
+        <button type="button" class="btn btn-sm" data-remove>Remove it mid-roll</button>
+      </div>
+    </div>
+    <div data-only="habituation" class="bh-group" hidden>
+      <div class="preset-row">
+        <button type="button" class="btn btn-sm btn-primary" data-tap>Tap the shell</button>
+        <button type="button" class="btn btn-sm" data-shadow>Bird shadow</button>
+        <button type="button" class="btn btn-sm" data-rest>Rest 30 s</button>
+      </div>
+    </div>
+    <div data-only="trial" class="bh-group" hidden>
+      <p class="ctrl-help">Press Start for automatic offers, or offer one yourself.</p>
+      <div class="preset-row">
+        <button type="button" class="btn btn-sm btn-primary" data-plain>Offer plain</button>
+        <button type="button" class="btn btn-sm btn-primary" data-striped>Offer striped</button>
+        <button type="button" class="btn btn-sm" data-newbird>New young bird</button>
+      </div>
+    </div>
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .bh-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .bh-group[hidden] {
+    display: none;
+  }
+  .bh-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 7em;
+  }
+  :global(#behavior-sim) {
+    --stage-aspect-mobile: 680 / 720;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initBehavior } from './behavior';
+  mountSim('#behavior-sim', initBehavior);
+</script>
