@@ -1,0 +1,176 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import RedoxSim from '../../simulators/redox/RedoxSim.astro';
+import { redoxQuiz } from '../../data/quizzes/redox';
+
+const toc = [
+  { id: 'what', label: 'What is a redox reaction?' },
+  { id: 'agents', label: 'Oxidizing and reducing agents' },
+  { id: 'states', label: 'Oxidation states' },
+  { id: 'half', label: 'Half-equations' },
+  { id: 'shared', label: 'Transferred or shared electrons?' },
+  { id: 'reactivity', label: 'Reactivity and displacement' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 4.2: Classifying Chemical Reactions (Oxidation-Reduction Reactions). OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/4-2-classifying-chemical-reactions' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 17.1: Review of Redox Chemistry. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/17-1-review-of-redox-chemistry' },
+  { text: 'IUPAC. Compendium of Chemical Terminology (the “Gold Book”): oxidation state.', url: 'https://goldbook.iupac.org/' },
+  { text: 'Royal Society of Chemistry. Displacement reactions between metals and their aqueous ions; halogen displacement reactions (Education practical resources).', url: 'https://edu.rsc.org/' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="redox-reactions"
+  description="Interactive redox simulator: watch electrons move from reducing agent to oxidizing agent in six real reactions, track oxidation states, write half-equations and test yourself."
+  toc={toc}
+  quiz={redoxQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Rusting iron, a burning match, the battery in your phone and the way your cells release energy from food all have
+      one thing in common: electrons moving from one substance to another. Step through six real reactions, follow every
+      electron, and learn to spot which substance is oxidized and which is reduced.
+    </p>
+  </Fragment>
+
+  <RedoxSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>reaction</strong>. Read what you would see in the lab in the box below the simulator.</li>
+      <li>Press <strong>Start</strong> to play the reaction, or use the stage buttons: <strong>1 Reactants</strong>, <strong>2 Electron transfer</strong> and <strong>3 Products</strong>.</li>
+      <li>Watch the <strong>oxidation states</strong> above each particle. In the products, green ↑ means oxidized and red ↓ means reduced. The table below the simulator lists every change.</li>
+      <li>Click any particle for an explanation. Compare <strong>Hydrogen burning in oxygen</strong> with the others: its electrons are shared, not handed over.</li>
+      <li>Turn on <strong>Test yourself</strong> to hide the answers, then identify what is oxidized, what is reduced and the two agents. <strong>Reset</strong> restores the first reaction.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is a redox reaction?</h2>
+  <p>
+    <strong>Redox</strong> is short for <strong>red</strong>uction–<strong>ox</strong>idation. Originally, oxidation meant
+    combining with oxygen, as when magnesium burns to magnesium oxide. Today chemists define it by electrons:
+  </p>
+  <ul>
+    <li><strong>Oxidation</strong> is the <strong>loss</strong> of electrons.</li>
+    <li><strong>Reduction</strong> is the <strong>gain</strong> of electrons.</li>
+  </ul>
+  <p>
+    A handy memory aid is <strong>OIL RIG</strong>: Oxidation Is Loss, Reduction Is Gain. The two always happen together:
+    electrons lost by one substance must be gained by another, so the electrons lost always equal the electrons gained.
+  </p>
+
+  <h2 id="agents">Oxidizing and reducing agents</h2>
+  <p>
+    The substance that <strong>gives</strong> electrons is the <strong>reducing agent</strong>: it reduces something else
+    and is itself oxidized. The substance that <strong>takes</strong> electrons is the <strong>oxidizing agent</strong>: it
+    oxidizes something else and is itself reduced. In zinc plus copper(II) sulfate, zinc is the reducing agent and copper(II)
+    ions are the oxidizing agent. Oxygen, chlorine and many metal ions are common oxidizing agents; reactive metals and
+    hydrogen are common reducing agents.
+  </p>
+
+  <h2 id="states">Oxidation states</h2>
+  <p>
+    An <strong>oxidation state</strong> (or oxidation number) is the charge an atom would have if all its bonds were
+    ionic. It lets you track electrons in any reaction. The main rules:
+  </p>
+  <ol>
+    <li>An uncombined element is 0 (Zn, O₂, Cl₂).</li>
+    <li>A simple ion equals its charge (Na⁺ is +1, O²⁻ is −2).</li>
+    <li>Oxygen is usually −2 and hydrogen is usually +1 in compounds.</li>
+    <li>The oxidation states in a compound add up to zero, and in an ion they add up to its charge.</li>
+  </ol>
+  <p>
+    If an element’s oxidation state <strong>goes up</strong>, it has been oxidized; if it <strong>goes down</strong>, it has
+    been reduced. If nothing changes, the reaction is not redox. For example, sulfur in SO₄²⁻ is +6, because
+    x + 4(−2) = −2.
+  </p>
+
+  <h2 id="half">Half-equations</h2>
+  <p>
+    A redox reaction can be split into two <strong>half-equations</strong> that show the electrons explicitly. For zinc and
+    copper(II) ions:
+  </p>
+  <code class="formula">Oxidation: Zn → Zn²⁺ + 2e⁻</code>
+  <code class="formula">Reduction: Cu²⁺ + 2e⁻ → Cu</code>
+  <p>
+    Adding them, the electrons cancel: Zn + Cu²⁺ → Zn²⁺ + Cu. If the numbers of electrons differ, multiply one
+    half-equation first. That is why copper needs two silver ions: Cu loses 2 electrons, and each Ag⁺ gains only one.
+  </p>
+
+  <h2 id="shared">Transferred or shared electrons?</h2>
+  <p>
+    In metal displacement and in reactions that make ionic compounds, electrons really do move from one particle to
+    another. Zinc atoms on the surface of a zinc strip pass electrons to copper ions that touch them. But when hydrogen
+    burns to make water, the product is covalent: the electrons are <strong>shared</strong>, unequally, with oxygen pulling
+    them closer because it is more electronegative. Oxidation states treat those shared electrons as if they belonged
+    entirely to oxygen. This bookkeeping is extremely useful, but it is not a picture of electrons flying from hydrogen to
+    oxygen. The simulator shows the shift of shared pairs instead.
+  </p>
+
+  <h2 id="reactivity">Reactivity and displacement</h2>
+  <p>
+    A more reactive metal gives up electrons more readily, so it can reduce the ions of a less reactive metal:
+    zinc displaces copper, and copper displaces silver. The reverse reactions do not happen. Among the halogens, the more
+    reactive one is the stronger oxidizing agent: chlorine oxidizes bromide ions to bromine, but bromine cannot oxidize
+    chloride ions.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Oxidation</dt>
+    <dd>Loss of electrons; an increase in oxidation state.</dd>
+    <dt>Reduction</dt>
+    <dd>Gain of electrons; a decrease in oxidation state.</dd>
+    <dt>Oxidizing agent</dt>
+    <dd>The species that accepts electrons and is reduced.</dd>
+    <dt>Reducing agent</dt>
+    <dd>The species that donates electrons and is oxidized.</dd>
+    <dt>Spectator ion</dt>
+    <dd>An ion present in the reaction mixture that does not change.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Batteries</strong> separate the oxidation and reduction half-reactions so that the electrons flow through your device.</li>
+    <li><strong>Corrosion:</strong> iron is oxidized by oxygen and water to form rust.</li>
+    <li><strong>Extracting metals:</strong> iron ore is reduced to iron in a blast furnace.</li>
+    <li><strong>Bleach and disinfectants</strong> are oxidizing agents that destroy coloured compounds and microbes.</li>
+    <li><strong>Respiration and photosynthesis</strong> are chains of redox reactions in living cells.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Oxidation always involves oxygen.”</strong> Sodium is oxidized by chlorine with no oxygen present.</li>
+    <li><strong>“The oxidizing agent is oxidized.”</strong> It is reduced; it oxidizes something else.</li>
+    <li><strong>“Oxidation and reduction can happen on their own.”</strong> They always happen together.</li>
+    <li><strong>“Oxidation states are real charges.”</strong> Only for simple ions; in covalent molecules they are bookkeeping.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The simulator shows a handful of particles from each reaction, drawn as circles whose sizes only roughly reflect that
+    atoms shrink when they lose electrons and grow when they gain them. Real reactions involve enormous numbers of
+    particles: the ionic products form crystal lattices, metal atoms are part of a solid surface, and ions in solution
+    are surrounded by water molecules. Electrons are drawn as dots travelling along a curved path to show where they
+    end up, not the actual route they take. Spectator ions are shown faded. For the hydrogen–oxygen reaction, the
+    half-equations are formal: in a flame the reaction happens through many fast steps involving reactive fragments, and
+    the half-reactions only happen separately in a device such as a hydrogen fuel cell.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Oxidation is loss of electrons; reduction is gain of electrons (OIL RIG). They always happen together.</li>
+    <li>The reducing agent is oxidized; the oxidizing agent is reduced.</li>
+    <li>Oxidation states track electrons: up means oxidized, down means reduced, no change means not redox.</li>
+    <li>Half-equations show the electrons; electrons lost must equal electrons gained.</li>
+    <li>In covalent products, electrons are shared unequally rather than fully transferred.</li>
+  </ul>
+</SimulatorLayout>

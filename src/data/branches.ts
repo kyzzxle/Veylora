@@ -270,6 +270,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['chemistry/states-of-matter', 'biology/osmosis', 'chemistry/acids-and-bases', 'chemistry/reaction-rates'],
       },
+      {
+        slug: 'redox-reactions',
+        title: 'Oxidation–Reduction and Electron Transfer',
+        summary: 'Watch electrons move in redox reactions, track oxidation states and identify oxidizing and reducing agents.',
+        keywords: ['redox', 'oxidation', 'reduction', 'oxidation state', 'oxidation number', 'electron transfer', 'oxidizing agent', 'reducing agent', 'half-equation', 'displacement', 'oil rig'],
+        level: 'Intermediate',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['chemistry/atomic-structure', 'chemistry/chemical-bonding', 'chemistry/balancing-equations', 'biology/cellular-respiration'],
+      },
     ],
   },
   {

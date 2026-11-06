@@ -1,0 +1,121 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { REACTIONS } from './data';
+---
+
+<SimShell
+  id="redox-sim"
+  label="Particles of a redox reaction with oxidation states, showing electrons moving from the reducing agent to the oxidizing agent."
+  hint={false}
+  badge="Reactants"
+  aspect="16 / 10"
+>
+  <div class="ctrl">
+    <label class="ctrl-label" for="rx-select">Reaction</label>
+    <select id="rx-select" class="select" data-rx>
+      {Object.values(REACTIONS).map((r) => <option value={r.id} selected={r.id === 'zncu'}>{r.title}</option>)}
+    </select>
+  </div>
+  <div class="ctrl">
+    <span class="ctrl-label" id="rx-stage-label">Go to a stage</span>
+    <div class="preset-row" role="group" aria-labelledby="rx-stage-label">
+      <button type="button" class="preset" data-go="0" aria-pressed="true">1 Reactants</button>
+      <button type="button" class="preset" data-go="1" aria-pressed="false">2 Electron transfer</button>
+      <button type="button" class="preset" data-go="2" aria-pressed="false">3 Products</button>
+    </div>
+    <p class="ctrl-help" data-stage-label aria-live="polite"></p>
+  </div>
+  <ToggleControl name="rx-ox" label="Show oxidation states" checked />
+  <ToggleControl name="rx-test" label="Test yourself (hide the answers)" />
+  <div class="redox-test" data-test hidden>
+    <p class="ctrl-help">Use the oxidation states to decide. Then press Check.</p>
+    <label>Which species is oxidized? <select class="select" data-role="oxidized"></select></label>
+    <label>Which species is reduced? <select class="select" data-role="reduced"></select></label>
+    <label>Which is the oxidizing agent? <select class="select" data-role="oxAgent"></select></label>
+    <label>Which is the reducing agent? <select class="select" data-role="redAgent"></select></label>
+    <button type="button" class="btn btn-sm btn-primary" data-check>Check</button>
+    <p class="redox-feedback" data-feedback aria-live="polite"></p>
+  </div>
+  <SliderControl name="rx-speed" label="Animation speed" min={0.5} max={2} step={0.5} value={1} />
+  <SimKey
+    items={[
+      { label: 'Electron (e⁻) being transferred, or a shared electron in a bond', color: '#f2c94c' },
+      { label: 'Oxidation state went up: oxidized', color: 'success', shape: 'square' },
+      { label: 'Oxidation state went down: reduced', color: 'danger', shape: 'square' },
+      { label: 'Faded particle: spectator ion', color: 'text-faint' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="kind" label="Type of redox" key />
+    <Readout name="e" label="Electrons transferred" />
+    <Readout name="ox" label="Oxidized" />
+    <Readout name="red" label="Reduced" />
+    <Readout name="oa" label="Oxidizing agent" />
+    <Readout name="ra" label="Reducing agent" />
+  </Fragment>
+
+  <div slot="below" class="redox-below">
+    <p class="redox-note" data-note></p>
+    <h3>Oxidation states before and after</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Element</th><th>Before</th><th>After</th><th>Change</th><th>Meaning</th></tr></thead>
+        <tbody data-ox-table></tbody>
+      </table>
+    </div>
+  </div>
+</SimShell>
+
+<style>
+  .redox-test {
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+  }
+  .redox-test[hidden] {
+    display: none;
+  }
+  .redox-test label {
+    display: grid;
+    gap: 4px;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+  .redox-feedback {
+    margin: 0;
+    font-size: 0.88rem;
+  }
+  .redox-feedback.is-ok {
+    color: var(--success);
+  }
+  .redox-feedback.is-bad {
+    color: var(--danger);
+  }
+  .redox-note {
+    margin: 0 0 12px;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.92rem;
+  }
+  .redox-below h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+  }
+  :global(#redox-sim) {
+    --stage-aspect-mobile: 17 / 24;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initRedox } from './redox';
+  mountSim('#redox-sim', initRedox);
+</script>
