@@ -1,0 +1,90 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import PresetButtons from '../../components/sim/PresetButtons.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell
+  id="eclipse-sim"
+  label="The Sun, Earth and Moon from above and from the side, with the view of the Sun or Moon as seen from Earth."
+  hint="Drag the Moon or click a view"
+  badge="Total solar eclipse"
+  aspect="16 / 10"
+>
+  <SliderControl name="ecl-moon" label="Moon’s position in its orbit" min={0} max={359} step={1} value={0} help="Angle from the Sun as seen from Earth: 0° = new moon, 180° = full moon.">
+    <PresetButtons for="ecl-moon" label="Moon presets" presets={[{ label: 'New moon', value: 0 }, { label: 'Full moon', value: 180 }]} />
+  </SliderControl>
+  <SliderControl name="ecl-node" label="Angle between the Sun and the Moon’s nodes" min={0} max={359} step={1} value={0} help="The nodes are where the Moon’s tilted orbit crosses Earth’s orbital plane. This angle changes through the year.">
+    <PresetButtons for="ecl-node" label="Node presets" presets={[{ label: 'Lined up (eclipse season)', value: 0 }, { label: 'Side-on (no eclipses)', value: 90 }]} />
+  </SliderControl>
+  <ChoiceControl
+    name="ecl-dist"
+    label="Moon’s distance from Earth"
+    value="mean"
+    options={[
+      { value: 'near', label: 'Near' },
+      { value: 'mean', label: 'Average' },
+      { value: 'far', label: 'Far' },
+      { value: 'vary', label: 'Varies' },
+    ]}
+    help="Near 363,300 km, average 384,400 km, far 405,500 km. “Varies” follows the real 27.6-day cycle while time runs."
+  />
+  <p class="ecl-note" data-note aria-live="polite"></p>
+  <SliderControl name="ecl-speed" label="Time speed (when playing)" min={1} max={20} step={1} value={4} />
+  <div class="ecl-log">
+    <h3>Eclipses found</h3>
+    <ol data-log></ol>
+    <button type="button" class="btn btn-sm btn-ghost" data-clear-log>Clear list and restart the day count</button>
+  </div>
+  <SimKey
+    items={[
+      { label: 'Umbra: the dark central shadow', color: '#1a2033' },
+      { label: 'Penumbra: the paler outer shadow', color: '#7c86a3' },
+      { label: 'Moon’s orbit above Earth’s plane (solid) / below (dashed)', color: 'sim-text', shape: 'line' },
+      { label: 'Line of nodes', color: 'accent', shape: 'line' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="ecl" label="Eclipse now" key />
+    <Readout name="phase" label="Moon phase" />
+    <Readout name="lat" label="Moon’s height" />
+    <Readout name="dist" label="Moon’s distance" />
+    <Readout name="size" label="Moon’s apparent width" />
+    <Readout name="season" label="Eclipse season?" />
+    <Readout name="cover" label="Sun covered (best place)" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .ecl-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  .ecl-log h3 {
+    margin: 0 0 6px;
+    font-size: 0.95rem;
+  }
+  .ecl-log ol {
+    margin: 0 0 8px;
+    padding-left: 1.2em;
+    font-size: 0.86rem;
+    min-height: 2em;
+  }
+  :global(#eclipse-sim) {
+    --stage-aspect-mobile: 16 / 25;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initEclipse } from './eclipse';
+  mountSim('#eclipse-sim', initEclipse);
+</script>

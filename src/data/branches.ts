@@ -481,6 +481,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['astronomy/stellar-life-cycle', 'astronomy/orbits-gravity', 'astronomy/solar-system', 'physics/wave-interference'],
       },
+      {
+        slug: 'eclipses',
+        title: 'Solar and Lunar Eclipses',
+        summary: 'Line up the Sun, Earth and Moon, see the umbra and penumbra, and find out why eclipses don’t happen every month.',
+        keywords: ['eclipse', 'solar eclipse', 'lunar eclipse', 'umbra', 'penumbra', 'total', 'annular', 'partial', 'nodes', 'eclipse season', 'moon orbit tilt', 'blood moon'],
+        level: 'Intermediate',
+        kind: '2D',
+        status: 'live',
+        minutes: 15,
+        related: ['astronomy/moon-phases', 'astronomy/orbits-gravity', 'astronomy/solar-system', 'physics/wave-interference'],
+      },
     ],
   },
   {

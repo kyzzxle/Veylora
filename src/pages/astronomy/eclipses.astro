@@ -1,0 +1,167 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import EclipseSim from '../../simulators/eclipse/EclipseSim.astro';
+import { eclipseQuiz } from '../../data/quizzes/eclipse';
+
+const toc = [
+  { id: 'shadows', label: 'Shadows in space' },
+  { id: 'solar', label: 'Solar eclipses' },
+  { id: 'lunar', label: 'Lunar eclipses' },
+  { id: 'why-not', label: 'Why not every month?' },
+  { id: 'seasons', label: 'Eclipse seasons' },
+  { id: 'safety', label: 'Watching safely' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Eclipses in science and history' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Fraknoi, A., Morrison, D., & Wolff, S. C. (2022). Astronomy 2e, Section 4.7: Eclipses of the Sun and Moon. OpenStax.', url: 'https://openstax.org/books/astronomy-2e/pages/4-7-eclipses-of-the-sun-and-moon' },
+  { text: 'NASA Science. Eclipses: types of solar and lunar eclipses.', url: 'https://science.nasa.gov/eclipses/' },
+  { text: 'Espenak, F., & Meeus, J. Five Millennium Canon of Solar Eclipses (NASA/TP-2006-214141). NASA Goddard Space Flight Center.', url: 'https://eclipse.gsfc.nasa.gov/' },
+  { text: 'American Astronomical Society. Solar Eclipse Safety (ISO 12312-2 solar viewers).', url: 'https://eclipse.aas.org/eye-safety' },
+];
+---
+
+<SimulatorLayout
+  branch="astronomy"
+  topic="eclipses"
+  description="Interactive eclipse simulator: move the Moon and the line of nodes, see the umbra and penumbra, and find out when total, annular, partial and lunar eclipses happen and why not every month."
+  toc={toc}
+  quiz={eclipseQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      For a few minutes the sky darkens, birds fall silent and the Sun becomes a black disc ringed with pearly light. A
+      total solar eclipse is one of nature’s most spectacular sights, yet it needs the Sun, Moon and Earth to line up
+      almost perfectly. Move the Moon, follow its shadow, and discover why eclipses are rare and why they come in seasons.
+    </p>
+  </Fragment>
+
+  <EclipseSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Drag the Moon in the <strong>top view</strong>, or use the slider, to move it to <strong>New moon</strong> (solar eclipse) or <strong>Full moon</strong> (lunar eclipse). The circle on the right shows what you would see from Earth.</li>
+      <li>Change the <strong>angle between the Sun and the Moon’s nodes</strong>. Watch the <strong>side view</strong>: when the nodes point away from the Sun, the Moon passes above or below the shadows.</li>
+      <li>Switch the Moon’s <strong>distance</strong> between Near, Average and Far, and compare total and annular eclipses.</li>
+      <li>Choose <strong>Varies</strong>, then press <strong>Start</strong> to run time forward. The list records every eclipse; notice how they cluster into eclipse seasons.</li>
+      <li>Click any view or body to learn more. <strong>Reset</strong> restores the starting arrangement.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="shadows">Shadows in space</h2>
+  <p>
+    The Sun lights Earth and the Moon from one side, so each casts a long shadow into space. Because the Sun is a wide disc
+    rather than a point, every shadow has two parts. In the <strong>umbra</strong>, the dark core, the Sun is completely
+    hidden. In the surrounding <strong>penumbra</strong>, only part of the Sun is hidden. An eclipse happens when one
+    body moves into the other’s shadow.
+  </p>
+
+  <h2 id="solar">Solar eclipses</h2>
+  <p>
+    A <strong>solar eclipse</strong> happens when the Moon passes between the Sun and Earth, at new moon. There are three
+    main types:
+  </p>
+  <ul>
+    <li><strong>Total:</strong> the Moon completely covers the Sun. The sky darkens and the Sun’s faint outer atmosphere, the corona, appears. Totality is seen only inside the Moon’s umbra, a path on Earth usually less than about 270 km wide, and lasts at most about 7½ minutes.</li>
+    <li><strong>Annular:</strong> the Moon is near the far part of its orbit and looks slightly smaller than the Sun, so a bright “ring of fire” remains. The umbra ends before it reaches Earth.</li>
+    <li><strong>Partial:</strong> the Moon covers only part of the Sun, as seen from places in its penumbra, or when the alignment is not exact.</li>
+  </ul>
+  <p>
+    Total eclipses are possible because of a coincidence: the Sun is about 400 times wider than the Moon but also about
+    400 times farther away, so both appear about half a degree wide.
+  </p>
+
+  <h2 id="lunar">Lunar eclipses</h2>
+  <p>
+    A <strong>lunar eclipse</strong> happens when the Moon passes into Earth’s shadow, at full moon. In a
+    <strong>total</strong> lunar eclipse the whole Moon is in the umbra and often turns coppery red: sunlight passing
+    through Earth’s atmosphere is bent into the shadow, and the blue part is scattered away, the same reason sunsets are
+    red. In a <strong>partial</strong> eclipse only part of the Moon enters the umbra; in a <strong>penumbral</strong>
+    eclipse it only grazes the penumbra and dims so slightly that many people do not notice. A lunar eclipse can be seen
+    from everywhere on Earth’s night side and can last for hours.
+  </p>
+
+  <h2 id="why-not">Why not every month?</h2>
+  <p>
+    There is a new moon and a full moon every 29.5 days, but eclipses are much rarer. The reason is that the Moon’s orbit
+    is <strong>tilted about 5°</strong> to the plane of Earth’s orbit around the Sun. The two places where the Moon’s
+    orbit crosses that plane are called <strong>nodes</strong>. At most new moons the Moon passes slightly above or below
+    the line from Earth to the Sun, and its shadow misses Earth; at most full moons it passes above or below Earth’s
+    shadow. Five degrees sounds small, but at the Moon’s distance it is about ten Moon-widths.
+  </p>
+
+  <h2 id="seasons">Eclipse seasons</h2>
+  <p>
+    An eclipse needs a new or full moon that falls close to a node. That only happens when the line of nodes points
+    roughly towards the Sun, which occurs twice a year, about 173 days apart. Each of these <strong>eclipse
+    seasons</strong> lasts a little over a month, long enough to contain at least one new moon, so there is at least one
+    solar eclipse each season, often with a lunar eclipse two weeks before or after. Every year has between four and
+    seven eclipses in total. The line of nodes slowly turns, so the seasons drift earlier each year, and similar eclipses
+    repeat after about 18 years and 11 days, a period called the <strong>saros</strong>.
+  </p>
+
+  <div class="callout callout-warn">
+    <h2 id="safety">Watching safely</h2>
+    <p>
+      Never look directly at the Sun, even when it is mostly covered, and never through binoculars, a telescope or a camera
+      without a proper solar filter. Use certified eclipse glasses (meeting the ISO 12312-2 standard) or project the Sun’s
+      image through a pinhole. Only during the brief total phase of a total solar eclipse is it safe to look without
+      protection. Lunar eclipses are completely safe to watch.
+    </p>
+  </div>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Umbra</dt>
+    <dd>The darkest part of a shadow, where the light source is completely blocked.</dd>
+    <dt>Penumbra</dt>
+    <dd>The outer part of a shadow, where the light source is only partly blocked.</dd>
+    <dt>Node</dt>
+    <dd>One of the two points where the Moon’s orbit crosses the plane of Earth’s orbit.</dd>
+    <dt>Corona</dt>
+    <dd>The Sun’s hot, faint outer atmosphere, visible during a total solar eclipse.</dd>
+    <dt>Saros</dt>
+    <dd>A cycle of about 18 years 11 days after which a similar eclipse repeats.</dd>
+  </dl>
+
+  <h2 id="applications">Eclipses in science and history</h2>
+  <ul>
+    <li><strong>Testing relativity:</strong> during the 1919 total eclipse, starlight bending around the Sun was measured, supporting Einstein’s theory of gravity.</li>
+    <li><strong>Discovering helium:</strong> the element was first identified in 1868 from the spectrum of the Sun’s edge during an eclipse.</li>
+    <li><strong>Earth is round:</strong> Aristotle noted that Earth’s shadow on the Moon during lunar eclipses is always curved.</li>
+    <li><strong>Dating history:</strong> eclipses recorded in ancient texts help historians pin down exact dates.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The phases of the Moon are caused by Earth’s shadow.”</strong> Phases come from our viewing angle; Earth’s shadow only matters during a lunar eclipse.</li>
+    <li><strong>“Eclipses happen every month.”</strong> The 5° tilt makes them happen only in eclipse seasons.</li>
+    <li><strong>“A partially covered Sun is safe to look at.”</strong> Even a thin crescent can damage your eyes.</li>
+    <li><strong>“A total solar eclipse is visible everywhere it is daytime.”</strong> Totality is only seen along a narrow path.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The eclipse type is calculated from real values: the sizes of the Sun, Earth and Moon, their distances, and the
+    5.145° tilt. For solar eclipses the view is from the best-placed spot on Earth, found by allowing for the Moon’s
+    parallax; for lunar eclipses Earth’s shadow is enlarged by 2% for the atmosphere, as eclipse predictors do. The
+    drawings are not to scale: Earth, the Moon and the heights in the side view are enlarged eight times so you can see
+    them, while the Earth–Moon distance is to scale. The Moon’s orbit is drawn as a circle, and the “Varies” setting uses
+    a simple sine-wave model of its changing distance. Real eclipse prediction also accounts for the Moon’s elliptical,
+    perturbed orbit, Earth’s rotation and its shape, so this simulator does not predict real dates or paths.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Solar eclipses happen at new moon, when the Moon’s shadow falls on Earth; lunar eclipses at full moon, when the Moon enters Earth’s shadow.</li>
+    <li>Shadows have a dark umbra and a paler penumbra; their sizes decide whether an eclipse is total, annular, partial or penumbral.</li>
+    <li>The Moon’s 5° orbital tilt means eclipses only happen when a new or full moon falls near a node.</li>
+    <li>Eclipses come in seasons about 173 days apart, with four to seven eclipses each year.</li>
+    <li>Never look directly at the Sun without certified eye protection.</li>
+  </ul>
+</SimulatorLayout>
