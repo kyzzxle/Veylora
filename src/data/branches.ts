@@ -259,6 +259,17 @@ export const branches: Branch[] = [
         minutes: 15,
         related: ['chemistry/states-of-matter', 'chemistry/reaction-rates', 'anatomy-physiology/respiratory-system', 'earth-science/weather'],
       },
+      {
+        slug: 'solutions-and-solubility',
+        title: 'Solutions, Solubility and Concentration',
+        summary: 'Dissolve salts and sugar, change the temperature and water, and see when a solution becomes saturated.',
+        keywords: ['solution', 'solubility', 'concentration', 'solute', 'solvent', 'saturated', 'unsaturated', 'supersaturated', 'molarity', 'dissolving', 'crystallization', 'solubility curve'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 15,
+        related: ['chemistry/states-of-matter', 'biology/osmosis', 'chemistry/acids-and-bases', 'chemistry/reaction-rates'],
+      },
     ],
   },
   {

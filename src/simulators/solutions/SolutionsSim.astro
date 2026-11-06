@@ -1,0 +1,82 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import GraphPanel from '../../components/sim/GraphPanel.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+import { SOLUTES } from './data';
+---
+
+<SimShell
+  id="solutions-sim"
+  label="A beaker of water with a solid dissolving in it, a particle view and a saturation meter."
+  hint="Click the beaker, crystals or particle view"
+  badge="Pure water"
+  aspect="16 / 10"
+>
+  <div class="ctrl">
+    <label class="ctrl-label" for="sol-sub">Solute</label>
+    <select id="sol-sub" class="select" data-sub>
+      {Object.values(SOLUTES).map((s) => <option value={s.id} selected={s.id === 'kno3'}>{s.name} ({s.formula})</option>)}
+    </select>
+  </div>
+  <div class="ctrl">
+    <span class="ctrl-label" id="sol-add-label">Add solid with a spoon</span>
+    <div class="preset-row" role="group" aria-labelledby="sol-add-label">
+      <button type="button" class="preset" data-add="1">+1 g</button>
+      <button type="button" class="preset" data-add="10">+10 g</button>
+      <button type="button" class="preset" data-add="50">+50 g</button>
+    </div>
+  </div>
+  <p class="sol-note" data-note aria-live="polite"></p>
+  <SliderControl name="sol-t" label="Temperature" min={0} max={100} step={1} value={20} scale={['0 °C', '100 °C']} />
+  <SliderControl name="sol-w" label="Water (solvent)" min={50} max={250} step={10} value={100} scale={['50 mL', '250 mL']} help="Add water to dilute, or let some evaporate." />
+  <ToggleControl name="sol-stir" label="Stir the solution" />
+  <div class="preset-row">
+    <button type="button" class="btn btn-sm" data-hot>Hot saturated solution (70 °C)</button>
+    <button type="button" class="btn btn-sm" data-seed disabled>Drop in a seed crystal</button>
+    <button type="button" class="btn btn-sm btn-ghost" data-empty>Empty and refill</button>
+  </div>
+  <SimKey
+    items={[
+      { label: 'Dissolved solute (dot density shows concentration)', color: 'sim-solute' },
+      { label: 'Undissolved crystals', color: 'border-strong', shape: 'square' },
+      { label: 'Water molecules (particle view)', color: 'sim-water' },
+      { label: 'Water surrounding a dissolved particle', color: 'sim-water', shape: 'ring' },
+    ]}
+  />
+
+  <Fragment slot="readouts">
+    <Readout name="state" label="Solution" key />
+    <Readout name="gl" label="Concentration (mass)" />
+    <Readout name="mol" label="Concentration (≈ molar)" />
+    <Readout name="pct" label="Percent by mass" />
+    <Readout name="sol" label="Solubility at this temperature" />
+    <Readout name="max" label="Most that can dissolve in this water" />
+    <Readout name="amt" label="Dissolved" />
+    <Readout name="solid" label="Undissolved" />
+  </Fragment>
+
+  <GraphPanel slot="below" id="sol-graph" title="Solubility curve" desc="The solubility of the selected solute in grams per 100 grams of water from 0 to 100 °C, with the current solution plotted as a point." />
+</SimShell>
+
+<style>
+  .sol-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 5em;
+  }
+  :global(#solutions-sim) {
+    --stage-aspect-mobile: 17 / 25;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initSolutions } from './solutions';
+  mountSim('#solutions-sim', initSolutions);
+</script>

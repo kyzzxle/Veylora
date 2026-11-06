@@ -1,0 +1,167 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import SolutionsSim from '../../simulators/solutions/SolutionsSim.astro';
+import { solutionsQuiz } from '../../data/quizzes/solutions';
+
+const toc = [
+  { id: 'what', label: 'What is a solution?' },
+  { id: 'dissolving', label: 'How dissolving works' },
+  { id: 'saturation', label: 'Unsaturated, saturated and supersaturated' },
+  { id: 'solubility', label: 'Solubility and solubility curves' },
+  { id: 'concentration', label: 'Measuring concentration' },
+  { id: 'rate', label: 'Dissolving faster' },
+  { id: 'terms', label: 'Key terms' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the model simplifies' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 11.1: The Dissolution Process; Section 11.3: Solubility. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/11-3-solubility' },
+  { text: 'Flowers, P., et al. (2019). Chemistry 2e, Section 3.3: Molarity. OpenStax.', url: 'https://openstax.org/books/chemistry-2e/pages/3-3-molarity' },
+  { text: 'Haynes, W. M. (Ed.). CRC Handbook of Chemistry and Physics, “Aqueous Solubility of Inorganic Compounds at Various Temperatures”. CRC Press.' },
+  { text: 'Perry, R. H., & Green, D. W. Perry’s Chemical Engineers’ Handbook, solubility tables for inorganic compounds and sucrose. McGraw-Hill.' },
+];
+---
+
+<SimulatorLayout
+  branch="chemistry"
+  topic="solutions-and-solubility"
+  description="Interactive solubility simulator: dissolve salts and sugar in water, change temperature and volume, watch solutions become unsaturated, saturated or supersaturated, and read real solubility curves."
+  toc={toc}
+  quiz={solutionsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Stir sugar into tea and it seems to vanish, but keep adding spoonfuls and eventually it piles up at the bottom. Why
+      is there a limit, and why does hot tea dissolve more? Add real substances to a beaker of water, change the
+      temperature and amount of water, and discover what controls how much can dissolve.
+    </p>
+  </Fragment>
+
+  <SolutionsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>solute</strong>, then press <strong>+1 g</strong>, <strong>+10 g</strong> or <strong>+50 g</strong> to add it to the water. Press <strong>Start</strong> if the simulation is paused.</li>
+      <li>Watch the crystals dissolve, the dots spread through the water, and the <strong>saturation meter</strong> fill. Turn on <strong>Stir</strong> to see what it changes, and what it does not.</li>
+      <li>Change the <strong>temperature</strong> and the amount of <strong>water</strong>. Follow the red point on the <strong>solubility curve</strong> below the simulator.</li>
+      <li>Press <strong>Hot saturated solution</strong>, then cool it slowly. If it becomes <strong>supersaturated</strong>, press <strong>Drop in a seed crystal</strong>.</li>
+      <li>Click the beaker, the crystals, the particle view or the meter to learn more. <strong>Reset</strong> restores the defaults.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="what">What is a solution?</h2>
+  <p>
+    A <strong>solution</strong> is a mixture in which one substance is spread evenly through another, particle by particle.
+    The substance that dissolves is the <strong>solute</strong>; the substance it dissolves in is the
+    <strong>solvent</strong>. Water dissolves so many substances that it is often called the universal solvent, and
+    solutions in water are called <strong>aqueous</strong> solutions. Dissolving is a physical change: evaporate the water
+    and the solute is left behind, and the total mass is conserved.
+  </p>
+
+  <h2 id="dissolving">How dissolving works</h2>
+  <p>
+    Water molecules are <strong>polar</strong>: their oxygen end is slightly negative and their hydrogen ends slightly
+    positive. When an ionic solid such as salt dissolves, water molecules attract the ions at the surface of the crystal,
+    pull them out one by one, and surround them. Sodium chloride separates into Na⁺ and Cl⁻ ions. A molecular substance
+    such as sugar dissolves differently: water surrounds whole sugar molecules, which stay intact. The particle view in
+    the simulator shows both.
+  </p>
+
+  <h2 id="saturation">Unsaturated, saturated and supersaturated</h2>
+  <p>
+    A solution that can still dissolve more solute is <strong>unsaturated</strong>. When it holds the maximum amount that
+    can stay dissolved at that temperature, it is <strong>saturated</strong>, and extra solid stays at the bottom. Even
+    then, particles keep leaving the crystals while others rejoin them at the same rate: a <strong>dynamic
+    equilibrium</strong>. Occasionally a solution holds more than its solubility. This <strong>supersaturated</strong>
+    solution forms when a saturated solution is cooled (or loses water) with no crystals for the extra solute to build on.
+    It is unstable: a single seed crystal makes the excess crystallize rapidly.
+  </p>
+
+  <h2 id="solubility">Solubility and solubility curves</h2>
+  <p>
+    <strong>Solubility</strong> is the maximum mass of solute that dissolves in a given amount of solvent at a given
+    temperature, often given in grams per 100 g of water. It depends on <strong>the substance</strong> and on <strong>the
+    conditions</strong>. A <strong>solubility curve</strong> plots it against temperature. Most solids dissolve better in hot
+    water, but by very different amounts: potassium nitrate goes from about 32 g to 246 g per 100 g between 20 °C and
+    100 °C, while table salt barely changes (about 36 g to 39 g). A few, such as lithium sulfate, become slightly
+    <em>less</em> soluble as temperature rises. Gases always dissolve less in warm water, which is why fizzy drinks go flat
+    faster when warm and why warm water holds less oxygen for fish. For gases, higher pressure increases solubility.
+  </p>
+  <p>
+    A point on the curve is a saturated solution, a point below it is unsaturated, and a point above it is supersaturated.
+  </p>
+
+  <h2 id="concentration">Measuring concentration</h2>
+  <p>Concentration tells you how much solute is in a given amount of solution.</p>
+  <code class="formula">mass concentration (g/L) = mass of solute (g) ÷ volume of solution (L)</code>
+  <code class="formula">molar concentration (mol/L) = moles of solute ÷ volume of solution (L)</code>
+  <code class="formula">percent by mass = mass of solute ÷ mass of solution × 100</code>
+  <p>
+    A solution with a lot of solute is <strong>concentrated</strong>; one with little is <strong>dilute</strong>. Adding water
+    dilutes a solution; evaporating water concentrates it. Neither changes the mass of solute.
+  </p>
+
+  <h2 id="rate">Dissolving faster</h2>
+  <p>
+    Three things make a solid dissolve <em>faster</em>: <strong>stirring</strong>, which brings fresh solvent to the
+    crystals; <strong>heating</strong>, which makes particles move faster; and <strong>crushing</strong> the solid, which
+    gives it more surface area. Only temperature also changes the <em>solubility</em>. Stirring a saturated solution will
+    not dissolve another gram.
+  </p>
+
+  <h2 id="terms">Key terms</h2>
+  <dl>
+    <dt>Solute</dt>
+    <dd>The substance that dissolves.</dd>
+    <dt>Solvent</dt>
+    <dd>The substance in which the solute dissolves.</dd>
+    <dt>Solubility</dt>
+    <dd>The maximum amount of solute that dissolves in a given amount of solvent at a given temperature.</dd>
+    <dt>Saturated solution</dt>
+    <dd>A solution that holds as much solute as it can at that temperature.</dd>
+    <dt>Crystallization</dt>
+    <dd>The formation of solid crystals as solute comes out of solution.</dd>
+  </dl>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Medicine:</strong> standard intravenous saline contains 0.9 g of sodium chloride in every 100 mL, and doses of liquid medicines depend on their concentration.</li>
+    <li><strong>Purifying chemicals:</strong> recrystallization dissolves an impure solid in hot solvent and cools it, so pure crystals form.</li>
+    <li><strong>Sea salt</strong> is made by evaporating seawater until the salt crystallizes.</li>
+    <li><strong>Rock candy and fudge</strong> rely on supersaturated sugar solutions.</li>
+    <li><strong>Hot packs</strong> crystallize a supersaturated sodium acetate solution, releasing heat.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The solute disappears.”</strong> It is still there, spread out as tiny particles; the mass of the solution includes it.</li>
+    <li><strong>“Stirring makes more dissolve.”</strong> It only makes it dissolve faster.</li>
+    <li><strong>“Dissolving and melting are the same.”</strong> Melting needs heat alone; dissolving needs a solvent.</li>
+    <li><strong>“Everything dissolves better when hot.”</strong> Gases, and a few solids, do the opposite.</li>
+  </ul>
+
+  <h2 id="model-limits">What the model simplifies</h2>
+  <p>
+    The solubility values come from standard data tables (rounded, with straight-line interpolation between listed
+    temperatures); copper(II) sulfate is counted as the anhydrous salt, although blue crystals of copper sulfate actually
+    contain water. Everything else is a teaching model. Dissolving and crystallizing speeds are illustrative, and the
+    dots spread through the water far faster than real particles diffuse. Each 1 mL of water is treated as 1 g, and the
+    molar concentration assumes the solution’s volume equals the water’s volume, although dissolving a solid changes the
+    volume slightly. In real life a supersaturated solution may crystallize at any time when disturbed; here crystals
+    form on their own only above 1.25 times the solubility, a simplified threshold. Solutions near 100 °C would also be
+    boiling, which the model ignores.
+  </p>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>A solution is a solute spread evenly through a solvent.</li>
+    <li>Solubility is the maximum that can dissolve; it depends on the substance and the temperature.</li>
+    <li>Unsaturated solutions can dissolve more; saturated ones cannot; supersaturated ones hold more than they should and are unstable.</li>
+    <li>Concentration is the amount of solute per volume of solution, in g/L or mol/L.</li>
+    <li>Stirring, heating and crushing make solids dissolve faster; only temperature (and, for gases, pressure) changes how much dissolves.</li>
+  </ul>
+</SimulatorLayout>
