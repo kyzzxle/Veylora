@@ -1,0 +1,231 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="landscape-sim" label="A landscape laboratory: a 3D landscape shaped by erosion and deposition, a weathering experiment, erosion by water, wind, ice and gravity, and landforms that grow over time." hint={false} badge="">
+  <Fragment slot="stage">
+    <canvas class="sim-canvas" data-canvas role="img" aria-label="Landscape simulator" aria-describedby="landscape-sim-status"></canvas>
+    <div class="sim-3d" data-three></div>
+  </Fragment>
+
+  <ChoiceControl
+    name="ls-view"
+    label="Explore"
+    value="3d"
+    options={[
+      { value: '3d', label: '3D' },
+      { value: 'weather', label: 'Weathering' },
+      { value: 'erosion', label: 'Erosion' },
+      { value: 'landforms', label: 'Landforms' },
+    ]}
+    help="3D: a landscape shaped over time. Weathering breaks rock down, erosion carries it away, and deposition builds new landforms."
+  />
+  <p class="ls-note" data-note aria-live="polite"></p>
+
+  <div data-only="3d" class="ls-group">
+    <SliderControl name="ls-rain3" label="Rainfall" min={0.2} max={3} step={0.1} value={1} scale={['Dry', 'Very wet']} />
+    <SliderControl name="ls-veg3" label="Vegetation cover" min={0} max={100} step={5} value={30} />
+    <ToggleControl name="ls-change" label="Show change (eroded red, deposited blue)" />
+    <ToggleControl name="ls-section" label="Cross-section view" />
+    <ToggleControl name="ls-labels" label="Show labels" />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-regen>Fresh landscape</button>
+    </div>
+    <p class="ctrl-help">Drag to rotate and tilt, use + and − to zoom, and tap a landform to identify it. Start runs time forward.</p>
+  </div>
+
+  <div data-only="weather" class="ls-group" hidden>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-clim="mountain">Cold mountain</button>
+      <button type="button" class="btn btn-sm" data-clim="desert">Hot desert</button>
+      <button type="button" class="btn btn-sm" data-clim="tropics">Rainforest</button>
+      <button type="button" class="btn btn-sm" data-clim="forest">Temperate forest</button>
+      <button type="button" class="btn btn-sm" data-clim="city">Polluted city</button>
+    </div>
+    <ChoiceControl
+      name="ls-rock"
+      label="Rock type"
+      value="granite"
+      options={[
+        { value: 'granite', label: 'Granite' },
+        { value: 'sandstone', label: 'Sandstone' },
+        { value: 'limestone', label: 'Limestone' },
+        { value: 'basalt', label: 'Basalt' },
+      ]}
+    />
+    <SliderControl name="ls-ctemp" label="Mean temperature" min={-20} max={35} step={1} value={2} />
+    <SliderControl name="ls-crange" label="Daily temperature range" min={0} max={40} step={1} value={14} help="Freeze–thaw happens when the daily swing takes the temperature above and below 0 °C." />
+    <SliderControl name="ls-cwater" label="Water available" min={0} max={100} step={5} value={70} />
+    <SliderControl name="ls-cph" label="Rain acidity" min={3.5} max={7} step={0.1} value={5.6} help="Natural rain is about pH 5.6 because of dissolved carbon dioxide; lower is more acidic." />
+    <SliderControl name="ls-cveg" label="Plants and lichens" min={0} max={100} step={5} value={30} />
+  </div>
+
+  <div data-only="erosion" class="ls-group" hidden>
+    <ChoiceControl
+      name="ls-agent"
+      label="Agent of erosion"
+      value="water"
+      options={[
+        { value: 'water', label: 'Water' },
+        { value: 'wind', label: 'Wind' },
+        { value: 'glacier', label: 'Ice' },
+        { value: 'gravity', label: 'Gravity' },
+      ]}
+    />
+    <div data-ag="rain"><SliderControl name="ls-rain" label="Rainfall / water in soil" min={0} max={100} step={5} value={50} /></div>
+    <div data-ag="slope"><SliderControl name="ls-slope" label="Slope" min={1} max={45} step={1} value={15} /></div>
+    <div data-ag="veg"><SliderControl name="ls-veg" label="Vegetation cover" min={0} max={100} step={5} value={30} /></div>
+    <div data-ag="grain"><SliderControl name="ls-grain" label="Grain size" min={-3} max={2.5} step={0.1} value={-0.5} scale={['Clay', 'Boulders']} /></div>
+    <div data-ag="wind" hidden><SliderControl name="ls-wind" label="Wind speed" min={0} max={30} step={1} value={12} /></div>
+    <div data-ag="ice" hidden><SliderControl name="ls-ice" label="Ice thickness" min={20} max={600} step={10} value={200} /></div>
+    <div data-ag="temp" hidden><SliderControl name="ls-temp" label="Air temperature change" min={-10} max={10} step={1} value={0} /></div>
+  </div>
+
+  <div data-only="landforms" class="ls-group" hidden>
+    <div class="ctrl">
+      <label class="ctrl-label" for="landscape-form">Landform</label>
+      <select id="landscape-form" class="select" data-form>
+        <option value="meander">Meanders and oxbow lakes</option>
+        <option value="delta">River delta</option>
+        <option value="fan">Alluvial fan</option>
+        <option value="coast">Beach and spit</option>
+        <option value="dunes">Sand dunes</option>
+        <option value="valley">V- and U-shaped valleys</option>
+      </select>
+    </div>
+    <SliderControl name="ls-flow" label="River flow" min={0} max={100} step={5} value={50} />
+    <SliderControl name="ls-supply" label="Sediment supply" min={0} max={100} step={5} value={50} />
+    <SliderControl name="ls-wave" label="Valley slope" min={0} max={100} step={5} value={40} />
+    <SliderControl name="ls-time" label="Time" min={0} max={100} step={1} value={60} />
+    <ToggleControl name="ls-split" label="Before-and-after comparison" checked />
+  </div>
+
+  <div data-only="3d">
+    <SimKey
+      items={[
+        { label: 'Eroded (Show change)', color: '#e8590c', shape: 'square' },
+        { label: 'Deposited (Show change)', color: '#4dabf7', shape: 'square' },
+        { label: 'Sand and sediment', color: '#e9c46a', shape: 'square' },
+        { label: 'Bare rock', color: '#868e96', shape: 'square' },
+      ]}
+    />
+  </div>
+
+  <section class="ls-challenge" aria-label="Challenges">
+    <p class="ls-ch-title">Challenge</p>
+    <p class="ls-ch-q" data-ch-q></p>
+    <div class="ls-ch-opts" data-ch-opts></div>
+    <p class="ls-ch-fb" data-ch-fb aria-live="polite"></p>
+    <button type="button" class="btn btn-sm" data-ch-next>Next challenge</button>
+  </section>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .ls-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .ls-group[hidden],
+  [data-only][hidden],
+  [data-ag][hidden] {
+    display: none;
+  }
+  .ls-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  .ls-challenge {
+    display: grid;
+    gap: 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .ls-challenge p {
+    margin: 0;
+  }
+  .ls-ch-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .ls-ch-q {
+    font-weight: 650;
+  }
+  .ls-ch-opts {
+    display: grid;
+    gap: 6px;
+  }
+  .ls-ch-opts :global(button) {
+    justify-content: flex-start;
+    text-align: left;
+    white-space: normal;
+    height: auto;
+    padding-block: 7px;
+  }
+  .ls-ch-fb {
+    font-size: 0.88rem;
+  }
+  .ls-ch-fb:empty {
+    display: none;
+  }
+  .ls-ch-fb[data-tone='ok'] {
+    color: var(--success);
+  }
+  .ls-ch-fb[data-tone='bad'] {
+    color: var(--danger);
+  }
+  .ls-challenge > button {
+    justify-self: start;
+  }
+  :global(#landscape-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#landscape-sim .segmented span) {
+    padding: 7px 6px;
+  }
+  :global(#landscape-sim[data-ls-view='3d'] .sim-canvas) {
+    visibility: hidden;
+  }
+  :global(#landscape-sim[data-ls-view='2d'] .sim-3d),
+  :global(#landscape-sim[data-ls-view='2d'] .sim-3d-tools),
+  :global(#landscape-sim[data-ls-view='2d'] .sim-3d-activate) {
+    display: none !important;
+  }
+  :global(#landscape-sim .ls-no3d) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initLandscape } from './landscape';
+  mountSim('#landscape-sim', initLandscape);
+</script>

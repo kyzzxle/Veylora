@@ -1002,6 +1002,17 @@ export const branches: Branch[] = [
         minutes: 20,
         related: ['earth-science/rock-cycle', 'chemistry/atomic-structure', 'botany/plant-diversity', 'zoology/animal-classification'],
       },
+      {
+        slug: 'weathering-erosion',
+        title: 'Weathering, Erosion and Landform Formation',
+        summary: 'Watch rain and rivers reshape a 3D landscape, crack rock with ice and roots, test what water, wind, ice and gravity can move, and grow deltas, meanders and dunes.',
+        keywords: ['weathering', 'erosion', 'deposition', 'landforms', 'freeze-thaw', 'frost wedging', 'oxidation', 'dissolution', 'root wedging', 'Hjulström curve', 'soil erosion', 'landslide', 'mass movement', 'glacier', 'U-shaped valley', 'delta', 'alluvial fan', 'meander', 'oxbow lake', 'sand dunes', 'longshore drift'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 20,
+        related: ['earth-science/rock-cycle', 'earth-science/water-cycle', 'earth-science/geological-time', 'botany/plant-adaptations'],
+      },
     ],
   },
   {

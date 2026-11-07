@@ -1,0 +1,253 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import LandscapeSim from '../../simulators/landscape/LandscapeSim.astro';
+import { weatheringErosionQuiz } from '../../data/quizzes/weathering-erosion';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'four-processes', label: 'Weathering, erosion, transport, deposition' },
+  { id: 'weathering', label: 'Types of weathering' },
+  { id: 'factors', label: 'What controls weathering' },
+  { id: 'agents', label: 'Agents of erosion' },
+  { id: 'transport', label: 'How sediment travels' },
+  { id: 'deposition', label: 'Deposition and landforms' },
+  { id: 'time', label: 'How long it takes' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Hjulström, F. (1935). Studies of the morphological activity of rivers as illustrated by the River Fyris. Bulletin of the Geological Institute of Uppsala, 25, 221–527.' },
+  { text: 'Glen, J. W. (1955). The creep of polycrystalline ice. Proceedings of the Royal Society of London A, 228, 519–538.' },
+  { text: 'Wischmeier, W. H., & Smith, D. D. (1978). Predicting Rainfall Erosion Losses: A Guide to Conservation Planning. USDA Agriculture Handbook 537.' },
+  { text: 'Bagnold, R. A. (1941). The Physics of Blown Sand and Desert Dunes. Methuen.' },
+  { text: 'Whipple, K. X., & Tucker, G. E. (1999). Dynamics of the stream-power river incision model. Journal of Geophysical Research, 104(B8), 17661–17674.' },
+  { text: 'U.S. Geological Survey. Landslide Hazards Program: landslide types and processes.', url: 'https://www.usgs.gov/programs/landslide-hazards' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="weathering-erosion"
+  description="Interactive weathering and erosion simulator: watch a 3D landscape erode over hundreds of thousands of years, weather rock by freeze–thaw, oxidation and roots, compare erosion by water, wind, ice and gravity, and grow deltas, meanders and dunes."
+  toc={toc}
+  quiz={weatheringErosionQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      The Grand Canyon, the white cliffs of Dover and the sand dunes of the Sahara were all shaped by the same few processes:
+      rock breaks down, the pieces are carried away, and they are dropped somewhere else. Watch rain and rivers reshape a 3D
+      landscape, crack a rock with ice and tree roots, test which grains water and wind can move, and grow a delta or an
+      oxbow lake.
+    </p>
+  </Fragment>
+
+  <LandscapeSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>3D landscape</strong>, rotate and tilt the terrain and tap a landform to identify it. Press <strong>Start</strong> to run time; change the rainfall and vegetation, then turn on <strong>Show change</strong> to see what was eroded (red) and deposited (blue). <strong>Cross-section view</strong> cuts through the landscape.</li>
+      <li>In <strong>Weathering</strong>, choose a climate or set the temperature, daily range, water, rain acidity and plants yourself, then compare rock types. The bars show which process is fastest.</li>
+      <li>In <strong>Erosion</strong>, choose water, wind, ice or gravity. For water, read the Hjulström diagram to see whether a grain is eroded, carried or deposited; for gravity, watch the factor of safety.</li>
+      <li>In <strong>Landforms</strong>, choose a landform and change the flow, sediment supply and the third slider, then press <strong>Start</strong> or drag the time slider and compare before with after.</li>
+      <li>Try the <strong>challenges</strong> under the controls: each one sets up the simulator to show the answer.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Distinguish weathering, erosion, transportation and deposition.</li>
+    <li>Describe physical, chemical and biological weathering, and explain how climate and rock type control them.</li>
+    <li>Compare erosion by running water, wind, glaciers and gravity.</li>
+    <li>Explain where and why sediment is deposited, and how deltas, alluvial fans, meanders, beaches, dunes and valleys form.</li>
+    <li>Explain how slope, rainfall and vegetation affect soil erosion and landslides.</li>
+  </ul>
+
+  <h2 id="four-processes">Weathering, erosion, transport and deposition</h2>
+  <p>
+    These four processes are often confused, but each does a different job:
+  </p>
+  <ul>
+    <li><strong>Weathering</strong> breaks rock down <em>where it is</em>, into smaller pieces or dissolved substances.</li>
+    <li><strong>Erosion</strong> removes the weathered material from where it formed.</li>
+    <li><strong>Transportation</strong> carries it away, in water, wind, ice or simply downhill under gravity.</li>
+    <li><strong>Deposition</strong> drops it when the carrier loses energy: a river slows, the wind drops or ice melts.</li>
+  </ul>
+  <p>
+    Together they wear mountains down and build new land elsewhere. The deposited sediment can later be buried and turned
+    into sedimentary rock, one step in the rock cycle.
+  </p>
+
+  <h2 id="weathering">Types of weathering</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>Process</th><th>How it works</th></tr></thead>
+      <tbody>
+        <tr><td>Physical (mechanical)</td><td>Freeze–thaw (frost wedging)</td><td>Water in cracks freezes and expands by about 9%, widening them a little each cycle.</td></tr>
+        <tr><td>Physical</td><td>Thermal expansion and exfoliation</td><td>Daily heating and cooling, and the release of pressure as overlying rock is removed, make outer layers crack and peel.</td></tr>
+        <tr><td>Chemical</td><td>Oxidation</td><td>Iron in minerals reacts with oxygen and water to form rust-coloured iron oxides.</td></tr>
+        <tr><td>Chemical</td><td>Dissolution (carbonation)</td><td>Rain containing carbon dioxide is weak carbonic acid, which dissolves limestone and marble.</td></tr>
+        <tr><td>Chemical</td><td>Hydrolysis</td><td>Water reacts with feldspar in granite, turning it into clay.</td></tr>
+        <tr><td>Biological</td><td>Root wedging and organic acids</td><td>Roots grow into cracks and prise them open; roots, lichens and microbes release acids.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Physical weathering makes rock fragments without changing their minerals. Chemical weathering changes the minerals
+    themselves. The two help each other: cracks let in water for chemical attack, and chemical weathering weakens rock so it
+    breaks more easily.
+  </p>
+
+  <h2 id="factors">What controls weathering</h2>
+  <ul>
+    <li><strong>Temperature:</strong> chemical reactions roughly double in speed for every 10 °C rise, so chemical weathering is fastest in the hot, wet tropics.</li>
+    <li><strong>Freeze–thaw cycles:</strong> most effective in mountains and high latitudes where the temperature crosses 0 °C on many days.</li>
+    <li><strong>Water:</strong> almost every weathering process needs it. Deserts weather slowly, mainly by heating and cooling.</li>
+    <li><strong>Rock type:</strong> limestone dissolves; iron-rich basalt oxidises; porous sandstone lets water in; massive granite resists until its joints open.</li>
+    <li><strong>Vegetation:</strong> roots and organic acids speed weathering, even though plants protect soil from erosion.</li>
+    <li><strong>Surface area:</strong> breaking rock into smaller pieces exposes more surface to chemical attack.</li>
+  </ul>
+
+  <h2 id="agents">Agents of erosion</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Agent</th><th>How it erodes</th><th>Typical landforms</th></tr></thead>
+      <tbody>
+        <tr><td>Running water</td><td>Rain splash, sheet wash and gullies on slopes; rivers cut down and sideways with the sediment they carry (abrasion).</td><td>V-shaped valleys, canyons, waterfalls, meanders, floodplains, deltas, fans</td></tr>
+        <tr><td>Wind</td><td>Lifts loose dry grains (deflation) and sandblasts rock (abrasion).</td><td>Dunes, desert pavement, loess, rock pedestals</td></tr>
+        <tr><td>Glaciers</td><td>Ice plucks blocks from the bed and grinds it with embedded debris.</td><td>U-shaped valleys, cirques, horns, fjords, moraines</td></tr>
+        <tr><td>Gravity</td><td>Mass movement: creep, slumps, landslides, mudflows, rockfall.</td><td>Scree slopes, landslide scars, debris fans</td></tr>
+        <tr><td>Waves</td><td>Hydraulic action and abrasion at the coast.</td><td>Cliffs, wave-cut platforms, arches, stacks, beaches, spits</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    On slopes, <strong>soil erosion</strong> rises steeply with rainfall intensity and slope steepness, and falls dramatically
+    with plant cover. Soil-loss models such as the Universal Soil Loss Equation multiply factors for rainfall, soil, slope
+    length and steepness, cover and conservation practice. Whether a slope <strong>fails</strong> in a landslide depends on
+    its factor of safety: the ratio of the forces holding the soil (friction and cohesion) to the pull of gravity down the
+    slope. Water in the soil and loss of roots both lower it.
+  </p>
+
+  <h2 id="transport">How sediment travels</h2>
+  <p>
+    Faster water can move bigger grains. The <strong>Hjulström curve</strong> shows, for each grain size, the speed needed to
+    pick grains up (erosion), the range of speeds that keeps them moving (transport) and the speed below which they settle
+    (deposition). Sand of about 0.2–0.5 mm is the easiest to erode. Clay and silt, though tiny, stick together and need a
+    faster flow to lift, but once in the water they stay suspended for a long time.
+  </p>
+  <p>
+    Rivers carry sediment in four ways: dissolved in <strong>solution</strong>, fine particles in <strong>suspension</strong>,
+    sand bouncing along the bed by <strong>saltation</strong>, and pebbles and boulders rolled by <strong>traction</strong>.
+    Wind does the same with dust (suspension), sand (saltation) and coarser grains (creep), though air can only move much
+    smaller grains than water. Glaciers are different: they carry every size together and drop it unsorted.
+  </p>
+
+  <h2 id="deposition">Deposition and landforms</h2>
+  <ul>
+    <li><strong>Deltas</strong> form where a river slows into the sea or a lake. Strong river supply and weak waves give finger-like (bird’s-foot) deltas such as the Mississippi; strong waves spread the sediment into an arc, as in the Nile.</li>
+    <li><strong>Alluvial fans</strong> form where a steep mountain stream reaches flat ground and suddenly slows, dropping coarse gravel near the apex and finer sand further out.</li>
+    <li><strong>Meanders</strong> grow because the fastest water is on the outside of bends (erosion, a river cliff) and the slowest on the inside (deposition, a point bar). A cut-off meander becomes an <strong>oxbow lake</strong>.</li>
+    <li><strong>Beaches and spits</strong> form from sand moved along the coast by waves arriving at an angle (longshore drift).</li>
+    <li><strong>Dunes</strong> grow as wind pushes sand up the gentle windward side; it avalanches down the steep lee side, so the dune migrates downwind.</li>
+    <li><strong>Moraines</strong> are ridges of unsorted glacial till left at the sides and snout of a glacier.</li>
+  </ul>
+  <p>
+    Valleys record the agent that cut them: a river cuts a narrow <strong>V-shaped</strong> valley, while a glacier carves a
+    broad <strong>U-shaped</strong> one. Where hard rock is uplifted quickly, rivers cut deep, steep-walled canyons.
+  </p>
+
+  <h2 id="time">How long it takes</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Change</th><th>Typical time</th></tr></thead>
+      <tbody>
+        <tr><td>Landslide or rockfall</td><td>Seconds to minutes</td></tr>
+        <tr><td>Gully cut in bare soil in a storm</td><td>Hours</td></tr>
+        <tr><td>Dune migration of several metres</td><td>One year</td></tr>
+        <tr><td>Meander cut-off and oxbow lake</td><td>Decades to centuries</td></tr>
+        <tr><td>A delta lobe</td><td>Hundreds to thousands of years</td></tr>
+        <tr><td>A U-shaped glacial valley</td><td>Hundreds of thousands of years (several glaciations)</td></tr>
+        <tr><td>The Grand Canyon</td><td>About 5–6 million years for most of its depth</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li>Soil forms by weathering, and erosion can remove centimetres in a storm that took centuries to form, so farmers use cover crops, contour ploughing and terraces.</li>
+    <li>Engineers assess slopes for landslide risk before building roads and homes, and use drainage and retaining walls to raise the factor of safety.</li>
+    <li>Acid rain speeds the weathering of limestone and marble buildings and statues.</li>
+    <li>Dams trap sediment, so deltas downstream can shrink and coastlines retreat.</li>
+    <li>Coastal managers use groynes and sea walls to control longshore drift and cliff erosion.</li>
+    <li>Chemical weathering of silicate rocks slowly removes carbon dioxide from the air, helping control Earth’s climate over millions of years.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>Rivers carry roughly 15–20 billion tonnes of sediment to the oceans every year.</li>
+    <li>Dust from the Sahara blows across the Atlantic and helps fertilise the Amazon rainforest.</li>
+    <li>Most of the coastal land of southern Louisiana was built by the Mississippi delta over the last 7,000 years or so.</li>
+    <li>Some sand dunes in the Namib Desert are more than 300 m high.</li>
+    <li>Yosemite Valley in California is a classic U-shaped glacial valley, with granite domes shaped by exfoliation.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Weathering and erosion are the same.”</strong> Weathering breaks rock in place; erosion moves it.</li>
+    <li><strong>“Rocks are permanent.”</strong> Every rock at the surface is slowly weathering; only the speed varies.</li>
+    <li><strong>“The smallest grains are the easiest to erode.”</strong> Clay is cohesive; fine sand is easiest to pick up.</li>
+    <li><strong>“Landforms only change slowly.”</strong> A single flood or landslide can reshape a valley in hours.</li>
+    <li><strong>“Plants always speed up breakdown.”</strong> Roots speed weathering, but plant cover greatly slows erosion.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The 3D landscape uses a simple landscape-evolution model: water is routed downhill to the steepest neighbour, erosion
+    capacity grows with rainfall, slope and the square root of the area draining through each point, vegetation reduces it,
+    and hillslopes diffuse. It shows the right patterns (valleys deepen, sediment collects in low ground and the sea) but the
+    terrain is invented and the rates are not calibrated. The weathering rates are relative and illustrative, built from
+    simple rules (freeze–thaw days, reactions doubling every 10 °C, acidity). The Hjulström curve is approximate, the soil
+    loss uses a USLE-style formula on an illustrative scale, the glacier speed uses Glen’s flow law for ice deformation only
+    (ignoring sliding at the bed), and the landslide uses an infinite-slope factor of safety with fixed soil properties. The
+    landform views are schematic drawings driven by the sliders, not physical simulations.
+  </p>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Weathering</dt>
+    <dd>The breakdown of rock in place by physical, chemical or biological processes.</dd>
+    <dt>Erosion</dt>
+    <dd>The removal of weathered material by water, wind, ice, waves or gravity.</dd>
+    <dt>Deposition</dt>
+    <dd>The laying down of sediment when its carrier loses energy.</dd>
+    <dt>Sediment</dt>
+    <dd>Loose particles of rock, mineral or organic material.</dd>
+    <dt>Saltation</dt>
+    <dd>Transport of grains in short hops along the ground or river bed.</dd>
+    <dt>Mass movement</dt>
+    <dd>Downslope movement of rock and soil under gravity, from slow creep to sudden landslides.</dd>
+    <dt>Delta</dt>
+    <dd>Land built from sediment where a river enters a sea or lake.</dd>
+    <dt>Alluvial fan</dt>
+    <dd>A fan of sediment where a steep stream reaches flat ground.</dd>
+    <dt>Moraine</dt>
+    <dd>A ridge of unsorted debris (till) deposited by a glacier.</dd>
+    <dt>Longshore drift</dt>
+    <dd>Movement of sand along a coast by waves arriving at an angle.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Weathering breaks rock down; erosion and transport move it; deposition drops it where energy falls.</li>
+    <li>Climate and rock type decide which weathering processes dominate.</li>
+    <li>Steep slopes, heavy rain and bare ground cause the most erosion; vegetation is the best protection.</li>
+    <li>Each agent leaves its signature: V-shaped valleys from rivers, U-shaped valleys from ice, dunes from wind.</li>
+    <li>Landforms change on time scales from seconds to millions of years.</li>
+  </ul>
+</SimulatorLayout>
