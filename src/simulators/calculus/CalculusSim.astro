@@ -1,0 +1,206 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import { PRESETS } from './data';
+
+const presets = Object.entries(PRESETS).map(([value, p]) => ({ value, label: p.name }));
+---
+
+<SimShell id="calculus-sim" label="A calculus laboratory: limits, tangent and secant lines, Riemann sums and the fundamental theorem of calculus on an interactive graph." hint={false} badge="">
+  <canvas slot="stage" class="sim-canvas" data-canvas role="img" aria-label="Calculus graph" aria-describedby="calculus-sim-status"></canvas>
+
+  <ChoiceControl
+    name="cv-view"
+    label="Explore"
+    value="derivative"
+    options={[
+      { value: 'limits', label: 'Limits' },
+      { value: 'derivative', label: 'Derivative' },
+      { value: 'integral', label: 'Integral' },
+      { value: 'ftc', label: 'FTC' },
+    ]}
+    help="FTC: the fundamental theorem of calculus, which links derivatives and integrals."
+  />
+  <p class="cv-note" data-note aria-live="polite"></p>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="calculus-fn">Function</label>
+    <select id="calculus-fn" class="select" data-fn>
+      {presets.map((p) => <option value={p.value} selected={p.value === 'cubic'}>{p.label}</option>)}
+      <option value="custom">Custom: type your own below</option>
+    </select>
+  </div>
+  <div class="ctrl">
+    <label class="ctrl-label" for="calculus-expr">Your own function f(x) =</label>
+    <div class="cv-expr-row">
+      <input id="calculus-expr" class="input mono" data-expr type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. x^3 - 2x + sin(x)" maxlength="120" aria-describedby="calculus-expr-help calculus-expr-err" />
+      <button type="button" class="btn btn-sm btn-primary" data-plot>Plot</button>
+    </div>
+    <p class="ctrl-help" id="calculus-expr-help">Use x, a, b, pi, e, + − * / ^, brackets and sin cos tan exp ln log sqrt abs. Write 2x for 2·x.</p>
+    <p class="cv-err" id="calculus-expr-err" data-expr-err role="alert"></p>
+  </div>
+  <div data-param="a"><SliderControl name="cv-a" label="Parameter a" min={-4} max={4} step={0.1} value={3} /></div>
+  <div data-param="b" hidden><SliderControl name="cv-b" label="Parameter b" min={-4} max={4} step={0.1} value={0} /></div>
+
+  <div data-views="limits" class="cv-group" hidden>
+    <SliderControl name="cv-target" label="Target x = a" min={-5} max={5} step={0.05} value={1} />
+    <SliderControl name="cv-h" label="Distance from the target, h" min={-4} max={0} step={0.05} value={-0.3} scale={['0.0001', '1']} help="Drag the purple (left) or orange (right) point towards the target, or press Start." />
+  </div>
+
+  <div data-views="derivative" class="cv-group">
+    <SliderControl name="cv-x0" label="Point P at x =" min={-5} max={5} step={0.01} value={1.5} />
+    <SliderControl name="cv-dh" label="Secant gap h" min={-2} max={2} step={0.01} value={1} help="Q is at x + h. Make h small to see the secant turn into the tangent; Start shrinks it for you." />
+    <ToggleControl name="cv-tan" label="Tangent line (green)" checked />
+    <ToggleControl name="cv-sec" label="Secant line through P and Q (dashed)" checked />
+    <ToggleControl name="cv-df" label="Graph of f′(x) (orange, dashed)" />
+    <ToggleControl name="cv-incr" label="Increasing / decreasing and stationary points" />
+  </div>
+
+  <div data-views="integral" class="cv-group" hidden>
+    <SliderControl name="cv-ia" label="Lower bound a" min={-5} max={5} step={0.05} value={0} />
+    <SliderControl name="cv-ib" label="Upper bound b" min={-5} max={5} step={0.05} value={2} />
+    <SliderControl name="cv-n" label="Number of rectangles n" min={1} max={200} step={1} value={8} />
+    <ChoiceControl
+      name="cv-rule"
+      label="Height taken at"
+      value="left"
+      options={[
+        { value: 'left', label: 'Left end' },
+        { value: 'mid', label: 'Midpoint' },
+        { value: 'right', label: 'Right end' },
+      ]}
+    />
+    <ToggleControl name="cv-exact" label="Shade the exact area (blue above, orange below the axis)" />
+  </div>
+
+  <div data-views="ftc" class="cv-group" hidden>
+    <SliderControl name="cv-fa" label="Start of the area, a" min={-5} max={5} step={0.05} value={0} />
+    <SliderControl name="cv-fx" label="Moving end, x" min={-5} max={5} step={0.01} value={1.5} />
+  </div>
+
+  <ToggleControl name="cv-grid" label="Grid lines" checked />
+  <ToggleControl name="cv-notes" label="Labels and annotations" checked />
+  <div class="preset-row">
+    <button type="button" class="btn btn-sm" data-zoom="in">Zoom in</button>
+    <button type="button" class="btn btn-sm" data-zoom="out">Zoom out</button>
+    <button type="button" class="btn btn-sm" data-zoom="reset">Reset view</button>
+  </div>
+  <p class="ctrl-help">Drag the coloured points and markers. Drag the background to pan (two fingers on a touch screen); pinch or Ctrl + scroll to zoom. Tap the graph to read coordinates.</p>
+
+  <section class="cv-challenge" aria-label="Challenges">
+    <p class="cv-ch-title">Challenge</p>
+    <p class="cv-ch-q" data-ch-q></p>
+    <div class="cv-ch-opts" data-ch-opts></div>
+    <p class="cv-ch-fb" data-ch-fb aria-live="polite"></p>
+    <button type="button" class="btn btn-sm" data-ch-next>Next challenge</button>
+  </section>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .cv-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .cv-group[hidden],
+  [data-views][hidden],
+  [data-param][hidden] {
+    display: none;
+  }
+  .cv-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  .cv-expr-row {
+    display: flex;
+    gap: 8px;
+  }
+  .cv-expr-row input {
+    flex: 1;
+    min-width: 0;
+  }
+  .cv-err {
+    margin: 0;
+    color: var(--danger);
+    font-size: 0.85rem;
+  }
+  .cv-err:empty {
+    display: none;
+  }
+  .cv-challenge {
+    display: grid;
+    gap: 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .cv-challenge p {
+    margin: 0;
+  }
+  .cv-ch-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .cv-ch-q {
+    font-weight: 650;
+  }
+  .cv-ch-opts {
+    display: grid;
+    gap: 6px;
+  }
+  .cv-ch-opts :global(button) {
+    justify-content: flex-start;
+    text-align: left;
+    white-space: normal;
+    height: auto;
+    padding-block: 7px;
+  }
+  .cv-ch-fb {
+    font-size: 0.88rem;
+  }
+  .cv-ch-fb:empty {
+    display: none;
+  }
+  .cv-ch-fb[data-tone='ok'] {
+    color: var(--success);
+  }
+  .cv-ch-fb[data-tone='bad'] {
+    color: var(--danger);
+  }
+  .cv-challenge > button {
+    justify-self: start;
+  }
+  :global(#calculus-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#calculus-sim .segmented span) {
+    padding: 7px 6px;
+  }
+  :global(#calculus-sim .sim-canvas) {
+    touch-action: pan-y;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initCalculus } from './calculus';
+  mountSim('#calculus-sim', initCalculus);
+</script>

@@ -1158,6 +1158,17 @@ export const branches: Branch[] = [
         minutes: 12,
         related: ['mathematics/probability', 'mathematics/graphing-functions', 'ecology/population-dynamics', 'ecology/climate-change'],
       },
+      {
+        slug: 'calculus',
+        title: 'Calculus Explorer: Limits, Derivatives and Integrals',
+        summary: 'Approach limits from both sides, drag tangent and secant lines, fill areas with Riemann sums and see how derivatives and integrals undo each other.',
+        keywords: ['calculus', 'limit', 'continuity', 'discontinuity', 'derivative', 'tangent line', 'secant line', 'rate of change', 'differentiable', 'stationary point', 'integral', 'Riemann sum', 'area under a curve', 'antiderivative', 'fundamental theorem of calculus'],
+        level: 'Advanced',
+        kind: 'Graph',
+        status: 'live',
+        minutes: 25,
+        related: ['mathematics/graphing-functions', 'physics/projectile-motion', 'mathematics/data-visualization', 'mathematics/vector-addition'],
+      },
     ],
   },
 ];

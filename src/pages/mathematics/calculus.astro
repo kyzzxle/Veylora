@@ -1,0 +1,244 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import CalculusSim from '../../simulators/calculus/CalculusSim.astro';
+import { calculusQuiz } from '../../data/quizzes/calculus';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'limits', label: 'Limits' },
+  { id: 'continuity', label: 'Continuity and discontinuities' },
+  { id: 'derivatives', label: 'Derivatives' },
+  { id: 'shape', label: 'What f′ tells you about f' },
+  { id: 'integrals', label: 'Integrals and Riemann sums' },
+  { id: 'signed', label: 'Signed area' },
+  { id: 'ftc', label: 'The fundamental theorem' },
+  { id: 'formulas', label: 'Formula reference' },
+  { id: 'numerical', label: 'How the lab computes' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Strang, G., & Herman, E. (2016). Calculus Volume 1, Chapter 2: Limits. OpenStax.', url: 'https://openstax.org/books/calculus-volume-1/pages/2-introduction' },
+  { text: 'Strang, G., & Herman, E. (2016). Calculus Volume 1, Chapter 3: Derivatives. OpenStax.', url: 'https://openstax.org/books/calculus-volume-1/pages/3-introduction' },
+  { text: 'Strang, G., & Herman, E. (2016). Calculus Volume 1, Sections 5.1–5.3: Approximating Areas, The Definite Integral, The Fundamental Theorem of Calculus. OpenStax.', url: 'https://openstax.org/books/calculus-volume-1/pages/5-introduction' },
+  { text: 'Burden, R. L., Faires, J. D., & Burden, A. M. (2016). Numerical Analysis (10th ed.), Chapter 4: Numerical Differentiation and Integration. Cengage.' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="calculus"
+  description="Interactive calculus explorer: approach limits from both sides, drag tangent and secant lines, estimate areas with Riemann sums and see the fundamental theorem of calculus link derivatives and integrals."
+  toc={toc}
+  quiz={calculusQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Calculus is the mathematics of change. It answers two questions: how fast is something changing right now (the
+      derivative), and how much has built up over time (the integral). Both rest on the idea of a limit. Approach a point
+      from both sides, turn a secant into a tangent, pack thinner and thinner rectangles under a curve, and watch the two big
+      ideas of calculus turn out to be opposite sides of one coin.
+    </p>
+  </Fragment>
+
+  <CalculusSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>function</strong>, or type your own (for example <code>x^3 - 2x</code> or <code>sin(2x)/x</code>) and press <strong>Plot</strong>. Sliders a and b appear when the function uses them.</li>
+      <li>In <strong>Limits</strong>, drag the target marker on the x-axis, then drag the purple (left) and orange (right) points towards it, or press <strong>Start</strong>. Compare the table of values and read the verdict.</li>
+      <li>In <strong>Derivative</strong>, drag P along the curve and Q towards P. Turn on the graph of f′ and the increasing/decreasing bands to see where f rises, falls and turns.</li>
+      <li>In <strong>Integral</strong>, drag the bounds a and b, change the number of rectangles and the rule, and press <strong>Start</strong> to watch the sum converge.</li>
+      <li>In <strong>FTC</strong>, drag x and watch the accumulated area A(x) in the lower graph. Its slope always matches the height of f.</li>
+      <li>Drag the background to pan, pinch or Ctrl + scroll to zoom, and tap the graph to read coordinates. Try the <strong>challenges</strong> under the controls.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Estimate one-sided and two-sided limits, and explain why a limit can differ from a function’s value.</li>
+    <li>Recognise continuous functions and removable, jump and infinite discontinuities.</li>
+    <li>Interpret the derivative as the limit of secant slopes and the slope of the tangent line.</li>
+    <li>Use the sign of f′ to find where f increases or decreases, and classify stationary points correctly.</li>
+    <li>Approximate definite integrals with left, right and midpoint Riemann sums, and distinguish signed area from geometric area.</li>
+    <li>Explain the fundamental theorem of calculus.</li>
+  </ul>
+
+  <h2 id="limits">Limits</h2>
+  <p>
+    The <strong>limit</strong> of f(x) as x approaches a describes the values f(x) gets close to when x is close to a, but
+    not equal to it. We write lim<sub>x→a</sub> f(x) = L. The value f(a) itself does not matter: f might not even be defined
+    at a.
+  </p>
+  <p>
+    A <strong>left-hand limit</strong> (x → a⁻) uses only x &lt; a; a <strong>right-hand limit</strong> (x → a⁺) uses only
+    x &gt; a. The two-sided limit exists only when both one-sided limits exist and are equal. If f grows without bound, we
+    write lim = ∞ to describe the behaviour, but the limit does not exist as a number.
+  </p>
+
+  <h2 id="continuity">Continuity and discontinuities</h2>
+  <p>f is <strong>continuous</strong> at a when three things hold: f(a) is defined, the limit exists, and the limit equals f(a).</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>What happens</th><th>Example in the lab</th></tr></thead>
+      <tbody>
+        <tr><td>Removable (a hole)</td><td>The limit exists but f(a) is undefined or different</td><td>(x² − 1)/(x − 1) at x = 1</td></tr>
+        <tr><td>Jump</td><td>Left and right limits exist but are different</td><td>x² (x &lt; 1), x + 2 (x ≥ 1)</td></tr>
+        <tr><td>Infinite</td><td>f grows without bound: a vertical asymptote</td><td>1/(x − 2)² at 2, 1/x at 0</td></tr>
+        <tr><td>Oscillating</td><td>f keeps swinging and never settles</td><td>sin(1/x) at 0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="derivatives">Derivatives</h2>
+  <p>
+    The slope of a <strong>secant line</strong> through (x, f(x)) and (x + h, f(x + h)) is the <strong>average rate of
+    change</strong> [f(x + h) − f(x)]/h. Letting h shrink to zero gives the <strong>derivative</strong>, the
+    <strong>instantaneous rate of change</strong>:
+  </p>
+  <p><strong>f′(x) = lim<sub>h→0</sub> [f(x + h) − f(x)] / h</strong></p>
+  <p>
+    Geometrically, f′(x) is the slope of the <strong>tangent line</strong>, the line that just touches the curve there. A
+    function is <strong>differentiable</strong> at x when this limit exists. Corners (|x| at 0), cusps (x<sup>2/3</sup> at 0),
+    jumps and vertical tangents have no derivative. A differentiable function is always continuous, but a continuous function
+    need not be differentiable.
+  </p>
+
+  <h2 id="shape">What f′ tells you about f</h2>
+  <ul>
+    <li>Where f′(x) &gt; 0, f is <strong>increasing</strong>; where f′(x) &lt; 0, f is <strong>decreasing</strong>.</li>
+    <li>Where f′(x) = 0, the tangent is horizontal: a <strong>stationary point</strong>.</li>
+    <li>A stationary point is a <strong>local maximum</strong> if f′ changes from + to −, a <strong>local minimum</strong> if it changes from − to +, and <strong>neither</strong> if f′ keeps its sign (x³ at 0).</li>
+    <li>Maxima and minima can also occur where f′ does not exist, such as the corner of |x|.</li>
+  </ul>
+
+  <h2 id="integrals">Integrals and Riemann sums</h2>
+  <p>
+    To find the area under a curve between x = a and x = b, split [a, b] into n strips of width Δx = (b − a)/n, and add up
+    rectangles of height f(xᵢ*), where xᵢ* is the left end, right end or midpoint of each strip. This is a
+    <strong>Riemann sum</strong>, Σ f(xᵢ*)·Δx. As n → ∞ the sums approach the <strong>definite integral</strong>
+    ∫<sub>a</sub><sup>b</sup> f(x) dx.
+  </p>
+  <p>
+    An <strong>indefinite integral</strong> ∫ f(x) dx = F(x) + C is the family of all <strong>antiderivatives</strong>
+    (functions whose derivative is f). A definite integral is a number; an indefinite integral is a family of functions.
+    When F is known, ∫<sub>a</sub><sup>b</sup> f(x) dx = F(b) − F(a).
+  </p>
+  <p>
+    For an increasing function, left sums underestimate and right sums overestimate; midpoint sums are usually much more
+    accurate. The error of left and right sums shrinks roughly in proportion to 1/n, and of midpoint sums to 1/n².
+  </p>
+
+  <h2 id="signed">Signed area versus geometric area</h2>
+  <p>
+    The definite integral measures <strong>signed</strong> accumulation: area above the x-axis counts positive and area
+    below counts negative. So ∫<sub>0</sub><sup>2π</sup> sin x dx = 0, even though the curve encloses a total
+    <strong>geometric area</strong> of ∫<sub>0</sub><sup>2π</sup> |sin x| dx = 4. If f is unbounded on [a, b] (for example 1/x
+    across 0), the ordinary integral does not exist; such “improper” integrals need separate treatment.
+  </p>
+
+  <h2 id="ftc">The fundamental theorem of calculus</h2>
+  <p>
+    Define the accumulation function A(x) = ∫<sub>a</sub><sup>x</sup> f(t) dt: the signed area from a up to a moving edge x.
+    If f is continuous on an interval containing a and x, then
+  </p>
+  <p><strong>d/dx [ ∫<sub>a</sub><sup>x</sup> f(t) dt ] = f(x)</strong></p>
+  <p>
+    In words: the area grows at a rate equal to the height of the curve at the moving edge. When f is positive A increases,
+    when f is negative A decreases, and where f crosses zero A has a peak or a valley. The second part of the theorem gives
+    ∫<sub>a</sub><sup>b</sup> f(x) dx = F(b) − F(a) for any antiderivative F, which is how exact integrals are calculated.
+  </p>
+
+  <h2 id="formulas">Formula reference</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Formula</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>lim<sub>x→a</sub> f(x) = L</td><td>f(x) gets arbitrarily close to L as x gets close to a (x ≠ a)</td></tr>
+        <tr><td>[f(x + h) − f(x)] / h</td><td>Secant slope: average rate of change over a step h</td></tr>
+        <tr><td>f′(x) = lim<sub>h→0</sub> [f(x + h) − f(x)] / h</td><td>Derivative: instantaneous rate of change</td></tr>
+        <tr><td>y = f(a) + f′(a)(x − a)</td><td>Tangent line at x = a</td></tr>
+        <tr><td>Δx = (b − a)/n; Σ f(xᵢ*) Δx</td><td>Riemann sum with n strips</td></tr>
+        <tr><td>∫<sub>a</sub><sup>b</sup> f(x) dx = F(b) − F(a)</td><td>Definite integral from an antiderivative F (f continuous on [a, b])</td></tr>
+        <tr><td>d/dx ∫<sub>a</sub><sup>x</sup> f(t) dt = f(x)</td><td>Fundamental theorem of calculus (f continuous)</td></tr>
+        <tr><td>(xⁿ)′ = n·xⁿ⁻¹; (eᵏˣ)′ = k·eᵏˣ; (sin x)′ = cos x</td><td>Some derivatives used by the presets</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="numerical">How the lab computes</h2>
+  <p>
+    A computer cannot take a true limit, so the lab estimates. Limits are estimated from f(a ± 10⁻ᵏ) for k up to 7 and
+    labelled “numerical”. Derivatives of the preset functions use their exact formulas; for your own functions the lab uses
+    the central difference [f(x + h) − f(x − h)]/(2h) with a small h, which is accurate to about eight significant digits for smooth
+    functions. Corners and cusps are detected by comparing the slopes from the left and the right. Exact integrals come from
+    an antiderivative when one is known; otherwise the lab uses two-point Gauss–Legendre quadrature with 1,000 panels. The
+    lab flags intervals where f is unbounded instead of printing a meaningless number. Expressions you type are read by a
+    small parser that only understands maths, never by running code. Very rapidly oscillating or extremely steep functions
+    can still fool any numerical method.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Physics:</strong> velocity is the derivative of position, acceleration is the derivative of velocity, and distance travelled is the integral of speed.</li>
+    <li><strong>Engineering:</strong> integrals give the work done by a force, the centre of mass of a beam and the charge stored in a capacitor.</li>
+    <li><strong>Economics:</strong> marginal cost and marginal revenue are derivatives; total cost is the integral of marginal cost.</li>
+    <li><strong>Medicine:</strong> the area under a drug-concentration curve measures total exposure to a medicine.</li>
+    <li><strong>Computing:</strong> machine learning trains models by following derivatives (gradients) downhill.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>Isaac Newton and Gottfried Leibniz developed calculus independently in the 1660s–1680s; the notation dy/dx and ∫ is Leibniz’s.</li>
+    <li>Archimedes estimated the area of a parabolic segment more than 2,000 years ago by filling it with ever-smaller triangles, an early version of a limit.</li>
+    <li>The rigorous ε–δ definition of a limit was only completed in the 19th century, by Cauchy and Weierstrass.</li>
+    <li>Weierstrass found a function that is continuous everywhere but differentiable nowhere: a curve made entirely of “corners”.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The limit is just f(a).”</strong> Only for continuous functions. A limit can exist where f(a) is undefined or different.</li>
+    <li><strong>“f′(a) = 0 means a maximum or minimum.”</strong> Not always: x³ has f′(0) = 0 but no turning point.</li>
+    <li><strong>“Continuous means differentiable.”</strong> |x| is continuous at 0 but has no derivative there.</li>
+    <li><strong>“An integral is always the area.”</strong> It is signed area: parts below the axis subtract.</li>
+    <li><strong>“The secant slope is the derivative.”</strong> The secant slope is an average rate of change; the derivative is its limit.</li>
+  </ul>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Limit</dt>
+    <dd>The value f(x) approaches as x approaches a, from one side or both.</dd>
+    <dt>Continuity</dt>
+    <dd>f is continuous at a if f(a) exists and equals the limit there.</dd>
+    <dt>Derivative</dt>
+    <dd>The instantaneous rate of change; the slope of the tangent line.</dd>
+    <dt>Secant line</dt>
+    <dd>A line through two points of a curve; its slope is an average rate of change.</dd>
+    <dt>Tangent line</dt>
+    <dd>The line through a point of a curve with slope equal to the derivative there.</dd>
+    <dt>Differentiable</dt>
+    <dd>Having a derivative at a point (no corner, cusp, jump or vertical tangent).</dd>
+    <dt>Stationary point</dt>
+    <dd>A point where f′ = 0.</dd>
+    <dt>Riemann sum</dt>
+    <dd>A sum of rectangle areas that approximates an integral.</dd>
+    <dt>Definite integral</dt>
+    <dd>The limit of Riemann sums on [a, b]: a number giving signed accumulation.</dd>
+    <dt>Indefinite integral (antiderivative)</dt>
+    <dd>A family of functions F(x) + C whose derivative is f.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>A limit describes behaviour near a point, not the value at it.</li>
+    <li>The derivative is the limit of secant slopes: the slope of the tangent.</li>
+    <li>The sign of f′ shows where f rises and falls; turning points need f′ to change sign.</li>
+    <li>Integrals are limits of Riemann sums and measure signed area.</li>
+    <li>The fundamental theorem links the two ideas: accumulating f and then differentiating gives f back.</li>
+  </ul>
+</SimulatorLayout>
