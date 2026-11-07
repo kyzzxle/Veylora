@@ -1169,6 +1169,17 @@ export const branches: Branch[] = [
         minutes: 25,
         related: ['mathematics/graphing-functions', 'physics/projectile-motion', 'mathematics/data-visualization', 'mathematics/vector-addition'],
       },
+      {
+        slug: 'matrices',
+        title: 'Matrix Transformations and Linear Algebra',
+        summary: 'Multiply and invert matrices step by step, transform shapes in 2D and 3D, see determinants as area and find the vectors a matrix only stretches.',
+        keywords: ['matrix', 'matrices', 'linear algebra', 'matrix multiplication', 'transpose', 'determinant', 'inverse', 'identity matrix', 'linear transformation', 'rotation', 'reflection', 'shear', 'homogeneous coordinates', 'eigenvalue', 'eigenvector'],
+        level: 'Advanced',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 25,
+        related: ['mathematics/vector-addition', 'mathematics/geometry-3d', 'mathematics/calculus', 'mathematics/graphing-functions'],
+      },
     ],
   },
 ];

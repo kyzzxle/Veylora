@@ -1,0 +1,282 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+
+const sizes = [1, 2, 3];
+const ttypes = [
+  { value: 'scale', label: 'Scaling' },
+  { value: 'rotate', label: 'Rotation' },
+  { value: 'reflect', label: 'Reflection' },
+  { value: 'shear', label: 'Shear' },
+  { value: 'translate', label: 'Translation' },
+  { value: 'custom', label: 'Custom 2×2 matrix' },
+];
+---
+
+<SimShell id="matrices-sim" label="A linear algebra laboratory: matrix operations, 2D transformations, determinants, eigenvectors and 3D transformations." hint={false} badge="">
+  <Fragment slot="stage">
+    <canvas class="sim-canvas" data-canvas role="img" aria-label="Matrix laboratory" aria-describedby="matrices-sim-status"></canvas>
+    <div class="sim-3d" data-three></div>
+  </Fragment>
+
+  <ChoiceControl
+    name="mx-view"
+    label="Explore"
+    value="algebra"
+    options={[
+      { value: 'algebra', label: 'Algebra' },
+      { value: 't2d', label: '2D' },
+      { value: 'det', label: 'Area' },
+      { value: 'eigen', label: 'Eigen' },
+      { value: 't3d', label: '3D' },
+    ]}
+    help="Matrix operations, 2D transformations, determinants (area), eigenvectors and 3D transformations."
+  />
+  <p class="mx-note" data-note aria-live="polite"></p>
+
+  <div data-views="algebra" class="mx-group">
+    <div class="ctrl">
+      <label class="ctrl-label" for="matrices-op">Operation</label>
+      <select id="matrices-op" class="select" data-op>
+        <option value="add">A + B (addition)</option>
+        <option value="sub">A − B (subtraction)</option>
+        <option value="scale">k · A (scalar multiplication)</option>
+        <option value="mul" selected>A · B (matrix multiplication)</option>
+        <option value="transpose">Aᵀ (transpose)</option>
+        <option value="det">det A (determinant)</option>
+        <option value="inv">A⁻¹ (inverse)</option>
+      </select>
+    </div>
+    {
+      (['A', 'B'] as const).map((w) => (
+        <div class="ctrl mx-editor">
+          <div class="mx-editor-head">
+            <span class="ctrl-label">Matrix {w}</span>
+            <label class="mx-size">
+              <select class="select" data-rows={w} aria-label={`Rows of ${w}`}>
+                {sizes.map((n) => <option value={n} selected={n === 2}>{n}</option>)}
+              </select>
+              ×
+              <select class="select" data-cols={w} aria-label={`Columns of ${w}`}>
+                {sizes.map((n) => <option value={n} selected={n === 2}>{n}</option>)}
+              </select>
+            </label>
+          </div>
+          <div class="mx-grid" data-grid={w} />
+        </div>
+      ))
+    }
+    <p class="mx-err" data-grid-err role="alert"></p>
+    <SliderControl name="mx-k" label="Scalar k (for k · A)" min={-5} max={5} step={0.5} value={2} />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-rand="A">Random A</button>
+      <button type="button" class="btn btn-sm" data-rand="B">Random B</button>
+      <button type="button" class="btn btn-sm" data-swap>Swap A and B</button>
+    </div>
+  </div>
+
+  <div data-views="t2d" class="mx-group" hidden>
+    <div class="ctrl">
+      <label class="ctrl-label" for="matrices-shape">Shape</label>
+      <select id="matrices-shape" class="select" data-shape>
+        <option value="square">Square</option>
+        <option value="triangle">Triangle</option>
+        <option value="rect">Rectangle</option>
+        <option value="custom">Custom polygon (drag its corners)</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <label class="ctrl-label" for="matrices-t1">Transformation T₁</label>
+      <select id="matrices-t1" class="select" data-t="1">
+        {ttypes.map((o) => <option value={o.value} selected={o.value === 'rotate'}>{o.label}</option>)}
+      </select>
+    </div>
+    <div data-tparam="p1"><SliderControl name="mx-p1" label="Parameter" min={-180} max={180} step={5} value={45} /></div>
+    <div data-tparam="q1" hidden><SliderControl name="mx-q1" label="Parameter" min={-3} max={3} step={0.1} value={0} /></div>
+    <div class="ctrl">
+      <label class="ctrl-label" for="matrices-t2">Transformation T₂</label>
+      <select id="matrices-t2" class="select" data-t="2">
+        <option value="none" selected>None</option>
+        {ttypes.map((o) => <option value={o.value}>{o.label}</option>)}
+      </select>
+    </div>
+    <div data-tparam="p2" hidden><SliderControl name="mx-p2" label="Parameter" min={-3} max={3} step={0.1} value={1} /></div>
+    <div data-tparam="q2" hidden><SliderControl name="mx-q2" label="Parameter" min={-3} max={3} step={0.1} value={1} /></div>
+    <ChoiceControl
+      name="mx-order"
+      label="Order"
+      value="t1"
+      options={[
+        { value: 't1', label: 'T₁ first' },
+        { value: 't2', label: 'T₂ first' },
+      ]}
+    />
+    <ToggleControl name="mx-tgrid" label="Show the transformed grid" />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-order-demo>Show that order matters</button>
+    </div>
+    <p class="ctrl-help">Start animates the transformation from the identity. Drag inside the dashed shape to move it.</p>
+  </div>
+
+  <div data-m2 class="mx-group" hidden>
+    <p class="ctrl-help mono">A = [ a  b ; c  d ]</p>
+    <SliderControl name="mx-a" label="a (top left)" min={-3} max={3} step={0.1} value={2} />
+    <SliderControl name="mx-b" label="b (top right)" min={-3} max={3} step={0.1} value={1} />
+    <SliderControl name="mx-c" label="c (bottom left)" min={-3} max={3} step={0.1} value={0} />
+    <SliderControl name="mx-d" label="d (bottom right)" min={-3} max={3} step={0.1} value={1.5} />
+  </div>
+  <div class="preset-row" data-m2-presets="det" hidden>
+    <button type="button" class="btn btn-sm" data-m2preset="scale">Scale</button>
+    <button type="button" class="btn btn-sm" data-m2preset="rotate">Rotate 45°</button>
+    <button type="button" class="btn btn-sm" data-m2preset="shear">Shear</button>
+    <button type="button" class="btn btn-sm" data-m2preset="reflect">Reflect</button>
+    <button type="button" class="btn btn-sm" data-m2preset="collapse">det = 0</button>
+  </div>
+  <div class="preset-row" data-m2-presets="eigen" hidden>
+    <button type="button" class="btn btn-sm" data-m2preset="stretch">Stretch</button>
+    <button type="button" class="btn btn-sm" data-m2preset="symmetric">Symmetric</button>
+    <button type="button" class="btn btn-sm" data-m2preset="swap">Reflect in y = x</button>
+    <button type="button" class="btn btn-sm" data-m2preset="shear">Shear</button>
+    <button type="button" class="btn btn-sm" data-m2preset="rotation">Rotate 90°</button>
+    <button type="button" class="btn btn-sm" data-m2preset="uniform">2 × identity</button>
+    <button type="button" class="btn btn-sm" data-m2preset="zero">det = 0</button>
+  </div>
+  <div data-views="t2d det eigen" class="preset-row" hidden>
+    <button type="button" class="btn btn-sm" data-zoom="in">Zoom in</button>
+    <button type="button" class="btn btn-sm" data-zoom="out">Zoom out</button>
+    <button type="button" class="btn btn-sm" data-zoom="reset">Reset zoom</button>
+  </div>
+
+  <div data-views="t3d" class="mx-group" hidden>
+    <div class="ctrl">
+      <label class="ctrl-label" for="matrices-obj">Object</label>
+      <select id="matrices-obj" class="select" data-obj>
+        <option value="block" selected>F-shaped block (shows mirror images)</option>
+        <option value="cube">Unit cube spanned by î, ĵ, k̂</option>
+      </select>
+    </div>
+    <SliderControl name="mx-sx" label="Scale sₓ" min={-2} max={2} step={0.1} value={1} />
+    <SliderControl name="mx-sy" label="Scale s_y" min={-2} max={2} step={0.1} value={1} />
+    <SliderControl name="mx-sz" label="Scale s_z" min={-2} max={2} step={0.1} value={1} />
+    <ChoiceControl
+      name="mx-axis"
+      label="Rotate about"
+      value="y"
+      options={[
+        { value: 'x', label: 'x-axis' },
+        { value: 'y', label: 'y-axis' },
+        { value: 'z', label: 'z-axis' },
+      ]}
+    />
+    <SliderControl name="mx-ang" label="Rotation angle" min={-180} max={180} step={5} value={30} />
+    <div class="ctrl">
+      <label class="ctrl-label" for="matrices-refl">Reflection</label>
+      <select id="matrices-refl" class="select" data-refl>
+        <option value="none" selected>None</option>
+        <option value="xy">In the xy-plane (z → −z)</option>
+        <option value="yz">In the yz-plane (x → −x)</option>
+        <option value="xz">In the xz-plane (y → −y)</option>
+      </select>
+    </div>
+    <ToggleControl name="mx-ghost" label="Show the original as a wireframe" checked />
+    <p class="ctrl-help">Drag the view to orbit the camera; + and − zoom. Moving the camera does not change the object; the sliders change the matrix.</p>
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .mx-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .mx-group[hidden],
+  [data-views][hidden],
+  [data-tparam][hidden],
+  [data-m2][hidden],
+  [data-m2-presets][hidden] {
+    display: none;
+  }
+  .mx-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  .mx-editor-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .mx-size {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+  }
+  .mx-size select {
+    width: auto;
+    min-width: 3.4em;
+  }
+  .mx-grid {
+    display: grid;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .mx-grid :global(input) {
+    width: 100%;
+    min-width: 0;
+    text-align: center;
+  }
+  .mx-err {
+    margin: 0;
+    color: var(--danger);
+    font-size: 0.85rem;
+  }
+  .mx-err:empty {
+    display: none;
+  }
+  :global(#matrices-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#matrices-sim .segmented span) {
+    padding: 7px 5px;
+  }
+  :global(#matrices-sim[data-mx-view='3d'] .sim-canvas) {
+    visibility: hidden;
+  }
+  :global(#matrices-sim[data-mx-view='2d'] .sim-3d),
+  :global(#matrices-sim[data-mx-view='2d'] .sim-3d-tools),
+  :global(#matrices-sim[data-mx-view='2d'] .sim-3d-activate) {
+    display: none !important;
+  }
+  :global(#matrices-sim .mx-no3d) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initMatrices } from './matrices';
+  mountSim('#matrices-sim', initMatrices);
+</script>

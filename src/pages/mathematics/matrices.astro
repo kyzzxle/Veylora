@@ -1,0 +1,244 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import MatricesSim from '../../simulators/matrices/MatricesSim.astro';
+import { matricesQuiz } from '../../data/quizzes/matrices';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'matrices', label: 'What a matrix is' },
+  { id: 'operations', label: 'Matrix operations' },
+  { id: 'multiplication', label: 'Matrix multiplication' },
+  { id: 'transformations', label: 'Matrices as transformations' },
+  { id: 'homogeneous', label: 'Homogeneous coordinates' },
+  { id: 'determinant', label: 'The determinant' },
+  { id: 'inverse', label: 'The inverse' },
+  { id: 'eigen', label: 'Eigenvalues and eigenvectors' },
+  { id: 'three-d', label: '3D transformations' },
+  { id: 'formulas', label: 'Formula reference' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Abramson, J. (2021). Precalculus 2e, Section 9.5: Matrices and Matrix Operations; 9.7: Solving Systems with Inverses; 9.8: Solving Systems with Cramer’s Rule. OpenStax.', url: 'https://openstax.org/books/precalculus-2e/pages/9-5-matrices-and-matrix-operations' },
+  { text: 'Strang, G. (2016). Introduction to Linear Algebra (5th ed.). Wellesley-Cambridge Press.' },
+  { text: 'Foley, J. D., van Dam, A., Feiner, S. K., & Hughes, J. F. (1995). Computer Graphics: Principles and Practice (2nd ed.), Chapter 5: Geometrical Transformations. Addison-Wesley.' },
+  { text: 'Nicholson, W. K. (2021). Linear Algebra with Applications (Lyryx open edition), Chapters 2–3 and 5.', url: 'https://lyryx.com/linear-algebra-applications/' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="matrices"
+  description="Interactive linear algebra lab: add, multiply, transpose and invert matrices with full working, transform shapes in 2D and 3D, see determinants as area and find eigenvectors."
+  toc={toc}
+  quiz={matricesQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Every time a game rotates a character, a phone straightens a photo or a search engine ranks web pages, a computer is
+      multiplying matrices. A matrix is a grid of numbers, but it is also a machine that moves, stretches, flips and squashes
+      space. Multiply matrices step by step, transform shapes in 2D and 3D, watch the determinant measure area, and find the
+      special directions a transformation leaves alone.
+    </p>
+  </Fragment>
+
+  <MatricesSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Algebra</strong>, set the size of A and B, type their entries, and choose an operation. Tap any entry of the result to see its working; for A · B, the row and column that combine are highlighted. Press <strong>Start</strong> to step through every entry. Invalid sizes are explained instead of computed.</li>
+      <li>In <strong>2D</strong>, choose a shape and up to two transformations, change their parameters, switch the order, and drag the shape. Press <strong>Show that order matters</strong>, or <strong>Start</strong> to animate from the identity.</li>
+      <li>In <strong>Area</strong>, drag the red and green arrow tips (the columns of the matrix) and watch the unit square’s area and orientation.</li>
+      <li>In <strong>Eigen</strong>, try the presets and drag the blue test vector v. Green arrows are vectors that stay on their own line.</li>
+      <li>In <strong>3D</strong>, scale, rotate and reflect the block, and orbit the camera to look at it from any side.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Describe matrices by their size and carry out addition, subtraction, scalar multiplication, multiplication and transposition.</li>
+    <li>Decide when a matrix operation is defined, and explain why AB ≠ BA in general.</li>
+    <li>Interpret a matrix as a linear transformation and use homogeneous coordinates for translations.</li>
+    <li>Interpret the determinant as an area (or volume) scale factor with a sign for orientation.</li>
+    <li>Find the inverse of a 2×2 matrix and explain when no inverse exists.</li>
+    <li>Explain eigenvalues and eigenvectors with A v = λ v, including matrices with no real eigenvectors.</li>
+  </ul>
+
+  <h2 id="matrices">What a matrix is</h2>
+  <p>
+    A <strong>matrix</strong> is a rectangular array of numbers. Its <strong>size</strong> (or dimensions) is written
+    rows × columns: a 2×3 matrix has 2 rows and 3 columns. The entry in row i and column j is written a<sub>ij</sub>. A
+    <strong>square</strong> matrix has as many rows as columns, and the <strong>identity matrix</strong> I has 1s on its
+    diagonal and 0s elsewhere: multiplying by I changes nothing.
+  </p>
+
+  <h2 id="operations">Matrix operations</h2>
+  <ul>
+    <li><strong>Addition and subtraction:</strong> only for matrices of the same size; add or subtract matching entries.</li>
+    <li><strong>Scalar multiplication:</strong> k·A multiplies every entry by the number k.</li>
+    <li><strong>Transpose:</strong> Aᵀ swaps rows and columns, so (Aᵀ)<sub>ij</sub> = a<sub>ji</sub> and an m×n matrix becomes n×m.</li>
+  </ul>
+
+  <h2 id="multiplication">Matrix multiplication</h2>
+  <p>
+    The product AB is defined only when the number of <strong>columns of A</strong> equals the number of <strong>rows of
+    B</strong>. If A is m×n and B is n×p, then AB is m×p, and each entry is a row of A “dotted” with a column of B:
+  </p>
+  <p><strong>(AB)<sub>ij</sub> = a<sub>i1</sub>b<sub>1j</sub> + a<sub>i2</sub>b<sub>2j</sub> + … + a<sub>in</sub>b<sub>nj</sub></strong></p>
+  <p>
+    Matrix multiplication is <strong>associative</strong> ((AB)C = A(BC)) but <strong>not commutative</strong>: AB and BA are
+    usually different, and one can exist while the other does not.
+  </p>
+
+  <h2 id="transformations">Matrices as transformations</h2>
+  <p>
+    Multiplying a column vector by a matrix transforms it. In this lab, points are <strong>column vectors</strong> and the
+    matrix acts on the left: p′ = M p. The columns of a 2×2 matrix show where the basis vectors î = (1, 0) and ĵ = (0, 1)
+    land, and every other point follows: (x, y) ↦ x·î′ + y·ĵ′. Such a <strong>linear transformation</strong> keeps the
+    origin fixed and turns straight lines into straight lines and parallel lines into parallel lines.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Transformation</th><th>2×2 matrix</th></tr></thead>
+      <tbody>
+        <tr><td>Scale by sₓ and s_y</td><td>[sₓ 0; 0 s_y]</td></tr>
+        <tr><td>Rotate anticlockwise by θ</td><td>[cos θ −sin θ; sin θ cos θ]</td></tr>
+        <tr><td>Reflect in the line at angle φ through the origin</td><td>[cos 2φ sin 2φ; sin 2φ −cos 2φ]</td></tr>
+        <tr><td>Shear (horizontal k, vertical m)</td><td>[1 k; m 1]</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    To apply T₁ and then T₂, multiply the matrices as <strong>T₂ · T₁</strong>: the transformation applied first sits next
+    to the vector. Because multiplication is not commutative, the order changes the result. (Some books and graphics tools use
+    row vectors, p′ = p M, which reverses the order of every product; this lab uses column vectors throughout.)
+  </p>
+
+  <h2 id="homogeneous">Homogeneous coordinates</h2>
+  <p>
+    A translation moves the origin, so it is not a linear transformation and no 2×2 matrix can do it. The trick is to write
+    each point as a 3-component column (x, y, 1). Then a translation becomes the 3×3 matrix [1 0 tₓ; 0 1 t_y; 0 0 1], and
+    rotations, scalings, reflections and shears put their 2×2 matrix in the top-left corner. Every combination of these is
+    one 3×3 matrix product, which is how computer graphics handles them.
+  </p>
+
+  <h2 id="determinant">The determinant</h2>
+  <p>
+    For a 2×2 matrix, <strong>det [a b; c d] = ad − bc</strong>. Geometrically, |det A| is the factor by which A scales
+    areas: the unit square becomes a parallelogram of area |det A|. The sign shows orientation: a negative determinant means
+    the transformation includes a reflection, so shapes come out as mirror images. If det A = 0 the plane is squashed onto a
+    line or a point. For 3×3 matrices the determinant scales volumes; it can be calculated by expanding along a row:
+    det A = a<sub>11</sub>·det M<sub>11</sub> − a<sub>12</sub>·det M<sub>12</sub> + a<sub>13</sub>·det M<sub>13</sub>,
+    where M<sub>1j</sub> is A with row 1 and column j removed.
+  </p>
+
+  <h2 id="inverse">The inverse</h2>
+  <p>
+    The <strong>inverse</strong> A⁻¹ undoes A: A·A⁻¹ = A⁻¹·A = I. Only square matrices with det A ≠ 0 have one (they are
+    called <strong>invertible</strong> or non-singular). For a 2×2 matrix,
+    <strong>A⁻¹ = 1/(ad − bc) · [d −b; −c a]</strong>. In general A⁻¹ = adj(A)/det A, where the adjugate adj(A) is the
+    transpose of the matrix of cofactors. A singular matrix (det A = 0) has no inverse because it loses information: many
+    points land on the same place, so you cannot tell where they came from.
+  </p>
+
+  <h2 id="eigen">Eigenvalues and eigenvectors</h2>
+  <p>
+    An <strong>eigenvector</strong> of A is a non-zero vector v that A only stretches, shrinks or reverses, without turning
+    it off its line: <strong>A v = λ v</strong>. The number λ is its <strong>eigenvalue</strong>. For a 2×2 matrix the
+    eigenvalues solve λ² − (a + d)λ + (ad − bc) = 0, the characteristic equation.
+  </p>
+  <ul>
+    <li>Two different real roots: two eigen-directions (for example a stretch, or the symmetric matrix [2 1; 1 2]).</li>
+    <li>A repeated root: either every vector is an eigenvector (A = λI) or there is only one eigen-direction (a shear).</li>
+    <li>Complex roots: no real eigenvectors at all. A rotation by 90° turns every vector, so nothing keeps its direction.</li>
+  </ul>
+  <p>The product of the eigenvalues equals det A, and their sum equals the trace a + d.</p>
+
+  <h2 id="three-d">3D transformations</h2>
+  <p>
+    In 3D, 3×3 matrices scale, rotate and reflect objects about the origin. The lab builds M = F·R·S: scale first, then
+    rotate about one axis, then reflect in a coordinate plane. Its determinant scales volume, and a negative determinant
+    produces a mirror image that no rotation could reach. Orbiting the camera changes your viewpoint only: the object and
+    its matrix stay the same.
+  </p>
+
+  <h2 id="formulas">Formula reference</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Formula</th><th>Meaning and conditions</th></tr></thead>
+      <tbody>
+        <tr><td>(A ± B)<sub>ij</sub> = a<sub>ij</sub> ± b<sub>ij</sub></td><td>A and B the same size</td></tr>
+        <tr><td>(kA)<sub>ij</sub> = k·a<sub>ij</sub></td><td>k is a number (a scalar)</td></tr>
+        <tr><td>(AB)<sub>ij</sub> = Σ<sub>k</sub> a<sub>ik</sub>b<sub>kj</sub></td><td>A is m×n, B is n×p; AB is m×p</td></tr>
+        <tr><td>(Aᵀ)<sub>ij</sub> = a<sub>ji</sub></td><td>Transpose: rows become columns</td></tr>
+        <tr><td>det [a b; c d] = ad − bc</td><td>Signed area-scaling factor (square matrices only)</td></tr>
+        <tr><td>A⁻¹ = 1/(ad − bc) · [d −b; −c a]</td><td>2×2 inverse; exists only if ad − bc ≠ 0</td></tr>
+        <tr><td>p′ = M p, with p = (x, y, 1)</td><td>Homogeneous 2D transformation, column-vector convention</td></tr>
+        <tr><td>A v = λ v, v ≠ 0</td><td>Eigenvector v with eigenvalue λ</td></tr>
+        <tr><td>λ² − (a + d)λ + (ad − bc) = 0</td><td>Characteristic equation of a 2×2 matrix</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Computer graphics and games:</strong> every frame, 4×4 homogeneous matrices position, rotate and project millions of points onto the screen.</li>
+    <li><strong>Robotics:</strong> chains of transformation matrices locate a robot arm’s hand from its joint angles.</li>
+    <li><strong>Engineering:</strong> large systems of linear equations for structures and circuits are solved with matrices.</li>
+    <li><strong>Data science:</strong> principal component analysis finds the eigenvectors of a data set’s covariance matrix to reveal its main directions of variation.</li>
+    <li><strong>Search and networks:</strong> Google’s original PageRank was an eigenvector of a huge matrix of links between pages.</li>
+    <li><strong>Physics:</strong> eigenvalues give the energy levels in quantum mechanics and the natural vibration frequencies of bridges and buildings.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>The word “matrix” was introduced by James Joseph Sylvester in 1850; Arthur Cayley defined matrix multiplication in 1858.</li>
+    <li>Chinese mathematicians solved systems of equations with grids of numbers, much like matrices, about 2,000 years ago in <em>The Nine Chapters on the Mathematical Art</em>.</li>
+    <li>Multiplying two n×n matrices the schoolbook way takes about n³ multiplications; cleverer algorithms, starting with Strassen’s in 1969, need fewer.</li>
+    <li>Graphics cards are, at heart, machines for multiplying matrices very quickly, which is why they also power modern AI.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“AB = BA.”</strong> Usually false, and one product may not even be defined.</li>
+    <li><strong>“Multiply matrices entry by entry.”</strong> The matrix product combines rows with columns.</li>
+    <li><strong>“Any square matrix has an inverse.”</strong> Only if its determinant is not zero.</li>
+    <li><strong>“A negative determinant means negative area.”</strong> Area scales by |det|; the sign only records a flip.</li>
+    <li><strong>“Every matrix has real eigenvectors.”</strong> Rotations, for example, have none.</li>
+    <li><strong>“A matrix transformation is the same as adding vectors.”</strong> Adding a vector only shifts points; a matrix can rotate, stretch, shear and reflect them.</li>
+  </ul>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Matrix</dt>
+    <dd>A rectangular array of numbers with a size rows × columns.</dd>
+    <dt>Identity matrix</dt>
+    <dd>The square matrix I with 1s on the diagonal; AI = IA = A.</dd>
+    <dt>Transpose</dt>
+    <dd>The matrix with rows and columns swapped.</dd>
+    <dt>Determinant</dt>
+    <dd>A number from a square matrix: its signed area or volume scale factor.</dd>
+    <dt>Inverse</dt>
+    <dd>The matrix that undoes A; exists only when det A ≠ 0.</dd>
+    <dt>Linear transformation</dt>
+    <dd>A map that keeps the origin fixed and preserves addition and scaling of vectors.</dd>
+    <dt>Homogeneous coordinates</dt>
+    <dd>Writing (x, y) as (x, y, 1) so translations become matrix products.</dd>
+    <dt>Eigenvector and eigenvalue</dt>
+    <dd>A non-zero v and number λ with A v = λ v.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Check sizes first: AB needs columns of A = rows of B.</li>
+    <li>A matrix is a transformation; its columns show where the basis vectors go.</li>
+    <li>Order matters: “T₁ then T₂” is T₂·T₁ with column vectors.</li>
+    <li>|det| scales area or volume; a negative sign flips orientation; zero means no inverse.</li>
+    <li>Eigenvectors keep their line; eigenvalues tell how much they stretch, and some matrices have none that are real.</li>
+  </ul>
+</SimulatorLayout>
