@@ -1,0 +1,154 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="geotime-sim" label="A geological time laboratory: a zoomable timeline, a rock cross-section, a fossil formation experiment and a radiometric dating lab." hint={false} badge="">
+  <ChoiceControl
+    name="gt-view"
+    label="Explore"
+    value="timeline"
+    options={[
+      { value: 'timeline', label: 'Timeline' },
+      { value: 'layers', label: 'Rock layers' },
+      { value: 'fossil', label: 'Make a fossil' },
+      { value: 'dating', label: 'Dating lab' },
+    ]}
+    help="Travel through Earth’s history, read the rock record, make a fossil and date rocks."
+  />
+  <p class="gt-note" data-note aria-live="polite"></p>
+
+  <div data-only="timeline" class="gt-group">
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-zin>Zoom in</button>
+      <button type="button" class="btn btn-sm" data-zout>Zoom out</button>
+    </div>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-jump="all">All of Earth’s history</button>
+      <button type="button" class="btn btn-sm" data-jump="pre">Precambrian</button>
+      <button type="button" class="btn btn-sm" data-jump="pal">Paleozoic</button>
+      <button type="button" class="btn btn-sm" data-jump="mes">Mesozoic</button>
+      <button type="button" class="btn btn-sm" data-jump="cen">Cenozoic</button>
+      <button type="button" class="btn btn-sm" data-jump="hum">Last 8 million years</button>
+    </div>
+    <p class="ctrl-help">Drag the timeline to move along it and drag the orange cursor to read any moment. Tap an interval to zoom into it.</p>
+  </div>
+
+  <div data-only="layers" class="gt-group" hidden>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-peel>Remove the top layer</button>
+      <button type="button" class="btn btn-sm" data-restore>Restore all layers</button>
+    </div>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-ask>Which is older? (challenge)</button>
+    </div>
+    <p class="ctrl-help">Tap any layer, the dike or the red erosion surface to inspect it.</p>
+  </div>
+
+  <div data-only="fossil" class="gt-group" hidden>
+    <div class="ctrl">
+      <label class="ctrl-label" for="geotime-org">Organism</label>
+      <select id="geotime-org" class="select" data-org>
+        <option value="fish">Fish (bones)</option>
+        <option value="shell">Clam (shell)</option>
+        <option value="leaf">Leaf</option>
+        <option value="jelly">Jellyfish (soft body)</option>
+        <option value="dino">Dinosaur footprints</option>
+        <option value="insect">Insect</option>
+      </select>
+    </div>
+    <ChoiceControl
+      name="gt-env"
+      label="Environment"
+      value="sea"
+      options={[
+        { value: 'sea', label: 'Sea floor' },
+        { value: 'river', label: 'River bank' },
+        { value: 'land', label: 'Open ground' },
+        { value: 'resin', label: 'Tree resin' },
+      ]}
+    />
+    <SliderControl name="gt-burial" label="Burial speed" min={0} max={100} step={5} value={70} />
+    <SliderControl name="gt-oxygen" label="Oxygen at the bottom" min={0} max={100} step={5} value={30} />
+    <ToggleControl name="gt-minerals" label="Mineral-rich groundwater" checked />
+    <ToggleControl name="gt-scav" label="Scavengers" />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-fnext>Next stage</button>
+      <button type="button" class="btn btn-sm" data-sediment>Add a sediment layer</button>
+    </div>
+  </div>
+
+  <div data-only="dating" class="gt-group" hidden>
+    <ChoiceControl
+      name="gt-iso"
+      label="Isotope system"
+      value="k40"
+      options={[
+        { value: 'c14', label: 'C-14' },
+        { value: 'k40', label: 'K-40' },
+        { value: 'u238', label: 'U-238' },
+        { value: 'rb87', label: 'Rb-87' },
+      ]}
+    />
+    <SliderControl name="gt-halves" label="Half-lives elapsed" min={0} max={6} step={0.05} value={1} />
+    <SliderControl name="gt-n0" label="Parent atoms at the start" min={100} max={10000} step={100} value={1000} />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-sample>Date a sample</button>
+      <button type="button" class="btn btn-sm" data-clear-sample>Clear sample</button>
+    </div>
+    <p class="ctrl-help">Start lets time run; the parent isotope decays into the daughter.</p>
+  </div>
+
+  <div data-only="dating" hidden>
+    <SimKey
+      items={[
+        { label: 'Parent isotope', color: '#f08c00', shape: 'dot' },
+        { label: 'Daughter product', color: '#4dabf7', shape: 'dot' },
+      ]}
+    />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .gt-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .gt-group[hidden],
+  [data-only][hidden] {
+    display: none;
+  }
+  .gt-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#geotime-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#geotime-sim .segmented span) {
+    padding: 7px 8px;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initGeoTime } from './geotime';
+  mountSim('#geotime-sim', initGeoTime);
+</script>

@@ -991,6 +991,17 @@ export const branches: Branch[] = [
         minutes: 20,
         related: ['earth-science/plate-tectonics', 'earth-science/rock-cycle', 'earth-science/earthquakes', 'earth-science/earth-layers'],
       },
+      {
+        slug: 'geological-time',
+        title: 'Geological Time and Fossil Formation',
+        summary: 'Zoom through 4.5 billion years of Earth history, read the order of rock layers, turn a fish into a fossil and date rocks with radioactive half-lives.',
+        keywords: ['geological time', 'geologic time scale', 'deep time', 'fossil', 'fossilisation', 'fossilization', 'superposition', 'unconformity', 'cross-cutting', 'stratigraphy', 'relative dating', 'radiometric dating', 'half-life', 'carbon dating', 'era', 'period', 'mass extinction'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 20,
+        related: ['earth-science/rock-cycle', 'chemistry/atomic-structure', 'botany/plant-diversity', 'zoology/animal-classification'],
+      },
     ],
   },
   {

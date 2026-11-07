@@ -1,0 +1,229 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import GeoTimeSim from '../../simulators/geotime/GeoTimeSim.astro';
+import { geologicalTimeQuiz } from '../../data/quizzes/geological-time';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'deep-time', label: 'Deep time' },
+  { id: 'scale', label: 'The geological time scale' },
+  { id: 'principles', label: 'Reading rock layers' },
+  { id: 'fossils', label: 'How fossils form' },
+  { id: 'fossil-types', label: 'Types of fossil' },
+  { id: 'relative', label: 'Relative and numerical dating' },
+  { id: 'radiometric', label: 'Radiometric dating' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Cohen, K. M., Finney, S. C., Gibbard, P. L., & Fan, J.-X. (2013; updated 2023). The ICS International Chronostratigraphic Chart. Episodes, 36, 199–204.', url: 'https://stratigraphy.org/chart' },
+  { text: 'Gradstein, F. M., Ogg, J. G., Schmitz, M. D., & Ogg, G. M. (Eds.). (2020). Geologic Time Scale 2020. Elsevier.' },
+  { text: 'Newman, W. L. Geologic Time (online edition). U.S. Geological Survey general interest publication.', url: 'https://pubs.usgs.gov/gip/geotime/' },
+  { text: 'Dalrymple, G. B. (1991). The Age of the Earth. Stanford University Press.' },
+  { text: 'Behrensmeyer, A. K., Kidwell, S. M., & Gastaldo, R. A. (2000). Taphonomy and paleobiology. Paleobiology, 26(4, Supplement), 103–147.' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="geological-time"
+  description="Interactive geological time simulator: zoom through 4.5 billion years of Earth history, peel back rock layers and apply superposition and cross-cutting, make a fossil, and date rocks with radioactive half-lives."
+  toc={toc}
+  quiz={geologicalTimeQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Squeeze Earth’s 4.54-billion-year history into a single day, and dinosaurs arrive at about 22:47 while modern humans
+      appear only seconds before midnight. Geologists read this history from rock layers and the fossils inside them, and put
+      dates on it using radioactive atoms. Travel through deep time, peel back a cliff face, turn a fish into a fossil, and
+      date a rock in the lab.
+    </p>
+  </Fragment>
+
+  <GeoTimeSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>Timeline</strong>, zoom in and out, drag along the timeline, tap an era or period to zoom into it, tap events to read about them, and drag the orange cursor to see the 24-hour-clock time.</li>
+      <li>In <strong>Rock layers</strong>, tap layers, the dike and the red erosion surface. Drag the top layer away (or press <strong>Remove the top layer</strong>) to dig down. Press <strong>Which is older?</strong> and tap the older feature.</li>
+      <li>In <strong>Make a fossil</strong>, choose an organism and environment, set the burial speed, oxygen, groundwater and scavengers, then drag the organism into the scene and step through the six stages.</li>
+      <li>In <strong>Dating lab</strong>, choose an isotope, change the half-lives and starting atoms, press <strong>Start</strong> to watch decay, and use <strong>Date a sample</strong> to work out a rock’s age.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Place major events in Earth’s history on the geological time scale.</li>
+    <li>Apply superposition, original horizontality, cross-cutting relationships and unconformities to order rock layers.</li>
+    <li>Explain how fossils form and why fossilisation is rare.</li>
+    <li>Distinguish relative dating from numerical (radiometric) dating, and use half-lives to calculate an age.</li>
+  </ul>
+
+  <h2 id="deep-time">Deep time</h2>
+  <p>
+    Earth formed about <strong>4.54 billion years ago</strong>. Human lifetimes are measured in decades and written history in
+    thousands of years, so geological time, or “deep time”, is hard to imagine. Mountains rise and wear away, oceans open and
+    close, and life evolves over millions of years. Scaling the whole history to one day helps: the first animals with shells
+    appear around 21:09, and <em>Homo sapiens</em>, about 300,000 years ago, at 23:59:54.
+  </p>
+
+  <h2 id="scale">The geological time scale</h2>
+  <p>
+    Geologists divide Earth’s history into <strong>eons</strong>, <strong>eras</strong> and <strong>periods</strong>, mostly
+    defined by changes in the rock and fossil record. The boundaries are agreed by the International Commission on
+    Stratigraphy, and most are dated to within a few hundred thousand years or better.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Interval</th><th>Approximate age and highlights</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Precambrian</strong></td><td>4,567–538.8 Ma: Earth forms, first life, oxygen builds up</td></tr>
+        <tr><td><strong>Paleozoic Era</strong></td><td>538.8–251.9 Ma: Cambrian explosion, life moves onto land, ends in the largest mass extinction</td></tr>
+        <tr><td><strong>Mesozoic Era</strong></td><td>251.9–66.0 Ma: dinosaurs, first mammals, birds and flowering plants</td></tr>
+        <tr><td><strong>Cenozoic Era</strong></td><td>66.0 Ma–today: mammals diversify, humans appear</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Ma means “mega-annum”, millions of years ago. Some boundaries, such as the end of the Jurassic, are still being refined.</p>
+
+  <h2 id="principles">Reading rock layers</h2>
+  <p>Sedimentary rocks build up in layers (strata). In the 1600s Nicolas Steno described the principles still used today:</p>
+  <ul>
+    <li><strong>Superposition</strong>: in an undisturbed sequence, lower layers are older than the layers above them.</li>
+    <li><strong>Original horizontality</strong>: sediment is laid down in roughly flat layers, so tilted or folded layers were disturbed afterwards.</li>
+    <li><strong>Cross-cutting relationships</strong>: a dike, fault or erosion surface that cuts across layers is younger than the layers it cuts.</li>
+    <li><strong>Unconformities</strong>: surfaces of erosion or non-deposition represent gaps in the record, sometimes of hundreds of millions of years.</li>
+  </ul>
+  <p>
+    In the simulator, tilted layers A–C were deposited, tilted and eroded flat before layer D was laid on top, forming an
+    <strong>angular unconformity</strong>. The dike cuts up through layers A to E, so it is younger than them, but layer F
+    lies across its top, so F is younger than the dike.
+  </p>
+
+  <h2 id="fossils">How fossils form</h2>
+  <ol>
+    <li>An organism dies.</li>
+    <li>It is buried by sediment such as mud or sand, ideally quickly.</li>
+    <li>Soft tissues generally decay, especially where there is oxygen.</li>
+    <li>More sediment accumulates and slowly turns into rock.</li>
+    <li>Minerals from groundwater may fill or replace the remains.</li>
+    <li>Much later, uplift and erosion bring the fossil to the surface.</li>
+  </ol>
+  <p>
+    Fossilisation is rare. Most organisms are eaten, decay or are destroyed by weathering, and most of the rock that formed
+    has since been eroded, melted or buried out of reach. Organisms with hard parts that were buried quickly in fine sediment
+    with little oxygen have the best chance.
+  </p>
+
+  <h2 id="fossil-types">Types of fossil</h2>
+  <ul>
+    <li><strong>Body fossils</strong>: preserved parts of the organism, such as shells, bones and teeth.</li>
+    <li><strong>Trace fossils</strong>: evidence of activity, such as footprints, burrows and droppings.</li>
+    <li><strong>Molds and casts</strong>: a shell dissolves and leaves a hollow mold, which can be filled by minerals to form a cast.</li>
+    <li><strong>Petrified (permineralised) fossils</strong>: minerals fill the pores of bone or wood, turning it to stone.</li>
+    <li><strong>Carbon films</strong>: thin films of carbon left by leaves or soft bodies squeezed in fine mud.</li>
+    <li><strong>Preserved remains</strong>: whole organisms kept in amber, ice or tar, such as insects in amber or mammoths in permafrost.</li>
+  </ul>
+
+  <h2 id="relative">Relative and numerical dating</h2>
+  <p>
+    <strong>Relative dating</strong> puts rocks and events in order (older or younger) using stratigraphic principles and
+    fossils, without giving an age in years. <strong>Numerical dating</strong> (absolute dating) gives an age in years,
+    usually by radiometric dating. Fossils themselves are rarely dated directly. Instead, geologists date volcanic ash or lava
+    layers above and below a fossil, which brackets its age: a fossil between ash beds of 75 and 60 million years old must
+    be between 60 and 75 million years old.
+  </p>
+
+  <h2 id="radiometric">Radiometric dating</h2>
+  <p>
+    Some atoms are radioactive: their nuclei decay into other atoms at a steady, predictable rate. The <strong>half-life</strong>
+    (T) is the time for half of the parent atoms to decay into daughter atoms. After time t, the number of parent atoms left is:
+  </p>
+  <p><strong>N = N₀ × (½)<sup>t / T</sup></strong></p>
+  <p>
+    where N₀ is the starting number. Measuring the parent (P) and daughter (D) atoms in a sample gives the age:
+    <strong>t = T × log₂(1 + D / P)</strong>. After one half-life 50% of the parent remains, after two 25%, after three 12.5%.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Isotope system</th><th>Half-life and use</th></tr></thead>
+      <tbody>
+        <tr><td>Carbon-14 → Nitrogen-14</td><td>5,730 years: once-living material up to about 50,000 years old</td></tr>
+        <tr><td>Potassium-40 → Argon-40</td><td>1.25 billion years: volcanic rocks and ash</td></tr>
+        <tr><td>Uranium-238 → Lead-206</td><td>4.47 billion years: zircon crystals, the oldest rocks</td></tr>
+        <tr><td>Rubidium-87 → Strontium-87</td><td>About 49 billion years: very old igneous and metamorphic rocks</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Not every rock can be dated by every method. Sedimentary rocks are made of older grains, so their age usually comes from
+    igneous rocks around them; carbon-14 only works for once-living material younger than about 50,000 years. Real dating
+    needs carefully chosen samples, checks that no atoms were gained or lost, and often several methods that agree.
+  </p>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li>Dating rocks reveals how fast mountains rise, continents move and life evolves.</li>
+    <li>Fossils and rock layers guide the search for oil, gas, coal and groundwater.</li>
+    <li>The record of past climates and mass extinctions helps us understand today’s climate change and biodiversity loss.</li>
+    <li>Carbon-14 dates archaeological sites, from cave paintings to ancient settlements.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>The oldest known mineral grains on Earth, zircons from Jack Hills in Western Australia, are about 4.4 billion years old.</li>
+    <li>James Hutton’s unconformity at Siccar Point in Scotland convinced him in 1788 that Earth must be immensely old.</li>
+    <li>The Great Unconformity in the Grand Canyon represents up to about a billion years of missing rock in places.</li>
+    <li>Amber can preserve insects, feathers and even small lizards in three dimensions for tens of millions of years.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Humans lived alongside dinosaurs.”</strong> Non-avian dinosaurs died out 66 million years ago; Homo sapiens appeared about 300,000 years ago.</li>
+    <li><strong>“Carbon-14 is used to date dinosaurs.”</strong> Carbon-14 is gone after about 50,000 years; dinosaur fossils are dated from volcanic layers using methods such as potassium–argon or uranium–lead.</li>
+    <li><strong>“Every dead organism becomes a fossil.”</strong> Fossilisation is rare and needs special conditions.</li>
+    <li><strong>“Lower layers are always older.”</strong> Only in undisturbed sequences; folding, faulting and intrusions can change the order.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The timeline uses ICS 2023 boundaries but shows only a selection of events, and many event dates are approximate. The rock
+    section is invented for teaching, with ages assigned to its ash beds and dike. The fossil experiment uses a simple,
+    illustrative preservation score, not a measured probability. The dating lab follows the true decay law with real
+    half-lives, but the atom grid shows only 200 representative atoms, and it assumes the sample started with no daughter
+    atoms and stayed a closed system, which real dating must check.
+  </p>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Stratum (plural strata)</dt>
+    <dd>A layer of sedimentary rock.</dd>
+    <dt>Superposition</dt>
+    <dd>In undisturbed layers, the lowest is the oldest.</dd>
+    <dt>Unconformity</dt>
+    <dd>A buried erosion surface representing a gap in the rock record.</dd>
+    <dt>Index fossil</dt>
+    <dd>A fossil of a widespread, short-lived species, used to match and date layers.</dd>
+    <dt>Half-life</dt>
+    <dd>The time for half of a radioactive parent isotope to decay.</dd>
+    <dt>Relative dating</dt>
+    <dd>Putting rocks and events in order without numerical ages.</dd>
+    <dt>Radiometric dating</dt>
+    <dd>Using radioactive decay to give a numerical age.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Earth is about 4.54 billion years old; most of that time is the Precambrian.</li>
+    <li>Superposition, original horizontality, cross-cutting and unconformities let us read the order of events in rock.</li>
+    <li>Fossils form only under special conditions, usually rapid burial of hard parts.</li>
+    <li>Relative dating gives the order; radiometric dating gives ages in years using N = N₀(½)<sup>t/T</sup>.</li>
+    <li>Fossils are usually dated by bracketing them between dated volcanic layers.</li>
+  </ul>
+</SimulatorLayout>
