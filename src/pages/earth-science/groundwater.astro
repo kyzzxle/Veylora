@@ -1,0 +1,254 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import GroundwaterSim from '../../simulators/groundwater/GroundwaterSim.astro';
+import { groundwaterQuiz } from '../../data/quizzes/groundwater';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'what', label: 'What groundwater is' },
+  { id: 'zones', label: 'Water table and zones' },
+  { id: 'porosity', label: 'Porosity and permeability' },
+  { id: 'aquifers', label: 'Aquifers and aquitards' },
+  { id: 'flow', label: 'How groundwater flows' },
+  { id: 'darcy', label: 'Darcy’s law' },
+  { id: 'wells', label: 'Wells and pumping' },
+  { id: 'contamination', label: 'Groundwater contamination' },
+  { id: 'applications', label: 'Why it matters' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Heath, R. C. (1983, revised 2004). Basic Ground-Water Hydrology. U.S. Geological Survey Water-Supply Paper 2220.', url: 'https://pubs.usgs.gov/publication/wsp2220' },
+  { text: 'Freeze, R. A., & Cherry, J. A. (1979). Groundwater. Prentice-Hall.' },
+  { text: 'Winter, T. C., Harvey, J. W., Franke, O. L., & Alley, W. M. (1998). Ground Water and Surface Water: A Single Resource. U.S. Geological Survey Circular 1139.', url: 'https://pubs.usgs.gov/publication/cir1139' },
+  { text: 'Alley, W. M., Reilly, T. E., & Franke, O. L. (1999). Sustainability of Ground-Water Resources. U.S. Geological Survey Circular 1186.', url: 'https://pubs.usgs.gov/publication/cir1186' },
+  { text: 'Darcy, H. (1856). Les fontaines publiques de la ville de Dijon. Victor Dalmont, Paris.' },
+  { text: 'Fetter, C. W. (2018). Applied Hydrogeology (4th ed.). Waveland Press.' },
+];
+---
+
+<SimulatorLayout
+  branch="earth-science"
+  topic="groundwater"
+  description="Interactive groundwater simulator: explore a 3D aquifer, compare porosity and permeability of gravel, sand, clay and fractured rock, pump wells to make a cone of depression, apply Darcy’s law and track a contaminant plume."
+  toc={toc}
+  quiz={groundwaterQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Almost all of the world’s liquid fresh water outside the ice sheets is underground. It is not in hidden lakes or
+      rivers but in the tiny spaces between grains of sand and in cracks in rock, moving slowly from hills towards rivers and
+      wells. Slice open an aquifer in 3D, pour water through sand and clay, pump a well until a neighbour’s well runs dry,
+      and follow a pollution plume through the ground.
+    </p>
+  </Fragment>
+
+  <GroundwaterSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>In <strong>3D</strong>, rotate, tilt and zoom the block. Tap any layer, well or the river to read its properties. Turn off <strong>Underground view</strong> to see only the land surface, and turn on labels.</li>
+      <li>Press <strong>Start</strong> to run the groundwater model. Change the rainfall, the upper aquifer material, the pumping rate and which aquifer the well pumps from. Pave the town or seal the recharge area on the hill, and watch the water table and the dashed potentiometric surface respond.</li>
+      <li>In <strong>Pores</strong>, choose two materials, change the sorting and compaction (or the fracture opening and spacing), and press <strong>Pour water</strong> to see how fast water soaks through each.</li>
+      <li>In <strong>Wells</strong>, see the same model as a cross-section. Drag the pumping well, and drag the yellow piezometers h₁ and h₂ to work out the flow with Darcy’s law. Watch the neighbour’s well, the artesian well and the river.</li>
+      <li>In <strong>Pollution</strong>, choose a contaminant and an aquifer material, set the flow direction, drag the leaking tank and the monitoring well, and read the concentration curve.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Describe the unsaturated zone, the water table and the saturated zone, and explain that groundwater fills pores and fractures.</li>
+    <li>Distinguish porosity from permeability, and aquifers from aquitards.</li>
+    <li>Compare confined and unconfined aquifers and explain artesian wells.</li>
+    <li>Explain recharge, the hydraulic gradient and Darcy’s law, Q = K × A × i.</li>
+    <li>Explain how pumping creates a cone of depression and can affect nearby wells and streams.</li>
+    <li>Explain how contaminants move with groundwater, and why different contaminants move at different speeds.</li>
+  </ul>
+
+  <h2 id="what">What groundwater is</h2>
+  <p>
+    <strong>Groundwater</strong> is water below the ground that completely fills the pores and fractures of soil and rock.
+    <strong>Surface water</strong> is water in rivers, lakes and wetlands. They are connected: rivers are often fed by
+    groundwater, and in other places river water soaks into the ground. Groundwater makes up about 30% of Earth’s fresh water,
+    and it provides about half of the water people use for drinking and household needs.
+  </p>
+  <p>
+    In most aquifers there are no underground lakes or rivers. Water moves slowly through the tiny connected spaces between
+    grains, typically from centimetres to metres per day, and can stay underground for days or for thousands of years.
+    Large open channels are found only in special rocks such as cavernous limestone and some lava flows.
+  </p>
+
+  <h2 id="zones">The water table and the zones below ground</h2>
+  <p>
+    Rain that soaks into the soil (<strong>infiltration</strong>) moves down through the <strong>unsaturated zone</strong>,
+    where the pores hold both air and water. Where the pores become completely full, we reach the <strong>saturated
+    zone</strong>. The boundary between them is the <strong>water table</strong>. Water that reaches the water table is called
+    <strong>recharge</strong>.
+  </p>
+  <p>
+    The water table is not flat: it is usually higher under hills and lower near rivers and lakes, roughly following the land
+    surface but more gently. It rises after wet seasons and falls in droughts or when wells pump more water than is recharged.
+  </p>
+
+  <h2 id="porosity">Porosity and permeability</h2>
+  <p>
+    <strong>Porosity</strong> is the fraction of a material that is open space. <strong>Permeability</strong> (measured for
+    water as <strong>hydraulic conductivity, K</strong>) is how easily water flows through the connected openings. They are not
+    the same thing. Clay can be half empty space, yet its pores are so tiny that water barely moves through it.
+    <strong>Specific yield</strong> is the part of the water that will actually drain out under gravity; the rest clings to the
+    grains.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Material</th><th>Porosity</th><th>Hydraulic conductivity K</th></tr></thead>
+      <tbody>
+        <tr><td>Gravel</td><td>25–40%</td><td>About 100–10,000 m/day</td></tr>
+        <tr><td>Sand</td><td>25–50%</td><td>About 1–100 m/day</td></tr>
+        <tr><td>Silt</td><td>35–50%</td><td>About 0.001–1 m/day</td></tr>
+        <tr><td>Clay</td><td>40–70%</td><td>About 0.000001–0.001 m/day</td></tr>
+        <tr><td>Fractured granite</td><td>0–10%</td><td>About 0.001–100 m/day, depending on the cracks</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Well-sorted sediments (grains of similar size) have more porosity and permeability than poorly sorted ones, where small
+    grains fill the gaps between large ones. Compaction and mineral cement reduce both.
+  </p>
+
+  <h2 id="aquifers">Aquifers and aquitards</h2>
+  <ul>
+    <li>An <strong>aquifer</strong> is a body of rock or sediment that stores and transmits enough water to supply wells: sand, gravel, sandstone, fractured rock.</li>
+    <li>An <strong>aquitard</strong> lets water through only very slowly, such as clay or shale. Nearly impermeable layers are sometimes called aquicludes.</li>
+    <li>An <strong>unconfined aquifer</strong> has the water table as its top. Recharge can enter from directly above, and its water level rises and falls freely.</li>
+    <li>A <strong>confined aquifer</strong> is sandwiched between aquitards. It is recharged where it reaches the surface, often on higher ground, so its water is under pressure. Water in a well rises to the <strong>potentiometric surface</strong>; if that is above the ground, the well flows by itself (a <strong>flowing artesian well</strong>).</li>
+  </ul>
+
+  <h2 id="flow">How groundwater flows</h2>
+  <p>
+    Groundwater flows from where its <strong>hydraulic head</strong> (the level water rises to in a well) is high to where it is
+    low, usually from hills (recharge areas) towards rivers, lakes, springs and the sea (discharge areas). The steepness of
+    the change in head is the <strong>hydraulic gradient</strong>. A river that receives groundwater is a <strong>gaining</strong>
+    river; one that loses water into the ground is a <strong>losing</strong> river.
+  </p>
+
+  <h2 id="darcy">Darcy’s law</h2>
+  <p>
+    In 1856 the engineer Henry Darcy measured water flowing through sand filters for the fountains of Dijon and found a simple
+    rule: <strong>Q = K × A × i</strong>.
+  </p>
+  <ul>
+    <li><strong>Q</strong> is the discharge, in m³ per day.</li>
+    <li><strong>K</strong> is the hydraulic conductivity, in m per day.</li>
+    <li><strong>A</strong> is the cross-sectional area the water flows through, in m² (saturated thickness × width).</li>
+    <li><strong>i</strong> is the hydraulic gradient: the difference in head divided by the distance, (h₁ − h₂) / L, with no units.</li>
+  </ul>
+  <p>
+    Darcy’s law describes slow, smooth flow through porous material, which covers most groundwater. The actual speed of the
+    water between the grains (the seepage velocity) is faster: v = K × i / n, where n is the porosity, because the water
+    moves only through the pores.
+  </p>
+
+  <h2 id="wells">Wells and pumping</h2>
+  <p>
+    Pumping a well lowers the water level around it, making a <strong>cone of depression</strong>. The drop at any point is the
+    <strong>drawdown</strong>. The cone is deep and narrow in low-permeability material and shallow and wide in gravel. If
+    many wells pump more than the recharge, water levels fall year after year: shallow wells run dry, rivers and wetlands lose
+    water, and the ground can sink (subsidence) as the sediments compact. Near coasts, salty sea water can be drawn into the
+    aquifer.
+  </p>
+
+  <h2 id="contamination">Groundwater contamination</h2>
+  <p>
+    Pollutants from leaking tanks, landfills, fertilisers, road salt or septic systems can soak down to the water table and
+    form a <strong>plume</strong> that drifts with the groundwater and spreads out (dispersion). How a contaminant moves
+    depends on the groundwater flow, the aquifer material and the contaminant itself:
+  </p>
+  <ul>
+    <li>Salts such as chloride dissolve and do not stick to grains, so they move at about the speed of the water.</li>
+    <li>Many organic chemicals and metals stick to (sorb onto) grains and organic matter, so they are slowed down (retarded).</li>
+    <li>Some, such as fuels, are broken down by microbes over time; others, like metals, never break down.</li>
+    <li>Oils that do not mix with water can float on the water table, and dense solvents can sink to the bottom of an aquifer, following paths different from the water.</li>
+  </ul>
+  <p>
+    Monitoring wells sample the groundwater to track plumes. Because groundwater moves slowly, contamination can take years
+    to appear in a supply well, and decades to clean up.
+  </p>
+
+  <h2 id="applications">Why it matters</h2>
+  <ul>
+    <li>Groundwater supplies about half of the water used for drinking and household needs worldwide, and about a quarter of irrigation water.</li>
+    <li>It keeps rivers flowing in dry seasons and sustains wetlands.</li>
+    <li>Over-pumping has lowered water tables by tens of metres in parts of India, China, the Middle East and the High Plains (Ogallala) aquifer in the USA.</li>
+    <li>Pumping has made land sink by up to about 9 m in California’s San Joaquin Valley and by more than 10 m in parts of Mexico City.</li>
+    <li>Protecting recharge areas and siting wells away from pollution sources keeps drinking water safe.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>Some groundwater in the Nubian Sandstone Aquifer beneath the Sahara fell as rain more than 10,000 years ago.</li>
+    <li>The Great Artesian Basin in Australia covers about a fifth of the continent; its bores once flowed freely at the surface.</li>
+    <li>The word “artesian” comes from Artois in France, where flowing wells were drilled in the Middle Ages.</li>
+    <li>Groundwater in a typical sand aquifer may move only about as far in a year as you walk in a few minutes.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“Groundwater flows in underground rivers and lakes.”</strong> Almost always it fills pores and cracks; open channels occur only in special rocks such as cave limestone.</li>
+    <li><strong>“High porosity means water flows easily.”</strong> Clay is very porous but almost impermeable.</li>
+    <li><strong>“Groundwater is separate from rivers.”</strong> Pumping groundwater can reduce stream flow, and polluted rivers can contaminate aquifers.</li>
+    <li><strong>“Groundwater is always pure.”</strong> It can be naturally salty or contain arsenic, and it can be polluted by human activity.</li>
+    <li><strong>“All pollutants move with the water.”</strong> Many are slowed by sorption or broken down; some float or sink.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The cross-section is an invented 2 km slice with ten times vertical exaggeration. The model treats it as a 100 m wide
+    strip and solves one-dimensional groundwater flow along it: Dupuit–Forchheimer flow in the unconfined aquifer and confined
+    flow below, with slow leakage through the clay. So the pumping well behaves like a row of wells across the strip, and the
+    cone of depression is shown in section only. Recharge is a fixed quarter of the rainfall. The pores lab uses the
+    Kozeny–Carman equation for grains (and a typical measured value for clay, which that equation does not describe) and the
+    parallel-plate cubic law for fractures; playback time is compressed logarithmically. The plume map uses a uniform flow
+    field, fixed dispersivities, simple retardation factors and a first-order breakdown rate, and its concentrations are
+    approximate. Real sites need field measurements and full 3D models.
+  </p>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Groundwater</dt>
+    <dd>Water that fills the pores and fractures below the water table.</dd>
+    <dt>Water table</dt>
+    <dd>The top of the saturated zone in an unconfined aquifer.</dd>
+    <dt>Porosity</dt>
+    <dd>The fraction of a material that is open space.</dd>
+    <dt>Permeability / hydraulic conductivity (K)</dt>
+    <dd>How easily water can flow through a material.</dd>
+    <dt>Aquifer</dt>
+    <dd>Rock or sediment that stores and transmits useful amounts of water.</dd>
+    <dt>Aquitard</dt>
+    <dd>A layer that lets water through only very slowly.</dd>
+    <dt>Confined aquifer</dt>
+    <dd>An aquifer between aquitards, with water under pressure.</dd>
+    <dt>Recharge</dt>
+    <dd>Water that reaches the saturated zone, mostly from rain and snowmelt.</dd>
+    <dt>Hydraulic gradient</dt>
+    <dd>The change in hydraulic head over a distance; it drives groundwater flow.</dd>
+    <dt>Cone of depression</dt>
+    <dd>The dip in the water table or potentiometric surface around a pumping well.</dd>
+    <dt>Plume</dt>
+    <dd>A zone of contaminated groundwater spreading from a source.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Groundwater fills pores and fractures below the water table; it is not usually an underground river or lake.</li>
+    <li>Porosity is storage; permeability is how easily water flows. They are different.</li>
+    <li>Groundwater flows from high to low hydraulic head: Q = K × A × i.</li>
+    <li>Pumping makes a cone of depression and can dry nearby wells and streams if it exceeds recharge.</li>
+    <li>Contaminants spread with groundwater, but at different speeds depending on sorption and breakdown.</li>
+  </ul>
+</SimulatorLayout>

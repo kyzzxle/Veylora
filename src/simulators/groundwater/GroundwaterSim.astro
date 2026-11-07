@@ -1,0 +1,199 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+import SimKey from '../../components/sim/SimKey.astro';
+---
+
+<SimShell id="groundwater-sim" label="A groundwater laboratory: a 3D aquifer block diagram, a porosity and permeability experiment, a groundwater flow model with wells, and a contamination map." hint={false} badge="">
+  <Fragment slot="stage">
+    <canvas class="sim-canvas" data-canvas role="img" aria-label="Groundwater simulator" aria-describedby="groundwater-sim-status"></canvas>
+    <div class="sim-3d" data-three></div>
+  </Fragment>
+
+  <ChoiceControl
+    name="gw-view"
+    label="Explore"
+    value="3d"
+    options={[
+      { value: '3d', label: '3D' },
+      { value: 'pores', label: 'Pores' },
+      { value: 'flow', label: 'Wells' },
+      { value: 'plume', label: 'Pollution' },
+    ]}
+    help="3D aquifer, porosity and permeability, groundwater flow and wells, and a contamination plume."
+  />
+  <p class="gw-note" data-note aria-live="polite"></p>
+
+  <div data-views="3d" class="gw-group">
+    <ToggleControl name="gw-under" label="Underground view (off: surface only)" checked />
+    <ToggleControl name="gw-labels" label="Show labels" />
+    <p class="ctrl-help">Drag to rotate and tilt, use + and − to zoom, and tap a layer, well or the river.</p>
+  </div>
+
+  <div data-views="3d flow" class="gw-group">
+    <SliderControl name="gw-rain" label="Rainfall" min={0} max={1500} step={50} value={800} help="About a quarter of the rain soaks in and recharges the aquifer; the rest runs off or evaporates." />
+    <ChoiceControl
+      name="gw-aq"
+      label="Upper aquifer material"
+      value="sand"
+      options={[
+        { value: 'gravel', label: 'Gravel' },
+        { value: 'sand', label: 'Sand' },
+        { value: 'silt', label: 'Silt' },
+      ]}
+    />
+    <ToggleControl name="gw-pump" label="Pumping well on" checked />
+    <SliderControl name="gw-q" label="Pumping rate" min={0} max={1000} step={10} value={100} />
+    <ChoiceControl
+      name="gw-pumpaq"
+      label="Pump from"
+      value="unconfined"
+      options={[
+        { value: 'unconfined', label: 'Upper (unconfined)' },
+        { value: 'confined', label: 'Lower (confined)' },
+      ]}
+    />
+    <ToggleControl name="gw-paved" label="Pave the town (less recharge)" />
+    <ToggleControl name="gw-recharge" label="Recharge area on the hill open" checked />
+    <SliderControl name="gw-speed" label="Model speed" min={-1} max={0.7} step={0.05} value={-0.3} />
+  </div>
+
+  <div data-views="flow" class="gw-group" hidden>
+    <p class="ctrl-help">Drag the pumping well along the valley, and drag the yellow piezometers h₁ and h₂ to measure the hydraulic gradient.</p>
+  </div>
+
+  <div data-views="pores" class="gw-group" hidden>
+    <div class="ctrl">
+      <label class="ctrl-label" for="groundwater-mat-a">Column A</label>
+      <select id="groundwater-mat-a" class="select" data-mat-a>
+        <option value="gravel">Gravel</option>
+        <option value="sand" selected>Sand</option>
+        <option value="silt">Silt</option>
+        <option value="clay">Clay</option>
+        <option value="fractured">Fractured rock</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <label class="ctrl-label" for="groundwater-mat-b">Column B</label>
+      <select id="groundwater-mat-b" class="select" data-mat-b>
+        <option value="gravel">Gravel</option>
+        <option value="sand">Sand</option>
+        <option value="silt">Silt</option>
+        <option value="clay" selected>Clay</option>
+        <option value="fractured">Fractured rock</option>
+      </select>
+    </div>
+    <SliderControl name="gw-sort" label="Sorting" min={0} max={1} step={0.05} value={0} scale={['Same-size grains', 'Mixed sizes']} help="Small grains filling the gaps between big ones reduce both porosity and permeability." />
+    <SliderControl name="gw-comp" label="Compaction and cement" min={0} max={1} step={0.05} value={0} />
+    <div data-frac hidden class="gw-group">
+      <SliderControl name="gw-ap" label="Fracture opening (aperture)" min={0.05} max={1} step={0.05} value={0.2} />
+      <SliderControl name="gw-sp" label="Fracture spacing" min={0.1} max={2} step={0.05} value={0.5} />
+    </div>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-pour>Pour water</button>
+    </div>
+  </div>
+
+  <div data-views="plume" class="gw-group" hidden>
+    <ChoiceControl
+      name="gw-contam"
+      label="Contaminant"
+      value="salt"
+      options={[
+        { value: 'salt', label: 'Salt' },
+        { value: 'fuel', label: 'Fuel' },
+        { value: 'metal', label: 'Lead' },
+      ]}
+    />
+    <ChoiceControl
+      name="gw-plmat"
+      label="Aquifer material"
+      value="sand"
+      options={[
+        { value: 'gravel', label: 'Gravel' },
+        { value: 'sand', label: 'Sand' },
+        { value: 'silt', label: 'Silt' },
+      ]}
+    />
+    <SliderControl name="gw-dir" label="Groundwater flows towards" min={0} max={315} step={45} value={0} />
+    <SliderControl name="gw-plspeed" label="Playback speed" min={0.25} max={4} step={0.25} value={1} help="Time is scaled so groundwater crosses the 1 km map in about 12 seconds; the readouts give the real speeds." />
+    <ToggleControl name="gw-monitor" label="Monitoring well" checked />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-leak>Stop the leak</button>
+      <button type="button" class="btn btn-sm" data-clear>Clear the plume</button>
+    </div>
+    <p class="ctrl-help">Tap the map or drag the tank to start a leak somewhere else; drag the monitoring well.</p>
+  </div>
+
+  <div data-views="3d flow">
+    <SimKey
+      items={[
+        { label: 'Water table', color: '#1971c2', shape: 'line' },
+        { label: 'Potentiometric surface (dashed)', color: '#0b3d91', shape: 'line' },
+        { label: 'Groundwater moving through pores', color: '#1864ab', shape: 'dot' },
+      ]}
+    />
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .gw-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .gw-group[hidden],
+  [data-views][hidden],
+  [data-frac][hidden] {
+    display: none;
+  }
+  .gw-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#groundwater-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#groundwater-sim .segmented span) {
+    padding: 7px 6px;
+  }
+  :global(#groundwater-sim[data-gw-view='3d'] .sim-canvas) {
+    visibility: hidden;
+  }
+  :global(#groundwater-sim[data-gw-view='2d'] .sim-3d),
+  :global(#groundwater-sim[data-gw-view='2d'] .sim-3d-tools),
+  :global(#groundwater-sim[data-gw-view='2d'] .sim-3d-activate) {
+    display: none !important;
+  }
+  :global(#groundwater-sim .gw-no3d) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initGroundwater } from './groundwater';
+  mountSim('#groundwater-sim', initGroundwater);
+</script>
