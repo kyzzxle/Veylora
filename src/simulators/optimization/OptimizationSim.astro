@@ -1,0 +1,162 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="optimization-sim" label="An optimization laboratory: linear programming with draggable constraints, sensitivity and binding constraints, geometric optimization and a resource-allocation challenge." hint={false} badge="">
+  <canvas slot="stage" class="sim-canvas" data-canvas role="img" aria-label="Optimization" aria-describedby="optimization-sim-status"></canvas>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="opt-view">Activity</label>
+    <select id="opt-view" class="select" data-view>
+      <option value="lp" selected>Linear programming lab</option>
+      <option value="sens">Sensitivity and binding constraints</option>
+      <option value="geom">Geometric optimization</option>
+      <option value="alloc">Resource-allocation challenge</option>
+    </select>
+  </div>
+  <p class="op-note" data-note aria-live="polite"></p>
+
+  <!-- Linear programming (shared by the lab and sensitivity views) -->
+  <div data-views="lp sens" class="op-group">
+    <div class="preset-row" aria-label="Example problems">
+      <button type="button" class="btn btn-sm" data-preset="textbook">Textbook example</button>
+      <button type="button" class="btn btn-sm" data-preset="multiple">Multiple optima</button>
+      <button type="button" class="btn btn-sm" data-preset="unbounded">Unbounded</button>
+      <button type="button" class="btn btn-sm" data-preset="infeasible">Infeasible</button>
+      <button type="button" class="btn btn-sm" data-preset="minimize">Minimize cost</button>
+    </div>
+    <ChoiceControl
+      name="op-goal"
+      label="Goal"
+      value="max"
+      options={[
+        { value: 'max', label: 'Maximize Z' },
+        { value: 'min', label: 'Minimize Z' },
+      ]}
+    />
+    <SliderControl name="op-cx" label="Objective: coefficient of x" min={-5} max={10} step={0.5} value={3} />
+    <SliderControl name="op-cy" label="Objective: coefficient of y" min={-5} max={10} step={0.5} value={2} />
+    <ChoiceControl
+      name="op-sel"
+      label="Edit constraint"
+      value="0"
+      options={[
+        { value: '0', label: 'C1' },
+        { value: '1', label: 'C2' },
+        { value: '2', label: 'C3' },
+        { value: '3', label: 'C4' },
+      ]}
+    />
+    <ToggleControl name="op-on" label="Use this constraint" checked />
+    <ChoiceControl
+      name="op-sense"
+      label="Inequality"
+      value="<="
+      options={[
+        { value: '<=', label: '≤ (at most)' },
+        { value: '>=', label: '≥ (at least)' },
+      ]}
+    />
+    <SliderControl name="op-a" label="Coefficient a (of x)" min={-5} max={5} step={0.5} value={1} />
+    <SliderControl name="op-b" label="Coefficient b (of y)" min={-5} max={5} step={0.5} value={1} />
+    <SliderControl name="op-c" label="Limit c" min={-10} max={30} step={0.25} value={4} help="Or drag a constraint line on the graph to move it." />
+  </div>
+  <div data-views="lp" class="op-group">
+    <ToggleControl name="op-contours" label="Show objective level lines" checked />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-tour>Check next corner</button>
+    </div>
+  </div>
+
+  <!-- Geometric optimization -->
+  <div data-views="geom" class="op-group" hidden>
+    <ChoiceControl
+      name="op-shape"
+      label="Problem"
+      value="rect"
+      options={[
+        { value: 'rect', label: 'Fenced field' },
+        { value: 'box', label: 'Open box' },
+        { value: 'can', label: 'Can' },
+      ]}
+    />
+    <div data-shapes="rect" class="op-group">
+      <SliderControl name="op-p" label="Length of fence P" min={8} max={100} step={2} value={40} />
+    </div>
+    <div data-shapes="box" class="op-group" hidden>
+      <SliderControl name="op-sl" label="Sheet length L" min={10} max={60} step={1} value={30} />
+      <SliderControl name="op-sw" label="Sheet width W" min={10} max={60} step={1} value={20} />
+    </div>
+    <div data-shapes="can" class="op-group" hidden>
+      <SliderControl name="op-v" label="Volume V" min={100} max={2000} step={10} value={500} />
+    </div>
+    <SliderControl name="op-x" label="Width x" min={0.5} max={19.5} step={0.1} value={6} />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-best>Jump to the best value</button>
+    </div>
+  </div>
+
+  <!-- Resource allocation -->
+  <div data-views="alloc" class="op-group" hidden>
+    <ChoiceControl
+      name="op-level"
+      label="Challenge"
+      value="1"
+      options={[
+        { value: '1', label: '1 Bakery' },
+        { value: '2', label: '2 Factory' },
+        { value: '3', label: '3 Feed mix' },
+      ]}
+    />
+    <SliderControl name="op-qx" label="Batches of bread x" min={0} max={25} step={1} value={0} />
+    <SliderControl name="op-qy" label="Batches of cakes y" min={0} max={25} step={1} value={0} />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-check>Check my plan</button>
+      <button type="button" class="btn btn-sm" data-reveal>Show the best plan</button>
+    </div>
+  </div>
+
+  <SliderControl name="op-speed" label="Animation speed" min={0.25} max={3} step={0.25} value={1} />
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .op-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .op-group[hidden],
+  [data-views][hidden],
+  [data-shapes][hidden] {
+    display: none;
+  }
+  .op-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#optimization-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initOptimization } from './optimization';
+  mountSim('#optimization-sim', initOptimization);
+</script>

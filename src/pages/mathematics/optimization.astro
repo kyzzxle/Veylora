@@ -1,0 +1,247 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import OptimizationSim from '../../simulators/optimization/OptimizationSim.astro';
+import { optimizationQuiz } from '../../data/quizzes/optimization';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'what', label: 'What optimization is' },
+  { id: 'lp', label: 'Linear programming' },
+  { id: 'corners', label: 'Why the answer is at a corner' },
+  { id: 'special', label: 'Infeasible, unbounded and multiple optima' },
+  { id: 'sensitivity', label: 'Binding constraints and sensitivity' },
+  { id: 'geometric', label: 'Optimization with calculus' },
+  { id: 'integer', label: 'Whole-number plans' },
+  { id: 'formulas', label: 'Formula reference' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Strang, G., & Herman, E. (2016). Calculus Volume 1, Section 4.7: Applied Optimization Problems. OpenStax.', url: 'https://openstax.org/books/calculus-volume-1/pages/4-7-applied-optimization-problems' },
+  { text: 'Vanderbei, R. J. (2020). Linear Programming: Foundations and Extensions (5th ed.). Springer.' },
+  { text: 'Hillier, F. S., & Lieberman, G. J. (2021). Introduction to Operations Research (11th ed.). McGraw-Hill.' },
+  { text: 'Dantzig, G. B. (1963). Linear Programming and Extensions. Princeton University Press.' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="optimization"
+  description="Interactive optimization lab: drag constraint lines in a linear programming problem, find the best corner, explore binding constraints and shadow prices, optimize a fence, box and can with calculus, and solve resource-allocation challenges."
+  toc={toc}
+  quiz={optimizationQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Businesses want the most profit from limited materials, engineers want the strongest part for the least metal, and
+      delivery companies want the shortest routes. Optimization is the mathematics of making the best choice when you cannot
+      have everything. Build a linear programming problem by dragging its constraints, watch the objective line find the best
+      corner, see which limits really matter, use calculus to design a fence, a box and a can, and then plan production
+      yourself.
+    </p>
+  </Fragment>
+
+  <OptimizationSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose an <strong>activity</strong>. In the <strong>linear programming lab</strong>, try the example problems, then <strong>drag a constraint line</strong> on the graph to move it, or pick a constraint and change its coefficients, inequality and limit.</li>
+      <li>Press <strong>Start</strong> to sweep the objective’s level line across the region, or <strong>Check next corner</strong> to test the corners one at a time. Tap anywhere on the graph to test a single point.</li>
+      <li>In <strong>sensitivity</strong>, pick a constraint and change its limit: the graph shows how the best value responds and the table shows slack and binding constraints.</li>
+      <li>In <strong>geometric optimization</strong>, change the dimension with the slider or by dragging on the graph; <strong>Start</strong> runs a step-by-step hill-climbing search.</li>
+      <li>In the <strong>resource-allocation challenge</strong>, choose whole-number amounts (sliders or tap the graph), press <strong>Check my plan</strong>, then compare with the best plan.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Identify the decision variables, objective function and constraints of an optimization problem.</li>
+    <li>Draw the feasible region of a two-variable linear program and find its optimum by the corner-point method.</li>
+    <li>Recognize infeasible problems, unbounded problems and problems with multiple optimal solutions.</li>
+    <li>Explain slack, binding constraints and shadow prices, and how the solution responds to changes.</li>
+    <li>Use derivatives to solve geometric optimization problems with a constraint.</li>
+    <li>Explain why whole-number problems cannot always be solved by rounding.</li>
+  </ul>
+
+  <h2 id="what">What optimization is</h2>
+  <p>
+    Every optimization problem has three parts. The <strong>decision variables</strong> are the things you can choose, such
+    as how many loaves to bake. The <strong>objective function</strong> is what you want to make as large or as small as
+    possible, such as profit or cost. The <strong>constraints</strong> are the limits the choice must respect, such as the
+    flour in stock. A choice that satisfies every constraint is <strong>feasible</strong>; the best feasible choice is the
+    <strong>optimal solution</strong>.
+  </p>
+
+  <h2 id="lp">Linear programming</h2>
+  <p>
+    When the objective and every constraint are linear (no powers or products of variables), the problem is a
+    <strong>linear program</strong>. With two variables it can be solved on a graph:
+  </p>
+  <p><strong>Maximize Z = 3x + 2y</strong> subject to x + y ≤ 4, x ≤ 2, y ≤ 3, x ≥ 0, y ≥ 0.</p>
+  <p>
+    Each inequality allows the points on one side of a line. The overlap of all the allowed sides is the
+    <strong>feasible region</strong>, a polygon. The points where Z takes one value, such as 3x + 2y = 6, form a straight
+    <strong>level line</strong>, and all level lines are parallel. Sliding the level line in the direction that increases Z,
+    the last position that still touches the region gives the maximum: here Z = 10 at the corner (2, 2).
+  </p>
+
+  <h2 id="corners">Why the answer is at a corner</h2>
+  <p>
+    Because the level lines are straight and parallel, the last point of a polygon they touch is a corner, or a whole edge
+    if they are parallel to it. This gives the <strong>corner-point method</strong>: list the corners (intersections of
+    constraint lines that satisfy every constraint), evaluate Z at each, and choose the best.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Corner</th><th>Z = 3x + 2y</th></tr></thead>
+      <tbody>
+        <tr><td>(0, 0)</td><td>0</td></tr>
+        <tr><td>(2, 0)</td><td>6</td></tr>
+        <tr><td>(2, 2)</td><td><strong>10 (maximum)</strong></td></tr>
+        <tr><td>(1, 3)</td><td>9</td></tr>
+        <tr><td>(0, 3)</td><td>6</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Real problems have thousands of variables, so computers use the <strong>simplex method</strong>, which walks from corner
+    to neighbouring corner, always improving, or interior-point methods that cut through the middle of the region.
+  </p>
+
+  <h2 id="special">Infeasible, unbounded and multiple optima</h2>
+  <ul>
+    <li><strong>Infeasible:</strong> the constraints contradict each other, so the feasible region is empty. For example x + y ≥ 6 cannot hold if x ≤ 2 and y ≤ 3.</li>
+    <li><strong>Unbounded:</strong> the region stretches forever in a direction in which the objective keeps improving, so there is no best value. An open region is not enough on its own: minimizing on the same region may still have an answer.</li>
+    <li><strong>Multiple optima:</strong> the level lines are parallel to an edge on the best side of the region, so every point of that edge is optimal.</li>
+  </ul>
+
+  <h2 id="sensitivity">Binding constraints and sensitivity</h2>
+  <p>
+    At the optimum, a constraint is <strong>binding</strong> if it holds with equality: the resource is used up. The unused
+    amount is the <strong>slack</strong>. In the textbook example, x + y ≤ 4 and x ≤ 2 are binding at (2, 2), while y ≤ 3 has
+    slack 1. Raising a non-binding limit changes nothing; raising a binding limit can improve the result. The change in the
+    best value per extra unit of a limit is the <strong>shadow price</strong>: here 2 for x + y ≤ 4 and 1 for x ≤ 2, and 0 for
+    y ≤ 3. A shadow price tells a manager what one more unit of a resource is worth, and it stays the same only until a
+    different set of constraints becomes binding.
+  </p>
+  <p>
+    The objective can change too. The optimal corner stays the same over a <strong>range of optimality</strong> of each
+    coefficient; outside it, the best plan jumps to a neighbouring corner. These <strong>trade-offs</strong> show how robust
+    a plan is to price changes.
+  </p>
+
+  <h2 id="geometric">Optimization with calculus</h2>
+  <p>
+    When the objective is a smooth curve rather than a straight line, the best value of a function f(x) on an interval is at
+    a point where the slope is zero, f′(x) = 0, or at an end of the interval. The usual method is: write the constraint, use
+    it to express the objective in one variable, differentiate, solve f′(x) = 0, and check it is a maximum or minimum (for
+    example with the second derivative).
+  </p>
+  <ul>
+    <li><strong>Fenced field:</strong> with perimeter P, A(x) = x(P/2 − x), so A′(x) = P/2 − 2x = 0 gives x = P/4: a square.</li>
+    <li><strong>Open box:</strong> cutting squares of side x from an L × W sheet gives V(x) = x(L − 2x)(W − 2x); V′(x) = 0 is a quadratic equation.</li>
+    <li><strong>Can:</strong> for a fixed volume V, S(r) = 2πr² + 2V/r is smallest when h = 2r.</li>
+  </ul>
+  <p>
+    Computers often optimize numerically instead. <strong>Hill climbing</strong> (gradient ascent) repeatedly steps in the
+    direction of the slope, with steps that shrink as the slope flattens near the top. The simulator’s Start button runs this
+    search.
+  </p>
+
+  <h2 id="integer">Whole-number plans</h2>
+  <p>
+    Many decisions must be whole numbers: crates, trucks, staff. The best corner of the linear program may be fractional,
+    and simply rounding can break a constraint or miss the best whole-number plan. <strong>Integer programming</strong>
+    searches the allowed whole-number points; for small problems you can check the points near the best corner. Its best
+    value can never beat the fractional optimum, which is why the fractional answer is a useful bound.
+  </p>
+
+  <h2 id="formulas">Formula reference</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Idea</th><th>Formula and meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Linear program</td><td>Maximize or minimize Z = c₁x + c₂y subject to aᵢx + bᵢy ≤ (or ≥) cᵢ, x ≥ 0, y ≥ 0</td></tr>
+        <tr><td>Level line</td><td>c₁x + c₂y = k; all level lines are parallel and Z improves in the direction (c₁, c₂) when maximizing</td></tr>
+        <tr><td>Slack</td><td>cᵢ − (aᵢx + bᵢy) for a ≤ constraint; zero slack means the constraint is binding</td></tr>
+        <tr><td>Shadow price</td><td>Change in the best Z per one-unit increase of a limit cᵢ</td></tr>
+        <tr><td>Stationary point</td><td>f′(x) = 0; a maximum if f″(x) &lt; 0, a minimum if f″(x) &gt; 0</td></tr>
+        <tr><td>Fenced field</td><td>A = x(P/2 − x), best x = P/4, A = P²/16</td></tr>
+        <tr><td>Open box</td><td>V = x(L − 2x)(W − 2x), best x = [(L + W) − √(L² − LW + W²)] / 6</td></tr>
+        <tr><td>Closed can</td><td>S = 2πr² + 2V/r, best r = ∛(V/2π), h = 2r</td></tr>
+        <tr><td>Hill climbing</td><td>xₙ₊₁ = xₙ + η·f′(xₙ) to maximize (minus to minimize), with a step size η</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Manufacturing:</strong> choosing a production mix that makes the most profit from limited machines, materials and labour.</li>
+    <li><strong>Transport and logistics:</strong> airline crew scheduling, delivery routes and shipping goods at least cost.</li>
+    <li><strong>Diet and agriculture:</strong> the cheapest feed or meal plan that meets nutritional minimums.</li>
+    <li><strong>Engineering design:</strong> shapes that use the least material for the required strength or capacity.</li>
+    <li><strong>Energy:</strong> deciding which power stations to run to meet demand at least cost.</li>
+    <li><strong>Machine learning:</strong> training a model means minimizing an error function, usually by gradient descent.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>Leonid Kantorovich developed linear programming in 1939 to plan production in the Soviet Union, and later shared the 1975 Nobel Memorial Prize in Economics for it.</li>
+    <li>George Dantzig invented the simplex method in 1947 while working on planning problems for the US Air Force.</li>
+    <li>The famous “diet problem” of finding the cheapest adequate diet was one of the first large problems solved with the simplex method.</li>
+    <li>Bees build hexagonal cells; mathematicians proved in 1999 (the honeycomb conjecture) that hexagons divide a plane into equal areas with the least total wall length.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“The best point is in the middle of the region.”</strong> For linear objectives it is always on the boundary, at a corner or along an edge.</li>
+    <li><strong>“An unbounded region means no optimum.”</strong> Only if the objective improves along a direction the region extends in.</li>
+    <li><strong>“Every constraint affects the answer.”</strong> Non-binding constraints have slack; changing them a little changes nothing.</li>
+    <li><strong>“Rounding the best fractional answer gives the best whole-number answer.”</strong> It can break a constraint or miss a better point.</li>
+    <li><strong>“f′(x) = 0 always gives the maximum.”</strong> It can be a minimum or neither, and the best value can be at an end of the interval.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    The linear programs have two variables so they can be drawn; real ones have thousands and are solved by the simplex or
+    interior-point methods rather than by listing corners. Every problem includes x ≥ 0 and y ≥ 0. The shadow price is
+    measured by re-solving with a slightly larger limit, which is exact except at the exact point where the binding
+    constraints change. The geometric models ignore wasted material, seams and thickness, and the challenges assume fixed
+    prices and resource use per unit.
+  </p>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Decision variable</dt>
+    <dd>A quantity you can choose, such as x and y.</dd>
+    <dt>Objective function</dt>
+    <dd>The quantity to maximize or minimize.</dd>
+    <dt>Constraint</dt>
+    <dd>A limit that every allowed choice must satisfy.</dd>
+    <dt>Feasible region</dt>
+    <dd>The set of all choices that satisfy every constraint.</dd>
+    <dt>Corner (vertex)</dt>
+    <dd>A point of the feasible region where two constraint lines meet.</dd>
+    <dt>Binding constraint</dt>
+    <dd>A constraint that holds with equality at the optimum (zero slack).</dd>
+    <dt>Shadow price</dt>
+    <dd>How much the best value changes per extra unit of a limit.</dd>
+    <dt>Infeasible / unbounded</dt>
+    <dd>No allowed choice exists / the objective can improve without limit.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Optimization means choosing decision variables to make an objective as good as possible within constraints.</li>
+    <li>A linear program’s optimum, if it exists, is at a corner of the feasible region.</li>
+    <li>Problems can be infeasible, unbounded or have many optimal solutions.</li>
+    <li>Only binding constraints limit the best value; their shadow prices measure how much.</li>
+    <li>For smooth objectives, the best value is where the derivative is zero or at an end of the allowed range.</li>
+  </ul>
+</SimulatorLayout>
