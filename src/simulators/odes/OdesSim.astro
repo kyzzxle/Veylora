@@ -1,0 +1,129 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="odes-sim" label="A differential equations laboratory: exponential growth and decay, Newton’s law of cooling, a damped spring, logistic growth, a coupled linear system and Euler’s method." hint={false} badge="">
+  <canvas slot="stage" class="sim-canvas" data-canvas role="img" aria-label="Differential equations" aria-describedby="odes-sim-status"></canvas>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="odes-model">Model</label>
+    <select id="odes-model" class="select" data-model>
+      <option value="exp" selected>Exponential growth and decay: dN/dt = kN</option>
+      <option value="cooling">Newton’s law of cooling: dT/dt = −k(T − Tₐ)</option>
+      <option value="spring">Damped spring: m x″ + b x′ + k x = 0</option>
+      <option value="logistic">Logistic growth: dN/dt = rN(1 − N/K)</option>
+      <option value="linear">Coupled linear system: x′ = ax + by, y′ = cx + dy</option>
+      <option value="euler">Euler’s method and step size</option>
+    </select>
+  </div>
+  <p class="de-note" data-note aria-live="polite"></p>
+
+  <div data-views="exp" class="de-group">
+    <SliderControl name="de-n0" label="Initial quantity N₀" min={1} max={100} step={1} value={10} />
+    <SliderControl name="de-k" label="Rate constant k" min={-1} max={1} step={0.05} value={0.3} scale={['Decay (k < 0)', 'Growth (k > 0)']} />
+  </div>
+  <div data-views="cooling" class="de-group" hidden>
+    <SliderControl name="de-t0" label="Starting temperature T₀" min={-10} max={100} step={1} value={90} />
+    <SliderControl name="de-ta" label="Room temperature Tₐ" min={-10} max={40} step={1} value={20} />
+    <SliderControl name="de-kc" label="Cooling constant k" min={0.01} max={0.5} step={0.01} value={0.08} help="A larger k means faster heat loss, for example a thinner cup or a draught." />
+  </div>
+  <div data-views="spring" class="de-group" hidden>
+    <SliderControl name="de-m" label="Mass m" min={0.2} max={5} step={0.1} value={1} />
+    <SliderControl name="de-ks" label="Spring constant k" min={1} max={50} step={1} value={10} />
+    <SliderControl name="de-b" label="Damping coefficient b" min={0} max={30} step={0.1} value={0.8} />
+    <SliderControl name="de-x0" label="Starting displacement x₀" min={-0.5} max={0.5} step={0.01} value={0.4} />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-damp="under">Underdamped</button>
+      <button type="button" class="btn btn-sm" data-damp="critical">Critically damped</button>
+      <button type="button" class="btn btn-sm" data-damp="over">Overdamped</button>
+    </div>
+  </div>
+  <div data-views="logistic" class="de-group" hidden>
+    <SliderControl name="de-l0" label="Initial quantity N₀" min={1} max={200} step={1} value={5} />
+    <SliderControl name="de-r" label="Growth rate r" min={0.1} max={3} step={0.1} value={0.8} />
+    <SliderControl name="de-kk" label="Carrying capacity K" min={20} max={200} step={5} value={100} />
+  </div>
+  <div data-views="exp cooling logistic" class="de-group">
+    <ToggleControl name="de-field" label="Show the slope field" checked />
+  </div>
+  <div data-views="exp cooling spring logistic" class="preset-row">
+    <button type="button" class="btn btn-sm btn-primary" data-keep>Keep this curve</button>
+    <button type="button" class="btn btn-sm" data-unkeep>Clear kept</button>
+  </div>
+
+  <div data-views="linear" class="de-group" hidden>
+    <SliderControl name="de-a" label="a" min={-3} max={3} step={0.1} value={-1} />
+    <SliderControl name="de-bb" label="b" min={-3} max={3} step={0.1} value={2} />
+    <SliderControl name="de-c" label="c" min={-3} max={3} step={0.1} value={-2} />
+    <SliderControl name="de-d" label="d" min={-3} max={3} step={0.1} value={-1} />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-lin="sspiral">Stable spiral</button>
+      <button type="button" class="btn btn-sm" data-lin="centre">Centre</button>
+      <button type="button" class="btn btn-sm" data-lin="uspiral">Unstable spiral</button>
+      <button type="button" class="btn btn-sm" data-lin="snode">Stable node</button>
+      <button type="button" class="btn btn-sm" data-lin="unode">Unstable node</button>
+      <button type="button" class="btn btn-sm" data-lin="saddle">Saddle</button>
+      <button type="button" class="btn btn-sm" data-clear-traj>Clear trajectories</button>
+    </div>
+  </div>
+
+  <div data-views="euler" class="de-group" hidden>
+    <ChoiceControl
+      name="de-prob"
+      label="Equation"
+      value="decay"
+      options={[
+        { value: 'decay', label: 'Decay' },
+        { value: 'growth', label: 'Growth' },
+        { value: 'cooling', label: 'Cooling' },
+      ]}
+    />
+    <SliderControl name="de-h" label="Step size h" min={0.05} max={2.5} step={0.05} value={0.5} help="Try h = 0.1, then h = 1.5 and h = 2.2 on the decay equation." />
+  </div>
+
+  <SliderControl name="de-speed" label="Simulation speed" min={0.25} max={4} step={0.25} value={1} />
+  <div class="preset-row">
+    <button type="button" class="btn btn-sm" data-step>Step forward</button>
+  </div>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .de-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .de-group[hidden],
+  [data-views][hidden] {
+    display: none;
+  }
+  .de-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#odes-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initOdes } from './odes';
+  mountSim('#odes-sim', initOdes);
+</script>

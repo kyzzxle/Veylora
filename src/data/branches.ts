@@ -1191,6 +1191,17 @@ export const branches: Branch[] = [
         minutes: 20,
         related: ['mathematics/matrices', 'mathematics/probability', 'mathematics/geometry-3d', 'botany/plant-diversity'],
       },
+      {
+        slug: 'differential-equations',
+        title: 'Differential Equations and Dynamic Systems',
+        summary: 'Run exponential growth, cooling, a damped spring and logistic growth, explore phase planes, and see how step size makes Euler’s method succeed or fail.',
+        keywords: ['differential equation', 'ODE', 'exponential growth', 'exponential decay', 'Newton’s law of cooling', 'simple harmonic motion', 'damping', 'spring', 'logistic growth', 'carrying capacity', 'phase plane', 'equilibrium', 'Euler’s method', 'Runge–Kutta', 'numerical methods'],
+        level: 'Advanced',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 25,
+        related: ['mathematics/calculus', 'mathematics/matrices', 'physics/pendulum', 'ecology/population-dynamics'],
+      },
     ],
   },
 ];

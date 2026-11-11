@@ -1,0 +1,249 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import OdesSim from '../../simulators/odes/OdesSim.astro';
+import { odesQuiz } from '../../data/quizzes/odes';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'what', label: 'What a differential equation is' },
+  { id: 'exponential', label: 'Exponential growth and decay' },
+  { id: 'cooling', label: 'Newton’s law of cooling' },
+  { id: 'oscillation', label: 'Oscillation and damping' },
+  { id: 'logistic', label: 'Logistic growth' },
+  { id: 'systems', label: 'Coupled systems and phase planes' },
+  { id: 'numerical', label: 'Numerical solutions and Euler’s method' },
+  { id: 'formulas', label: 'Formula reference' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'model-limits', label: 'What the simulator simplifies' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Strang, G., & Herman, E. (2016). Calculus Volume 2, Chapter 4: Introduction to Differential Equations. OpenStax.', url: 'https://openstax.org/books/calculus-volume-2/pages/4-introduction' },
+  { text: 'Boyce, W. E., DiPrima, R. C., & Meade, D. B. (2017). Elementary Differential Equations and Boundary Value Problems (11th ed.). Wiley.' },
+  { text: 'Strogatz, S. H. (2015). Nonlinear Dynamics and Chaos (2nd ed.). Westview Press.' },
+  { text: 'Burden, R. L., Faires, J. D., & Burden, A. M. (2016). Numerical Analysis (10th ed.), Chapter 5: Initial-Value Problems for Ordinary Differential Equations. Cengage.' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="differential-equations"
+  description="Interactive differential equations lab: explore exponential growth and decay, Newton’s law of cooling, a damped spring, logistic growth, phase planes of coupled systems and Euler’s method."
+  toc={toc}
+  quiz={odesQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      Most laws of science describe how fast something changes rather than what it equals: a hot drink cools faster when it is
+      hotter, a spring pulls harder the further it is stretched, and a population grows faster when it is bigger. Equations
+      that link a quantity to its rate of change are called differential equations. Set the starting conditions, change the
+      parameters and watch six classic models unfold, then see how a computer solves them one small step at a time.
+    </p>
+  </Fragment>
+
+  <OdesSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>model</strong>. Set the starting values and parameters with the sliders, then press <strong>Start</strong>; <strong>Step forward</strong> advances a little at a time and <strong>Reset</strong> starts again.</li>
+      <li>The blue curve is the computer’s step-by-step (RK4) solution and the dashed orange curve is the exact formula, where one exists. Press <strong>Keep this curve</strong>, change a value and run again to compare up to three runs.</li>
+      <li>For the <strong>spring</strong>, drag the mass and let go, or use the damping buttons. The animation and the graph show the same x(t).</li>
+      <li>For the <strong>coupled system</strong>, try the presets and tap the phase plane to launch trajectories.</li>
+      <li>For <strong>Euler’s method</strong>, change the step size h and step through the solution; compare the table with the exact values.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Explain what a differential equation, an initial condition and a parameter are.</li>
+    <li>Solve and interpret dN/dt = kN, Newton’s law of cooling and the logistic equation, including their equilibria.</li>
+    <li>Describe how mass, stiffness and damping control a spring’s motion, and classify under-, critically and overdamped motion.</li>
+    <li>Read a phase plane and classify the equilibrium of a two-variable linear system.</li>
+    <li>Carry out Euler’s method, explain the role of the step size, and recognise numerical instability.</li>
+  </ul>
+
+  <h2 id="what">What a differential equation is</h2>
+  <p>
+    A <strong>differential equation</strong> relates an unknown function to its derivatives, its rates of change. For example
+    dN/dt = 0.3N says “N grows at a rate equal to 30% of its current size per unit time”. On its own it describes a whole
+    family of solutions; an <strong>initial condition</strong> such as N(0) = 10 picks out one of them. <strong>Parameters</strong>
+    (like 0.3) are constants that change the behaviour. An <strong>equilibrium</strong> is a value where the rate of change is
+    zero, so the system stays put; it is <strong>stable</strong> if nearby solutions move towards it and
+    <strong>unstable</strong> if they move away.
+  </p>
+  <p>
+    A <strong>slope field</strong> (direction field) draws, at many points, a short segment with the slope the equation
+    demands there. Solution curves follow these segments, so you can see the behaviour without solving anything.
+  </p>
+
+  <h2 id="exponential">Exponential growth and decay</h2>
+  <p>
+    <strong>dN/dt = kN</strong>: the rate of change is proportional to the amount. Its solution is
+    <strong>N(t) = N₀e^(kt)</strong>. If k &gt; 0 the quantity grows, doubling every ln 2 / k; if k &lt; 0 it decays, halving
+    every ln 2 / |k| (the half-life). The only equilibrium is N = 0. This model describes compound interest, radioactive
+    decay, the early growth of bacteria and the discharge of a capacitor.
+  </p>
+
+  <h2 id="cooling">Newton’s law of cooling</h2>
+  <p>
+    <strong>dT/dt = −k(T − Tₐ)</strong>, with k &gt; 0: an object’s temperature changes at a rate proportional to the
+    difference between it and its surroundings. The solution is <strong>T(t) = Tₐ + (T₀ − Tₐ)e^(−kt)</strong>, so the gap to
+    the surroundings decays exponentially and halves every ln 2 / k. Tₐ is a stable equilibrium. The model assumes a constant
+    surrounding temperature, a constant coefficient k and a uniform temperature inside the object; it works well for modest
+    temperature differences when heat is lost mainly by convection.
+  </p>
+
+  <h2 id="oscillation">Oscillation and damping</h2>
+  <p>
+    A mass m on a spring of stiffness k, slowed by a damper with coefficient b, obeys <strong>m x″ + b x′ + k x = 0</strong>,
+    where x is the displacement from equilibrium. The spring pulls back with force −kx and the damper resists motion with
+    force −bx′. Without damping the mass oscillates in <strong>simple harmonic motion</strong> with angular frequency
+    ω₀ = √(k/m) and period 2π√(m/k).
+  </p>
+  <ul>
+    <li><strong>Underdamped</strong> (b² &lt; 4mk): it oscillates with an amplitude that shrinks like e^(−bt/2m).</li>
+    <li><strong>Critically damped</strong> (b² = 4mk): it returns to equilibrium as fast as possible without overshooting.</li>
+    <li><strong>Overdamped</strong> (b² &gt; 4mk): it creeps back slowly without oscillating.</li>
+  </ul>
+  <p>
+    A pendulum behaves similarly for small swings: using the small-angle approximation sin θ ≈ θ, it obeys θ″ = −(g/L)θ.
+    (Veylora’s pendulum simulator solves the full non-linear equation instead.)
+  </p>
+
+  <h2 id="logistic">Logistic growth</h2>
+  <p>
+    <strong>dN/dt = rN(1 − N/K)</strong> starts like exponential growth but slows as N approaches the
+    <strong>carrying capacity</strong> K, because the factor (1 − N/K) shrinks. The solution is the S-shaped curve
+    N(t) = K / (1 + ((K − N₀)/N₀)e^(−rt)). Growth is fastest at N = K/2. N = 0 is an unstable equilibrium and N = K a stable one;
+    if N starts above K it falls back towards K. The logistic equation is a mathematical model used for the spread of new
+    products, rumours, some chemical reactions and, as a first approximation, populations; it is not a law that every real
+    system obeys.
+  </p>
+
+  <h2 id="systems">Coupled systems and phase planes</h2>
+  <p>
+    Two quantities can change together: <strong>x′ = ax + by, y′ = cx + dy</strong>. Instead of graphing each against time,
+    a <strong>phase plane</strong> plots y against x, with arrows showing the direction (x′, y′) at each point. The equilibrium
+    is at the origin, and its type is set by the eigenvalues of the matrix [a b; c d]:
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Eigenvalues</th><th>Equilibrium</th></tr></thead>
+      <tbody>
+        <tr><td>Real, both negative</td><td>Stable node: everything flows straight in</td></tr>
+        <tr><td>Real, both positive</td><td>Unstable node: everything flows out</td></tr>
+        <tr><td>Real, opposite signs</td><td>Saddle: in along one direction, out along the other (unstable)</td></tr>
+        <tr><td>Complex, negative real part</td><td>Stable spiral</td></tr>
+        <tr><td>Complex, positive real part</td><td>Unstable spiral</td></tr>
+        <tr><td>Purely imaginary</td><td>Centre: closed orbits</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Equivalently: det &lt; 0 gives a saddle; otherwise the trace (a + d) decides stability (negative is stable) and
+    trace² − 4det decides between nodes (positive) and spirals (negative). Along a real eigenvector v the solution is simply
+    e^(λt)v. The undamped spring is exactly such a system with x′ = v and v′ = −(k/m)x, which is a centre.
+  </p>
+
+  <h2 id="numerical">Numerical solutions and Euler’s method</h2>
+  <p>
+    Most differential equations cannot be solved with a formula, so computers step forward in time. The simplest method,
+    <strong>Euler’s method</strong>, follows the tangent line for one step of length h:
+  </p>
+  <p><strong>yₙ₊₁ = yₙ + h · f(tₙ, yₙ)</strong>, &nbsp; tₙ₊₁ = tₙ + h</p>
+  <p>
+    Here yₙ is the current estimate, h the time step, f(tₙ, yₙ) the rate of change given by the equation, and yₙ₊₁ the next
+    estimate. Each step makes a small error, and the errors add up; for Euler’s method the total error is roughly
+    proportional to h, so halving h about halves it. Large steps can be inaccurate or even <strong>unstable</strong>: for
+    dy/dt = −y, each step multiplies y by (1 − h), so if h &gt; 2 the values flip sign and grow even though the true solution
+    decays. The lab’s main simulations use the fourth-order Runge–Kutta method (RK4), which combines four slope estimates
+    per step and has an error roughly proportional to h⁴.
+  </p>
+
+  <h2 id="formulas">Formula reference</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Equation</th><th>Solution and meaning</th></tr></thead>
+      <tbody>
+        <tr><td>dN/dt = kN</td><td>N = N₀e^(kt); N quantity, t time, k growth (k &gt; 0) or decay (k &lt; 0) constant</td></tr>
+        <tr><td>Doubling time / half-life</td><td>ln 2 / |k|</td></tr>
+        <tr><td>dT/dt = −k(T − Tₐ)</td><td>T = Tₐ + (T₀ − Tₐ)e^(−kt); Tₐ ambient temperature, k &gt; 0 cooling constant</td></tr>
+        <tr><td>m x″ + b x′ + k x = 0</td><td>m mass (kg), b damping (N·s/m), k stiffness (N/m), x displacement (m); ω₀ = √(k/m)</td></tr>
+        <tr><td>Critical damping</td><td>b = 2√(mk)</td></tr>
+        <tr><td>dN/dt = rN(1 − N/K)</td><td>N = K / (1 + ((K − N₀)/N₀)e^(−rt)); r growth rate, K carrying capacity</td></tr>
+        <tr><td>x′ = ax + by, y′ = cx + dy</td><td>Equilibrium type from the eigenvalues of [a b; c d]</td></tr>
+        <tr><td>yₙ₊₁ = yₙ + h·f(tₙ, yₙ)</td><td>Euler’s method with step size h</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Medicine:</strong> drug levels in the blood often decay exponentially, which sets how often doses are taken.</li>
+    <li><strong>Forensics:</strong> Newton’s law of cooling helps estimate time of death from body temperature (with many corrections in practice).</li>
+    <li><strong>Engineering:</strong> car suspensions and door closers are designed to be close to critically damped; buildings use dampers against earthquakes.</li>
+    <li><strong>Electronics:</strong> circuits with resistors, capacitors and inductors obey the same equations as springs and dampers.</li>
+    <li><strong>Epidemiology and economics:</strong> coupled differential equations model how infections spread and how markets adjust.</li>
+    <li><strong>Computing:</strong> weather forecasts, spacecraft trajectories and video-game physics all step differential equations forward numerically.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>Newton’s 1701 paper on cooling was published anonymously.</li>
+    <li>Leonhard Euler described his step-by-step method in 1768, long before computers existed to carry it out.</li>
+    <li>The logistic equation was introduced by Pierre-François Verhulst in 1838.</li>
+    <li>Edward Lorenz discovered chaos in 1963 while numerically solving just three coupled differential equations for a simple weather model.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“A differential equation has one answer.”</strong> It has a family of solutions; an initial condition picks one.</li>
+    <li><strong>“Cooling happens at a steady rate.”</strong> The rate depends on the temperature gap, so cooling slows down.</li>
+    <li><strong>“More damping always stops a spring faster.”</strong> Beyond critical damping the return gets slower again.</li>
+    <li><strong>“The computer’s answer is exact.”</strong> Numerical methods are approximations whose accuracy depends on the step size.</li>
+    <li><strong>“Exponential growth goes on forever.”</strong> In real systems limits, such as a carrying capacity, eventually slow it down.</li>
+  </ul>
+
+  <h2 id="model-limits">What the simulator simplifies</h2>
+  <p>
+    All the models are idealised: constant parameters, a perfectly linear spring and damper, a uniform object temperature and
+    a constant room temperature. The simulations use RK4 with small fixed steps; they agree with the exact solutions to many
+    digits, and the difference is shown in the readouts. Time is speeded up or slowed down for display, so “time” in the
+    exponential and logistic models has no fixed unit. The coupled system is linear; real systems are often non-linear, but
+    near an equilibrium they usually behave like their linear approximation.
+  </p>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Differential equation</dt>
+    <dd>An equation linking a function to its rates of change.</dd>
+    <dt>Initial condition</dt>
+    <dd>The starting value that selects one solution.</dd>
+    <dt>Parameter</dt>
+    <dd>A constant in the equation, such as k, r or b, that changes the behaviour.</dd>
+    <dt>Equilibrium</dt>
+    <dd>A state where all rates of change are zero.</dd>
+    <dt>Damping</dt>
+    <dd>A force that resists motion and removes energy from an oscillation.</dd>
+    <dt>Carrying capacity</dt>
+    <dd>The stable maximum K in the logistic model.</dd>
+    <dt>Phase plane</dt>
+    <dd>A plot of one variable against another, with arrows showing how the state moves.</dd>
+    <dt>Euler’s method</dt>
+    <dd>A numerical method that follows the tangent for one step at a time.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Differential equations describe change; initial conditions choose the solution.</li>
+    <li>Proportional change gives exponentials; change towards a target gives exponential approach (cooling, logistic near K).</li>
+    <li>Springs oscillate at √(k/m), and damping decides whether they overshoot.</li>
+    <li>Eigenvalues classify the equilibria of linear systems.</li>
+    <li>Numerical methods step forward in time; smaller steps are more accurate, and too-large steps can be unstable.</li>
+  </ul>
+</SimulatorLayout>
