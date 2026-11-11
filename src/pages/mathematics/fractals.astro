@@ -1,0 +1,236 @@
+---
+import SimulatorLayout from '../../layouts/SimulatorLayout.astro';
+import FractalsSim from '../../simulators/fractals/FractalsSim.astro';
+import { fractalsQuiz } from '../../data/quizzes/fractals';
+
+const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
+  { id: 'what', label: 'What a fractal is' },
+  { id: 'complex', label: 'Complex numbers in brief' },
+  { id: 'mandelbrot', label: 'The Mandelbrot set' },
+  { id: 'julia', label: 'Julia sets' },
+  { id: 'recursive', label: 'Recursive constructions' },
+  { id: 'ifs', label: 'Chaos game and the fern' },
+  { id: 'dimension', label: 'Fractal dimension' },
+  { id: 'formulas', label: 'Formula reference' },
+  { id: 'limits', label: 'What the computer can and cannot show' },
+  { id: 'applications', label: 'Real-world applications' },
+  { id: 'facts', label: 'Interesting facts' },
+  { id: 'misconceptions', label: 'Common misconceptions' },
+  { id: 'terms', label: 'Important terms' },
+  { id: 'takeaways', label: 'Key takeaways' },
+];
+
+const references = [
+  { text: 'Mandelbrot, B. B. (1982). The Fractal Geometry of Nature. W. H. Freeman.' },
+  { text: 'Peitgen, H.-O., Jürgens, H., & Saupe, D. (2004). Chaos and Fractals: New Frontiers of Science (2nd ed.). Springer.' },
+  { text: 'Barnsley, M. F. (1988). Fractals Everywhere. Academic Press.' },
+  { text: 'Shishikura, M. (1998). The Hausdorff dimension of the boundary of the Mandelbrot set and Julia sets. Annals of Mathematics, 147(2), 225–267.' },
+  { text: 'Falconer, K. (2014). Fractal Geometry: Mathematical Foundations and Applications (3rd ed.). Wiley.' },
+];
+---
+
+<SimulatorLayout
+  branch="mathematics"
+  topic="fractals"
+  description="Interactive fractal explorer: zoom into the Mandelbrot set, morph Julia sets, build the Sierpinski triangle and Koch snowflake step by step, grow the Barnsley fern and learn about fractal dimension."
+  toc={toc}
+  quiz={fractalsQuiz}
+  references={references}
+>
+  <Fragment slot="intro">
+    <p>
+      A rule you could write on a sticky note — square a number and add a constant — produces the Mandelbrot set, a shape
+      with endless detail no matter how far you zoom. Fractals show how simple rules repeated over and over create complex
+      structure, and they describe coastlines, ferns, blood vessels and lightning far better than circles and squares. Zoom,
+      morph, build and grow five classic fractals.
+    </p>
+  </Fragment>
+
+  <FractalsSim slot="sim" />
+
+  <Fragment slot="instructions">
+    <ol>
+      <li>Choose a <strong>fractal</strong>. Drag to pan (two fingers on a touch screen), and double-click, pinch or Ctrl + scroll to zoom. <strong>Reset view</strong> returns to the start.</li>
+      <li><strong>Mandelbrot:</strong> tap any point to trace its sequence z₀, z₁, z₂, … and see whether it escapes. Try the place buttons, raise the iterations when you zoom deep, and press <strong>Start</strong> to fly into Seahorse Valley.</li>
+      <li><strong>Julia:</strong> drag c on the small Mandelbrot map or use the sliders and presets. Keep up to three pictures to compare. Start sweeps c around a circle.</li>
+      <li><strong>Sierpinski and Koch:</strong> press <strong>Step</strong> or <strong>Start</strong> to add one iteration at a time; switch the Sierpinski triangle to the random chaos game.</li>
+      <li><strong>Fern:</strong> press Start to plot points, change the lean of map f₂, and colour points by the map that made them.</li>
+    </ol>
+  </Fragment>
+
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Describe fractals in terms of self-similarity, iteration and recursion.</li>
+    <li>Iterate z → z² + c with complex numbers and decide whether a sequence escapes.</li>
+    <li>Explain how the Mandelbrot set and Julia sets are defined and how they are related.</li>
+    <li>Build the Sierpinski triangle and Koch snowflake and calculate how their areas and perimeters change.</li>
+    <li>Distinguish deterministic constructions from randomised ones such as the chaos game.</li>
+    <li>Calculate a similarity dimension and explain why different fractals have different dimensions.</li>
+  </ul>
+
+  <h2 id="what">What a fractal is</h2>
+  <p>
+    A <strong>fractal</strong> is a shape with detail at every scale. Many fractals are <strong>self-similar</strong>: parts
+    of them look like smaller copies of the whole, exactly (the Sierpinski triangle) or approximately (the Mandelbrot set).
+    They are usually made by <strong>iteration</strong>, repeating a rule on its own output, or by <strong>recursion</strong>,
+    defining a shape in terms of smaller copies of itself. Their roughness is measured by a <strong>fractal dimension</strong>
+    that need not be a whole number.
+  </p>
+
+  <h2 id="complex">Complex numbers in brief</h2>
+  <p>
+    A <strong>complex number</strong> z = x + yi has a real part x and an imaginary part y, where i² = −1. We draw it as the
+    point (x, y) in the <strong>complex plane</strong>. Its size (modulus) is |z| = √(x² + y²). Squaring follows ordinary
+    algebra: (x + yi)² = x² − y² + 2xyi. So the rule z → z² + c, with c = a + bi, becomes
+    <strong>x → x² − y² + a</strong> and <strong>y → 2xy + b</strong>.
+  </p>
+
+  <h2 id="mandelbrot">The Mandelbrot set</h2>
+  <p>
+    For each complex number c, start at <strong>z₀ = 0</strong> and repeat <strong>zₙ₊₁ = zₙ² + c</strong>. The
+    <strong>Mandelbrot set</strong> is the set of all c for which this sequence stays bounded. A key fact makes it
+    computable: if ever |zₙ| &gt; 2, the sequence is certain to escape to infinity. So the computer iterates each point up
+    to a limit; points that pass |z| = 2 are outside and are coloured by how quickly they escaped, and points that never pass
+    it are drawn black.
+  </p>
+  <p>
+    Its edge contains spirals, seahorses, lightning bolts and endless miniature copies of the whole set, joined by thin
+    filaments. The set itself is connected: it is all one piece.
+  </p>
+
+  <h2 id="julia">Julia sets</h2>
+  <p>
+    A <strong>Julia set</strong> uses the same rule, but now c is fixed and the starting point z₀ varies over the plane. The
+    filled Julia set is all z₀ whose sequences stay bounded; the Julia set is its boundary. Every c gives a different
+    picture. The Mandelbrot set is a map of them: <strong>the Julia set for c is connected exactly when c belongs to the
+    Mandelbrot set</strong>. For c outside the Mandelbrot set it breaks up into infinitely many separate points, a “Cantor
+    dust”. Near the edge of the Mandelbrot set, Julia sets often look like the nearby part of the Mandelbrot set itself.
+  </p>
+
+  <h2 id="recursive">Recursive constructions</h2>
+  <ul>
+    <li><strong>Sierpinski triangle:</strong> start with a filled triangle; at each step, remove the middle triangle from every remaining triangle. After n steps there are 3ⁿ triangles and (3/4)ⁿ of the area is left, which tends to zero.</li>
+    <li><strong>Koch snowflake:</strong> start with an equilateral triangle; at each step, replace the middle third of every edge with two sides of a small outward triangle. The number of edges becomes 3·4ⁿ, each 1/3ⁿ long, so the perimeter is 3·(4/3)ⁿ and grows without limit, while the area approaches 8/5 of the starting triangle.</li>
+  </ul>
+  <p>These constructions are <strong>deterministic</strong>: the same rule always produces exactly the same picture.</p>
+
+  <h2 id="ifs">The chaos game and the Barnsley fern</h2>
+  <p>
+    An <strong>iterated function system</strong> is a set of contracting maps. Repeatedly applying them to any shape converges
+    to one unique shape, the <strong>attractor</strong>. The <strong>chaos game</strong> draws it using randomness: start
+    anywhere, pick one of the maps at random, apply it, plot the point, and repeat. For the Sierpinski triangle, each map is
+    “jump halfway towards one of the three corners”.
+  </p>
+  <p>
+    Barnsley’s fern uses four <strong>affine maps</strong> (x, y) → (ax + by + e, cx + dy + f), chosen with probabilities
+    1%, 85%, 7% and 7%: one draws the stem, one shrinks and slightly rotates the whole fern to make its upper part, and two
+    make the lowest left and right leaflets. The random choices only affect the order in which points appear; the maps alone
+    determine the shape. This makes the method <strong>probabilistic</strong>, unlike the recursive constructions above,
+    even though the final shape is the same every time.
+  </p>
+
+  <h2 id="dimension">Fractal dimension</h2>
+  <p>
+    Scale a line by 1/2 and you need 2 copies to rebuild it (dimension 1); a square needs 4 = 2² copies (dimension 2); a
+    cube needs 8 = 2³ (dimension 3). In general, if a shape is made of N copies of itself each scaled by r, its
+    <strong>similarity dimension</strong> is <strong>D = log N / log(1/r)</strong>.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Fractal</th><th>Dimension</th></tr></thead>
+      <tbody>
+        <tr><td>Koch curve (4 copies, scale 1/3)</td><td>log 4 / log 3 ≈ 1.262</td></tr>
+        <tr><td>Sierpinski triangle (3 copies, scale 1/2)</td><td>log 3 / log 2 ≈ 1.585</td></tr>
+        <tr><td>Boundary of the Mandelbrot set</td><td>2 (proved by Mitsuhiro Shishikura in 1998)</td></tr>
+        <tr><td>Julia sets</td><td>Between 1 and 2, depending on c</td></tr>
+        <tr><td>Barnsley fern</td><td>Not given by a simple formula; numerical estimates lie between 1 and 2</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Shapes that are not exactly self-similar need other definitions, such as the box-counting or Hausdorff dimension, but
+    the idea is the same: how detail grows as you look more closely.
+  </p>
+
+  <h2 id="formulas">Formula reference</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Formula</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>zₙ₊₁ = zₙ² + c, z₀ = 0</td><td>Mandelbrot iteration; c varies over the plane</td></tr>
+        <tr><td>zₙ₊₁ = zₙ² + c, c fixed</td><td>Julia iteration; the starting point z₀ varies</td></tr>
+        <tr><td>|z| = √(x² + y²) &gt; 2</td><td>Escape test: the sequence will go to infinity</td></tr>
+        <tr><td>(x + yi)² = x² − y² + 2xyi</td><td>Squaring a complex number</td></tr>
+        <tr><td>3ⁿ triangles, area (3/4)ⁿ</td><td>Sierpinski triangle after n steps</td></tr>
+        <tr><td>3·4ⁿ edges, perimeter 3·(4/3)ⁿ</td><td>Koch snowflake after n steps (side 1)</td></tr>
+        <tr><td>Area → (8/5) × original</td><td>Limit of the Koch snowflake’s area</td></tr>
+        <tr><td>D = log N / log(1/r)</td><td>Similarity dimension of N copies scaled by r</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="limits">What the computer can and cannot show</h2>
+  <p>
+    The lab iterates each point only up to the maximum you choose. Escaping points are certain to be outside, but a point
+    that has not escaped yet might still escape later, so black means “probably in the set”. The pictures are therefore
+    approximations that improve with more iterations. Numbers are stored with about 16 significant digits, so the lab stops
+    zooming when the view is about 10⁻¹² wide; deeper zooms need special high-precision arithmetic. Recursive fractals are
+    drawn to a finite depth, and the true fractal is the limit of infinitely many steps.
+  </p>
+
+  <h2 id="applications">Real-world applications</h2>
+  <ul>
+    <li><strong>Nature:</strong> coastlines, river networks, ferns, broccoli, lungs and blood vessels have fractal-like branching that packs huge surface area into small spaces.</li>
+    <li><strong>Computer graphics:</strong> fractal noise generates realistic mountains, clouds and textures in films and games.</li>
+    <li><strong>Engineering:</strong> fractal antennas in phones receive many frequencies in a small space.</li>
+    <li><strong>Science:</strong> fractal dimension describes rough surfaces, porous rocks, turbulence and the structure of galaxies.</li>
+    <li><strong>Medicine:</strong> the fractal dimension of tissue images can help detect abnormal growth.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>Benoit Mandelbrot coined the word “fractal” in 1975, from the Latin <em>fractus</em>, “broken”.</li>
+    <li>Gaston Julia and Pierre Fatou studied Julia sets around 1918, decades before computers could draw them.</li>
+    <li>The coastline paradox: the measured length of a coastline keeps growing as the ruler gets shorter.</li>
+    <li>Whether the Mandelbrot set is “locally connected” (the MLC conjecture) is still an open problem.</li>
+  </ul>
+
+  <h2 id="misconceptions">Common misconceptions</h2>
+  <ul>
+    <li><strong>“All fractals have the same dimension.”</strong> The Koch curve has about 1.26, the Sierpinski triangle about 1.58.</li>
+    <li><strong>“Black points are definitely in the Mandelbrot set.”</strong> They have not escaped yet within the iteration limit.</li>
+    <li><strong>“The Mandelbrot set repeats exactly when you zoom in.”</strong> Mini copies appear, but they are distorted and surrounded by new detail.</li>
+    <li><strong>“Random methods give random shapes.”</strong> The chaos game always converges to the same attractor.</li>
+    <li><strong>“Infinite perimeter means infinite area.”</strong> The Koch snowflake has infinite perimeter but finite area.</li>
+  </ul>
+
+  <h2 id="terms">Important terms</h2>
+  <dl>
+    <dt>Fractal</dt>
+    <dd>A shape with detail at every scale, often self-similar, with a fractal dimension.</dd>
+    <dt>Self-similarity</dt>
+    <dd>Parts of a shape look like smaller copies of the whole.</dd>
+    <dt>Iteration</dt>
+    <dd>Repeatedly applying a rule to its own output.</dd>
+    <dt>Recursion</dt>
+    <dd>Defining something in terms of smaller versions of itself.</dd>
+    <dt>Complex number</dt>
+    <dd>A number x + yi with i² = −1, drawn as a point in the plane.</dd>
+    <dt>Bounded sequence</dt>
+    <dd>A sequence whose values never grow beyond some fixed size.</dd>
+    <dt>Attractor</dt>
+    <dd>The shape that an iterated function system converges to.</dd>
+    <dt>Fractal dimension</dt>
+    <dd>A measure of how detail grows with magnification; it need not be a whole number.</dd>
+  </dl>
+
+  <h2 id="takeaways">Key takeaways</h2>
+  <ul>
+    <li>Simple rules, repeated, create complex patterns.</li>
+    <li>The Mandelbrot set is the set of c for which z → z² + c, from 0, stays bounded; escaping |z| = 2 means divergence.</li>
+    <li>Each c gives a Julia set, connected exactly when c is in the Mandelbrot set.</li>
+    <li>Recursive fractals are deterministic; the chaos game uses randomness but reaches the same shape.</li>
+    <li>Different fractals have different, often non-integer, dimensions.</li>
+  </ul>
+</SimulatorLayout>

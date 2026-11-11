@@ -1,0 +1,132 @@
+---
+import SimShell from '../../components/sim/SimShell.astro';
+import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
+import ToggleControl from '../../components/sim/ToggleControl.astro';
+import Readout from '../../components/sim/Readout.astro';
+---
+
+<SimShell id="fractals-sim" label="A fractal laboratory: the Mandelbrot set, Julia sets, the Sierpinski triangle, the Koch snowflake and the Barnsley fern." hint={false} badge="">
+  <canvas slot="stage" class="sim-canvas" data-canvas role="img" aria-label="Fractal" aria-describedby="fractals-sim-status"></canvas>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="fractals-frac">Fractal</label>
+    <select id="fractals-frac" class="select" data-frac>
+      <option value="mandelbrot" selected>Mandelbrot set</option>
+      <option value="julia">Julia sets</option>
+      <option value="sierpinski">Sierpinski triangle</option>
+      <option value="koch">Koch snowflake</option>
+      <option value="fern">Barnsley fern</option>
+    </select>
+  </div>
+  <p class="fr-note" data-note aria-live="polite"></p>
+
+  <div data-views="mandelbrot julia" class="fr-group">
+    <SliderControl name="fr-iter" label="Maximum iterations" min={20} max={1000} step={10} value={200} help="More iterations sharpen the boundary, especially when zoomed in, but take longer." />
+    <ChoiceControl
+      name="fr-mode"
+      label="Colouring"
+      value="smooth"
+      options={[
+        { value: 'smooth', label: 'Smooth' },
+        { value: 'bands', label: 'Bands' },
+        { value: 'binary', label: 'In / out' },
+      ]}
+    />
+  </div>
+  <div data-views="mandelbrot" class="preset-row">
+    <button type="button" class="btn btn-sm" data-mplace="seahorse">Seahorse Valley</button>
+    <button type="button" class="btn btn-sm" data-mplace="elephant">Elephant Valley</button>
+    <button type="button" class="btn btn-sm" data-mplace="mini">Mini copy</button>
+    <button type="button" class="btn btn-sm" data-mplace="spiral">Spirals</button>
+  </div>
+  <div data-views="julia" class="fr-group" hidden>
+    <SliderControl name="fr-cre" label="c, real part" min={-2} max={1} step={0.005} value={-0.123} />
+    <SliderControl name="fr-cim" label="c, imaginary part" min={-1.5} max={1.5} step={0.005} value={0.745} />
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm" data-jpreset="rabbit">Rabbit</button>
+      <button type="button" class="btn btn-sm" data-jpreset="dendrite">Dendrite</button>
+      <button type="button" class="btn btn-sm" data-jpreset="sanmarco">San Marco</button>
+      <button type="button" class="btn btn-sm" data-jpreset="siegel">Siegel disc</button>
+      <button type="button" class="btn btn-sm" data-jpreset="spiral">Spirals</button>
+      <button type="button" class="btn btn-sm" data-jpreset="dust">Dust</button>
+    </div>
+    <div class="preset-row">
+      <button type="button" class="btn btn-sm btn-primary" data-keep>Keep for comparison</button>
+      <button type="button" class="btn btn-sm" data-unkeep>Clear kept</button>
+    </div>
+  </div>
+
+  <div data-views="sierpinski" class="fr-group" hidden>
+    <ChoiceControl
+      name="fr-smode"
+      label="Method"
+      value="rec"
+      options={[
+        { value: 'rec', label: 'Recursion' },
+        { value: 'chaos', label: 'Chaos game' },
+      ]}
+      help="Recursion is deterministic. The chaos game uses random choices but draws the same shape."
+    />
+    <SliderControl name="fr-sdepth" label="Recursion depth n" min={0} max={9} step={1} value={4} />
+  </div>
+
+  <div data-views="koch" class="fr-group" hidden>
+    <SliderControl name="fr-kdepth" label="Iteration n" min={0} max={7} step={1} value={2} />
+    <ToggleControl name="fr-newest" label="Mark the bumps added in the last step" checked />
+  </div>
+
+  <div data-views="fern" class="fr-group" hidden>
+    <SliderControl name="fr-points" label="Number of points" min={10000} max={300000} step={10000} value={120000} />
+    <SliderControl name="fr-lean" label="Lean of map f₂ (curl)" min={-0.1} max={0.1} step={0.01} value={0.04} />
+    <ToggleControl name="fr-bymap" label="Colour each point by the map that made it" />
+  </div>
+
+  <div class="preset-row">
+    <button type="button" class="btn btn-sm" data-step>Step</button>
+    <button type="button" class="btn btn-sm" data-zoom="in">Zoom in</button>
+    <button type="button" class="btn btn-sm" data-zoom="out">Zoom out</button>
+    <button type="button" class="btn btn-sm" data-zoom="reset">Reset view</button>
+  </div>
+  <p class="ctrl-help">Drag to pan (two fingers on a touch screen), double-click, pinch or Ctrl + scroll to zoom. Tap the Mandelbrot or a Julia set to trace a point’s sequence. Start: Mandelbrot zooms into Seahorse Valley, Julia sweeps c around a circle, the others build step by step.</p>
+
+  <Fragment slot="readouts">
+    <Readout name="r1" label="—" key />
+    <Readout name="r2" label="—" />
+    <Readout name="r3" label="—" />
+    <Readout name="r4" label="—" />
+    <Readout name="r5" label="—" />
+    <Readout name="r6" label="—" />
+  </Fragment>
+</SimShell>
+
+<style>
+  .fr-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .fr-group[hidden],
+  [data-views][hidden] {
+    display: none;
+  }
+  .fr-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#fractals-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+  :global(#fractals-sim .sim-canvas) {
+    touch-action: pan-y;
+  }
+</style>
+
+<script>
+  import { mountSim } from '../shared/controller';
+  import { initFractals } from './fractals';
+  mountSim('#fractals-sim', initFractals);
+</script>

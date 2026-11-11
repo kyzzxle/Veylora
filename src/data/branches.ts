@@ -1180,6 +1180,17 @@ export const branches: Branch[] = [
         minutes: 25,
         related: ['mathematics/vector-addition', 'mathematics/geometry-3d', 'mathematics/calculus', 'mathematics/graphing-functions'],
       },
+      {
+        slug: 'fractals',
+        title: 'Fractals and Recursive Patterns',
+        summary: 'Zoom into the Mandelbrot set, morph Julia sets, build the Sierpinski triangle and Koch snowflake, and grow a fern from four simple rules.',
+        keywords: ['fractal', 'Mandelbrot set', 'Julia set', 'Sierpinski triangle', 'Koch snowflake', 'Barnsley fern', 'chaos game', 'self-similarity', 'recursion', 'iteration', 'complex numbers', 'fractal dimension', 'iterated function system'],
+        level: 'Intermediate',
+        kind: 'Experiment',
+        status: 'live',
+        minutes: 20,
+        related: ['mathematics/matrices', 'mathematics/probability', 'mathematics/geometry-3d', 'botany/plant-diversity'],
+      },
     ],
   },
 ];
