@@ -1,52 +1,95 @@
 ---
 import SimShell from '../../components/sim/SimShell.astro';
-import SliderControl from '../../components/sim/SliderControl.astro';
 import ChoiceControl from '../../components/sim/ChoiceControl.astro';
+import SliderControl from '../../components/sim/SliderControl.astro';
 import Readout from '../../components/sim/Readout.astro';
-import GraphPanel from '../../components/sim/GraphPanel.astro';
-import DataTable from '../../components/sim/DataTable.astro';
 ---
 
-<SimShell id="photo-sim" label="Pondweed in a beaker of water lit by a lamp, giving off oxygen bubbles." showTime hint={false} badge="Ready">
-  <SliderControl name="ph-dist" label="Lamp distance" min={5} max={50} step={1} value={15} scale={['5 cm', '50 cm']} help="Light intensity falls with the square of the distance." />
-  <SliderControl name="ph-co2" label="Carbon dioxide (sodium hydrogen carbonate)" min={0} max={100} step={5} value={40} help="Relative amount of dissolved CO₂ available to the plant." />
-  <SliderControl name="ph-temp" label="Water temperature" min={0} max={50} step={1} value={25} />
-  <ChoiceControl
-    name="ph-colour"
-    label="Light colour"
-    value="white"
-    options={[
-      { value: 'white', label: 'White' },
-      { value: 'red', label: 'Red' },
-      { value: 'blue', label: 'Blue' },
-      { value: 'green', label: 'Green' },
-    ]}
-  />
+<SimShell id="photo-sim" label="A photosynthesis laboratory: a leaf cross-section, a chloroplast, the light-dependent reactions, the Calvin cycle and a rate lab with adjustable light, carbon dioxide, water and temperature." hint={false} badge="">
+  <canvas slot="stage" class="sim-canvas" data-canvas role="img" aria-label="Photosynthesis" aria-describedby="photo-sim-status"></canvas>
+
+  <div class="ctrl">
+    <label class="ctrl-label" for="ps-view">Explore</label>
+    <select id="ps-view" class="select" data-view>
+      <option value="leaf" selected>1. Leaf cross-section</option>
+      <option value="chloro">2. Inside a chloroplast</option>
+      <option value="light">3. Light-dependent reactions</option>
+      <option value="calvin">4. Calvin cycle</option>
+      <option value="rate">5. Rate of photosynthesis</option>
+    </select>
+  </div>
+  <p class="ps-note" data-note aria-live="polite"></p>
+
+  <SliderControl name="ps-light" label="Light intensity" min={0} max={2000} step={25} value={800} scale={['Dark', 'Full sunlight']} help="Photosynthetically active light, in µmol photons per m² per second." />
+  <SliderControl name="ps-co2" label="Carbon dioxide in the air" min={100} max={1500} step={10} value={420} help="Today’s air contains about 420 ppm (parts per million)." />
+  <SliderControl name="ps-water" label="Water availability" min={0} max={100} step={5} value={80} help="A leaf that is short of water closes its stomata." />
+  <SliderControl name="ps-temp" label="Temperature" min={0} max={50} step={1} value={25} />
+
+  <div class="preset-row" aria-label="Compare limiting conditions">
+    <button type="button" class="btn btn-sm" data-cond="light">Light-limited</button>
+    <button type="button" class="btn btn-sm" data-cond="co2">CO₂-limited</button>
+    <button type="button" class="btn btn-sm" data-cond="temperature">Temperature-limited</button>
+    <button type="button" class="btn btn-sm" data-cond="drought">Drought</button>
+    <button type="button" class="btn btn-sm" data-cond="default">Typical day</button>
+  </div>
+
+  <div data-views="chloro" class="ps-group" hidden>
+    <div class="preset-row" aria-label="Zoom">
+      <button type="button" class="btn btn-sm" data-zoom="in">Zoom in</button>
+      <button type="button" class="btn btn-sm" data-zoom="out">Zoom out</button>
+      <button type="button" class="btn btn-sm" data-zoom="reset">Fit</button>
+    </div>
+  </div>
+  <div data-views="rate" class="ps-group" hidden>
+    <ChoiceControl
+      name="ps-axis"
+      label="Graph the rate against"
+      value="light"
+      options={[
+        { value: 'light', label: 'Light' },
+        { value: 'co2', label: 'CO₂' },
+        { value: 'temp', label: 'Temp.' },
+        { value: 'water', label: 'Water' },
+      ]}
+    />
+  </div>
+
+  <SliderControl name="ps-speed" label="Animation speed" min={0.25} max={3} step={0.25} value={1} />
+  <div class="preset-row">
+    <button type="button" class="btn btn-sm btn-primary" data-step>Step</button>
+  </div>
 
   <Fragment slot="readouts">
-    <Readout name="rate" label="Bubbles per minute" key />
-    <Readout name="light" label="Relative light intensity" />
-    <Readout name="limit" label="Limiting factor" />
-    <Readout name="count" label="Bubbles counted" />
-  </Fragment>
-
-  <Fragment slot="below">
-    <GraphPanel id="ph-graph" title="Rate of photosynthesis vs. light intensity" desc="Recorded bubble rates plotted against relative light intensity, with the model's prediction for the current carbon dioxide and temperature as a dashed curve." />
-    <DataTable
-      id="ph-table"
-      title="Results"
-      columns={[
-        { key: 'dist', label: 'Distance (cm)' },
-        { key: 'light', label: 'Light (relative)' },
-        { key: 'co2', label: 'CO₂ (%)' },
-        { key: 'temp', label: 'Temp (°C)' },
-        { key: 'colour', label: 'Colour' },
-        { key: 'rate', label: 'Bubbles/min' },
-      ]}
-      emptyText="Press Record to save the current rate."
-    />
+    <Readout name="r1" label="O₂ produced" key />
+    <Readout name="r2" label="Net O₂ released" />
+    <Readout name="r3" label="Limiting factor" />
+    <Readout name="r4" label="Stomata open" />
+    <Readout name="r5" label="ATP / NADPH made" />
+    <Readout name="r6" label="Sugar made" />
   </Fragment>
 </SimShell>
+
+<style>
+  .ps-group {
+    display: grid;
+    gap: var(--sim-gap, 14px);
+  }
+  .ps-group[hidden],
+  [data-views][hidden] {
+    display: none;
+  }
+  .ps-note {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    min-height: 6em;
+  }
+  :global(#photo-sim) {
+    --stage-aspect-mobile: 680 / 1000;
+  }
+</style>
 
 <script>
   import { mountSim } from '../shared/controller';

@@ -4,14 +4,19 @@ import PhotosynthesisSim from '../../simulators/photosynthesis/PhotosynthesisSim
 import { photosynthesisQuiz } from '../../data/quizzes/photosynthesis';
 
 const toc = [
+  { id: 'objectives', label: 'Learning objectives' },
   { id: 'what', label: 'What is photosynthesis?' },
-  { id: 'where', label: 'Where it happens' },
-  { id: 'stages', label: 'The two stages' },
-  { id: 'limiting', label: 'Limiting factors' },
-  { id: 'experiment', label: 'The pondweed experiment' },
-  { id: 'formulas', label: 'Equations' },
+  { id: 'equation', label: 'The overall equation' },
+  { id: 'leaf', label: 'Inside a leaf' },
+  { id: 'chloroplast', label: 'Inside a chloroplast' },
+  { id: 'light-reactions', label: 'Stage 1: the light-dependent reactions' },
+  { id: 'calvin', label: 'Stage 2: the Calvin cycle' },
+  { id: 'roles', label: 'Roles of the key molecules' },
+  { id: 'limiting', label: 'Limiting factors and saturation' },
+  { id: 'model', label: 'About this model' },
   { id: 'terms', label: 'Key terms' },
   { id: 'applications', label: 'Why it matters' },
+  { id: 'facts', label: 'Interesting facts' },
   { id: 'misconceptions', label: 'Common misconceptions' },
   { id: 'takeaways', label: 'Key takeaways' },
 ];
@@ -19,6 +24,8 @@ const toc = [
 const references = [
   { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Chapter 8: Photosynthesis. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/8-introduction' },
   { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 8.2: The Light-Dependent Reaction of Photosynthesis. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/8-2-the-light-dependent-reaction-of-photosynthesis' },
+  { text: 'Clark, M. A., Douglas, M., & Choi, J. (2018). Biology 2e, Section 8.3: Using Light Energy to Make Organic Molecules. OpenStax.', url: 'https://openstax.org/books/biology-2e/pages/8-3-using-light-energy-to-make-organic-molecules' },
+  { text: 'Taiz, L., Zeiger, E., Møller, I. M., & Murphy, A. (2015). Plant Physiology and Development (6th ed.), Chapters 7–9. Sinauer.' },
   { text: 'Blackman, F. F. (1905). Optima and limiting factors. Annals of Botany, 19(74), 281–295.' },
 ];
 ---
@@ -26,16 +33,17 @@ const references = [
 <SimulatorLayout
   branch="biology"
   topic="photosynthesis"
-  description="Interactive photosynthesis simulator: move a lamp, change carbon dioxide, temperature and light colour, count oxygen bubbles from pondweed and discover limiting factors."
+  description="Interactive photosynthesis simulator: explore a leaf cross-section and a chloroplast, step through the light-dependent reactions and the Calvin cycle, and see how light, carbon dioxide, water and temperature limit the rate."
   toc={toc}
   quiz={photosynthesisQuiz}
   references={references}
 >
   <Fragment slot="intro">
     <p>
-      Almost every food chain on Earth begins with a plant capturing sunlight. Through photosynthesis, plants turn light,
-      water and carbon dioxide into sugar — and release the oxygen we breathe. Recreate a classic school experiment:
-      light a piece of pondweed, count its oxygen bubbles, and find out what limits how fast it can work.
+      Almost every food chain on Earth begins with a plant capturing sunlight. In photosynthesis, plants turn light energy
+      into chemical energy stored in sugar, using carbon dioxide from the air and water from the soil, and release oxygen.
+      Follow light, CO₂ and water into a leaf, zoom into a chloroplast, watch the light-dependent reactions make ATP and
+      NADPH, follow carbon through the Calvin cycle, and find out what limits how fast a plant can photosynthesise.
     </p>
   </Fragment>
 
@@ -43,96 +51,184 @@ const references = [
 
   <Fragment slot="instructions">
     <ol>
-      <li>Press <strong>Start</strong>. One second equals one minute; oxygen bubbles rise from the pondweed and are counted.</li>
-      <li><strong>Drag the lamp</strong> (or use the slider) to change its distance. Watch the bubble rate and the relative light intensity.</li>
-      <li>Change the <strong>carbon dioxide</strong>, <strong>temperature</strong> and <strong>light colour</strong> one at a time.</li>
-      <li>Press <strong>Record</strong> at several distances. Your points appear on the graph alongside the model’s prediction (dashed).</li>
-      <li>Read the <strong>limiting factor</strong> readout to see what is holding the plant back. <strong>Reset</strong> clears your results.</li>
+      <li>Choose what to <strong>explore</strong>: the leaf, a chloroplast, the light-dependent reactions, the Calvin cycle or the rate graph.</li>
+      <li>Press <strong>Start</strong> to animate. <strong>Pause</strong> freezes it and <strong>Reset</strong> restores the starting conditions.</li>
+      <li><strong>Tap any structure</strong> to read what it does. In the leaf, tap a chloroplast (small green oval) to zoom into it; in the chloroplast, drag, scroll or pinch to zoom further.</li>
+      <li>In the light-dependent reactions and the Calvin cycle, press <strong>Next stage</strong> or <strong>Next phase</strong> to go through the process one step at a time.</li>
+      <li>Change <strong>light, carbon dioxide, water and temperature</strong> and watch the O₂ meter, the animations and the readouts respond. Use the buttons, or the cards in the rate view, to compare light-limited, CO₂-limited and temperature-limited conditions.</li>
     </ol>
   </Fragment>
 
+  <h2 id="objectives">Learning objectives</h2>
+  <ul>
+    <li>Write the overall equation for photosynthesis and name its reactants and products.</li>
+    <li>Describe how the structure of a leaf and of a chloroplast suits them to photosynthesis.</li>
+    <li>Explain the two stages, the light-dependent reactions and the Calvin cycle, and how they are linked by ATP and NADPH.</li>
+    <li>State that the oxygen released comes from water in the light-dependent reactions, while CO₂ is fixed in the Calvin cycle.</li>
+    <li>Explain how light intensity, CO₂ concentration, temperature and water supply limit the rate, including light saturation.</li>
+  </ul>
+
   <h2 id="what">What is photosynthesis?</h2>
   <p>
-    <strong>Photosynthesis</strong> is the process by which plants, algae and some bacteria use light energy to make
-    glucose from carbon dioxide and water. The energy stored in glucose powers the plant’s growth, and glucose is also
-    turned into starch for storage and cellulose for cell walls. Oxygen is released as a by-product. Animals, including
-    humans, depend on both the food and the oxygen that photosynthesis produces.
+    <strong>Photosynthesis</strong> is the process by which plants, algae and some bacteria use light energy to make sugar
+    from carbon dioxide and water, releasing oxygen. It converts <strong>light energy into chemical energy</strong>, stored in
+    the bonds of glucose. The plant uses that glucose for respiration, turns it into sucrose to transport, starch to store
+    and cellulose to build cell walls. Animals depend on both the food and the oxygen it produces.
   </p>
-
-  <h2 id="where">Where it happens</h2>
-  <p>
-    Photosynthesis takes place in <strong>chloroplasts</strong>, mainly in the palisade cells of leaves. Chloroplasts
-    contain the green pigment <strong>chlorophyll</strong>, which absorbs red and blue light strongly and reflects green.
-    Carbon dioxide enters the leaf through stomata, and water arrives from the roots through the xylem.
-  </p>
-
-  <h2 id="stages">The two stages</h2>
+  <p>Photosynthesis happens in two linked stages:</p>
   <ol>
-    <li><strong>Light-dependent reactions</strong> (in the thylakoid membranes): light energy splits water molecules, releasing oxygen and producing the energy carriers ATP and NADPH.</li>
-    <li><strong>The Calvin cycle</strong> (in the stroma): the enzyme RuBisCO fixes carbon dioxide, and ATP and NADPH are used to build sugar.</li>
+    <li><strong>The light-dependent reactions</strong>, in the thylakoid membranes, capture light energy, split water (releasing O₂) and make ATP and NADPH.</li>
+    <li><strong>The Calvin cycle</strong> (the light-independent reactions), in the stroma, uses that ATP and NADPH to fix CO₂ into sugar.</li>
   </ol>
 
-  <h2 id="limiting">Limiting factors</h2>
+  <h2 id="equation">The overall equation</h2>
+  <p><strong>6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂</strong></p>
   <p>
-    The rate of photosynthesis depends on several factors. At any moment, the factor in shortest supply sets the
-    maximum rate — this is the <strong>principle of limiting factors</strong>, described by Frederick Blackman in 1905.
+    Six molecules of carbon dioxide and six of water, using light energy absorbed by chlorophyll, make one molecule of glucose
+    and six of oxygen. This is a summary of many steps: in reality the plant first makes a 3-carbon sugar (G3P), and the water
+    split in the light-dependent reactions and the water formed in the Calvin cycle are counted together.
+  </p>
+
+  <h2 id="leaf">Inside a leaf</h2>
+  <ul>
+    <li><strong>Cuticle:</strong> a waxy, transparent layer that reduces water loss.</li>
+    <li><strong>Upper epidermis:</strong> transparent protective cells that let light through.</li>
+    <li><strong>Palisade mesophyll:</strong> tall cells packed with chloroplasts near the light; most photosynthesis happens here.</li>
+    <li><strong>Spongy mesophyll:</strong> loosely packed cells with air spaces that let CO₂ reach every cell and O₂ diffuse out.</li>
+    <li><strong>Stomata:</strong> pores in the lower epidermis, opened and closed by guard cells, where CO₂ enters and O₂ and water vapour leave.</li>
+    <li><strong>Vascular bundles (veins):</strong> xylem brings water in; phloem carries sugar away.</li>
+  </ul>
+
+  <h2 id="chloroplast">Inside a chloroplast</h2>
+  <p>
+    A chloroplast has a <strong>double membrane</strong> (envelope). Inside are flattened sacs called
+    <strong>thylakoids</strong>, stacked into <strong>grana</strong> and joined by <strong>stroma lamellae</strong>. The thylakoid
+    membranes hold <strong>chlorophyll</strong> and the proteins of the light-dependent reactions; the space inside each
+    thylakoid is the <strong>lumen</strong>. Around the thylakoids is the fluid <strong>stroma</strong>, which contains the
+    enzymes of the Calvin cycle, as well as the chloroplast’s own DNA and ribosomes, and starch grains.
+  </p>
+
+  <h2 id="light-reactions">Stage 1: the light-dependent reactions</h2>
+  <ol>
+    <li><strong>Photosystem II</strong> absorbs light, which excites electrons in its chlorophyll.</li>
+    <li>To replace them, PSII <strong>splits water</strong> (photolysis): 2H₂O → O₂ + 4H⁺ + 4e⁻. <strong>This is where the oxygen comes from.</strong></li>
+    <li>The electrons pass along an <strong>electron transport chain</strong> (plastoquinone, the cytochrome b₆f complex, plastocyanin), which pumps H⁺ into the lumen.</li>
+    <li><strong>Photosystem I</strong> absorbs light and re-energises the electrons.</li>
+    <li>The electrons reduce NADP⁺ to <strong>NADPH</strong>.</li>
+    <li>H⁺ flows back out of the lumen through <strong>ATP synthase</strong>, which makes <strong>ATP</strong> from ADP and phosphate.</li>
+  </ol>
+  <p>
+    Inputs: light, water, ADP, phosphate and NADP⁺. Outputs: O₂, ATP and NADPH. No CO₂ is used in this stage.
+  </p>
+
+  <h2 id="calvin">Stage 2: the Calvin cycle</h2>
+  <ol>
+    <li><strong>Carbon fixation:</strong> the enzyme RuBisCO joins CO₂ to RuBP (5 carbons); the product splits into two 3-PGA (3 carbons each).</li>
+    <li><strong>Reduction:</strong> ATP and NADPH from stage 1 convert 3-PGA into the 3-carbon sugar G3P.</li>
+    <li><strong>Release:</strong> for every 3 CO₂ fixed, one G3P leaves the cycle; two G3P make one glucose.</li>
+    <li><strong>Regeneration:</strong> the other G3P are rearranged, using more ATP, to remake RuBP.</li>
+  </ol>
+  <p>
+    Fixing 3 CO₂ uses 9 ATP and 6 NADPH. The Calvin cycle does not use light directly, but it stops in the dark within
+    seconds because it runs out of ATP and NADPH. No O₂ is released in this stage.
+  </p>
+
+  <h2 id="roles">Roles of the key molecules</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Molecule</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>Chlorophyll</td><td>Green pigment in the thylakoid membranes that absorbs mainly red and blue light and passes the energy to electrons in the photosystems.</td></tr>
+        <tr><td>Water (H₂O)</td><td>Split in the light-dependent reactions to supply electrons and H⁺; its oxygen is released as O₂.</td></tr>
+        <tr><td>ATP</td><td>Energy carrier made by ATP synthase; powers the reduction and regeneration steps of the Calvin cycle.</td></tr>
+        <tr><td>NADPH</td><td>Carrier of high-energy electrons (reducing power) made at photosystem I; reduces 3-PGA to G3P.</td></tr>
+        <tr><td>Carbon dioxide (CO₂)</td><td>Source of the carbon in sugar; fixed by RuBisCO in the Calvin cycle.</td></tr>
+        <tr><td>Glucose (C₆H₁₂O₆)</td><td>Stores the captured energy; used for respiration and to make sucrose, starch and cellulose.</td></tr>
+        <tr><td>Oxygen (O₂)</td><td>By-product of splitting water; diffuses out through the stomata.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="limiting">Limiting factors and saturation</h2>
+  <p>
+    The rate of photosynthesis is held back by whichever factor is in shortest supply: the <strong>limiting factor</strong>.
+    Increasing a factor that is not limiting barely changes the rate.
   </p>
   <ul>
-    <li><strong>Light intensity:</strong> more light speeds up the light-dependent reactions, until something else limits the rate.</li>
-    <li><strong>Carbon dioxide concentration:</strong> more CO₂ speeds up the Calvin cycle, up to a point.</li>
-    <li><strong>Temperature:</strong> warmth speeds up the enzymes, but above about 35–40 °C they begin to denature and the rate falls rapidly.</li>
+    <li><strong>Light intensity:</strong> in dim light the rate rises almost in proportion to light. But it does not rise forever: as light increases the curve bends over and reaches a <strong>plateau</strong> (light saturation), because the Calvin cycle cannot use the extra ATP and NADPH any faster. Very intense light can even damage the photosystems.</li>
+    <li><strong>Carbon dioxide:</strong> in bright light, the CO₂ available to RuBisCO is often what limits the rate. More CO₂ raises the plateau, which is why some greenhouses add CO₂.</li>
+    <li><strong>Temperature:</strong> the enzymes work slowly in the cold and fastest near an optimum (around 25–30 °C for many plants); above about 40 °C enzymes and membranes are damaged and the rate collapses.</li>
+    <li><strong>Water:</strong> only a little water is used in the reactions, but a plant short of water closes its stomata, which cuts off CO₂. Severe drought also damages the cells.</li>
   </ul>
   <p>
-    On a graph of rate against light intensity, the curve rises and then flattens into a plateau. The height of the
-    plateau is set by the next limiting factor — try raising CO₂ and recording again.
+    In the rate view, compare the three classic cases. In <strong>light-limited</strong> conditions, doubling the light
+    raises the rate a lot while extra CO₂ does little. In <strong>CO₂-limited</strong> conditions, the reverse is true. In
+    <strong>temperature-limited</strong> conditions, warming towards the optimum helps most.
   </p>
 
-  <h2 id="experiment">The pondweed experiment</h2>
+  <h2 id="model">About this model</h2>
   <p>
-    Aquatic plants such as <em>Elodea</em> release oxygen as visible bubbles. Placing a lamp at different distances
-    and counting bubbles per minute gives a measure of the rate. Sodium hydrogen carbonate added to the water provides
-    carbon dioxide. To keep the test fair, a glass of water (or an LED lamp) can be used to stop the lamp from heating the
-    water.
+    This simulator is a <strong>simplified representation</strong> of photosynthesis, not a complete biochemical model. The
+    rate is calculated from two simple “ceilings”: a light-limited rate that saturates in bright light and a CO₂-limited
+    rate that depends on the CO₂ inside the leaf; the lower of the two sets the rate. Temperature scales both, and water acts
+    mainly by closing the stomata. The model leaves out photorespiration, the leaf’s changing pigments, light damage, the
+    detailed chemistry of each step and differences between plant types (for example C₄ and CAM plants). Numbers are
+    realistic in size but should be read as approximate. Each O₂ in the model corresponds to one CO₂ fixed, and the net O₂
+    release subtracts the leaf’s own respiration, which continues in the dark.
   </p>
-
-  <h2 id="formulas">Equations</h2>
-  <code class="formula">carbon dioxide + water  —(light, chlorophyll)→  glucose + oxygen</code>
-  <code class="formula">6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂</code>
-  <code class="formula">Light intensity ∝ 1 / distance²</code>
 
   <h2 id="terms">Key terms</h2>
   <dl>
-    <dt>Chlorophyll</dt>
-    <dd>The green pigment in chloroplasts that absorbs light energy.</dd>
     <dt>Chloroplast</dt>
-    <dd>The organelle where photosynthesis takes place.</dd>
+    <dd>The organelle in which photosynthesis takes place.</dd>
+    <dt>Thylakoid</dt>
+    <dd>A flattened membrane sac in the chloroplast; site of the light-dependent reactions.</dd>
+    <dt>Granum</dt>
+    <dd>A stack of thylakoids (plural grana).</dd>
+    <dt>Stroma</dt>
+    <dd>The fluid around the thylakoids; site of the Calvin cycle.</dd>
+    <dt>Photolysis</dt>
+    <dd>The splitting of water by light-driven photosystem II, releasing O₂.</dd>
+    <dt>Carbon fixation</dt>
+    <dd>Joining CO₂ to an organic molecule (RuBP), catalysed by RuBisCO.</dd>
     <dt>Limiting factor</dt>
-    <dd>The condition in shortest supply, which restricts the rate of a process.</dd>
-    <dt>Inverse-square law</dt>
-    <dd>The intensity of light from a point source is inversely proportional to the square of the distance.</dd>
+    <dd>The factor in shortest supply, which holds back the rate.</dd>
+    <dt>Light saturation</dt>
+    <dd>The point beyond which more light no longer increases the rate.</dd>
   </dl>
 
   <h2 id="applications">Why it matters</h2>
   <ul>
-    <li><strong>Greenhouses</strong> boost yields by adding artificial light, heating and extra carbon dioxide.</li>
-    <li><strong>Food security:</strong> scientists are engineering crops with more efficient photosynthesis.</li>
-    <li><strong>Climate:</strong> photosynthesis by plants and ocean phytoplankton removes vast amounts of CO₂ from the atmosphere each year.</li>
-    <li><strong>Oxygen:</strong> almost all the oxygen in the atmosphere was produced by photosynthesis.</li>
+    <li><strong>Food:</strong> nearly all the food we eat comes, directly or indirectly, from photosynthesis.</li>
+    <li><strong>Oxygen:</strong> photosynthesis by plants and algae keeps oxygen in the atmosphere.</li>
+    <li><strong>Agriculture:</strong> greenhouse growers control light, CO₂ and temperature to remove limiting factors and boost yield.</li>
+    <li><strong>Climate:</strong> photosynthesis removes CO₂ from the air and stores the carbon in plants and soils.</li>
+    <li><strong>Energy research:</strong> scientists study photosynthesis to design artificial systems that turn sunlight into fuel.</li>
+  </ul>
+
+  <h2 id="facts">Interesting facts</h2>
+  <ul>
+    <li>In 1779 Jan Ingenhousz showed that plants only “restore” air in the light, and only in their green parts.</li>
+    <li>In 1941 experiments with a heavy isotope of oxygen showed that the O₂ released comes from water, not from CO₂.</li>
+    <li>Melvin Calvin traced the path of carbon with radioactive carbon-14 and won the 1961 Nobel Prize in Chemistry.</li>
+    <li>RuBisCO is thought to be the most abundant protein on Earth.</li>
   </ul>
 
   <h2 id="misconceptions">Common misconceptions</h2>
   <ul>
-    <li><strong>“Plants get their food from the soil.”</strong> Most of a plant’s mass comes from carbon dioxide in the air.</li>
-    <li><strong>“Plants photosynthesise but don’t respire.”</strong> Plants respire all the time; in bright light, photosynthesis is simply faster.</li>
-    <li><strong>“More light always means more photosynthesis.”</strong> Only until another factor becomes limiting.</li>
+    <li><strong>“The oxygen comes from carbon dioxide.”</strong> It comes from water, split in the light-dependent reactions.</li>
+    <li><strong>“The Calvin cycle happens in the dark.”</strong> It does not use light directly, but it needs ATP and NADPH, so it runs in the light.</li>
+    <li><strong>“More light always means more photosynthesis.”</strong> The rate saturates; then another factor limits it.</li>
+    <li><strong>“Plants photosynthesise instead of respiring.”</strong> Plants respire all the time; in the light, photosynthesis is usually faster, so they release O₂ overall.</li>
+    <li><strong>“Plants get their mass from the soil.”</strong> Most of a plant’s dry mass is carbon fixed from CO₂ in the air.</li>
   </ul>
 
   <h2 id="takeaways">Key takeaways</h2>
   <ul>
-    <li>Photosynthesis uses light to turn CO₂ and water into glucose and oxygen.</li>
-    <li>Light intensity falls with the square of the distance from the lamp.</li>
-    <li>The rate is set by the limiting factor: light, CO₂ or temperature.</li>
-    <li>High temperatures denature enzymes and stop photosynthesis.</li>
+    <li>6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂.</li>
+    <li>The light-dependent reactions (thylakoids) split water, release O₂ and make ATP and NADPH.</li>
+    <li>The Calvin cycle (stroma) uses ATP and NADPH to fix CO₂ into sugar.</li>
+    <li>Leaves are built to collect light, let CO₂ in, bring water in and carry sugar out.</li>
+    <li>The rate is set by the limiting factor; light saturates, so more light does not help forever.</li>
   </ul>
-  <p class="muted">Model note: the bubble rate is a simplified model; real bubbles vary in size and some oxygen dissolves in the water.</p>
 </SimulatorLayout>

@@ -84,13 +84,13 @@ export const branches: Branch[] = [
       },
       {
         slug: 'photosynthesis',
-        title: 'Photosynthesis',
-        summary: 'Change light intensity, carbon dioxide and temperature and measure how fast a plant makes sugar and oxygen.',
-        keywords: ['photosynthesis', 'chlorophyll', 'light', 'carbon dioxide', 'limiting factor', 'chloroplast'],
+        title: 'Photosynthesis and the Light Reactions',
+        summary: 'Explore a leaf and a chloroplast, step through the light-dependent reactions and the Calvin cycle, and see how light, CO₂, water and temperature limit the rate.',
+        keywords: ['photosynthesis', 'chlorophyll', 'chloroplast', 'thylakoid', 'light-dependent reactions', 'Calvin cycle', 'ATP', 'NADPH', 'stomata', 'limiting factor', 'light saturation', 'carbon dioxide'],
         level: 'Intermediate',
         kind: 'Experiment',
         status: 'live',
-        minutes: 15,
+        minutes: 25,
         related: ['botany/transpiration', 'biology/cell-structure', 'ecology/carbon-cycle', 'chemistry/balancing-equations'],
       },
       {
