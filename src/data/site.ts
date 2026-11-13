@@ -10,7 +10,7 @@
  * empty, no ad code, ads.txt or advertising section of the privacy policy is
  * published. Paste the ID here (and the ad unit slot IDs below) to switch ads on.
  */
-const ADSENSE_PUBLISHER_ID = '';
+const ADSENSE_PUBLISHER_ID = 'ca-pub-4755228056332298';
 
 export const site = {
   name: 'Veylora',
