@@ -36,9 +36,9 @@ export const site = {
   adsenseClient: (import.meta.env.PUBLIC_ADSENSE_CLIENT as string | undefined) || ADSENSE_PUBLISHER_ID || undefined,
   /** AdSense ad unit IDs for the three reserved slots (created in your AdSense account). */
   adsenseSlots: {
-    top: (import.meta.env.PUBLIC_ADSENSE_SLOT_TOP as string | undefined) || '',
-    sidebar: (import.meta.env.PUBLIC_ADSENSE_SLOT_SIDEBAR as string | undefined) || '',
-    mid: (import.meta.env.PUBLIC_ADSENSE_SLOT_MID as string | undefined) || '',
+    top: (import.meta.env.PUBLIC_ADSENSE_SLOT_TOP as string | undefined) || '4682046573',
+    sidebar: (import.meta.env.PUBLIC_ADSENSE_SLOT_SIDEBAR as string | undefined) || '2306009722',
+    mid: (import.meta.env.PUBLIC_ADSENSE_SLOT_MID as string | undefined) || '7574648276',
   },
   /** Date shown on legal pages. Update when you change them. */
   legalUpdated: 'November 12, 2026',
