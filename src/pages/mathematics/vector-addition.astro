@@ -9,6 +9,7 @@ const toc = [
   { id: 'components', label: 'Adding with components' },
   { id: 'subtracting', label: 'Subtracting vectors' },
   { id: 'formulas', label: 'Formulas' },
+  { id: 'example', label: 'Worked example' },
   { id: 'terms', label: 'Key terms' },
   { id: 'applications', label: 'Real-world applications' },
   { id: 'misconceptions', label: 'Common misconceptions' },
@@ -91,6 +92,22 @@ const references = [
   <code class="formula">Magnitude:  |R| = √(Rₓ² + R_y²)     Direction:  θ = tan⁻¹(R_y / Rₓ)  (check the quadrant)</code>
   <p>For two vectors with angle φ between them, the law of cosines gives:</p>
   <code class="formula">|A + B|² = |A|² + |B|² + 2|A||B| cos φ</code>
+
+  <h2 id="example">Worked example</h2>
+  <p>
+    A student walks 3 km east and then 4 km north. What is their displacement from the start?
+  </p>
+  <ol>
+    <li>Write each step as components: <strong>a</strong> = (3, 0) and <strong>b</strong> = (0, 4), with x east and y north.</li>
+    <li>Add the components: <strong>a</strong> + <strong>b</strong> = (3 + 0, 0 + 4) = (3, 4).</li>
+    <li>Find the magnitude with Pythagoras: |<strong>a</strong> + <strong>b</strong>| = √(3² + 4²) = √25 = 5 km.</li>
+    <li>Find the direction: θ = tan⁻¹(4 / 3) ≈ 53.1° north of east.</li>
+  </ol>
+  <p>
+    The student walked 7 km in total, but their displacement is only 5 km. Distance adds up every step; displacement
+    is a vector, so steps in different directions partly cancel. Try it in the simulator by setting the two vectors to
+    (3, 0) and (0, 4).
+  </p>
 
   <h2 id="terms">Key terms</h2>
   <dl>

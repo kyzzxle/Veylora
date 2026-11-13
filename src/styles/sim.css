@@ -19,6 +19,11 @@
   background: var(--surface);
   box-shadow: var(--shadow);
 }
+/* Every part of the grid may shrink, so a wide table scrolls inside its own box instead of widening the page. */
+.sim > *,
+.sim-below > * {
+  min-width: 0;
+}
 .sim--no-panel {
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto;
@@ -202,6 +207,7 @@
 /* Control panel */
 .sim-panel {
   grid-area: panel;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -256,6 +262,8 @@
 }
 .segmented-full {
   display: flex;
+  /* options move to a second row only when their words cannot fit side by side */
+  flex-wrap: wrap;
   width: 100%;
   border-radius: 16px;
 }
@@ -554,7 +562,8 @@
 
 @media (max-width: 980px) {
   .sim {
-    grid-template-columns: 1fr;
+    /* minmax(0, …) keeps a wide control from stretching the simulator past the screen */
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: none;
     grid-template-areas:
       'stage'

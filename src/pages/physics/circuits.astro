@@ -10,6 +10,7 @@ const toc = [
   { id: 'series', label: 'Series circuits' },
   { id: 'parallel', label: 'Parallel circuits' },
   { id: 'formulas', label: 'Formulas' },
+  { id: 'example', label: 'Worked example' },
   { id: 'terms', label: 'Key terms' },
   { id: 'applications', label: 'Real-world applications' },
   { id: 'misconceptions', label: 'Common misconceptions' },
@@ -97,6 +98,14 @@ const references = [
   <code class="formula">Ohm’s law:  V = I × R        Power:  P = V × I = I² × R = V² / R</code>
   <code class="formula">Series:  R_total = R₁ + R₂ + R₃</code>
   <code class="formula">Parallel:  1 / R_total = 1/R₁ + 1/R₂ + 1/R₃</code>
+
+  <h2 id="example">Worked example</h2>
+  <p>A 9 V battery is connected to two resistors, 100 Ω and 200 Ω.</p>
+  <ul>
+    <li><strong>In series:</strong> total resistance R = 100 + 200 = 300 Ω, so the current is I = V / R = 9 / 300 = 0.03 A (30 mA) through both. The voltage divides in proportion to resistance: 0.03 × 100 = 3 V across the first and 0.03 × 200 = 6 V across the second, adding up to the battery’s 9 V.</li>
+    <li><strong>In parallel:</strong> each resistor has the full 9 V across it. The currents are 9 / 100 = 0.09 A and 9 / 200 = 0.045 A, so the battery supplies 0.135 A. The total resistance is 9 / 0.135 ≈ 66.7 Ω, less than either resistor alone.</li>
+  </ul>
+  <p>Build both circuits in the simulator and check the meter readings against these numbers.</p>
 
   <h2 id="terms">Key terms</h2>
   <dl>

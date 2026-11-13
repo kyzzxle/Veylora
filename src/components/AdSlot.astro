@@ -17,12 +17,7 @@ interface Props {
 }
 const { position } = Astro.props;
 
-const slotIds: Record<Props['position'], string | undefined> = {
-  top: import.meta.env.PUBLIC_ADSENSE_SLOT_TOP,
-  sidebar: import.meta.env.PUBLIC_ADSENSE_SLOT_SIDEBAR,
-  mid: import.meta.env.PUBLIC_ADSENSE_SLOT_MID,
-};
-const slot = slotIds[position];
+const slot = site.adsenseSlots[position];
 const live = !!site.adsenseClient && !!slot;
 const showPlaceholder = !live && import.meta.env.DEV;
 ---

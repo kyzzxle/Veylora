@@ -23,6 +23,11 @@ const form = !!site.contactEndpoint;
     </p>
   </div>
 
+  <p>
+    This policy explains how {site.name} (<a href={site.url}>{site.url.replace('https://', '')}</a>), a free educational
+    website created and run by {site.creator.name} in {site.venue}, handles information when you visit.
+  </p>
+
   <h2>1. Information stored on your device</h2>
   <p>
     {site.name} saves your theme preference (light or dark) in your browser’s <em>local storage</em> under the key
@@ -40,20 +45,26 @@ const form = !!site.contactEndpoint;
   <h2>2. Information you send us</h2>
   <p>
     If you contact us, we receive the name, email address and message you provide. We use this only to read and reply
-    to your message, and we do not sell it or use it for marketing.
+    to your message, and we do not sell it, share it or use it for marketing.
     {
-      form
-        ? ' Messages sent with the contact form are delivered to us through a third-party form-processing service, which processes them on our behalf.'
-        : ' If you write to us by email, your message is handled by our email provider.'
+      form && (
+        <>
+          {' '}Messages sent with the contact form are delivered to us through{' '}
+          <a href="https://formspree.io/legal/privacy-policy" rel="noopener">Formspree</a>, a form-processing service that
+          processes them on our behalf.
+        </>
+      )
     }
   </p>
   <p>We keep messages only as long as needed to respond and to keep a record of corrections or suggestions.</p>
 
   <h2>3. Server logs</h2>
   <p>
-    Like almost every website, the company that hosts {site.name} may automatically record technical information when
-    pages are requested, such as your IP address, browser type and the page visited. These logs are used for security
-    and to keep the site running, and are retained according to the hosting provider’s policies.
+    {site.name} is hosted on GitHub Pages. Like almost every web host, GitHub may automatically record technical
+    information when pages are requested, such as your IP address, browser type and the page visited. These logs are
+    used for security and to keep the site running, and are handled under the{' '}
+    <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub privacy statement</a>.
+    We do not receive or use these logs to identify visitors.
   </p>
 
   <h2>4. Fonts and third-party requests</h2>
@@ -105,16 +116,19 @@ const form = !!site.contactEndpoint;
 
   <h2>6. Children’s privacy</h2>
   <p>
-    {site.name} is designed to be used by learners of all ages, including children, without creating an account or
-    sharing personal information. We do not knowingly collect personal information from children under 13. If you are
-    under 13, please ask a parent, guardian or teacher to contact us on your behalf. If you believe a child has sent us
-    personal information, contact us and we will delete it.
+    {site.name} is written for high school and college students, including STEM, nursing and pre-medical learners, and
+    can be used without creating an account or sharing personal information. It is not directed at children under 13,
+    and we do not knowingly collect personal information from them. If you are under 13, please ask a parent, guardian
+    or teacher to contact us on your behalf. If you believe a child has sent us personal information, contact us and we
+    will delete it.
   </p>
 
   <h2>7. Your choices and rights</h2>
   <p>
     Depending on where you live, you may have the right to access, correct or delete personal information we hold about
-    you, such as a message you sent us. To make a request, use our <a href="/contact/">contact page</a>.
+    you, such as a message you sent us. In the Philippines these rights are protected by the Data Privacy Act of 2012
+    (Republic Act No. 10173). To make a request, use our <a href="/contact/">contact page</a> and choose “Privacy or legal
+    question”.
   </p>
 
   <h2>8. Links to other websites</h2>
@@ -130,5 +144,8 @@ const form = !!site.contactEndpoint;
   </p>
 
   <h2>10. Contact</h2>
-  <p>Questions about this policy? Reach us through the <a href="/contact/">contact page</a>.</p>
+  <p>
+    Questions about this policy? Send them through the <a href="/contact/">contact form</a> (choose “Privacy or legal
+    question”). We do not publish an email address; every message reaches the site’s creator directly.
+  </p>
 </ProseLayout>

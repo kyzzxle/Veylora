@@ -233,6 +233,9 @@ const jsonLd = {
     gap: 48px;
     align-items: start;
   }
+  .content-grid > * {
+    min-width: 0;
+  }
   .content-grid .prose {
     max-width: 76ch;
   }
@@ -296,7 +299,8 @@ const jsonLd = {
   }
   @media (max-width: 1020px) {
     .content-grid {
-      grid-template-columns: 1fr;
+      /* minmax(0, …) stops a wide table or long word from widening the page on phones */
+      grid-template-columns: minmax(0, 1fr);
     }
     .content-side {
       position: static;

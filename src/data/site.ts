@@ -1,19 +1,45 @@
 /**
- * Site-wide settings. Values that depend on your deployment are read from
- * environment variables (see .env.example) so nothing is hard-coded or
- * claimed before it is actually set up.
+ * Site-wide settings. Live values are written here so the GitHub Pages build
+ * needs no secrets; an environment variable with the same name (see
+ * .env.example) overrides each one for local testing.
  */
+
+/**
+ * Google AdSense publisher ID, e.g. 'ca-pub-1234567890123456'.
+ * Leave empty until the site is live and you are ready to apply: while it is
+ * empty, no ad code, ads.txt or advertising section of the privacy policy is
+ * published. Paste the ID here (and the ad unit slot IDs below) to switch ads on.
+ */
+const ADSENSE_PUBLISHER_ID = '';
+
 export const site = {
   name: 'Veylora',
   tagline: 'The interactive science lab',
   description:
     'Veylora is a free interactive science lab. Explore biology, chemistry, physics, anatomy, astronomy and more through hands-on simulations, clear explanations and quizzes.',
-  /** Public contact email. Leave unset to hide it. */
-  contactEmail: import.meta.env.PUBLIC_CONTACT_EMAIL as string | undefined,
-  /** Form endpoint (e.g. Formspree, Basin, Getform). Leave unset and the form explains it is not connected yet. */
-  contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT as string | undefined,
-  /** Google AdSense publisher ID, e.g. ca-pub-1234567890123456. Leave unset to load no ad code at all. */
-  adsenseClient: import.meta.env.PUBLIC_ADSENSE_CLIENT as string | undefined,
+  /** The live address of the site. */
+  url: 'https://veyloralab.tech',
+  /** The person who builds and runs the site (shown on the About page). */
+  creator: {
+    name: 'Kyle C. Leyson',
+    initials: 'KL',
+    role: 'Bachelor of Science in Information Technology (BSIT) student at Cebu Eastern College',
+  },
+  /** Where the Terms of use are governed. */
+  jurisdiction: 'the Republic of the Philippines',
+  venue: 'Cebu City, Philippines',
+  /**
+   * Contact form endpoint (Formspree). All messages, including legal and
+   * privacy questions, go through the form: no email address is published.
+   */
+  contactEndpoint: (import.meta.env.PUBLIC_CONTACT_ENDPOINT as string | undefined) || 'https://formspree.io/f/xyewzywl',
+  adsenseClient: (import.meta.env.PUBLIC_ADSENSE_CLIENT as string | undefined) || ADSENSE_PUBLISHER_ID || undefined,
+  /** AdSense ad unit IDs for the three reserved slots (created in your AdSense account). */
+  adsenseSlots: {
+    top: (import.meta.env.PUBLIC_ADSENSE_SLOT_TOP as string | undefined) || '',
+    sidebar: (import.meta.env.PUBLIC_ADSENSE_SLOT_SIDEBAR as string | undefined) || '',
+    mid: (import.meta.env.PUBLIC_ADSENSE_SLOT_MID as string | undefined) || '',
+  },
   /** Date shown on legal pages. Update when you change them. */
-  legalUpdated: 'November 4, 2026',
+  legalUpdated: 'November 12, 2026',
 };

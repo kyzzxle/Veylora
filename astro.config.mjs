@@ -2,13 +2,13 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Set SITE_URL (e.g. https://www.yourdomain.com) when you deploy.
-// The sitemap is only generated once a real site URL is known.
-const SITE_URL = process.env.SITE_URL;
+// The live address. SITE_URL can override it (for example for a staging copy).
+const SITE_URL = process.env.SITE_URL || 'https://veyloralab.tech';
 
 export default defineConfig({
   site: SITE_URL,
   trailingSlash: 'ignore',
-  integrations: SITE_URL ? [sitemap()] : [],
+  // The search page is not indexed (see robots.txt), so it is left out of the sitemap.
+  integrations: [sitemap({ filter: (page) => !page.includes('/search/') })],
   build: { format: 'directory' },
 });

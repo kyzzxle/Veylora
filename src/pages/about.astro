@@ -7,60 +7,131 @@ import { stats } from '../data/branches';
 <ProseLayout
   title="About us"
   eyebrow="Our mission"
-  lead="Science is something you do, not just something you read. Veylora exists to give every learner a free, hands-on science lab in their browser."
-  description="Learn about Veylora, a free interactive science lab with simulations, explanations and quizzes for students, teachers and lifelong learners."
+  lead="Science is something you do, not just something you read. Veylora gives every student a free, hands-on science lab in their browser."
+  description="Learn about Veylora, a free interactive science lab with simulations, study guides and quizzes for high school, college, nursing and STEM students, and meet its creator."
   ads
 >
-  <h2>Why we built {site.name}</h2>
+  <h2>Why Veylora exists</h2>
   <p>
     Many of the most important ideas in science are invisible or hard to observe directly: water molecules crossing a
-    membrane, electrons occupying energy levels, gravity bending the path of light. Textbooks describe these ideas with
-    words and static diagrams. We think learners understand them better when they can change the conditions themselves
-    and see what happens.
+    membrane, electrons moving through a circuit, a nerve impulse travelling along an axon, gravity bending the path of
+    light. Textbooks describe these ideas with words and static diagrams. Students understand them faster when they can
+    change the conditions themselves and see what happens.
   </p>
   <p>
-    {site.name} is a growing collection of interactive simulations. Each one focuses on a single concept and pairs the
-    model with a clear explanation, the key terms and formulas, real-world applications, common misconceptions and a
-    quiz with instant feedback.
+    {site.name} is a free collection of interactive simulations. Each one focuses on a single concept and pairs the model
+    with a written study guide (how it works, key formulas and terms, real-world applications and common
+    misconceptions) and a self-assessment quiz with instant feedback and explanations.
+  </p>
+
+  <h2>Meet the creator</h2>
+  <div class="creator">
+    <div class="creator-badge" aria-hidden="true">{site.creator.initials}</div>
+    <div>
+      <p class="creator-name">{site.creator.name}</p>
+      <p class="creator-role">Creator and developer of {site.name} · {site.creator.role}</p>
+    </div>
+  </div>
+  <blockquote>
+    <p>
+      “I built {site.name} because interactive science visualization shouldn’t be locked behind expensive subscriptions
+      or paywalls. Many high school, nursing, and college STEM students learn much faster when they can click, drag, and
+      experiment with concepts visually, so I created this platform to make hands-on simulations, clear study guides,
+      and self-assessment quizzes 100% free and accessible to every student.”
+    </p>
+    <footer>— {site.creator.name}</footer>
+  </blockquote>
+  <p>
+    {site.name} is designed, written and coded by {site.creator.name.split(' ')[0]} from {site.venue}. Every simulator
+    is built from scratch for the site, and every study guide is written originally and checked against open textbooks
+    and other reputable sources, which are listed at the end of each page.
   </p>
 
   <h2>Who it is for</h2>
   <ul>
-    <li><strong>Elementary and high school students</strong> exploring science for the first time or preparing for exams.</li>
-    <li><strong>STEM, biology, nursing and medical students</strong> who want to visualize mechanisms they study in lectures.</li>
-    <li><strong>Teachers</strong> looking for a demonstration they can project in class or assign for practice.</li>
+    <li><strong>High school students</strong> exploring biology, chemistry, physics and earth science, or preparing for exams.</li>
+    <li><strong>College STEM students</strong> who want to see the models behind their lectures, from calculus and matrices to optics and orbits.</li>
+    <li><strong>Nursing and pre-medical students</strong> who want to visualize anatomy and physiology, such as the heart, kidneys, nerves and immune system.</li>
+    <li><strong>Teachers</strong> looking for a demonstration to project in class or a free activity to assign.</li>
     <li><strong>Lifelong learners</strong> who are simply curious about how the world works.</li>
   </ul>
 
-  <h2>How we build each simulator</h2>
+  <h2>How each simulator is built</h2>
   <p>
-    Every simulator is a <em>simplified model</em>. We choose simplifications that keep the core science correct while
-    making the model run smoothly on an ordinary laptop or phone. Where a model leaves something out, the page says so.
+    Every simulator is a <em>simplified model</em>. The simplifications keep the core science correct while letting the
+    model run smoothly on an ordinary laptop or phone, and each page explains what its model leaves out.
   </p>
   <ul>
-    <li>Educational content is written originally for {site.name} and checked against open textbooks and other reputable sources, which are listed on each simulator page.</li>
-    <li>Anatomy and physiology content is presented strictly as education, never as medical advice. See our <a href="/disclaimer/">educational and medical disclaimer</a>.</li>
-    <li>Every simulator has written instructions, keyboard-accessible controls and a reset button.</li>
+    <li>Every simulator comes with written instructions, a reset button and controls that work with a mouse, a touch screen or a keyboard.</li>
+    <li>Every page includes a study guide written in plain language, with the formulas, key terms, applications and references.</li>
+    <li>Anatomy and physiology content is presented strictly as academic and classroom reference, never as medical advice. See the <a href="/disclaimer/">educational and medical disclaimer</a>.</li>
   </ul>
 
-  <h2>Where we are today</h2>
+  <h2>What is available today</h2>
   <p>
-    The lab is organized into {stats.branches} branches of science with {stats.topics} planned topics. Simulators are
-    published one at a time, only when they are complete — {stats.live === 1 ? 'one is' : `${stats.live} are`} live now,
-    and the rest are clearly marked as in development.
+    The lab currently has {stats.live} interactive simulators across {stats.branches} branches of science: biology,
+    chemistry, physics, anatomy and physiology, astronomy, earth science, ecology, botany, zoology, and mathematics and
+    scientific modeling. New topics are added only when they are complete and tested. Browse them all on the{' '}
+    <a href="/simulations/">simulations page</a>.
   </p>
 
-  <h2>Always free</h2>
+  <h2>Free for every student — and how it is funded</h2>
   <p>
-    All simulations and educational content on {site.name} are free to use, with no account required. To cover the cost
-    of running and expanding the site, we may display advertising in the future. If we do, ads will be kept clearly
-    separate from simulations and controls, and our <a href="/privacy/">privacy policy</a> will be updated before any ads
-    appear.
+    {site.name} is completely free for students and educators. There are no accounts, no subscriptions and no locked
+    features, and there never will be.
+  </p>
+  <p>
+    To keep it that way, the site shows a small number of non-intrusive display ads. They are clearly labelled, kept
+    away from the simulators and their controls, and never placed inside a quiz. The income helps pay for running and
+    expanding {site.name}, and it also helps support my college tuition. If {site.name} has helped you learn, the best
+    way to support it is simply to use it and share it with classmates and teachers. Thank you for being here.
+  </p>
+  <p>
+    You can read how advertising uses cookies in the <a href="/privacy/">privacy policy</a>.
   </p>
 
   <h2>Get in touch</h2>
   <p>
-    Found an error, have an idea for a simulator, or want to tell us how you use {site.name} in your classroom? We would
-    love to hear from you on our <a href="/contact/">contact page</a>.
+    Found an error, have an idea for a simulator, or want to share how you use {site.name} in class? Send a message
+    through the <a href="/contact/">contact form</a>. Every message is read personally.
   </p>
 </ProseLayout>
+
+<style>
+  .creator {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-block: 18px 6px;
+  }
+  .creator-badge {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display, inherit);
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: 0.04em;
+    color: var(--accent-contrast, #fff);
+    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 55%, #6741d9));
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  .creator-name {
+    margin: 0;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .creator-role {
+    margin: 2px 0 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  blockquote footer {
+    margin-top: 6px;
+    font-style: normal;
+    color: var(--text-muted);
+  }
+</style>

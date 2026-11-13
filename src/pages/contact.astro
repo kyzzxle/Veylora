@@ -5,7 +5,6 @@ import Icon from '../components/Icon.astro';
 import { site } from '../data/site';
 
 const endpoint = site.contactEndpoint ?? '';
-const email = site.contactEmail ?? '';
 ---
 
 <BaseLayout
@@ -27,7 +26,6 @@ const email = site.contactEmail ?? '';
         novalidate
         data-contact-form
         data-endpoint={endpoint}
-        data-email={email}
         action={endpoint || undefined}
         method="post"
       >
@@ -49,6 +47,7 @@ const email = site.contactEmail ?? '';
             <option>Suggest a simulator</option>
             <option>Bug or technical problem</option>
             <option>Teaching and classroom use</option>
+            <option>Privacy or legal question</option>
           </select>
         </div>
         <div class="field">
@@ -82,14 +81,12 @@ const email = site.contactEmail ?? '';
             <li><strong>Reporting an error?</strong> Include the page address and what you think should be corrected. Sources help.</li>
             <li><strong>Suggesting a simulator?</strong> Tell us the concept and what you would want to control.</li>
             <li><strong>Medical questions:</strong> we cannot give medical advice. Please speak to a qualified health professional.</li>
+            <li><strong>Privacy or legal questions?</strong> Use this form too: choose “Privacy or legal question” above.</li>
           </ul>
-          {
-            email && (
-              <p>
-                You can also email us directly at <a href={`mailto:${email}`}>{email}</a>.
-              </p>
-            )
-          }
+          <p class="muted">
+            Every message is read by the creator of {site.name}. We usually reply within a few days to the email address you
+            provide, which we use only to answer you.
+          </p>
         </div>
       </aside>
     </div>
@@ -102,7 +99,6 @@ const email = site.contactEmail ?? '';
   const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
   const started = form.querySelector<HTMLInputElement>('[data-started]')!;
   const endpoint = form.dataset.endpoint ?? '';
-  const email = form.dataset.email ?? '';
   const loadedAt = Date.now();
   started.value = String(loadedAt);
 
@@ -155,25 +151,19 @@ const email = site.contactEmail ?? '';
     }
 
     if (!endpoint) {
-      // No form service configured yet: be honest and offer email instead.
-      const subject = encodeURIComponent(`[Veylora] ${(form.querySelector('#c-topic') as HTMLSelectElement).value}`);
-      const body = encodeURIComponent(`${fields.message.value.trim()}\n\n— ${fields.name.value.trim()}`);
-      show(
-        email
-          ? `Our contact form is not connected to a mail service yet, so this message has <strong>not</strong> been sent. ` +
-              `<a href="mailto:${email}?subject=${subject}&body=${body}">Open it in your email app instead</a>.`
-          : 'Our contact form is not connected to a mail service yet, so this message has <strong>not</strong> been sent. Please check back soon.',
-        'info',
-      );
+      // No form service configured: say so rather than pretend it was sent.
+      show('Our contact form is not connected to a mail service yet, so this message has <strong>not</strong> been sent. Please check back soon.', 'info');
       return;
     }
 
     submit.disabled = true;
     show('Sending…', 'info');
     try {
+      const data = new FormData(form);
+      data.set('_subject', `[Veylora] ${(form.querySelector('#c-topic') as HTMLSelectElement).value}`);
       const res = await fetch(endpoint, {
         method: 'POST',
-        body: new FormData(form),
+        body: data,
         headers: { Accept: 'application/json' },
       });
       if (!res.ok) throw new Error(String(res.status));
