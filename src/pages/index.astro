@@ -84,10 +84,18 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: site.name,
+  alternateName: ['Veylora Lab', 'veyloralab.tech'],
+  url: `${site.url}/`,
   description: site.description,
+  publisher: {
+    '@type': 'Organization',
+    name: site.name,
+    url: `${site.url}/`,
+    logo: `${site.url}/icon-512.png`,
+  },
   potentialAction: {
     '@type': 'SearchAction',
-    target: '/search/?q={search_term_string}',
+    target: `${site.url}/search/?q={search_term_string}`,
     'query-input': 'required name=search_term_string',
   },
 };

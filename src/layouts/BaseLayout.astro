@@ -35,7 +35,12 @@ const loadAds = ads && !!site.adsenseClient;
     {noindex && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#060a13" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
@@ -43,6 +48,7 @@ const loadAds = ads && !!site.adsenseClient;
     <meta property="og:type" content={ogType} />
     {canonical && <meta property="og:url" content={canonical} />}
     <meta name="twitter:card" content="summary" />
+    {Astro.site && <meta property="og:image" content={new URL('/icon-512.png', Astro.site).href} />}
 
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
